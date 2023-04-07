@@ -10,14 +10,19 @@ public class UserController {
     @Autowired
     private UserService uService;
 
-    @GetMapping("/login")
+    @GetMapping("login")
     public String loginView(){
         return "login/login";
     }
 
-    @GetMapping("/register")
+    @GetMapping("register")
     public String registerView(){
         return "login/register";
+    }
+
+    @GetMapping("registerUser")
+    public String registerUserView(){
+        return "login/registerUser";
     }
 
 }

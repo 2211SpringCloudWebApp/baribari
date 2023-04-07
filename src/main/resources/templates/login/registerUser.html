@@ -1,27 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  <title>회원가입-유저</title>
-  <link href="css/styles.css" rel="stylesheet" />
-  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="css/registerUserCss.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-  <script src="js/login.js"></script>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>회원가입-유저</title>
+    <link href="css/styles.css" rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/registerUserCss.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="js/login.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 </head>
 <body class="bg-primary">
 <div class="materialContainer">
 
-  <div class="box">
+    <div class="box">
+        <div class="container">
+            <div class="input-form-backgroud row">
+                <div class="input-form col-md-12 mx-auto">
+                    <h4 class="mb-3">회원가입</h4>
+                    <form class="validation-form" novalidate>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name">아이디</label>
+                                <input type="text" class="form-control" id="name" name="id" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    이름을 입력해주세요.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="password">비밀번호</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    비밀번호를 입력해주세요.
+                                </div>
+                            </div>
+                        </div>
 
-  </div>
+                        <div class="mb-3">
+                            <label for="nickname">별명</label>
+                            <input type="email" class="form-control" id="nickname" placeholder="" name="nickname" required>
+                            <div class="invalid-feedback">
+                                별명을 입력해주세요.
+                            </div>
+                        </div>
+                        <div class="mb-3">
 
+                            <label for="address">주소</label><button type="button" class="search-btn">검색</button>
+                            <input type="text" class="form-control" id="address" readonly>
+                            <div class="invalid-feedback">
+                                주소를 입력해주세요.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="address2">상세주소<span class="text-muted">&nbsp;(필수 아님)</span></label>
+                            <input type="text" class="form-control" id="address2" placeholder="상세주소를 입력해주세요.">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="phone1">전화번호</label>
+                                <select class="custom-select d-block w-100" id="phone1" required>
+                                    <option value=""></option>
+                                    <option>010</option>
+                                    <option>011</option>
+                                    <option>017</option>
+                                    <option>018</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="phone2">&nbsp;</label>
+                                <input type="text" class="form-control" id="phone2" placeholder="" required>
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="phone3">&nbsp;</label>
+                                <input type="text" class="form-control" id="phone3" placeholder="" required>
+                            </div>
+
+                        </div>
+                        <hr class="mb-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="aggrement" required>
+                            <label class="custom-control-label" for="aggrement">개인정보 수집 및 이용에 동의합니다.</label>
+                        </div>
+                        <div class="mb-4"></div>
+                        <button class="btn btn-primary btn-lg btn-block" type="submit" >가입 완료</button>
+                    </form>
+                </div>
+            </div>
+            <footer class="my-3 text-center text-small">
+                <p class="mb-1">&copy; 2023 BARIBARI</p>
+            </footer>
+        </div>
+        <script>
+            window.addEventListener('load', () => {
+                const forms = document.getElementsByClassName('validation-form');
+
+                Array.prototype.filter.call(forms, (form) => {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+
+
+        </script>
+    </div>
 </div>
-
 </body>
 </html>

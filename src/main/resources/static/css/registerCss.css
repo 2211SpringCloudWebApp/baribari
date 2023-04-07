@@ -475,3 +475,6 @@ html {
 .select-letter{
   box-sizing: content-box;
 }
+#phone2:before{
+  content: "-";
+}

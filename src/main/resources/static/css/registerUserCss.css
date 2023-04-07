@@ -1,7 +1,4 @@
 .box {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
 
   position: relative;
   top: 0;
@@ -392,9 +389,8 @@ html {
 }
 
 .materialContainer {
-  width: 70%;
-  height: 70%;
-  /*max-width: 460px;*/
+  width: 35%;
+  height: 85%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -427,51 +423,12 @@ html {
   list-style-type: none;
   outline: none;
 }
-
-.select-seller{
-  width: 25%;
-  height: 40%;
-  border-radius: 20px;
-  background-image: url("../img/seller_img.svg");
-  background-repeat: no-repeat;
-  background-size: 60% 60%;
-  background-position: top;
-  background-position-y: 10%;
-  border: 1px solid #ccc;
-  transition: all 0.5s;
-  display: flex;
-  justify-content: center;
-  align-items: end;
-}
-.select-seller:hover{
-  width: 30%;
-  height: 50%;
-  cursor: pointer;
-}
-
-.select-user{
-  width: 25%;
-  height: 40%;
-  border-radius: 20px;
-  background-image: url("../img/user_img.svg");
-  background-repeat: no-repeat;
-  background-size: 60% 60%;
-  background-position: top;
-  background-position-y: 10%;
-  border: 1px solid #ccc;
-  transition: all 0.5s;
-  display: flex;
-  justify-content: center;
-  align-items: end;
-
-}
-
-.select-user:hover{
-  width: 30%;
-  height: 50%;
-  cursor: pointer;
-}
-
-.select-letter{
-  box-sizing: content-box;
+.search-btn{
+  margin-left:10px;
+  width: 45px;
+  height: 28px;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  border: 0px;
 }

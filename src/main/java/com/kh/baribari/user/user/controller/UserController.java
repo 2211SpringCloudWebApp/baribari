@@ -12,7 +12,12 @@ public class UserController {
 
     @GetMapping("/login")
     public String loginView(){
-        return "login";
+        return "login/login";
+    }
+
+    @GetMapping("/register")
+    public String registerView(){
+        return "login/register";
     }
 
 }

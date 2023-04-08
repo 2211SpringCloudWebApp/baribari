@@ -390,7 +390,7 @@ html {
 
 .materialContainer {
   width: 35%;
-  height: 85%;
+  height: 90%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -431,4 +431,11 @@ html {
   background-color: #007bff;
   color: white;
   border: 0px;
+}
+.mb-3{
+  height: 94px;
+}
+.phoneHyphen{
+  display: flex;
+  align-items: center;
 }

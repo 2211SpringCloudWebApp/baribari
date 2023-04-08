@@ -22,25 +22,38 @@
         <div class="container">
             <div class="input-form-backgroud row">
                 <div class="input-form col-md-12 mx-auto">
-                    <h4 class="mb-3">회원가입</h4>
+                    <h4 class="">회원가입</h4>
                     <form class="validation-form" novalidate>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="name">아이디</label>
-                                <input type="text" class="form-control" id="name" name="id" placeholder="" value="" required>
-                                <div class="invalid-feedback">
-                                    이름을 입력해주세요.
+<!--                        <div class="row">-->
+                            <div class="mb-3" id="id-container">
+                                <label for="id">아이디</label>
+                                <input type="text" class="form-control" id="id" name="id" placeholder="" value="" required>
+                                <div class="invalid-feedback id-check-error">
+                                    4~16자의 영어 소문자 또는 영어소문자와 숫자로 아이디를 입력해주세요.
+                                </div>
+                                <div class='invalid-feedback id-check-success' style='color: #0a53be'>
+                                    사용가능한 아이디 입니다.
+                                </div>
+                                <div class='invalid-feedback id-check-same'>
+                                    중복된 아이디 입니다.
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="password">비밀번호</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="" value="" required>
-                                <div class="invalid-feedback">
-                                    비밀번호를 입력해주세요.
-                                </div>
+
+<!--                        </div>-->
+                        <div class=" mb-3">
+                            <label for="password">비밀번호</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                비밀번호를 입력해주세요.
                             </div>
                         </div>
-
+                        <div class=" mb-3">
+                            <label for="re-password">비밀번호 확인</label>
+                            <input type="password" class="form-control" id="re-password" name="password" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                비밀번호가 일치하지 않습니다.
+                            </div>
+                        </div>
                         <div class="mb-3">
                             <label for="nickname">별명</label>
                             <input type="email" class="form-control" id="nickname" placeholder="" name="nickname" required>
@@ -48,19 +61,19 @@
                                 별명을 입력해주세요.
                             </div>
                         </div>
-                        <div class="mb-3">
 
-                            <label for="address">주소</label><button type="button" class="search-btn">검색</button>
-                            <input type="text" class="form-control" id="address" readonly>
-                            <div class="invalid-feedback">
-                                주소를 입력해주세요.
-                            </div>
-                        </div>
+<!--                        <div class="mb-3">-->
+<!--                            <label for="address">주소</label><input type="text" class="form-control" id="zipcode" readonly><button type="button" class="search-btn" onclick="searchAddress();">검색</button>-->
+<!--                            <input type="text" class="form-control" id="address" readonly>-->
+<!--                            <div class="invalid-feedback">-->
+<!--                                주소를 입력해주세요.-->
+<!--                            </div>-->
+<!--                        </div>-->
 
-                        <div class="mb-3">
-                            <label for="address2">상세주소<span class="text-muted">&nbsp;(필수 아님)</span></label>
-                            <input type="text" class="form-control" id="address2" placeholder="상세주소를 입력해주세요.">
-                        </div>
+<!--                        <div class="mb-3">-->
+<!--                            <label for="address2">상세주소<span class="text-muted">&nbsp;(필수 아님)</span></label>-->
+<!--                            <input type="text" class="form-control" id="address2" placeholder="상세주소를 입력해주세요.">-->
+<!--                        </div>-->
 
                         <div class="row">
                             <div class="col-md-3 mb-3">
@@ -73,11 +86,12 @@
                                     <option>018</option>
                                 </select>
                             </div>
+                            <div class="col-md-1 mb-3 phoneHyphen">-</div>
                             <div class="col-md-3 mb-3">
                                 <label for="phone2">&nbsp;</label>
                                 <input type="text" class="form-control" id="phone2" placeholder="" required>
                             </div>
-
+                            <div class="col-md-1 mb-3 phoneHyphen">-</div>
                             <div class="col-md-3 mb-3">
                                 <label for="phone3">&nbsp;</label>
                                 <input type="text" class="form-control" id="phone3" placeholder="" required>
@@ -109,10 +123,42 @@
                             event.stopPropagation();
                         }
                         form.classList.add('was-validated');
+                        form.style.margin = '0px';
                     }, false);
                 });
             }, false);
-
+            $('#id').focusout(function(){
+                // 아이디 정규표현식
+                const regex = /^[a-z0-9]{4,16}$/;
+                if(regex.test($('#id').val())){
+                    $.ajax({
+                        url:"ajaxCheckId",
+                        data:{
+                            'id':$('#id').val()
+                        },
+                        type:'get',
+                        dataType:'json',
+                        success:function(data){
+                            if(data === '사용가능'){
+                                $('.id-check-error').css('display','none');
+                                $('.id-check-success').css('display','block');
+                                $('.id-check-same').css('display','none');
+                            }else {
+                                $('.id-check-error').css('display','none');
+                                $('.id-check-success').css('display','none');
+                                $('.id-check-same').css('display','block');
+                            }
+                        },
+                        error:function(){
+                            console.log("서버에러");
+                        }
+                    });
+                }else {
+                    $('.id-check-same').css('display','none');
+                    $('.id-check-success').css('display','none');
+                    $('.id-check-error').css('display','block')
+                }
+            })
 
         </script>
     </div>

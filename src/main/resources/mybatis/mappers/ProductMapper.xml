@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProductMapper">
+	<resultMap type="Product" id="ProductResultMap">
+		<id		property="productNo" column="PRODUCT_NO"/>
+		<result	property="productName" column="PRODUCT_NAME"/>
+		<result	property="productPrice" column="PRODUCT_PRICE"/>
+		<result	property="productContent" column="PRODUCT_CONTENT"/>
+		<result	property="productMdYn" column="PRODUCT_MD_YN"/>
+		<result	property="productSales" column="PRODUCT_SALES"/>
+		<result	property="productHashTag" column="PRODUCT_HASHTAG"/>
+		<result	property="productDiscount" column="PRODUCT_DISCOUNT"/>
+		<result	property="sellerUserNo" column="SELLER_USER_NO"/>
+	</resultMap>
+	
+    <select id="selectProductList" resultMap="ProductResultMap">
+        SELECT * FROM PRODUCT_TBL
+    </select>
+    
+    <select id="selectProductCount" resultType="_int">
+    	SELECT COUNT(*) FROM PRODUCT_TBL
+    </select>
+    
+</mapper>

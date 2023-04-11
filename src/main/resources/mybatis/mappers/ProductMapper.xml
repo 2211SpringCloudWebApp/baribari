@@ -11,10 +11,14 @@
 		<result	property="productHashTag" column="PRODUCT_HASHTAG"/>
 		<result	property="productDiscount" column="PRODUCT_DISCOUNT"/>
 		<result	property="sellerUserNo" column="SELLER_USER_NO"/>
+		<result	property="productPic1" column="PRODUCT_PIC_1"/>
+		<result	property="productPic2" column="PRODUCT_PIC_2"/>
+		<result	property="productPic3" column="PRODUCT_PIC_3"/>
+		<result	property="productPic4" column="PRODUCT_PIC_4"/>
 	</resultMap>
 	
     <select id="getProductList" resultMap="productResultMap">
-        SELECT * FROM PRODUCT_TBL
+        SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO)
     </select>
     
     <select id="getProductCount" resultType="_int">

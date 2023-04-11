@@ -18,14 +18,14 @@ public class ProductController {
 	
 	// 상품 목록 및 갯수 출력
 	@GetMapping("shopping/list")
-	public String selectProductList(Model model) {
+	public String getProductList(Model model) {
 		try {
 			List<Product> pList = pService.getProductList();
 			int pCount = pService.getProductCount();
 			if(pList != null) {
 				model.addAttribute("pList", pList);
 				model.addAttribute("pCount", pCount);
-				return "shopping/test";			} else {
+				return "shopping/list";			} else {
 				model.addAttribute("msg", "오류");
 				return "error";
 			}

@@ -15,4 +15,9 @@ public class UserServiceImpl implements UserService {
     public User selectIdCheck(String id) {
         return uRepository.selectIdCheck(id);
     }
+
+    @Override
+    public User selectNickNameCheck(String nickName) {
+        return uRepository.selectNickNameCheck(nickName);
+    }
 }

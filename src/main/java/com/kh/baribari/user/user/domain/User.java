@@ -10,6 +10,7 @@ public class User {
     private String userId;
     private String userPw;
     private String userName;
+    private String userNickName;
     private String userAddress;
     private int userPhone;
     private Timestamp userTimestamp;

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>게시글 상세</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+		<link href="../../../static/css/community/board/detail.css" rel="stylesheet">
+	</head>
+	<body>
+        <div id="container">
+            <header>
+                헤더가 들어갈 자리입니다.
+            </header>
+            <main>
+                <table id="fregister-header">
+                    <tr>
+                        <td colspan="2">
+                            자유게시판
+                        </td>
+                    </tr>
+                </table>
+                
+                <table id="fregister-main">
+                    <tr>
+                        <td>
+                            <select>
+                                <option value="">[말머리]</option>
+                                <option value="잡담">[잡담]</option>
+                                <option value="캠핑지">[캠핑지]</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" required placeholder="제목을 입력하세요.">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            지도
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id="fregister-image">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <textarea name="" id="" required placeholder="내용을 입력하세요"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="text" placeholder="#해시태그">
+                        </td>
+                    </tr>
+                </table>
+                <table id="fregister-photo">
+                    <tr>
+                        <td><img src="/img/1.PNG" alt="이미지1"></td>
+                        <td><img src="/img/2.PNG" alt="이미지2"></td>
+                        <td><img src="/img/3.PNG" alt="이미지3"></td>
+                        <td><img src="/img/4.PNG" alt="이미지4"></td>
+                        <td><img src="/img/5.PNG" alt="이미지5"></td>
+                        <td><img src="/img/6.PNG" alt="이미지6"></td>
+                        <td><img src="/img/7.PNG" alt="이미지7"></td>
+                        <td><img src="/img/8.PNG" alt="이미지8"></td>
+                        <td><img src="/img/9.PNG" alt="이미지9"></td>
+                        <td><img src="/img/10.PNG" alt="이미지10"></td>
+                    </tr>
+                </table>
+                <table id="fregister-footer">
+                    <tr>
+                        <td>
+                            <input type="submit" value="등록">
+                        </td>
+                        <td>
+                            <input type="reset" value="취소">
+                        </td>
+                    </tr>
+                </table>
+            </main>
+            <script>
+                
+                // 이미지 클릭 시 이미지 보여주기
+                var images = document.querySelectorAll("#fregister-photo img");
+                var fregisterImage = document.getElementById("fregister-image");
+            
+                for (var i = 0; i < images.length; i++) {
+                    images[i].addEventListener("click", function() {
+                        var src = this.getAttribute("src");
+                        var alt = this.getAttribute("alt");
+                        fregisterImage.innerHTML = "<img src='" + src + "' alt='" + alt + "'>";
+                    });
+                }
+            </script>
+            <footer>
+                푸터가 들어갈 자리입니다.
+            </footer>
+        </div>
+    </body>
+</html>

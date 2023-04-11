@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class JsonParse {
 
-    @Bean
     public String returnJson(String result){
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonString = "";

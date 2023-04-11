@@ -18,4 +18,9 @@ public class UserRepositoryLogic implements UserRepository {
     public User selectIdCheck(String id) {
         return session.selectOne("UserMapper.selectIdCheck",id);
     }
+
+    @Override
+    public User selectNickNameCheck(String nickName) {
+        return session.selectOne("UserMapper.selectNickNameCheck",nickName);
+    }
 }

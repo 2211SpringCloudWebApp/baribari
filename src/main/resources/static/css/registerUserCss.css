@@ -1,5 +1,5 @@
 .box {
-
+  overflow: auto;
   position: relative;
   top: 0;
   opacity: 1;
@@ -35,6 +35,10 @@
   -webkit-transform: scale(0.95);
   -ms-transform: scale(0.95);
   z-index: -1;
+}
+
+.box::-webkit-scrollbar{
+  width: 0;
 }
 
 .overbox .title {
@@ -439,3 +443,4 @@ html {
   display: flex;
   align-items: center;
 }
+

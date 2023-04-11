@@ -23,4 +23,14 @@ public class UserRepositoryLogic implements UserRepository {
     public User selectNickNameCheck(String nickName) {
         return session.selectOne("UserMapper.selectNickNameCheck",nickName);
     }
+
+    @Override
+    public int insertUserByUser(User user) {
+        return session.insert("UserMapper.insertUserByUser",user);
+    }
+
+    @Override
+    public int insertUserBySeller(User user) {
+        return session.insert("UserMapper.insertUserBySeller",user);
+    }
 }

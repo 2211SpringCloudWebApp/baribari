@@ -20,4 +20,14 @@ public class UserServiceImpl implements UserService {
     public User selectNickNameCheck(String nickName) {
         return uRepository.selectNickNameCheck(nickName);
     }
+
+    @Override
+    public int insertUserByUser(User user) {
+        return uRepository.insertUserByUser(user);
+    }
+
+    @Override
+    public int insertUserBySeller(User user) {
+        return uRepository.insertUserBySeller(user);
+    }
 }

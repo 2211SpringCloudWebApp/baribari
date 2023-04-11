@@ -12,11 +12,15 @@ import com.kh.baribari.product.repository.ProductRepository;
 public class ProductRepositoryLogic implements ProductRepository {
 	
 	@Override
-	public List<Product> selectProductList(SqlSession session) {
-		
-		List<Product> pList = session.selectList("ProductMapper.selectProductList");
-		
+	public List<Product> getProductList(SqlSession session) {
+		List<Product> pList = session.selectList("ProductMapper.getProductList");
 		return pList;
+	}
+
+	@Override
+	public int getProductCount(SqlSession session) {
+		int pCount = session.selectOne("ProductMapper.getProductCount");
+		return pCount;
 	}
 
 }

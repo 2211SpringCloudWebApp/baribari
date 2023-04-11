@@ -13,6 +13,12 @@ public interface ProductRepository {
 	 * @param session
 	 * @return List<Product>
 	 */
-	public List<Product> selectProductList(SqlSession session);
+	public List<Product> getProductList(SqlSession session);
+
+	/**
+	 * 상품 갯수 가져오기
+	 * @return int
+	 */
+	public int getProductCount(SqlSession session);
 	
 }

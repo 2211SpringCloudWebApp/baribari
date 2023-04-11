@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class Product {
-
 	private int productNo;
 	private String productName;
 	private int productPrice;
@@ -14,5 +13,5 @@ public class Product {
 	private String productHashTag;
 	private int productDiscount;
 	private int sellerUserNo;
-	
+
 }

@@ -10,6 +10,12 @@ public interface ProductService {
 	 * 상품 목록 가져오기
 	 * @return List<Product>
 	 */
-	public List<Product> selectProductList();
+	public List<Product> getProductList();
+
+	/**
+	 * 상품 갯수 가져오기
+	 * @return int
+	 */
+	public int getProductCount();
 
 }

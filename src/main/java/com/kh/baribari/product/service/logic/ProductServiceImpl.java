@@ -19,11 +19,15 @@ public class ProductServiceImpl implements ProductService {
     private SqlSession session;
 
 	@Override
-	public List<Product> selectProductList() {
-		
-		List<Product> pList = pRepository.selectProductList(session);
+	public List<Product> getProductList() {
+		List<Product> pList = pRepository.getProductList(session);
 		return pList;
-		
+	}
+
+	@Override
+	public int getProductCount() {
+		int pCount = pRepository.getProductCount(session);
+		return pCount;
 	}
 
 }

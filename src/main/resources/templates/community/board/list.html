@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>게시글 목록</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+		<link href="../../../static/css/community/board/list.css" rel="stylesheet">
+	</head>
+	<body>
+        <div id="container">
+            <header>
+                헤더가 들어갈 자리입니다.
+            </header>
+            <main>
+                <!--자유게시판 리스트 헤더-->
+                <table id="flist-heard">
+                    <tr>
+                        <td colspan="3">
+                            자유게시판
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#">캠핑지</a>
+                            /
+                            <a href="#">잡담</a>
+                        </td>
+                        <td>
+                            <input type="checkbox" id="checkbox1" name="checkbox1" value="value1" onchange="uncheckOthers('checkbox1')">
+                            <label for="checkbox1">제목</label>
+                            <input type="checkbox" id="checkbox2" name="checkbox2" value="value2" onchange="uncheckOthers('checkbox2')">
+                            <label for="checkbox2">내용</label>
+                            <input type="checkbox" id="checkbox3" name="checkbox3" value="value3" onchange="uncheckOthers('checkbox3')">
+                            <label for="checkbox3">제목+내용</label>
+                        </td>
+                        <td>
+                            <input type="text" id="searchbox">
+                            <input type="submit" value="검색">
+                        </td>
+                    </tr>
+                </table>
+                <!-- 리스트가 출력되는 부분 -->
+                <table id="flist-main">
+                    <tr>
+                        <td>번호</td>
+                        <td>분류</td>
+                        <td>제목</td>
+                        <td>작성자</td>
+                        <td>좋아요<button id="flist-suggestion">∨</button></td>
+                        <td>작성일<button id="flist-date">∨</button></td>
+                        <td>조회수<button id="flist-views">∨</button></td>
+                    </tr>
+                    <tr>
+                        <td>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="7">
+                            <input type="submit" value="글쓰기">
+                        </td>
+                    </tr>
+                </table>
+                <!-- 페이징처리가 들어가는 부분 -->
+                <table id="flist-footer">
+                    <tr>
+                        <td>
+                            페이징이 들어갈 자리입니다.
+                        </td>
+                    </tr>
+                </table>
+            </main>
+
+            <script>
+                function uncheckOthers(checkboxId){
+                    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                    for (var i = 0; i < checkboxes.length; i++){
+                        if(checkboxes[i].id !== checkboxId){
+                            checkboxes[i].checked = false;
+                        }
+                    }
+                }
+                // 버튼 클릭 시 화살표 반대로 변경
+                document.getElementById('flist-suggestion').addEventListener('click', function() {
+                    var arrow = this.innerHTML;
+                    if (arrow === '∨') {
+                        this.innerHTML = '∧';
+                    } else {
+                        this.innerHTML = '∨';
+                    }
+                });
+                document.getElementById('flist-date').addEventListener('click', function() {
+                    var arrow = this.innerHTML;
+                    if (arrow === '∨') {
+                        this.innerHTML = '∧';
+                    } else {
+                        this.innerHTML = '∨';
+                    }
+                });
+                document.getElementById('flist-views').addEventListener('click', function() {
+                    var arrow = this.innerHTML;
+                    if (arrow === '∨') {
+                        this.innerHTML = '∧';
+                    } else {
+                        this.innerHTML = '∨';
+                    }
+                });
+            </script>
+            <footer>
+                푸터가 들어갈 자리입니다.
+            </footer>
+        </div>
+    </body>
+</html>

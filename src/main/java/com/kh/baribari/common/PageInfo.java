@@ -1,3 +1,20 @@
+/*
+		1. 컨트롤러 부분에 아래 부분 추가 (매개 변수 명, 값은 수정 가능)
+
+		PageInfo 매개변수: 현재페이지 (RequestParam), 전체 게시글 수 (mapper), 페이지 당 게시글 수
+		PageInfo pi = new PageInfo(currentPage, pCount, 6);
+
+		2. Service와 Store(Repository)로 보낼 때 pi를 매개변수로 보내줌
+
+		3. StoreLogic(RepositoryLogic)에서 아래 부분 추가 (offset과 limit부분을 DTO에서 선언)
+
+		RowBounds rowBounds = new RowBounds(pi.getOffset(), pi.getBoardLimit());
+
+		4. mapper 실행 시 ("매퍼명", null, rowBounds)
+
+		package com.kh.baribari.product.controller;
+*/
+
 package com.kh.baribari.common;
 
 import lombok.Data;

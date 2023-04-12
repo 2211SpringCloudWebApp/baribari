@@ -11,17 +11,31 @@
 		<result	property="productHashTag" column="PRODUCT_HASHTAG"/>
 		<result	property="productDiscount" column="PRODUCT_DISCOUNT"/>
 		<result	property="sellerUserNo" column="SELLER_USER_NO"/>
+		<result	property="productCategory" column="PRODUCT_CATEGORY"/>
 		<result	property="productPic1" column="PRODUCT_PIC_1"/>
 		<result	property="productPic2" column="PRODUCT_PIC_2"/>
 		<result	property="productPic3" column="PRODUCT_PIC_3"/>
 		<result	property="productPic4" column="PRODUCT_PIC_4"/>
 	</resultMap>
+    
+    <select id="getProductCount" parameterType="string" resultType="_int">
+    	SELECT COUNT(*) FROM PRODUCT_TBL
+    	<if test="productCategory != 'All'">
+    		WHERE PRODUCT_CATEGORY = #{productCategory}
+    	</if>
+    </select>
 	
-    <select id="getProductList" resultMap="productResultMap">
+    <select id="getProductList" parameterType="string" resultMap="productResultMap">
         SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO)
+    	<if test="productCategory != 'All'">
+    		WHERE PRODUCT_CATEGORY = #{productCategory}
+    	</if> 
     </select>
     
-    <select id="getProductCount" resultType="_int">
-    	SELECT COUNT(*) FROM PRODUCT_TBL
-    </select>
+    <select id="getProductSearchList" parameterType="Search" resultMap="productResultMap">
+        SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO)
+    	<if test="productCategory != 'All'">
+    		WHERE PRODUCT_CATEGORY = #{productCategory}
+    	</if> 
+    </select>    
 </mapper>

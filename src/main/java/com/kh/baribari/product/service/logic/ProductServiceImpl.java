@@ -18,17 +18,17 @@ public class ProductServiceImpl implements ProductService {
 	private ProductRepository pRepository;
     @Autowired
     private SqlSession session;
+    
+    @Override
+    public int getProductCount(String productCategory) {
+    	int pCount = pRepository.getProductCount(session, productCategory);
+    	return pCount;
+    }
 
 	@Override
-	public List<Product> getProductList(PageInfo pi) {
-		List<Product> pList = pRepository.getProductList(session, pi);
+	public List<Product> getProductList(String productCategory, PageInfo pi) {
+		List<Product> pList = pRepository.getProductList(session, productCategory, pi);
 		return pList;
-	}
-
-	@Override
-	public int getProductCount() {
-		int pCount = pRepository.getProductCount(session);
-		return pCount;
 	}
 
 }

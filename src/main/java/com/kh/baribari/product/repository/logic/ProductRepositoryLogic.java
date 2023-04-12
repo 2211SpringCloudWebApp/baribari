@@ -14,16 +14,16 @@ import com.kh.baribari.product.repository.ProductRepository;
 public class ProductRepositoryLogic implements ProductRepository {
 	
 	@Override
-	public List<Product> getProductList(SqlSession session, PageInfo pi) {
-		RowBounds rowBounds = new RowBounds(pi.getOffset(), pi.getBoardLimit());
-		List<Product> pList = session.selectList("ProductMapper.getProductList", null, rowBounds);
-		return pList;
-	}
-
-	@Override
-	public int getProductCount(SqlSession session) {
-		int pCount = session.selectOne("ProductMapper.getProductCount");
+	public int getProductCount(SqlSession session, String productCategory) {
+		int pCount = session.selectOne("ProductMapper.getProductCount", productCategory);
 		return pCount;
+	}
+	
+	@Override
+	public List<Product> getProductList(SqlSession session, String productCategory, PageInfo pi) {
+		RowBounds rowBounds = new RowBounds(pi.getOffset(), pi.getBoardLimit());
+		List<Product> pList = session.selectList("ProductMapper.getProductList", productCategory, rowBounds);
+		return pList;
 	}
 
 }

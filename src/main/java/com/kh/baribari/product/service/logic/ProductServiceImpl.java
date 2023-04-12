@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.product.domain.Product;
 import com.kh.baribari.product.repository.ProductRepository;
 import com.kh.baribari.product.service.ProductService;
@@ -19,8 +20,8 @@ public class ProductServiceImpl implements ProductService {
     private SqlSession session;
 
 	@Override
-	public List<Product> getProductList() {
-		List<Product> pList = pRepository.getProductList(session);
+	public List<Product> getProductList(PageInfo pi) {
+		List<Product> pList = pRepository.getProductList(session, pi);
 		return pList;
 	}
 

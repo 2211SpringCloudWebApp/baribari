@@ -2,9 +2,11 @@ package com.kh.baribari.product.repository.logic;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.product.domain.Product;
 import com.kh.baribari.product.repository.ProductRepository;
 
@@ -12,8 +14,9 @@ import com.kh.baribari.product.repository.ProductRepository;
 public class ProductRepositoryLogic implements ProductRepository {
 	
 	@Override
-	public List<Product> getProductList(SqlSession session) {
-		List<Product> pList = session.selectList("ProductMapper.getProductList");
+	public List<Product> getProductList(SqlSession session, PageInfo pi) {
+		RowBounds rowBounds = new RowBounds(pi.getOffset(), pi.getBoardLimit());
+		List<Product> pList = session.selectList("ProductMapper.getProductList", null, rowBounds);
 		return pList;
 	}
 

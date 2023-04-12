@@ -26,4 +26,10 @@ public class ProductRepositoryLogic implements ProductRepository {
 		return pList;
 	}
 
+	@Override
+	public Product getProductDetail(SqlSession session, int productNo) {
+		Product product = session.selectOne("ProductMapper.getProductDetail", productNo);
+		return product;
+	}
+
 }

@@ -25,5 +25,13 @@ public interface ProductRepository {
 	 * @return List<Product>
 	 */
 	public List<Product> getProductList(SqlSession session, String productCategory, PageInfo pi);
+
+	/**
+	 * 상품 정보 가져오기
+	 * @param SqlSession
+	 * @param int
+	 * @return Product
+	 */
+	public Product getProductDetail(SqlSession session, int productNo);
 	
 }

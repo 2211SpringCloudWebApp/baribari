@@ -31,4 +31,10 @@ public class ProductServiceImpl implements ProductService {
 		return pList;
 	}
 
+	@Override
+	public Product getProductDetail(int productNo) {
+		Product product = pRepository.getProductDetail(session ,productNo);
+		return product;
+	}
+
 }

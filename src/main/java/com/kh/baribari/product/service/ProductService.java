@@ -22,4 +22,11 @@ public interface ProductService {
 	 */
 	public List<Product> getProductList(String productCategory, PageInfo pi);
 
+	/**
+	 * 상품 정보 가져오기
+	 * @param int
+	 * @return Product
+	 */
+	public Product getProductDetail(int productNo);
+
 }

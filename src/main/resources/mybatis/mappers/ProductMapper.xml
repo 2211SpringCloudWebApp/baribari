@@ -37,5 +37,9 @@
     	<if test="productCategory != 'All'">
     		WHERE PRODUCT_CATEGORY = #{productCategory}
     	</if> 
-    </select>    
+    </select>
+    
+    <select id="getProductDetail" parameterType="_int" resultMap="productResultMap">
+    	SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE PRODUCT_NO = #{productNo}
+    </select>  
 </mapper>

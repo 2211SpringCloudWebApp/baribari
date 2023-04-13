@@ -37,4 +37,10 @@ public class ProductServiceImpl implements ProductService {
 		return product;
 	}
 
+	@Override
+	public List<Product> getProductRecommendList(String productCategory) {
+		List<Product> pList = pRepository.getProductRecommendList(session, productCategory);
+		return pList;
+	}
+
 }

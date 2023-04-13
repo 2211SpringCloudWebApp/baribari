@@ -27,7 +27,7 @@ public class BoardServiceLogic implements BoardService {
 
 	@Override
 	public List<Community> getBoardListAll(PageInfo pi) {
-		return null;
+		return brepository.getBoardListAll(session, pi);
 	}
 
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8">
 		<title>게시글 상세</title>
@@ -9,7 +9,7 @@
 	<body>
         <div id="container">
             <header>
-                헤더가 들어갈 자리입니다.
+                <div th:replace="header.html :: header"></div>
             </header>
             <main>
                 <table id="fregister-header">
@@ -94,7 +94,7 @@
                 }
             </script>
             <footer>
-                푸터가 들어갈 자리입니다.
+                <div th:replace="footer.html :: footer"></div>
             </footer>
         </div>
     </body>

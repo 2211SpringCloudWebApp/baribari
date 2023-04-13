@@ -13,6 +13,6 @@ public class Community {
 	private int mapX;
 	private int mapY;
 	private String communityHashTag;
-	private Timestamp communityYn;
+	private String communityYn;
 	private int userNo;
 }

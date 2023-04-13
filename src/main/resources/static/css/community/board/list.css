@@ -22,12 +22,12 @@ main {
 
 #flist-heard tr:nth-child(2) td:nth-child(1) {
 	text-align: left;
-	width: 10%;
+	width: 15%;
 }
 
 #flist-heard tr:nth-child(2) td:nth-child(2) {
 	text-align: right;
-	width: 65%;
+	width: 60%;
 }
 
 #flist-heard tr:nth-child(2) td:nth-child(3) {

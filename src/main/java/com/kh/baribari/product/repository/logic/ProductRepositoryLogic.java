@@ -32,4 +32,10 @@ public class ProductRepositoryLogic implements ProductRepository {
 		return product;
 	}
 
+	@Override
+	public List<Product> getProductRecommendList(SqlSession session, String productCategory) {
+		List<Product> pList = session.selectList("ProductMapper.getProductRecommendList", productCategory);
+		return pList;
+	}
+
 }

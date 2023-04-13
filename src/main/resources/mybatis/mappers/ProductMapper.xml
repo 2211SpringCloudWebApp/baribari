@@ -18,6 +18,7 @@
 		<result	property="productPic4" column="PRODUCT_PIC_4"/>
 	</resultMap>
     
+    <!-- 총 상품수 -->
     <select id="getProductCount" parameterType="string" resultType="_int">
     	SELECT COUNT(*) FROM PRODUCT_TBL
     	<if test="productCategory != 'All'">
@@ -25,6 +26,7 @@
     	</if>
     </select>
 	
+	<!-- 상품 목록 -->
     <select id="getProductList" parameterType="string" resultMap="productResultMap">
         SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO)
     	<if test="productCategory != 'All'">
@@ -32,6 +34,7 @@
     	</if> 
     </select>
     
+    <!-- 검색된 상품 목록 -->
     <select id="getProductSearchList" parameterType="Search" resultMap="productResultMap">
         SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO)
     	<if test="productCategory != 'All'">
@@ -39,7 +42,26 @@
     	</if> 
     </select>
     
+    <!-- 상품 상세 정보 -->
     <select id="getProductDetail" parameterType="_int" resultMap="productResultMap">
     	SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE PRODUCT_NO = #{productNo}
-    </select>  
+    </select>
+    
+    <!-- 상품 분류에 따른 추천 상품 목록 -->
+    <select id="getProductRecommendList" parameterType="string" resultMap="productResultMap">
+  		SELECT * FROM (
+  			SELECT * FROM PRODUCT_TBL WHERE PRODUCT_CATEGORY = #{productCategory}
+  			UNION ALL
+  			SELECT * FROM PRODUCT_TBL WHERE PRODUCT_CATEGORY != #{productCategory}
+  		)
+  		WHERE ROWNUM &lt;= 6
+  		ORDER BY CASE WHEN PRODUCT_CATEGORY = #{productCategory} THEN 0 ELSE 1 END, PRODUCT_SALES DESC
+	</select>
+	
+	<!-- 해당 제품에 대한 후기 목록 -->
+	<!-- 
+	<select id="getReview" parameterType="_int" resultMap="reviewResultMap">
+		SELECT * FROM REVIEW_TBL WHERE PRODUCT_NO = #{productNo}
+	</select> -->
+      
 </mapper>

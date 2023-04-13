@@ -29,4 +29,11 @@ public interface ProductService {
 	 */
 	public Product getProductDetail(int productNo);
 
+	/**
+	 * 상품 분류에 따른 추천 상품 목록 가져오기
+	 * @param String
+	 * @return List<Product>
+	 */
+	public List<Product> getProductRecommendList(String productCategory);
+
 }

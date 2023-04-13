@@ -1,0 +1,42 @@
+/* body 전체에 폰트 적용 */
+body {
+	font-family: 'IBM Plex Sans KR', sans-serif;
+}
+/* a태그에 밑줄 및 색 제거 */
+a, a.page-link {
+	text-decoration: none;
+	color: #000;
+}
+
+/* 상품 분류 */
+.category-btn-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 열 */
+  grid-template-rows: repeat(2, 1fr); /* 행 */
+  gap: 10px; /* 버튼 사이 간격 */
+}
+.category-btn {
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  display: block; /* 줄바꿈 */
+}
+
+/* 가로크기 100% */
+.full-width {
+	width: 100%;
+}
+
+.width_2_5_rem {
+  width: 2.5rem;
+  text-align: center;
+}
+.width_4_0_rem {
+  width: 4rem;
+  text-align: center;
+}
+
+.img-banner {
+  width: 1000vw;
+}

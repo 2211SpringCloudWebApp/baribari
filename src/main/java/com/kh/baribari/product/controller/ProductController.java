@@ -32,7 +32,9 @@ public class ProductController {
 			int pCount = pService.getProductCount(productCategory);
 			// PageInfo 매개변수: 현재페이지 (RequestParam), 전체 게시글 수 (mapper), 페이지 당 게시글 수
 			PageInfo pi = new PageInfo(currentPage, pCount, 20); 
+			// 상품 목록
 			List<Product> pList = pService.getProductList(productCategory, pi);
+			
 			if(pList != null) {
 				mv.addObject("pList", pList);
 				mv.addObject("pCount", pCount);
@@ -49,6 +51,7 @@ public class ProductController {
 		}
 	}
 	
+	// 상품 검색 목록 및 갯수 출력
 	public ModelAndView getProductSearchList(
 			ModelAndView mv
 			, @RequestParam(value = "category", required = false, defaultValue = "All") String productCategory
@@ -62,13 +65,18 @@ public class ProductController {
 		}
 	}
 	
-	// 상품 상세 페이지
+	// 상품 상세 페이지 (상품 정보, 추천 상품 목록)
 	@GetMapping("shopping/detail")
 	public ModelAndView getProductDetail(ModelAndView mv, int productNo) {
 		try {
-			// 상품 정보 가져옴
+			// 상품 정보
 			Product product = pService.getProductDetail(productNo);
+			// 상품 분류에 따른 추천 상품 목록
+			List<Product> pList = pService.getProductRecommendList(product.getProductCategory());
+			
 			mv.addObject("product", product);
+			mv.addObject("pList", pList);
+			mv.setViewName("shopping/detail");
 			return mv;
 		} catch (Exception e) {
 			mv.addObject("msg", e.getMessage()).setViewName("error");

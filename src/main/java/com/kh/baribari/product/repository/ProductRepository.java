@@ -33,5 +33,13 @@ public interface ProductRepository {
 	 * @return Product
 	 */
 	public Product getProductDetail(SqlSession session, int productNo);
+
+	/**
+	 * 상품 분류에 따른 추천 상품 목록 가져오기
+	 * @param SqlSession
+	 * @param String
+	 * @return List<Product>
+	 */
+	public List<Product> getProductRecommendList(SqlSession session, String productCategory);
 	
 }

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+</head>
+<body>
+<b>Authenticated DTO:</b>
+<p>Hello, <span th:text="${#authentication.principal.user.userName}"></span>!</p>
+
+</body>
+</html>

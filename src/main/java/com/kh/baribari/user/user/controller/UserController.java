@@ -91,5 +91,8 @@ public class UserController {
         }
     }
 
-
+    @GetMapping("mypage")
+    public String mypageView(){
+        return "mypage/mypage";
+    }
 }

@@ -1,5 +1,6 @@
-<!DOCTYPE html> 
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -48,7 +49,16 @@
                         <input class="form-control me-2" type="search" placeholder="이 헤더는 더미입니다" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
-            
+                    <div sec:authorize="!isAuthenticated()">
+                    <button class="btn-toolbar" onclick="location.href='/login'">
+                        로그인
+                    </button>
+                    </div>
+                    <div sec:authorize="isAuthenticated()">
+                        <button>
+                            마이페이지
+                        </button>
+                    </div>
                 </div>
             
             </div>

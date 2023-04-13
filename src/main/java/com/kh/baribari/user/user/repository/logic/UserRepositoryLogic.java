@@ -33,4 +33,9 @@ public class UserRepositoryLogic implements UserRepository {
     public int insertUserBySeller(User user) {
         return session.insert("UserMapper.insertUserBySeller",user);
     }
+
+    @Override
+    public User findByUserId(String userId) {
+        return session.selectOne("UserMapper.findByUserId",userId);
+    }
 }

@@ -10,4 +10,6 @@ public interface UserRepository {
     int insertUserByUser(User user);
 
     int insertUserBySeller(User user);
+
+    User findByUserId(String userId);
 }

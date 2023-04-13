@@ -7,6 +7,9 @@
     <select id="selectNickNameCheck" resultType="User">
         SELECT USER_NICKNAME FROM USER_TBL WHERE USER_NICKNAME = #{nickName}
     </select>
+    <select id="findByUserId" resultType="User">
+        SELECT * FROM USER_TBL WHERE USER_ID = #{userId}
+    </select>
 
     <insert id="insertUserByUser" parameterType="User">
         INSERT INTO USER_TBL VALUES(SEQ_USER_NO.NEXTVAL,#{userId},#{userPw},#{userName},#{userNickName},#{userEmail},#{userPhone},SYSTIMESTAMP, 1, DEFAULT, DEFAULT, DEFAULT, DEFAULT, 'USER')

@@ -4,6 +4,7 @@ import com.kh.baribari.common.JsonParse;
 import com.kh.baribari.user.user.domain.User;
 import com.kh.baribari.user.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

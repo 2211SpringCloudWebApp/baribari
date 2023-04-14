@@ -1,4 +1,4 @@
-package com.kh.baribari.user.security.auth;
+package com.kh.baribari.security.auth;
 
 import com.kh.baribari.user.user.domain.User;
 import com.kh.baribari.user.user.repository.UserRepository;

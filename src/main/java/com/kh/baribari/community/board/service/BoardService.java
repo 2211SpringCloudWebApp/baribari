@@ -20,4 +20,11 @@ public interface BoardService {
 	 */
 	public List<Community> getBoardListAll(PageInfo pi);
 
+	/**
+	 * 게시글 좋아요 수 조회
+	 * @param boardNo
+	 * @return int
+	 */
+	public int getListCount(int boardNo);
+
 }

@@ -4,12 +4,32 @@
 		<meta charset="UTF-8">
 		<title>게시글 목록</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-		<link href="../../../css/community/board/list.css" rel="stylesheet">
+		<link href="css/community/board/list.css" rel="stylesheet">
+		<!-- Favicons -->
+		<link href="assets/img/favicon.png" rel="icon">
+		<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+		
+		  <!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="stylesheet">
+		
+		<!-- Vendor CSS Files -->
+		<link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+		<link href="assets/vendor/aos/aos.css" rel="stylesheet">
+		<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+		<link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+		<link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+		<link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+		
+		<!-- Template Main CSS File -->
+		<link href="assets/css/style.css" rel="stylesheet">
 	</head>
 	<body>
         <div id="container">
             <header>
-                <div th:replace="header.html :: header"></div>
+                <div th:replace="header :: header"></div>
             </header>
             <main>
                 <!--자유게시판 리스트 헤더-->
@@ -61,11 +81,20 @@
 						    	<span th:case="1">장소공유</span>
 						    </span>
 						</td>
-                        <td><a th:href="'#'" th:text="${community.communitySubject}"></a></td>
+                        <td>
+                        	<span th:switch="${community.communityYn}">
+                        		<span th:case="0">
+                        			<a th:href="'#'" th:text="${community.communitySubject}"></a>
+                        		</span>
+                        		<span th:case="1">
+									블라인드 처리된 게시물입니다.
+                        		</span>
+                        	</span>
+                        </td>
                         <td th:text="${community.userNo}"></td>
                         <td th:text="${community.mapX}"></td>
                         <td th:text="${community.communityDate}"></td>
-                        <td th:text="${community.mapY}"></td>
+                        <td th:text="${community.viewCount}"></td>
                     </tr>
                     <tr>
                         <td colspan="7">
@@ -83,10 +112,19 @@
                 </table>
             </main>
 
-            <script>
-            	
-            
-            
+            <script>	
+	            // 커뮤니티 카테고리에 따라 카테고리 이름을 반환하는 함수
+	            function getCommunityCategoryName(category) {
+	                switch (category) {
+	                    case 0:
+	                        return "잡담";
+	                    case 1:
+	                        return "장소공유";
+	                    default:
+	                        return "";
+	                }
+	            }
+
                 function uncheckOthers(checkboxId){
                     var checkboxes = document.querySelectorAll('input[type="checkbox"]');
                     for (var i = 0; i < checkboxes.length; i++){
@@ -122,7 +160,7 @@
                 });
             </script>
             <footer>
-                <div th:replace="footer.html :: footer"></div>
+                <div th:replace="footer :: footer"></div>
             </footer>
         </div>
     </body>

@@ -30,4 +30,9 @@ public class BoardServiceLogic implements BoardService {
 		return brepository.getBoardListAll(session, pi);
 	}
 
+	@Override
+	public int getListCount(int boardNo) {
+		return brepository.getListCount(session,boardNo);
+	}
+
 }

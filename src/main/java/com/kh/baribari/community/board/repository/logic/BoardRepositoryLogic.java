@@ -24,4 +24,9 @@ public class BoardRepositoryLogic implements BoardRepository {
 		return session.selectList("CommunityMapper.getBoardListAll", rowBounds);
 	}
 
+	@Override
+	public int getListCount(SqlSession session, int boardNo) {
+		return session.selectOne("CommunityMapper.getListCount", boardNo);
+	}
+
 }

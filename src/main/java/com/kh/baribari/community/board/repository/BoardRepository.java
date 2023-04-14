@@ -24,4 +24,11 @@ public interface BoardRepository {
 	 */
 	public List<Community> getBoardListAll(SqlSession session, PageInfo pi);
 
+	/**
+	 * 게시글 좋아요 수 조회
+	 * @param boardNo
+	 * @return int
+	 */
+	public int getListCount(SqlSession session, int boardNo);
+
 }

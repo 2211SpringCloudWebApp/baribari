@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.baribari.common.PageInfo;
@@ -19,18 +20,20 @@ public class BoardController {
 
 	@Autowired	
 	private BoardService bService;
-	
+
 	//자유게시판 목록 출력
 	@GetMapping("board/list")
 	public ModelAndView getBoardList(
 			ModelAndView mv
+			,@RequestParam(value = "category", required = false, defaultValue = "All") String productCategory
 			,@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage) {
 		try {
 			// 게시글 총 갯수
 			int bCount = bService.getBoardCount();
 			// 페이지 정보 불러오기
 			PageInfo pi = new PageInfo(currentPage, bCount, 10);
-			List<Community> bList = bService.getBoardListAll(pi);
+			List<Community> bList = bService.getBoardListAll(pi); // 전체 목록 조회
+			
 			if(bList != null) {
 				mv.addObject("bList", bList);
 				mv.addObject("bCount", bCount);
@@ -47,7 +50,7 @@ public class BoardController {
 		}
 		
 	}
-	
+
 	//게시글 등록
 	@GetMapping("board/register")
 	public String boardRegister() {
@@ -77,5 +80,10 @@ public class BoardController {
     public String error() {
         return "error"; // 에러 페이지의 뷰 이름
     }
+	
+	// 좋아요 갯수 조회
+	public int getListCount(int boardNo) {
+		return bService.getListCount(boardNo);
+	}
 	
 }

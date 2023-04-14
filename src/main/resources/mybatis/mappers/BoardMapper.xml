@@ -10,9 +10,9 @@
 		<result	property="communityDate"		column="COMMUNITY_DATE"		/>
 		<result	property="mapX"					column="MAP_X"				/>
 		<result	property="mapY"					column="MAP_Y"				/>
-		<result	property="communityHashTag"		column="COMMUNITY_HASH_TAG"	/>
 		<result	property="communityYn"			column="COMMUNITY_YN"		/>
 		<result	property="userNo"				column="USE_RNO"			/>
+		<result	property="viewCount"			column="VIEW_COUNT"			/>
 	</resultMap>
 	
 	<resultMap type="CommunityPIC" id="communityPICResultMap">
@@ -35,5 +35,9 @@
 	
 	<select id="getBoardListAll" resultMap="communityResultMap">
 		SELECT * FROM COMMUNITY_TBL WHERE COMMUNITY_CATEGORY IN (0, 1)
+	</select>
+	
+	<select id="getListCount">
+		SELECT COUNT(*) FROM LIKE_TBL WHERE COMMUNITY_NO = #{boardNo}
 	</select>
 </mapper>

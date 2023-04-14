@@ -28,7 +28,6 @@ public class PrincipalDetails implements UserDetails {
                 return user.getUserRole();
             }
         });
-
         return collect;
     }
 

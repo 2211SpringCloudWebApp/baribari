@@ -1,4 +1,4 @@
-package com.kh.baribari.community.junggo.repository;
+package com.kh.baribari.community.junggo.repository.mybatis;
 
 import com.kh.baribari.community.junggo.domain.type.SearchType;
 import org.apache.ibatis.annotations.Mapper;
@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface JunggoMapper {
 
-    List<JunggoRepository> searchJunggo(SearchType searchType, String searchKeyword);
+    List<JunggoRepositoryImpl> searchJunggo(SearchType searchType, String searchKeyword);
 
 
 }

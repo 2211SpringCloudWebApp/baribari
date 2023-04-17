@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -77,7 +77,7 @@
                                 <!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
                                 <span th:if="${product != null and product.productDiscount == 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|">상품가격</span>
                                 <span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|" class="text-muted text-decoration-line-through">상품가격 취소선</span>
-                                <span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productDiscount, 0, 'COMMA')}원|">할인된가격</span>
+                                <span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|">할인된 가격</span>
                             </div>
                         </div>
                     </a>

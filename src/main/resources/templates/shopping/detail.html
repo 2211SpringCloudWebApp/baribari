@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -43,7 +43,7 @@
 	            <div class="fs-5 mb-5">
 	                <span th:if="${product != null and product.productDiscount == 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|" id="price">상품가격</span>
 	                <span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|" class="text-muted text-decoration-line-through">상품가격 취소선</span>
-	                <span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productDiscount, 0, 'COMMA')}원|" id="price">할인된가격</span>
+	                <span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|" id="price">할인된 가격</span>
 	            </div>
 	            <!-- 상품 설명 -->
 	            <p class="lead" th:text="${product.productName}">상품 설명</p>
@@ -82,8 +82,7 @@
 	    <hr>
 	
 	    <div class="align-items-center">
-	        <img src="#" alt="배너/이벤트" class="img-banner">
-	        상품 설명 사진이 들어가는 곳
+	        <img src="../../img/dummy-event.jpg" alt="배너/이벤트" class="img-banner" style="width: 100%;">
 	    </div>
 	</div>
 </section>
@@ -103,8 +102,9 @@
 	<!-- 상품 정보 -->
     <div id="productContainer">
         <div id="productInfo">
-            <h2 class="h2Class">상품정보</h2>
-            <p>상품 정보 내용</p>
+            <img src="../../img/dummy-detail-1.jpg" alt="상품정보" class="img-detail" style="width: 100%;">
+            <img src="../../img/dummy-detail-2.jpg" alt="상품정보" class="img-detail" style="width: 100%;">
+            <img src="../../img/dummy-detail-3.jpg" alt="상품정보" class="img-detail" style="width: 100%;">
         </div>
 
 		<!-- 상품후기 -->
@@ -273,9 +273,9 @@
 						        <!-- 상품명 -->
 						        <h5 class="fw-bolder" th:text="${product.productName}">상품명</h5>
 						        <!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
-						        <span th:if="${product != null and product.productDiscount == 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|" id="price">상품가격</span>
+						        <span th:if="${product != null and product.productDiscount == 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|">상품가격</span>
 						        <span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|" class="text-muted text-decoration-line-through">상품가격 취소선</span>
-						        <span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productDiscount, 0, 'COMMA')}원|" id="price">할인된가격</span>
+						        <span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|">할인된 가격</span>
 						    </div>
 						</div>
 					</a>
@@ -295,9 +295,9 @@
 
 	getReviewList(); /* 후기 목록 출력 */
 
-    const quantity = document.querySelector('#quantity');
-    const price = document.querySelector('#price');
-    const totalPrice = document.querySelector('#totalPrice');
+    const quantity = document.querySelector('#quantity'); /* 수량 */
+    const price = document.querySelector('#price').textContent.replace(/[,원]/g, ''); /* 가격 - ','와 '원' 제거 */
+    const totalPrice = document.querySelector('#totalPrice'); /* 총 금액 */
     let currentQuantity = 0;
 
     /* 수량 증가 */
@@ -315,13 +315,13 @@
     }
 
     /* 총 가격 */ 
-    function calculatePrice() {
-        const selectedQuantity = Number(quantity.value);
-        const result = selectedQuantity * Number(price.textContent);
-        totalPrice.textContent = result.toLocaleString() + " 원";
-    }
+	function calculatePrice() {
+	    const selectedQuantity = Number(quantity.value);
+	    const result = selectedQuantity * price;
+	    totalPrice.textContent = result.toLocaleString() + " 원";
+	}
 
-    /* 후기 출력 (AJAX) */
+    /* 후기 출력 */
     function getReviewList() {
         $.ajax({
             url: "/review/list",
@@ -347,7 +347,7 @@
         });
     }
 
-    /* 후기 등록 (AJAX) */
+    /* 후기 등록 */
 	$("#submitReview").on("click", function() {
         const reviewContent = $("#reviewContent").val();
         $.ajax({

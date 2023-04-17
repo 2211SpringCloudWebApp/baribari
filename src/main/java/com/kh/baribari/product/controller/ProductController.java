@@ -3,28 +3,32 @@ package com.kh.baribari.product.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.baribari.common.FileUpload;
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
 import com.kh.baribari.product.service.ProductService;
-import com.kh.baribari.product.service.ReviewService;
 
 @Controller
+@RequestMapping("shopping")
 public class ProductController {
 	
 	@Autowired
 	private ProductService pService;
 	@Autowired
-	private ReviewService rService;
+	@Qualifier("fileUpload")
+	private FileUpload fileUpload;
 	
 	// 상품 목록 및 갯수 출력
-	@GetMapping("shopping/list")
+	@GetMapping("/list")
 	public ModelAndView getProductList(
 			ModelAndView mv
 			, @RequestParam(value = "category", required = false, defaultValue = "All") String productCategory
@@ -69,7 +73,7 @@ public class ProductController {
 	}
 	
 	// 상품 상세 페이지 (상품 정보, 추천 상품 목록)
-	@GetMapping("shopping/detail")
+	@GetMapping("/detail")
 	public ModelAndView getProductDetail(ModelAndView mv, int productNo) {
 		try {
 			// 상품 정보

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8">
@@ -42,7 +43,6 @@
 
 <header id="header" class="fixed-top d-flex align-items-cente">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
-
         <h1 class="logo me-auto me-lg-0"><a href="index.html"><a href="/" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a></a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a> -->
@@ -77,10 +77,30 @@
             </ul>
             <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
-        <a href="#book-a-table" class="book-a-table-btn scrollto d-none d-lg-flex">Book a table</a>
-
+        <div sec:authorize="!isAuthenticated()">
+        <a href="/login" class="book-a-table-btn scrollto d-none d-lg-flex">로그인</a>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${#authentication.principal.user.userName}"></button>
+                    <ul class="dropdown-menu" sec:authorize="hasRole('ROLE_USER')">
+                        <li><button class="dropdown-item" type="button" onclick="location.href='mypage'">마이페이지</button></li>
+                        <li><button class="dropdown-item" type="button">주문내역</button></li>
+                        <li><button class="dropdown-item" type="button">장바구니</button></li>
+                        <li><button class="dropdown-item" type="button" onclick="location.href='/logout'">로그아웃</button></li>
+                    </ul>
+                <ul class="dropdown-menu" sec:authorize="hasRole('ROLE_MANAGER')">
+                    <li><button class="dropdown-item" type="button" onclick="location.href='mypage'">상점페이지</button></li>
+                    <li><button class="dropdown-item" type="button" onclick="location.href='/logout'">로그아웃</button></li>
+                </ul>
+                    <ul class="dropdown-menu" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <li><button class="dropdown-item" type="button" onclick="location.href='mypage'">관리자페이지</button></li>
+                        <li><button class="dropdown-item" type="button">주문내역</button></li>
+                        <li><button class="dropdown-item" type="button">장바구니</button></li>
+                    </ul>
+            </div>
+        </div>
     </div>
 </header><!-- End Header -->
 </body>
-
 </html>

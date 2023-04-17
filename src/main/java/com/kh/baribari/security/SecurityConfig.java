@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/")
                 .permitAll();
 
         return http.build();
@@ -48,7 +49,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer(){
-        return (web) -> web.ignoring().antMatchers("/static/js/**","/static/css/**", "/static/img/**", "/static/**" , "/template/**");
+        return (web) -> web.ignoring().antMatchers("/static/js/**","/static/css/**", "/static/img/**", "/static/**" , "/template/**","/static/assets/**");
     }
 
 }

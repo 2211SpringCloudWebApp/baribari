@@ -1,8 +1,11 @@
 package com.kh.baribari.user.user.domain;
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 
 @Data
 public class User {
@@ -19,7 +22,7 @@ public class User {
     private int userConform;
     private int userCount;
     private int userAble;
-    private String userRole;
+    private List<Role> roles;
 
 
 

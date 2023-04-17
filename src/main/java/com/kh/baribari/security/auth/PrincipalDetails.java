@@ -1,34 +1,36 @@
 package com.kh.baribari.security.auth;
 
+import com.kh.baribari.user.user.domain.Role;
 import com.kh.baribari.user.user.domain.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class PrincipalDetails implements UserDetails {
 
     private User user;
+    private List<GrantedAuthority> authorities;
 
-    public PrincipalDetails(User user){
+    public PrincipalDetails(User user, List<Role> roles) {
         this.user = user;
+        this.authorities = new ArrayList<>();
+        for (Role role : roles) {
+            this.authorities.add(new SimpleGrantedAuthority(role.getUserRole()));
+        }
     }
 
     public User getUser(){
         return user;
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> collect = new ArrayList<>();
-        collect.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return user.getUserRole();
-            }
-        });
-        return collect;
+        return authorities;
     }
 
     @Override

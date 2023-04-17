@@ -3,6 +3,8 @@
 <mapper namespace="ProductMapper">
 	<resultMap type="Product" id="productResultMap">
 		<id		property="productNo" column="PRODUCT_NO"/>
+		<result	property="productCategory" column="PRODUCT_CATEGORY"/>
+		<result	property="productBrand" column="PRODUCT_BRAND"/>
 		<result	property="productName" column="PRODUCT_NAME"/>
 		<result	property="productPrice" column="PRODUCT_PRICE"/>
 		<result	property="productContent" column="PRODUCT_CONTENT"/>
@@ -11,7 +13,6 @@
 		<result	property="productHashTag" column="PRODUCT_HASHTAG"/>
 		<result	property="productDiscount" column="PRODUCT_DISCOUNT"/>
 		<result	property="sellerUserNo" column="SELLER_USER_NO"/>
-		<result	property="productCategory" column="PRODUCT_CATEGORY"/>
 		<result	property="productPic1" column="PRODUCT_PIC_1"/>
 		<result	property="productPic2" column="PRODUCT_PIC_2"/>
 		<result	property="productPic3" column="PRODUCT_PIC_3"/>
@@ -31,7 +32,8 @@
         SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO)
     	<if test="productCategory != 'All'">
     		WHERE PRODUCT_CATEGORY = #{productCategory}
-    	</if> 
+    	</if>
+    	ORDER BY PRODUCT_NO DESC
     </select>
     
     <!-- 검색된 상품 목록 -->
@@ -40,6 +42,7 @@
     	<if test="productCategory != 'All'">
     		WHERE PRODUCT_CATEGORY = #{productCategory}
     	</if> 
+    	ORDER BY PRODUCT_NO DESC
     </select>
     
     <!-- 상품 상세 정보 -->

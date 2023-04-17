@@ -13,12 +13,15 @@ import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
 import com.kh.baribari.product.service.ProductService;
+import com.kh.baribari.product.service.ReviewService;
 
 @Controller
 public class ProductController {
 	
 	@Autowired
 	private ProductService pService;
+	@Autowired
+	private ReviewService rService;
 	
 	// 상품 목록 및 갯수 출력
 	@GetMapping("shopping/list")

@@ -1,4 +1,4 @@
-package com.kh.baribari.user.user.domain;
+package com.kh.baribari.user.domain;
 
 import lombok.Data;
 

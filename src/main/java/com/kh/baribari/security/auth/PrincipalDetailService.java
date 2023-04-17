@@ -1,8 +1,8 @@
 package com.kh.baribari.security.auth;
 
-import com.kh.baribari.user.user.domain.Role;
-import com.kh.baribari.user.user.domain.User;
-import com.kh.baribari.user.user.repository.UserRepository;
+import com.kh.baribari.user.domain.Role;
+import com.kh.baribari.user.domain.User;
+import com.kh.baribari.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

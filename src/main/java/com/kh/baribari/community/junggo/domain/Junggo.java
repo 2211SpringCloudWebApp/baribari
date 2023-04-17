@@ -1,6 +1,6 @@
 package com.kh.baribari.community.junggo.domain;
 
-import com.kh.baribari.user.user.domain.User;
+import com.kh.baribari.user.domain.User;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;

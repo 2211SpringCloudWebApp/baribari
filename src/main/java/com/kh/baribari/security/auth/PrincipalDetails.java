@@ -1,7 +1,7 @@
 package com.kh.baribari.security.auth;
 
-import com.kh.baribari.user.user.domain.Role;
-import com.kh.baribari.user.user.domain.User;
+import com.kh.baribari.user.domain.Role;
+import com.kh.baribari.user.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -175,12 +175,13 @@ h1, h2, h3, h4, h5, h6 {
 # Header
 --------------------------------------------------------------*/
 #header {
-  background: rgba(255, 255, 255, 0.6);
+  background: white;
   border-bottom: 1px solid rgba(12, 11, 9, 0.6);
   transition: all 0.5s;
   z-index: 997;
   padding: 15px 0;
   --top: 40px;
+  height: 150px;
 }
 
 #header.header-scrolled {
@@ -190,6 +191,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #header .logo {
+  width: 160px;
+  height: 100px;
   font-size: 28px;
   margin: 0;
   padding: 0;
@@ -205,7 +208,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #header .logo img {
-  max-height: 70px;
+  /*max-height: 70px;*/
 }
 
 /*--------------------------------------------------------------
@@ -339,6 +342,32 @@ h1, h2, h3, h4, h5, h6 {
   .navbar .dropdown .dropdown:hover > ul {
     left: -100%;
   }
+}
+
+/* search field*/
+.search-field{
+  border: 1px solid #fff;
+  border-bottom: 2px solid #3C86CC;
+  width: 400px;
+}
+
+.header-span{
+  margin-top: 10px;
+  color: black;
+  font-size: 18px;
+  font-weight: bold;
+  position: relative;
+  top: 20px;
+  margin-right: 20px;
+}
+
+.search-input{
+  width: 350px;
+  height: 40px;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  padding-left: 15px;
 }
 
 /**
@@ -1729,4 +1758,9 @@ section {
   text-align: center;
   font-size: 13px;
   color: #fff;
+}
+
+/*헤더 마이페이지 버튼 관련 CSS */
+.my-btn{
+  padding: 6px 18px 6px 18px;
 }

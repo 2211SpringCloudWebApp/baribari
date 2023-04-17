@@ -1,8 +1,8 @@
-package com.kh.baribari.user.user.service.logic;
+package com.kh.baribari.user.service.logic;
 
-import com.kh.baribari.user.user.domain.User;
-import com.kh.baribari.user.user.repository.UserRepository;
-import com.kh.baribari.user.user.service.UserService;
+import com.kh.baribari.user.repository.UserRepository;
+import com.kh.baribari.user.domain.User;
+import com.kh.baribari.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

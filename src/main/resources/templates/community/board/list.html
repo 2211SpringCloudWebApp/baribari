@@ -3,8 +3,10 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>게시글 목록</title>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
 		<link href="css/community/board/list.css" rel="stylesheet">
+		
 		<!-- Favicons -->
 		<link href="assets/img/favicon.png" rel="icon">
 		<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -27,10 +29,10 @@
 		<link href="assets/css/style.css" rel="stylesheet">
 	</head>
 	<body>
+        <header>
+            <div th:replace="header :: header"></div>
+        </header>
         <div id="container">
-            <header>
-                <div th:replace="header :: header"></div>
-            </header>
             <main>
                 <!--자유게시판 리스트 헤더-->
                 <table id="flist-heard">
@@ -41,11 +43,11 @@
                     </tr>
                     <tr>
                         <td>
-                        	<a href="#">전체</a>
+                        	<a href="boardList?category=9">전체</a>
                         	/
-                            <a href="#">캠핑지</a>
+                            <a href="boardList?category=1">캠핑지</a>
                             /
-                            <a href="#">잡담</a>
+                            <a href="boardList?category=0">잡담</a>
                         </td>
                         <td>
                             <input type="checkbox" id="checkbox1" name="checkbox1" value="value1" onchange="uncheckOthers('checkbox1')">
@@ -73,6 +75,8 @@
                         <td>조회수<button id="flist-views">∨</button></td>
                     </tr>
                     <!-- 게시글 목록 출력하는 부분 한 페이지당 10개 -->
+                    <tr id="board-wrapper">
+                    </tr>
                     <tr th:each="community, num : ${bList}">
                         <td th:text="${num.count}"></td>
                         <td>
@@ -96,6 +100,7 @@
                         <td th:text="${community.communityDate}"></td>
                         <td th:text="${community.viewCount}"></td>
                     </tr>
+                    <!-- 게시글 목록 출력하는 부분 한 끝 -->
                     <tr>
                         <td colspan="7">
                             <a href="board/register"></a>
@@ -112,7 +117,8 @@
                 </table>
             </main>
 
-            <script>	
+            <script>
+            
 	            // 커뮤니티 카테고리에 따라 카테고리 이름을 반환하는 함수
 	            function getCommunityCategoryName(category) {
 	                switch (category) {
@@ -159,9 +165,9 @@
                     }
                 });
             </script>
-            <footer>
-                <div th:replace="footer :: footer"></div>
-            </footer>
         </div>
+		<footer>
+		    <div th:replace="footer :: footer"></div>
+		</footer>
     </body>
 </html>

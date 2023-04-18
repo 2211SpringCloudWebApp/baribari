@@ -177,7 +177,7 @@
     color: #081333;
 }
 
-.writeReview button[type="submit"] {
+.writeReview button[type="button"] {
     padding: 5px 10px;
     background-color: #081333;
     color: #fff;
@@ -356,7 +356,7 @@
     color: #081333;
 }
 
-.writeQnA button[type="submit"] {
+.writeQnA button[type="button"] {
     padding: 5px 10px;
     background-color: #081333;
     color: #fff;

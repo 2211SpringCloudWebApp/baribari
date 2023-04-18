@@ -1,5 +1,6 @@
 package com.kh.baribari.product.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,23 +34,47 @@ public class ReviewController {
 	@PostMapping("review/register")
 	@ResponseBody
 	public String registerReview(
-			@RequestParam(value = "uploadFile", required = false) MultipartFile multi
+			@RequestParam(value = "fileList", required = false) List<MultipartFile> fList
 			, @ModelAttribute Review review
 			, HttpServletRequest request) {
-		Map<String, String> fileInfo = null;
-		try {
-			String path = "shopping/review";
-			fileInfo = fileUpload.saveFile(multi, request, path);
-			int result = rService.registerReview(review);
-			if (result > 0) {
-				return "1";
-			} else {
-				return "0";
+		Map<String, String> fMap = new HashMap<String, String>();
+	    try {
+	    	// 파일 경로
+	        String path = "shopping\\review";
+	        int i = 1;
+	        // 첨부파일이 있을 경우 파일 저장
+	        if (fList != null) {
+	        	for (MultipartFile file : fList) {
+	        		Map<String, String> fileInfo = fileUpload.saveFile(file, request, path);
+	        		for (String k : fileInfo.keySet()) {
+	        			String key = "file" + i;
+	        			String value = fileInfo.get(k);
+	        			fMap.put(key, value);
+	        			if (i == 1) {
+	        				review.setReviewPic1(value);
+	        			} else if (i == 2) {
+	        				review.setReviewPic2(value);
+	        			} else if (i == 3) {
+	        				review.setReviewPic3(value);
+	        			} else if (i == 4) {
+	        				review.setReviewPic4(value);
+	        			} else if (i == 5) {
+	        				review.setReviewPic5(value);
+	        			}
+	        		}
+	        		i++;
+	        	}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return e.getMessage();
-		}
+	        int result = rService.registerReview(review);
+	        if (result > 0) {
+	            return "1";
+	        } else {
+	            return "0";
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return e.getMessage();
+	    }
 	}
 	
 	// 상품 후기 목록 출력

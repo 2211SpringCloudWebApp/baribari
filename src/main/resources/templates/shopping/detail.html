@@ -114,10 +114,10 @@
             <!-- 후기 작성 -->
             <div class="writeReview">
                 <h3>상품후기 작성</h3>
-                <form id="reviewForm">
+                <form id="reviewForm" action="/review/register" method="post" enctype="multipart/form-data">
                     <textarea id="reviewContent" placeholder="내용"></textarea>
                     <label for="photoInput">사진 첨부</label>
-                    <input type="file" id="photoInput" accept="image/*" name="fileUpload">
+                    <input type="file" id="photoInput" accept="image/*" name="fileUpload" multiple>
                     <button type="button" id="submitReview">등록</button>
                 </form>
             </div>
@@ -145,27 +145,41 @@
             <h2 class="h2Class">상품문의</h2>
             <div class="writeQnA">
                 <h3>상품 문의작성</h3>
-                <form id="qnaForm">
+                <form>
                     <input type="text" placeholder="제목" />
-                    <textarea placeholder="내용" id="qnaContent" name="qnaContent"></textarea>
-                    <button type="button" id="submitQnA">등록</button>
+                    <textarea placeholder="내용"></textarea>
+                    <button type="submit">등록</button>
                 </form>
 
             </div>
             <ul id="qnaBoard">
                 <li class="qnaTitle">
-                    <span>번호</span>
-                    <span>제목</span>
-                    <span>작성자</span>
-                    <span>작성날짜</span>
-                    <span>조회수</span>
+                    <span class="num">번호</span>
+                    <span class="title">제목</span>
+                    <span class="author">작성자</span>
+                    <span class="date">작성날짜</span>
+                    <span class="views">조회수</span>
                 </li>
                 <li>
-                    <span class="num">번호1</span>
+                    <span class="num">1</span>
                     <span class="title">제목1</span>
                     <span class="author">작성자1</span>
                     <span class="date">2023-04-13</span>
                     <span class="views">100</span>
+                </li>
+                <li>
+                    <span class="num">2</span>
+                    <span class="title">제목2</span>
+                    <span class="author">작성자2</span>
+                    <span class="date">2023-04-14</span>
+                    <span class="views">50</span>
+                </li>
+                <li>
+                    <span class="num">3</span>
+                    <span class="title">제목3</span>
+                    <span class="author">작성자3</span>
+                    <span class="date">2023-04-15</span>
+                    <span class="views">20</span>
                 </li>
             </ul>
             <ul id="qnaPagination">
@@ -318,7 +332,7 @@
                 for(var i=0; i<rList.length; i++) {
                     reviewListHtml += "<li>"
                                     + "<span class='num'>" + (rList.length - i) + "</span>" /* 후기 번호 (역순) */
-                                    + "<span class='title'>" + rList[i].reviewContent + "</span>" /* 후기 내용 */
+                                    + "<span class='title'>" + rList[i].reviewContent.replace(/\n/g, "<br>") + "</span>" /* 후기 내용 */
                                     + "<span class='author'>" + rList[i].userNo + "</span>" /* 후기 작성자 */
                                     + "<span class='date'>후기날짜</span>" /* 후기 작성일 */
                                     + "</li>";   
@@ -334,78 +348,35 @@
 
     /* 후기 등록 */
 	$("#submitReview").on("click", function() {
-        const reviewContent = $("#reviewContent").val();
-        $.ajax({
-            url: "/review/register",
-            data: {
-                "reviewContent": reviewContent,
-                "productNo": productNo
-            },
-            type: "post",
-            success: function(result) {
-                    if(result == "1") {
-                        alert("후기 등록 완료");
-                        getReviewList();
-                    } else {
-                        alert("후기 등록 실패");
-                        console.log(result);
-                    }
-                },
-                error: function() {
-                    alert("처리 실패");
-                }
-        });
-    });
-    
-	 // QnA 목록 보이기
-    function getQnAList() {
-        $.ajax({
-            url: "/qna/list",
-            data: {"productNo": productNo },
-            type: "get",
-            dataType: "json",
-            success: function(qList) {
-                var qnaListHtml = "";
-                for(var i=0; i<qList.length; i++) {
-                	qnaListHtml += "<li>"
-                                    + "<span class='num'>" + (qList.length - i) + "</span>" /* 문의 번호 (역순) */
-                                    + "<span class='title'>" + qList[i].qnaContent + "</span>" /* 문의 내용 */
-                                    + "<span class='author'>" + qList[i].userNo + "</span>" /* 문의 작성자 */
-                                    + "<span class='date'>작성날짜</span>" /* 문의 작성일 */
-                                    + "</li>";   
-                }
-                $("#qnaBoard").empty();
-                $("#qnaBoard").append(qnaListHtml);
-            },
-            error: function() {
-                alert("처리 실패");
-            }
-        });
-    }
-	 
-    // QnA 등록 
-	$("#submitQnA").on("click", function() {
-        const qnaContent = $("#qnaContent").val();
-        $.ajax({
-            url: "/qna/register",
-            data: {
-                "qnaContent": qnaContent,
-                "productNo": productNo
-            },
-            type: "post",
-            success: function(result) {
-                    if(result == "1") {
-                        alert("상품문의 등록 완료");
-                        getQnAList();
-                    } else {
-                        alert("상품문의 등록 실패");
-                        console.log(result);
-                    }
-                },
-                error: function() {
-                    alert("처리 실패");
-                }
-        });
+		const formData = new FormData();
+		const fileList = document.querySelector("#photoInput").files;
+
+		for (let i = 0; i < fileList.length; i++) {
+		  formData.append("fileList", fileList[i]);
+		}
+
+		formData.append("reviewContent", reviewContent.value);
+		formData.append("productNo", productNo);
+
+		$.ajax({
+		  url: "/review/register",
+		  data: formData,
+		  type: "post",
+		  processData: false,
+		  contentType: false,
+		  success: function(result) {
+		    if (result == "1") {
+		      alert("후기 등록 완료");
+		      getReviewList();
+		    } else {
+		      alert("후기 등록 실패");
+		      console.log(result);
+		    }
+		  },
+		  error: function() {
+		    alert("처리 실패");
+		  }
+		});
     });
 </script>
 </body>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.community.board.repository.BoardRepository;
 import com.kh.baribari.community.domain.Community;
+import com.kh.baribari.community.domain.HashTag;
 
 @Repository
 public class BoardRepositoryLogic implements BoardRepository {
@@ -19,14 +20,24 @@ public class BoardRepositoryLogic implements BoardRepository {
 	}
 
 	@Override
-	public List<Community> getBoardListAll(SqlSession session, PageInfo pi) {
+	public List<Community> getBoardListAll(SqlSession session, PageInfo pi, int category) {
 		RowBounds rowBounds = new RowBounds(pi.getOffset(), pi.getBoardLimit());
-		return session.selectList("CommunityMapper.getBoardListAll", rowBounds);
+		return session.selectList("CommunityMapper.getBoardListAll",category , rowBounds);
 	}
 
 	@Override
 	public int getListCount(SqlSession session, int boardNo) {
 		return session.selectOne("CommunityMapper.getListCount", boardNo);
+	}
+
+	@Override
+	public List<HashTag> getHashTag(SqlSession session,int boardNo) {
+		return session.selectList("CommunityMapper.getHashTag", boardNo);
+	}
+
+	@Override
+	public int registerHashTag(SqlSession session, HashTag hTag) {
+		return session.insert("CommunityMapper.registerHashTag", hTag);
 	}
 
 }

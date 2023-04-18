@@ -29,12 +29,32 @@
 		<result	property="communityPic10"	column="COMMUNITY_PIC_10"		/>
 	</resultMap>
 	
+	<resultMap type="HashTag" id="HashTagResultMap">
+		<id		property="communityNo"	column="COMMUNITY_NO"	/>
+		<result	property="hashTag" 		column="HASH_TAG_NAME"	/>
+	</resultMap>
+	
+	<select id="getHashTag" resultMap="HashTagResultMap">
+		SELECT * FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{boardNo}
+	</select>
+	
+	<insert id="registerHashTag">
+		INSERT INTO HASH_TAG_TBL VALUES(#{communityNo},'#{hashTag}');
+	</insert>
+	
 	<select id="getBoardCount" resultType="_int">
 		SELECT COUNT(*) FROM COMMUNITY_TBL WHERE COMMUNITY_CATEGORY IN (0,1)
 	</select>
 	
 	<select id="getBoardListAll" resultMap="communityResultMap">
-		SELECT * FROM COMMUNITY_TBL WHERE COMMUNITY_CATEGORY IN (0, 1)
+		SELECT * FROM COMMUNITY_TBL WHERE 
+		<if test="category == 0">
+		COMMUNITY_CATEGORY = 0 AND
+		</if>
+		<if test="category == 1">
+		COMMUNITY_CATEGORY = 1 AND
+		</if>
+		COMMUNITY_CATEGORY IN (0, 1)
 	</select>
 	
 	<select id="getListCount">

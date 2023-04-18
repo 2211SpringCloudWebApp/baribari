@@ -1,166 +1,626 @@
 <!DOCTYPE html>
 <html lang="ko"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
->
-<head>
-  <!-- Required meta tags -->
+      xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="community/fragments :: head">
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <title>Hello, world!</title>
+  <title>바리바리 커뮤니티</title>
+  <meta content="width=device-width, initial-scale=1.0" name="view">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+  <!-- Favicons -->
+  <link href="../../static/img/바리바리로고_낮_컬러.png" rel="icon">
+  <link href="../../static/img/community/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Bootstrap CSS File -->
+  <link href="../../static/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="../../static/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="../../static/lib/animate/animate.css" rel="stylesheet">
+  <link href="../../static/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="../../static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="../../static/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="../../static/css/community/community.css" rel="stylesheet">
+
+
+  <!-- JavaScript Libraries -->
+  <script src="../../static/lib/jquery/jquery.min.js"></script>
+  <script src="../../static/lib/jquery/jquery-migrate.min.js"></script>
+  <script src="../../static/lib/popper/popper.min.js"></script>
+  <script src="../../static/lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../../static/lib/easing/easing.min.js"></script>
+  <script src="../../static/lib/counterup/jquery.waypoints.min.js"></script>
+  <script src="../../static/lib/counterup/jquery.counterup.js"></script>
+  <script src="../../static/lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="../../static/lib/lightbox/js/lightbox.min.js"></script>
+  <script src="../../static/lib/typed/typed.min.js"></script>
+
+  <!-- Template Main Javascript File -->
+  <script src="../../static/js/community/community.js" defer></script>
+  <style>
+    #home{
+      background-image: url("../../static/img/camping/night-ged7e95dc0_1920.jpg");
+    }
+  </style>
 </head>
+<body id="page-top">
+  
 
-<body >
-<div id="header" th:replace="fragment :: #header">
-  타임리프 렌더링시 제작된 헤더로 치환
-  <hr>
-</div>
+<nav th:replace="community/fragments :: nav"></nav>
 
-<main class="container">
-  <!--              1                                                         -->
-  <div class="row mt-5 justify-content-center">
-    <div class="col-6">
-      <section class="recommendation">
-        <!-- <div class="container"> -->
-        <table class="table caption-top">
-          <caption class="bg-black text-white">추천글 목록</caption>
-          <thead class="table-dark">
-
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
-          </tbody>
-        </table>
-        <nav class="navbar navbar-light bg-light">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#"> 추천글 전체보기 ></a>
-          </div>
-        </nav>
-        <!-- </div> -->
-      </section>
-    </div>
-    <!--              2                                                         -->
-    <div class="col">
-      <div class="row-cols-6">
-        <!-- <section class="recommendation"> -->
-        <!-- <div class="container"> -->
-        <table class="table caption-top">
-          <caption class="bg-black text-white">추천글 목록</caption>
-          <thead class="table-dark">
-
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
-          </tbody>
-        </table>
-        <nav class="navbar navbar-light bg-light">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#"> 추천글 전체보기 ></a>
-          </div>
-        </nav>
-        <!-- </div> -->
-        <!-- </section> -->
-      </div>
-      <!--              3                                                         -->
-
-      <div class="row-cols-6">
-        <!-- <section class="latest"> -->
-        <!-- <div class="container"> -->
-        <table class="table caption-top">
-          <caption class="bg-black text-white">최신글 목록</caption>
-          <thead class="table-dark">
-
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
-          </tr>
-          </tbody>
-        </table>
-        <nav class="navbar navbar-light bg-light">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#"> 최신글 전체보기 ></a>
-          </div>
-        </nav>
-        <!-- </div> -->
-        <!-- </section> -->
+<!--/ Intro Skew Star /-->
+<div id="home" class="intro route bg-image">
+  <!--     style="background-image: url(../../static/img/camping/night-ged7e95dc0_1920.jpg)"-->
+  >
+  <div class="overlay-itro"></div>
+  <div class="intro-content display-table">
+    <div class="table-cell">
+      <div class="container">
+        <!--<p class="display-6 color-d">Hello, world!</p>-->
+        <h1 class="intro-title mb-4">바리바리 커뮤니티</h1>
+        <p class="intro-subtitle"><span class="text-slider-items">자유게시판 / 중고게시판</span><strong class="text-slider"></strong></p>
+        <!-- <p class="pt-3"><a class="btn btn-primary btn js-scroll px-4" href="#about" role="button">Learn More</a></p> -->
       </div>
     </div>
   </div>
+</div>
+<!--/ Intro Skew End /-->
 
-</main>
+<section id="about" class="about-mf sect-pt4 route">
+  <div class="container">
 
-<!--<footer th:replace="header :: footer">-->
-<!--  <hr>-->
-<!--  타임리프 렌더링시 제작된 푸터로 치환-->
-<!--</footer>-->
+    <div class="row">
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+      <div class="col-sm-12">
+      
+        <div class="box-shadow-full">
+      
+          <div class="row">
+      <!-- 좌 -->
+            <div class="col-md-6">
+              <div class="about-me pt-4 pt-md-0">
+                <div class="title-box-2">
+                  <h5 class="title-left">
+                   추천글
+                  </h5>
+                </div>
+                <p class="lead"> 추천글 목록 테이블 자리
+                </p>
+              </div>
+            </div>
+           
+           <!-- 우 -->
+            <div class="col-md-6">
+              <div class="about-me pt-4 pt-md-0">
+                <div class="title-box-2">
+                  <h5 class="title-left">
+                   최신글
+                  </h5>
+                </div>
+                <p class="lead"> 최신글 목록 테이블 자리
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--/ Section Services Star /-->
+<section id="service" class="services-mf route">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="title-box text-center">
+          <h3 class="title-a">
+            [고인물 사용자 목록(보류) ]
+          </h3>
+          <p class="subtitle-a">
+            생각
+            1. 고인물 사용자의 프로필을 보여줌
+            2. 고인물 사용자의 추천 여행지를 보여줌 
+          </p>
+          <div class="line-mf"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="service-box">
+          <div class="service-ico">
+            <span class="ico-circle"><i class="ion-monitor"></i></span>
+          </div>
+          <div class="service-content">
+            <h2 class="s-title">Web Design</h2>
+            <p class="s-description text-center">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
+              provident vitae! Magni
+              tempora perferendis eum non provident.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="service-box">
+          <div class="service-ico">
+            <span class="ico-circle"><i class="ion-code-working"></i></span>
+          </div>
+          <div class="service-content">
+            <h2 class="s-title">Web Development</h2>
+            <p class="s-description text-center">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
+              provident vitae! Magni
+              tempora perferendis eum non provident.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="service-box">
+          <div class="service-ico">
+            <span class="ico-circle"><i class="ion-camera"></i></span>
+          </div>
+          <div class="service-content">
+            <h2 class="s-title">Photography</h2>
+            <p class="s-description text-center">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
+              provident vitae! Magni
+              tempora perferendis eum non provident.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="service-box">
+          <div class="service-ico">
+            <span class="ico-circle"><i class="ion-android-phone-rait"></i></span>
+          </div>
+          <div class="service-content">
+            <h2 class="s-title">Responsive Design</h2>
+            <p class="s-description text-center">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
+              provident vitae! Magni
+              tempora perferendis eum non provident.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="service-box">
+          <div class="service-ico">
+            <span class="ico-circle"><i class="ion-paintbrush"></i></span>
+          </div>
+          <div class="service-content">
+            <h2 class="s-title">Graphic Design</h2>
+            <p class="s-description text-center">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
+              provident vitae! Magni
+              tempora perferendis eum non provident.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="service-box">
+          <div class="service-ico">
+            <span class="ico-circle"><i class="ion-stats-bars"></i></span>
+          </div>
+          <div class="service-content">
+            <h2 class="s-title">Marketing Services</h2>
+            <p class="s-description text-center">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni adipisci eaque autem fugiat! Quia,
+              provident vitae! Magni
+              tempora perferendis eum non provident.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/ Section Services End /-->
+
+<div class="section-counter paralax-mf bg-image" style="background-image: url(img/counters-bg.jpg)">
+  <div class="overlay-mf"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3 col-lg-3">
+        <div class="counter-box">
+          <div class="counter-ico">
+            <span class="ico-circle"><i class="ion-checkmark-round"></i></span>
+          </div>
+          <div class="counter-num">
+            <p class="counter">450</p>
+            <span class="counter-text">WORKS COMPLETED</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 col-lg-3">
+        <div class="counter-box pt-4 pt-md-0">
+          <div class="counter-ico">
+            <span class="ico-circle"><i class="ion-ios-calendar-outline"></i></span>
+          </div>
+          <div class="counter-num">
+            <p class="counter">15</p>
+            <span class="counter-text">YEARS OF EXPERIENCE</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 col-lg-3">
+        <div class="counter-box pt-4 pt-md-0">
+          <div class="counter-ico">
+            <span class="ico-circle"><i class="ion-ios-people"></i></span>
+          </div>
+          <div class="counter-num">
+            <p class="counter">550</p>
+            <span class="counter-text">TOTAL CLIENTS</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 col-lg-3">
+        <div class="counter-box pt-4 pt-md-0">
+          <div class="counter-ico">
+            <span class="ico-circle"><i class="ion-ribbon-a"></i></span>
+          </div>
+          <div class="counter-num">
+            <p class="counter">36</p>
+            <span class="counter-text">AWARD WON</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--/ Section folio Star /-->
+<section id="work" class="folio-mf sect-pt4 route">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="title-box text-center">
+          <h3 class="title-a">
+            중고게시판
+          </h3>
+          <p class="subtitle-a">
+            최근에 올라온 따끈따끈한 캠핑 용품이에요 
+          </p>
+          <div class="line-mf"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="work-box">
+          <a href="../../static/img/community/work-1.jpg" data-lightbox="gallery-mf">
+            <div class="work-img">
+              <img src="../../static/img/community/work-1.jpg"
+                   th:src="@{img/community/work-1.jpg}" alt="" class="img-fluid">
+            </div>
+            <div class="work-content">
+              <div class="row">
+                <div class="col-sm-8">
+                  <h2 class="w-title">상품</h2>
+                  <div class="w-more">
+                    <span class="w-ctegory">Web Design</span> / <span class="w-date">18 Sep. 2018</span>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="w-like">
+                    <span class="ion-ios-plus-outline"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="work-box">
+          <a href="../../static/img/community/work-2.jpg" data-lightbox="gallery-mf">
+            <div class="work-img">
+              <img src="../../static/img/community/work-2.jpg"
+                   th:src="@{img/community/work-2.jpg}" alt="" class="img-fluid">
+            </div>
+            <div class="work-content">
+              <div class="row">
+                <div class="col-sm-8">
+                  <h2 class="w-title">상품</h2>
+                  <div class="w-more">
+                    <span class="w-ctegory">Web Design</span> / <span class="w-date">18 Sep. 2018</span>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="w-like">
+                    <span class="ion-ios-plus-outline"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="work-box">
+          <a href="../../static/img/community/work-3.jpg" data-lightbox="gallery-mf">
+            <div class="work-img">
+              <img src="../../static/img/community/work-3.jpg"
+                   th:src="@{img/community/work-3.jpg}" alt="" class="img-fluid">
+            </div>
+            <div class="work-content">
+              <div class="row">
+                <div class="col-sm-8">
+                  <h2 class="w-title">상품</h2>
+                  <div class="w-more">
+                    <span class="w-ctegory">Web Design</span> / <span class="w-date">18 Sep. 2018</span>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="w-like">
+                    <span class="ion-ios-plus-outline"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="work-box">
+          <a href="../../static/img/community/work-4.jpg" data-lightbox="gallery-mf">
+            <div class="work-img">
+              <img src="../../static/img/community/work-4.jpg"
+                   th:src="@{img/community/work-4.jpg}" alt="" class="img-fluid">
+            </div>
+            <div class="work-content">
+              <div class="row">
+                <div class="col-sm-8">
+                  <h2 class="w-title">상품</h2>
+                  <div class="w-more">
+                    <span class="w-ctegory">Web Design</span> / <span class="w-date">18 Sep. 2018</span>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="w-like">
+                    <span class="ion-ios-plus-outline"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="work-box">
+          <a href="../../static/img/community/work-5.jpg" data-lightbox="gallery-mf">
+            <div class="work-img">
+              <img src="../../static/img/community/work-5.jpg"
+                   th:src="@{img/community/work-5.jpg}" alt="" class="img-fluid">
+            </div>
+            <div class="work-content">
+              <div class="row">
+                <div class="col-sm-8">
+                  <h2 class="w-title">상품</h2>
+                  <div class="w-more">
+                    <span class="w-ctegory">Web Design</span> / <span class="w-date">18 Sep. 2018</span>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="w-like">
+                    <span class="ion-ios-plus-outline"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="work-box">
+          <a href="../../static/img/community/work-6.jpg" data-lightbox="gallery-mf">
+            <div class="work-img">
+              <img src="../../static/img/community/work-6.jpg"
+                   th:src="@{img/community/work-6.jpg}" alt="" class="img-fluid">
+            </div>
+            <div class="work-content">
+              <div class="row">
+                <div class="col-sm-8">
+                  <h2 class="w-title">상품</h2>
+                  <div class="w-more">
+                    <span class="w-ctegory">Web Design</span> / <span class="w-date">18 Sep. 2017</span>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="w-like">
+                    <span class="ion-ios-plus-outline"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!--/ Section folio End /-->
+
+<!--/ Section Testimonials Star /-->
+<div class="testimonials paralax-mf bg-image" style="background-image: url(img/overlay-bg.jpg)">
+  <div class="overlay-mf"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div id="testimonial-mf" class="owl-carousel owl-theme">
+          <div class="testimonial-box">
+            <div class="author-test">
+              <!-- <img src="../../static/img/community/testimonial-2.jpg" alt="" class="rounded-circle b-shadow-a"> -->
+              <span class="author">[띠 형태의 캐러샐 색션] - 좋아요 많은  중고 물품  </span>
+            </div>
+            <div class="content-test">
+              <p class="description lead">
+               아무말
+              </p>
+              <span class="comit"><i class="fa fa-quote-right"></i></span>
+            </div>
+          </div>
+          <div class="testimonial-box">
+            <div class="author-test">
+              <!-- <img src="../../static/img/community/testimonial-4.jpg" alt="" class="rounded-circle b-shadow-a"> -->
+              <span class="author">[띠 형태의 캐러샐 색션] - 좋아요 많은  중고 물품</span>
+            </div>
+            <div class="content-test">
+              <p class="description lead">
+                아무말
+              </p>
+              <span class="comit"><i class="fa fa-quote-right"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--/ Section Blog Star /-->
+<section id="blog" class="blog-mf sect-pt4 route">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="title-box text-center">
+          <h3 class="title-a">
+            바리바리 특가
+          </h3>
+          <p class="subtitle-a">
+            바리바리 특가 상품 
+          </p>
+          <div class="line-mf"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card card-blog">
+          <div class="card-img">
+            <a href="blog-single.html"><img src="../../static/img/community/post-1.jpg"
+                                            th:src="@{img/community/post-1.jpg}" alt="" class="img-fluid"></a>
+          </div>
+          <div class="card-body">
+            <div class="card-category-box">
+              <div class="card-category">
+                <h6 class="category">차박용 담요</h6>
+              </div>
+            </div>
+            <h3 class="card-title"><a href="blog-single.html">쇼핑몰 특가 상품</a></h3>
+            <p class="card-description">
+              바리바리 특가 상품 광고 
+              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다 
+            </p>
+          </div>
+          <div class="card-footer">
+            <div class="post-author">
+              <a href="#">
+                <img src="../../static/img/community/testimonial-2.jpg"
+                     th:src="@{img/community/testimonial-2.jpg}" alt="" class="avatar rounded-circle">
+                <span class="author">캠핑 고래</span>
+              </a>
+            </div>
+            <div class="post-date">
+              <span class="ion-ios-clock-outline"></span> 10 min
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card card-blog">
+          <div class="card-img">
+            <a href="blog-single.html"><img src="../../static/img/community/post-2.jpg"
+                                            th:src="@{img/community/post-2.jpg}" alt="" class="img-fluid"></a>
+          </div>
+          <div class="card-body">
+            <div class="card-category-box">
+              <div class="card-category">
+                <h6 class="category">캠핑용 재료</h6>
+              </div>
+            </div>
+            <h3 class="card-title"><a href="blog-single.html">쇼핑몰 특가 상품</a></h3>
+            <p class="card-description">
+              바리바리 특가 상품 광고 
+              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다 
+            </p>
+          </div>
+          <div class="card-footer">
+            <div class="post-author">
+              <a href="#">
+                <img src="../../static/img/community/testimonial-2.jpg"
+                     th:src="@{img/community/testimonial-2.jpg}" alt="" class="avatar rounded-circle">
+                <span class="author">판매자</span>
+              </a>
+            </div>
+            <div class="post-date">
+              <span class="ion-ios-clock-outline"></span> 30 min
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card card-blog">
+          <div class="card-img">
+            <a href="blog-single.html"><img src="../../static/img/community/post-3.jpg"
+                                            th:src="@{img/community/post-3.jpg}" alt="" class="img-fluid"></a>
+          </div>
+          <div class="card-body">
+            <div class="card-category-box">
+              <div class="card-category">
+                <h6 class="category">안식월을 위한 패키지 상품</h6>
+              </div>
+            </div>
+            <h3 class="card-title"><a href="blog-single.html">쇼핑몰 특가 상품</a></h3>
+            <p class="card-description">
+              바리바리 특가 상품 광고 
+              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다 
+
+            </p>
+          </div>
+          <div class="card-footer">
+            <div class="post-author">
+              <a href="#">
+                <img src="../../static/img/community/testimonial-2.jpg"
+                     th:src="@{img/community/testimonial-2.jpg}" alt="" class="avatar rounded-circle">
+                <span class="author">자매판</span>
+              </a>
+            </div>
+            <div class="post-date">
+              <span class="ion-ios-clock-outline"></span> 50 min
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/ Section Blog End /-->
+
+<!--/ Section Contact-Footer Star /-->
+<section class="paralax-mf footer-paralax bg-image sect-mt4 route"
+         style="background-image: url(../../static/img/community/overlay-bg.jpg)">
+  <div class="overlay-mf"></div>
+  <footer th:replace="community/fragments :: footer"></footer>
+</section>
+<!--/ Section Contact-footer End /-->
+
+<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+<div id="preloader"></div>
+
+
 </body>
+
 </html>

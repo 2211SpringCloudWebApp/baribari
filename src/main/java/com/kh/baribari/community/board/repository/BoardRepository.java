@@ -47,4 +47,18 @@ public interface BoardRepository {
 	 */
 	public int registerHashTag(SqlSession session, HashTag hTag);
 
+	/**
+	 * 시퀀스넘버 미리 가져오기
+	 * @return
+	 */
+	public int getSEQ(SqlSession session);
+
+	/**
+	 * 게시글 등록
+	 * @param session
+	 * @param commu
+	 * @return
+	 */
+	public int boardRegister(SqlSession session, Community commu);
+
 }

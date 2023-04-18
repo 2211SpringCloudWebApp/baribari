@@ -34,12 +34,32 @@
 		<result	property="hashTag" 		column="HASH_TAG_NAME"	/>
 	</resultMap>
 	
+	<select id="getSEQ">
+		SELECT COMMUNITY_SEQ.NEXTVAL FROM DUAL
+	</select>
+	
 	<select id="getHashTag" resultMap="HashTagResultMap">
-		SELECT * FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{boardNo}
+		SELECT HASH_TAG_NAME FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{boardNo}
 	</select>
 	
 	<insert id="registerHashTag">
-		INSERT INTO HASH_TAG_TBL VALUES(#{communityNo},'#{hashTag}');
+		INSERT INTO HASH_TAG_TBL VALUES(#{communityNo}, #{hashTag})
+	</insert>
+	
+	<insert id="boardRegister">
+		INSERT INTO COMMUNITY_TBL VALUES(
+			#{communityNo},
+			#{communitySubject},
+			#{communityContent},
+			#{communityCategory},
+			DEFAULT,
+			#{mapX},
+			#{mapY},
+			DEFAULT,
+			#{userNo},
+			DEFAULT,
+			DEFAULT
+		)
 	</insert>
 	
 	<select id="getBoardCount" resultType="_int">

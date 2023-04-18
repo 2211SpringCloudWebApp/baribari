@@ -6,4 +6,6 @@ import lombok.Data;
 public class HashTag {
 	private int communityNo;
 	private String hashTag;
+	
+	public HashTag() {}
 }

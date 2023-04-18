@@ -53,26 +53,69 @@ public class BoardController {
 			return mv;
 		}
 	}
-	
+	//게시글 등록
+		@GetMapping("boardRegister")
+		public String boardRegister() {
+			return "community/board/register";
+		}
+		/*
 	//게시글 등록
 	@GetMapping("boardRegister")
-	public String boardRegister() {
+	public String boardRegister(
+			@RequestParam(value = "subject", required = false) String subject
+			,@RequestParam(value = "content", required = false) String content
+			,@RequestParam(value = "category", required = false) Integer category
+			,@RequestParam(value = "mapX", required = false) Integer mapX
+			,@RequestParam(value = "mapY", required = false) Integer mapY
+			,@RequestParam(value = "userNo", required = false) Integer userNo
+			) {
+		try {
+			int seq = bService.getSEQ(); // 시퀀스 넘거를 받아옴
+			
+			Community commu = new Community();		// 정보를 담은 해시태그 생성
+			commu.setCommunityNo(seq);				// 시퀀스넘버
+			commu.setCommunitySubject(subject);		// 제목
+			commu.setCommunityContent(content);		// 내용
+			commu.setCommunityCategory(category);	// 말머리
+			commu.setMapX(mapX);					// 지도API X좌표
+			commu.setMapY(mapY);					// 지도API Y좌표
+			commu.setUserNo(userNo);				// 작성자 No
+			
+			int result = bService.boardRegister(commu);
+			
+			if(result > 0) {
+				return "community/board/register";
+			}else {
+				return "0";
+			}
+			
+		} catch (Exception e) {
+			return e.getMessage();
+		}
 		
-		return "community/board/register";
 	}
-	
+	*/
 	//해시태그 출력
 	@ResponseBody
-	@GetMapping("boardgetHashTag")
+	@GetMapping("getHashTag")
 	public String getHashTag(
 			@RequestParam(value="communityNo",required = false) Integer boardNo) 
 			 {
 			
 		try {
 			List<HashTag> hList = bService.getHashTag(boardNo);
-			System.out.println(hList);
+			System.out.println("hList : " + hList.get(0).getHashTag());
+			String hashTagResult = "";
+			for(int i = 0; i < hList.size(); i++) {
+				hashTagResult += hList.get(i).getHashTag();
+				if(i < hList.size() - 1) {
+					hashTagResult += " ";
+				}
+			}
+			
+			System.out.println(hashTagResult);
 			if(hList != null) {
-				return "1";
+				return hashTagResult;
 			}else {
 				return "0";
 			}
@@ -82,20 +125,24 @@ public class BoardController {
 	}
 	//해시태그 등록
 	@ResponseBody
-	@GetMapping("boardregisterHashTag")
+	@GetMapping("registerHashTag")
 	public String registerHashTag(
 			@RequestParam(value="communityNo",required = false) Integer boardNo
-			, @RequestParam(value = "hasgTag", required = false) String hashTag
+			, @RequestParam(value = "hasgTag", required = false) String hasgTag
 			) {
 		try {
-			HashTag hTag = null;
+			HashTag hTag = new HashTag();
 			hTag.setCommunityNo(boardNo);
-			hTag.setHashTag(hashTag);
-			
+			hTag.setHashTag(hasgTag);
+			System.out.println("해시태그 등록 접근");
+			System.out.println(hTag);
 			int result = bService.registerHashTag(hTag);
+			System.out.println(result);
 			if(result > 0) {
+				System.out.println("성공");
 				return "1";
 			}else {
+				System.out.println("실패");
 				return "0";
 			}
 		} catch (Exception e) {

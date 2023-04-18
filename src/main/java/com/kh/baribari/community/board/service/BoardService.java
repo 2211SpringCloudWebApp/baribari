@@ -41,4 +41,17 @@ public interface BoardService {
 	 */
 	public int registerHashTag(HashTag hTag);
 
+	/**
+	 * 시퀀스넘버 미리 가져오기
+	 * @return
+	 */
+	public int getSEQ();
+
+	/**
+	 * 게시글 등록
+	 * @param commu
+	 * @return int
+	 */
+	public int boardRegister(Community commu);
+
 }

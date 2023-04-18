@@ -5,7 +5,7 @@
 		<title>게시글 등록</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
 		<link href="../../../css/community/board/register.css" rel="stylesheet">
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 		
 		<!-- Favicons -->
 		<link href="assets/img/favicon.png" rel="icon">
@@ -63,12 +63,12 @@
                     </tr>
 					<tr>
 						<td>
-							<p id="hashtagP"></p>
+							<input id="showTage" type="text" readonly="readonly" >
 						</td>
 					</tr>
                     <tr>
                         <td colspan="2">
-                            <input id="tage" type="text" placeholder="#해시태그 입력 ,로 구분" onmousedown="onmouseEvent()" >
+                            <input id="inputTage" type="text" placeholder="#해시태그 입력 ,로 구분" onmousedown="onmouseEvent()" >
                         </td>
                     </tr>
                 </table>
@@ -114,11 +114,12 @@
 	        function onmouseEvent(){
 	            document.addEventListener('keydown', handleKeyDown);
 	        }
-	
+			//해시태그 동작 부분
 	        function handleKeyDown(event) {
 	            if (event.key === ',') {
 	                // ',' 키가 눌렸을 때 해시태그 유효성 검사
-	                var tags = document.getElementById('tage').value; // 입력된 태그들 가져오기
+	                var inputTage = document.getElementById('inputTage');
+	                var tags = inputTage.value; // 입력된 태그들 가져오기
 	                var tagArr = tags.split(','); // 태그들을 ','로 구분하여 배열로 변환
 	
 	                for (var i = 0; i < tagArr.length; i++) {
@@ -127,49 +128,51 @@
 	                    // 태그 유효성 검사 (예시: '#'으로 시작하고, 2자 이상)
 	                    if (tag.charAt(0) !== '#') {
 	                        alert('태그 앞에는 #을 붙여주세요.');
+	                        inputTage.value = "";
+	                        event.preventDefault(); // ,가 남아있지 않도록 기본 이벤트를 막음
 	                        return; // 유효하지 않은 태그일 경우 함수 종료
 	                    }
 	                    if (tag.length < 3) {
 	                        alert('태그는 두글자 이상이어야 합니다.');
+	                        inputTage.value = "";
+	                        event.preventDefault(); // ,가 남아있지 않도록 기본 이벤트를 막음
 	                        return; // 유효하지 않은 태그일 경우 함수 종료
 	                    }
 	                }
-	
-	                // 여기에 유효한 해시태그 등록을 위한 AJAX 요청 등의 로직을 추가
+	                registerHashTag(tags);
+	                getHashTag();
 	                alert('유효한 해시태그 등록');
+	                inputTage.value = "";
+	                event.preventDefault(); // ,가 남아있지 않도록 기본 이벤트를 막음
 	            }
 	        }
+	        // 헤시태그 출력 함수
 	        getHashTag();
 	        function getHashTag(){
 	        	const communityNo = 60;
+	        	var showTage = $("#showTage");
 	        	$.ajax({
-	        		url : "boardgetHashTag",
+	        		url : "getHashTag",
 	        		data : {
 	        			"communityNo": communityNo
 	        			},
 	        		type : "GET",
 	        		success : function(data){
-	        			const haghTag = $("#hashtagP")
-	        			const tagHtml = '';
-	        			for(let i = 0; i < data.length; i++){
-	        				tagHtml.append(data[i].hashTag);
-	        				tagHtml.append(" ");
-	        			}
-	        			haghTag.append(tagHtml)
+	        			//showTage.empty();
+	        			showTage.val(data);
 	        		},
 	        		error : function(){
-	        			
+	        			showTage.val("");
 	        		}
-	        		
 	        	});
 	        }
-	        
-	        function registerHashTag(){
-	        	const hasgTag = $("#tage").val;
+	        // 해시태그 등록 함수
+	        function registerHashTag(tags){
+	        	const hasgTag = tags;
 	        	const communityNo = 60;
-	        	
+	        	console.log('접근성공');
 	        	$.ajax({
-	        		url:"boardregisterHashTag",
+	        		url:"registerHashTag",
 	        		data:{
 	        			"communityNo" : communityNo,
 	        			"hasgTag" : hasgTag
@@ -181,7 +184,6 @@
 	        		error : function(){
 	        			alert("태그등록 실패");
 	        		}
-	        		
 	        	});
 	        }
         </script>

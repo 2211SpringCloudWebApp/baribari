@@ -46,4 +46,13 @@ public class BoardServiceLogic implements BoardService {
 		return brepository.registerHashTag(session, hTag);
 	}
 
+	@Override
+	public int getSEQ() {
+		return brepository.getSEQ(session);
+	}
+
+	@Override
+	public int boardRegister(Community commu) {
+		return brepository.boardRegister(session, commu);
+	}
 }

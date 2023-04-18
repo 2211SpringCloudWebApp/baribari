@@ -1,18 +1,21 @@
-package com.kh.baribari.user.user.controller;
+package com.kh.baribari.user.controller;
 
 import com.kh.baribari.common.JsonParse;
-import com.kh.baribari.user.user.domain.User;
-import com.kh.baribari.user.user.service.UserService;
+import com.kh.baribari.user.domain.User;
+import com.kh.baribari.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class UserController {
     @Autowired
     private UserService uService;
+
 
     @Autowired
     private JsonParse jsonParse;
@@ -95,4 +98,6 @@ public class UserController {
     public String mypageView(){
         return "mypage/mypage";
     }
+
+
 }

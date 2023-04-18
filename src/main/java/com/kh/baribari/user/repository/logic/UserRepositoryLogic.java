@@ -1,12 +1,13 @@
-package com.kh.baribari.user.user.repository.logic;
+package com.kh.baribari.user.repository.logic;
 
-import com.kh.baribari.user.user.domain.User;
-import com.kh.baribari.user.user.repository.UserRepository;
+import com.kh.baribari.user.domain.Role;
+import com.kh.baribari.user.domain.User;
+import com.kh.baribari.user.repository.UserRepository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
+import java.util.List;
 
 @Repository
 public class UserRepositoryLogic implements UserRepository {
@@ -26,16 +27,26 @@ public class UserRepositoryLogic implements UserRepository {
 
     @Override
     public int insertUserByUser(User user) {
-        return session.insert("UserMapper.insertUserByUser",user);
+        session.insert("UserMapper.insertUserByUser",user);
+        return session.insert("UserMapper.insertUserByRole",user);
     }
 
     @Override
     public int insertUserBySeller(User user) {
+        session.insert("UserMapper.insertUserBySeller",user);
         return session.insert("UserMapper.insertUserBySeller",user);
     }
 
+    // 스프링시큐리티 user 로그인
     @Override
     public User findByUserId(String userId) {
         return session.selectOne("UserMapper.findByUserId",userId);
     }
+
+    @Override
+    public List<Role> findByUserNo(int userNo) {
+        return session.selectList("UserMapper.findByUserNo",userNo);
+    }
+
+
 }

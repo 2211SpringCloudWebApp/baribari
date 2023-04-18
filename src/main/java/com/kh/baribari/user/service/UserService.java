@@ -1,6 +1,6 @@
-package com.kh.baribari.user.user.service;
+package com.kh.baribari.user.service;
 
-import com.kh.baribari.user.user.domain.User;
+import com.kh.baribari.user.domain.User;
 
 public interface UserService {
     User selectIdCheck(String id);

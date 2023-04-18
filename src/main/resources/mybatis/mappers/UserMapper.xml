@@ -2,20 +2,51 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="UserMapper">
     <select id="selectIdCheck" resultType="User">
-        SELECT USER_ID FROM USER_TBL WHERE USER_ID = #{id}
+        SELECT USER_ID
+        FROM USER_TBL
+        WHERE USER_ID = #{id}
     </select>
     <select id="selectNickNameCheck" resultType="User">
-        SELECT USER_NICKNAME FROM USER_TBL WHERE USER_NICKNAME = #{nickName}
+        SELECT USER_NICKNAME
+        FROM USER_TBL
+        WHERE USER_NICKNAME = #{nickName}
     </select>
     <select id="findByUserId" resultType="User">
-        SELECT * FROM USER_TBL WHERE USER_ID = #{userId}
+        SELECT *
+        FROM USER_TBL
+        WHERE USER_ID = #{userId}
     </select>
-
+    <select id="findByUserNo" resultType="Role">
+        SELECT *
+        FROM ROLE_TBL
+        WHERE USER_NO = #{userNo}
+    </select>
+    <!-- 유저 등록 -->
     <insert id="insertUserByUser" parameterType="User">
-        INSERT INTO USER_TBL VALUES(SEQ_USER_NO.NEXTVAL,#{userId},#{userPw},#{userName},#{userNickName},#{userEmail},#{userPhone},SYSTIMESTAMP, 1, DEFAULT, DEFAULT, DEFAULT, DEFAULT, 'USER')
+        INSERT INTO USER_TBL
+        VALUES (SEQ_USER_NO.NEXTVAL, #{userId}, #{userPw}, #{userName}, #{userNickName}, #{userEmail}, #{userPhone},
+                SYSTIMESTAMP, 1, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
     </insert>
+    <insert id="insertUserByRole" parameterType="User">
+        INSERT INTO ROLE_TBL (USER_NO, USER_ROLE)
+        SELECT USER_NO, 'ROLE_USER'
+        FROM USER_TBL
+        WHERE USER_ID = #{userId}
+    </insert>
+
+    <!--   셀러 등록 -->
     <insert id="insertUserBySeller" parameterType="User">
-        INSERT INTO USER_TBL VALUES(SEQ_USER_NO.NEXTVAL,#{userId},#{userPw},#{userName},#{userNickName},#{userEmail},#{userPhone},SYSTIMESTAMP, 2, DEFAULT, DEFAULT, DEFAULT, DEFAULT, 'MANAGER')
+        INSERT INTO USER_TBL
+        VALUES (SEQ_USER_NO.NEXTVAL, #{userId}, #{userPw}, #{userName}, #{userNickName}, #{userEmail}, #{userPhone},
+                SYSTIMESTAMP, 2, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
     </insert>
+    <insert id="insertSellerByRole" parameterType="User">
+        INSERT INTO ROLE_TBL (USER_NO, USER_ROLE)
+        SELECT USER_NO, 'ROLE_MANAGER'
+        FROM USER_TBL
+        WHERE USER_ID = #{userId}
+    </insert>
+
+
 
 </mapper>

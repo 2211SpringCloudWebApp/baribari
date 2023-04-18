@@ -1,6 +1,9 @@
-package com.kh.baribari.user.user.repository;
+package com.kh.baribari.user.repository;
 
-import com.kh.baribari.user.user.domain.User;
+import com.kh.baribari.user.domain.Role;
+import com.kh.baribari.user.domain.User;
+
+import java.util.List;
 
 public interface UserRepository {
         User selectIdCheck(String id);
@@ -12,4 +15,6 @@ public interface UserRepository {
     int insertUserBySeller(User user);
 
     User findByUserId(String userId);
+
+    List<Role> findByUserNo(int userNo);
 }

@@ -10,6 +10,7 @@ import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.community.board.repository.BoardRepository;
 import com.kh.baribari.community.board.service.BoardService;
 import com.kh.baribari.community.domain.Community;
+import com.kh.baribari.community.domain.HashTag;
 
 @Service
 public class BoardServiceLogic implements BoardService {
@@ -26,8 +27,8 @@ public class BoardServiceLogic implements BoardService {
 	}
 
 	@Override
-	public List<Community> getBoardListAll(PageInfo pi) {
-		return brepository.getBoardListAll(session, pi);
+	public List<Community> getBoardListAll(PageInfo pi, int category) {
+		return brepository.getBoardListAll(session, pi, category);
 	}
 
 	@Override
@@ -35,4 +36,23 @@ public class BoardServiceLogic implements BoardService {
 		return brepository.getListCount(session,boardNo);
 	}
 
+	@Override
+	public List<HashTag> getHashTag(int boardNo) {
+		return brepository.getHashTag(session, boardNo);
+	}
+
+	@Override
+	public int registerHashTag(HashTag hTag) {
+		return brepository.registerHashTag(session, hTag);
+	}
+
+	@Override
+	public int getSEQ() {
+		return brepository.getSEQ(session);
+	}
+
+	@Override
+	public int boardRegister(Community commu) {
+		return brepository.boardRegister(session, commu);
+	}
 }

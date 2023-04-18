@@ -18,11 +18,24 @@
 	</select>
 
 	<!-- 해당 제품에 대한 후기 등록 -->
-	<insert id="registerReview" parameterType="review">
+	<insert id="registerReview" parameterType="Review">
 		INSERT INTO REVIEW_TBL VALUES (SEQ_REVIEW_NO.NEXTVAL, #{reviewContent}, #{productNo}, 1)
 	</insert>
 	
-	<insert id="registerReviewPictures" parameterType="review">
-		INSERT INTO REVIEW_PIC_TBL VALUES ()
+	<!-- 첨부 사진이 있을 경우 사진 등록 (파일이 없을 경우 NULL값이 들어감) -->
+	<insert id="registerReviewPictures" parameterType="Review">
+		INSERT INTO REVIEW_PIC_TBL VALUES (
+			#{reviewNo}
+			, <if test="reviewPic1 != null">#{reviewPic1}</if><if test="reviewPic1 == null">NULL</if>
+			, <if test="reviewPic2 != null">#{reviewPic2}</if><if test="reviewPic2 == null">NULL</if>
+			, <if test="reviewPic3 != null">#{reviewPic3}</if><if test="reviewPic3 == null">NULL</if>
+			, <if test="reviewPic4 != null">#{reviewPic4}</if><if test="reviewPic4 == null">NULL</if>
+			, <if test="reviewPic5 != null">#{reviewPic5}</if><if test="reviewPic5 == null">NULL</if>
+			, #{productNo})
 	</insert>
+	
+	<!-- 사진테이블에 등록에 필요한 ReviewNo -->
+	<select id="getReviewNo" parameterType="Review" resultType="_int">
+		SELECT SEQ_REVIEW_NO.CURRVAL FROM DUAL
+	</select>
 </mapper>

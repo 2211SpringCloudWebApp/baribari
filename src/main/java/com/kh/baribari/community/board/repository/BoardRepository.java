@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.community.domain.Community;
+import com.kh.baribari.community.domain.HashTag;
 
 public interface BoardRepository {
 
@@ -22,7 +23,7 @@ public interface BoardRepository {
 	 * @param pi
 	 * @return List<Community>
 	 */
-	public List<Community> getBoardListAll(SqlSession session, PageInfo pi);
+	public List<Community> getBoardListAll(SqlSession session, PageInfo pi, int category);
 
 	/**
 	 * 게시글 좋아요 수 조회
@@ -30,5 +31,34 @@ public interface BoardRepository {
 	 * @return int
 	 */
 	public int getListCount(SqlSession session, int boardNo);
+
+	/**
+	 * 해시태그 가져오기
+	 * @param communityNo
+	 * @return List<HashTag>
+	 */
+	public List<HashTag> getHashTag(SqlSession session,int boardNo);
+
+	/**
+	 * 해시태그 등록
+	 * @param session
+	 * @param hTag
+	 * @return
+	 */
+	public int registerHashTag(SqlSession session, HashTag hTag);
+
+	/**
+	 * 시퀀스넘버 미리 가져오기
+	 * @return
+	 */
+	public int getSEQ(SqlSession session);
+
+	/**
+	 * 게시글 등록
+	 * @param session
+	 * @param commu
+	 * @return
+	 */
+	public int boardRegister(SqlSession session, Community commu);
 
 }

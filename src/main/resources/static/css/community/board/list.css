@@ -1,9 +1,23 @@
-main {
-	margin-top: 50px;
-	width: 1000px;
-	height: 100%;
+#container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 화면 세로 중앙에 위치하도록 높이 설정 */
+	background-image: url('img/boardBackImg3.jpg');
+	background-repeat: no-repeat; /* 배경 이미지 반복 설정 */
+	background-size: cover; /* 이미지가 전체 화면에 꽉 차도록 설정 */
+	height: 1300px;
 }
 
+main {
+	background-color : rgb(255,255,255,0.8);
+	border: 1px solid black;
+	margin-top: 200px;
+	margin-bottom: 100px;
+	width: 1000px;
+	height: 1000px;
+	color : black;
+}
 #flist-heard {
 	width: 1000px;
 	border-bottom: 1px solid black;
@@ -42,7 +56,6 @@ main {
 #flist-main {
 	width: 1000px;
 	height: 600px;
-	background-color: rgb(129, 97, 55);
 	text-align: center;
 }
 

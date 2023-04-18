@@ -114,13 +114,12 @@
             <!-- 후기 작성 -->
             <div class="writeReview">
                 <h3>상품후기 작성</h3>
-                <form id="reviewForm">
+                <form id="reviewForm" action="/review/register" method="post" enctype="multipart/form-data">
                     <textarea id="reviewContent" placeholder="내용"></textarea>
                     <label for="photoInput">사진 첨부</label>
-                    <input type="file" id="photoInput" accept="image/*">
+                    <input type="file" id="photoInput" accept="image/*" name="fileUpload" multiple>
                     <button type="button" id="submitReview">등록</button>
                 </form>
-
             </div>
             
             <!-- 후기 목록 -->
@@ -333,7 +332,7 @@
                 for(var i=0; i<rList.length; i++) {
                     reviewListHtml += "<li>"
                                     + "<span class='num'>" + (rList.length - i) + "</span>" /* 후기 번호 (역순) */
-                                    + "<span class='title'>" + rList[i].reviewContent + "</span>" /* 후기 내용 */
+                                    + "<span class='title'>" + rList[i].reviewContent.replace(/\n/g, "<br>") + "</span>" /* 후기 내용 */
                                     + "<span class='author'>" + rList[i].userNo + "</span>" /* 후기 작성자 */
                                     + "<span class='date'>후기날짜</span>" /* 후기 작성일 */
                                     + "</li>";   
@@ -349,27 +348,35 @@
 
     /* 후기 등록 */
 	$("#submitReview").on("click", function() {
-        const reviewContent = $("#reviewContent").val();
-        $.ajax({
-            url: "/review/register",
-            data: {
-                "reviewContent": reviewContent,
-                "productNo": productNo
-            },
-            type: "post",
-            success: function(result) {
-                    if(result == "1") {
-                        alert("후기 등록 완료");
-                        getReviewList();
-                    } else {
-                        alert("후기 등록 실패");
-                        console.log(result);
-                    }
-                },
-                error: function() {
-                    alert("처리 실패");
-                }
-        });
+		const formData = new FormData();
+		const fileList = document.querySelector("#photoInput").files;
+
+		for (let i = 0; i < fileList.length; i++) {
+		  formData.append("fileList", fileList[i]);
+		}
+
+		formData.append("reviewContent", reviewContent.value);
+		formData.append("productNo", productNo);
+
+		$.ajax({
+		  url: "/review/register",
+		  data: formData,
+		  type: "post",
+		  processData: false,
+		  contentType: false,
+		  success: function(result) {
+		    if (result == "1") {
+		      alert("후기 등록 완료");
+		      getReviewList();
+		    } else {
+		      alert("후기 등록 실패");
+		      console.log(result);
+		    }
+		  },
+		  error: function() {
+		    alert("처리 실패");
+		  }
+		});
     });
 </script>
 </body>

@@ -2,7 +2,6 @@ package com.kh.baribari.community.domain;
 
 import lombok.Data;
 
-
 @Data
 public class CommunityPIC {
 	private int communityNo;

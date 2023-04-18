@@ -28,14 +28,17 @@ public class Junggo {
 
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Junggo junggo = (Junggo) o;
         return communityNo.equals(junggo.communityNo);
     }
+
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(communityNo);
     }
 }

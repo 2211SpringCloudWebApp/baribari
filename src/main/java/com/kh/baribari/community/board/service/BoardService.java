@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.community.domain.Community;
+import com.kh.baribari.community.domain.HashTag;
 
 public interface BoardService {
 
@@ -18,7 +19,7 @@ public interface BoardService {
 	 * @param pi
 	 * @return List<Community>
 	 */
-	public List<Community> getBoardListAll(PageInfo pi);
+	public List<Community> getBoardListAll(PageInfo pi, int category);
 
 	/**
 	 * 게시글 좋아요 수 조회
@@ -26,5 +27,31 @@ public interface BoardService {
 	 * @return int
 	 */
 	public int getListCount(int boardNo);
+
+	/**
+	 * 헤시태그를 가져옴
+	 * @return List<HashTag>
+	 */
+	public List<HashTag> getHashTag(int boardNo);
+
+	/**
+	 * 해시태그 등록
+	 * @param hTag
+	 * @return
+	 */
+	public int registerHashTag(HashTag hTag);
+
+	/**
+	 * 시퀀스넘버 미리 가져오기
+	 * @return
+	 */
+	public int getSEQ();
+
+	/**
+	 * 게시글 등록
+	 * @param commu
+	 * @return int
+	 */
+	public int boardRegister(Community commu);
 
 }

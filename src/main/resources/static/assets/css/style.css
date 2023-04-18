@@ -4,13 +4,18 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
-
+/* font import */
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Noto+Sans+KR:wght@300;400&display=swap');
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+*{
+  font-family: 'Nanum Gothic', sans-serif;
+}
+
 body {
   font-family: "Open Sans", sans-serif;
-  background: #0c0b09;
+  /*background: #0c0b09;*/
   color: #fff;
 }
 
@@ -181,7 +186,7 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 997;
   padding: 15px 0;
   --top: 40px;
-  height: 150px;
+  height: 170px;
 }
 
 #header.header-scrolled {

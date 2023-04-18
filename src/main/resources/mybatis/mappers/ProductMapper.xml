@@ -60,11 +60,5 @@
   		WHERE ROWNUM &lt;= 6
   		ORDER BY CASE WHEN PRODUCT_CATEGORY = #{productCategory} THEN 0 ELSE 1 END, PRODUCT_SALES DESC
 	</select>
-	
-	<!-- 해당 제품에 대한 후기 목록 -->
-	<!-- 
-	<select id="getReview" parameterType="_int" resultMap="reviewResultMap">
-		SELECT * FROM REVIEW_TBL WHERE PRODUCT_NO = #{productNo}
-	</select> -->
       
 </mapper>

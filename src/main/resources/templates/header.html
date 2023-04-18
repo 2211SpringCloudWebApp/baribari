@@ -31,7 +31,7 @@
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="../static/assets/css/style.css" type="text/css" rel="stylesheet">
 
     <!-- =======================================================
     * Template Name: Restaurantly - v3.1.0
@@ -103,7 +103,7 @@
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${#authentication.principal.user.userName}"></button>
                     <ul class="dropdown-menu" sec:authorize="hasRole('ROLE_USER')">
-                        <li><button class="dropdown-item" type="button" onclick="location.href='mypage'">마이페이지</button></li>
+                        <li><button class="dropdown-item" type="button" onclick="location.href='/mypage'">마이페이지</button></li>
                         <li><button class="dropdown-item" type="button">주문내역</button></li>
                         <li><button class="dropdown-item" type="button">장바구니</button></li>
                         <li><button class="dropdown-item" type="button" onclick="location.href='/logout'">로그아웃</button></li>

@@ -1,5 +1,6 @@
 package com.kh.baribari.user.repository.logic;
 
+import com.kh.baribari.user.domain.Level;
 import com.kh.baribari.user.domain.Role;
 import com.kh.baribari.user.domain.User;
 import com.kh.baribari.user.repository.UserRepository;
@@ -46,6 +47,11 @@ public class UserRepositoryLogic implements UserRepository {
     @Override
     public List<Role> findByUserNo(int userNo) {
         return session.selectList("UserMapper.findByUserNo",userNo);
+    }
+
+    @Override
+    public Level selectUserLevel(Level userLevel) {
+        return session.selectOne("UserMapper.selectUserLevel",userLevel);
     }
 
 

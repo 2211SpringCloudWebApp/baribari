@@ -1,21 +1,21 @@
 package com.kh.baribari.user.controller;
 
 import com.kh.baribari.common.JsonParse;
+import com.kh.baribari.security.auth.PrincipalDetails;
+import com.kh.baribari.user.domain.Level;
 import com.kh.baribari.user.domain.User;
 import com.kh.baribari.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
     @Autowired
     private UserService uService;
-
 
     @Autowired
     private JsonParse jsonParse;
@@ -94,9 +94,16 @@ public class UserController {
         }
     }
 
-    @GetMapping("mypage")
-    public String mypageView(){
-        return "mypage/mypage";
+    @GetMapping("myPageUser")
+    public String myPageUserView(
+            Authentication authentication,
+            Model model
+    ){
+        PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
+        Level userLevel = new Level(userDetails.getUser().getUserNo(), userDetails.getUser().getUserLevelPoint());
+        Level level = uService.selectUserLevel(userLevel);
+        model.addAttribute("level",level);
+        return "myPage/myPageUser";
     }
 
 

@@ -21,6 +21,27 @@
         FROM ROLE_TBL
         WHERE USER_NO = #{userNo}
     </select>
+
+    <select id="selectUserLevel" resultType="Level">
+        SELECT LEVEL_NO, LEVEL_MIN_POINT ,LEVEL_MAX_POINT
+        FROM (
+        SELECT LEVEL_NO, LEVEL_MIN_POINT ,LEVEL_MAX_POINT, ROWNUM RN
+        FROM (
+        SELECT LEVEL_NO, LEVEL_MIN_POINT ,LEVEL_MAX_POINT
+        FROM LEVEL_TBL
+        WHERE LEVEL_MIN_POINT &lt; (
+        SELECT USER_LEVEL_POINT
+        FROM USER_TBL
+        WHERE USER_NO = #{levelNo}
+        )
+        ORDER BY LEVEL_MIN_POINT DESC
+        )
+        WHERE ROWNUM = 1
+        )
+        WHERE RN = 1
+    </select>
+
+
     <!-- 유저 등록 -->
     <insert id="insertUserByUser" parameterType="User">
         INSERT INTO USER_TBL

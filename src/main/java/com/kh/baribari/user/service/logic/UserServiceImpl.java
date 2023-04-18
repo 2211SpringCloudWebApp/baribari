@@ -1,5 +1,6 @@
 package com.kh.baribari.user.service.logic;
 
+import com.kh.baribari.user.domain.Level;
 import com.kh.baribari.user.repository.UserRepository;
 import com.kh.baribari.user.domain.User;
 import com.kh.baribari.user.service.UserService;
@@ -29,5 +30,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public int insertUserBySeller(User user) {
         return uRepository.insertUserBySeller(user);
+    }
+
+    @Override
+    public Level selectUserLevel(Level userLevel) {
+        return uRepository.selectUserLevel(userLevel);
     }
 }

@@ -18,7 +18,7 @@ public class User {
     private String userPhone;
     private Timestamp userTimestamp;
     private int userType;
-    private int userLevel;
+    private int userLevelPoint;
     private int userConform;
     private int userCount;
     private int userAble;

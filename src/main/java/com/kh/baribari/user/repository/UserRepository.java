@@ -1,5 +1,6 @@
 package com.kh.baribari.user.repository;
 
+import com.kh.baribari.user.domain.Level;
 import com.kh.baribari.user.domain.Role;
 import com.kh.baribari.user.domain.User;
 
@@ -17,4 +18,6 @@ public interface UserRepository {
     User findByUserId(String userId);
 
     List<Role> findByUserNo(int userNo);
+
+    Level selectUserLevel(Level userLevel);
 }

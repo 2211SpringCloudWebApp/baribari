@@ -51,14 +51,100 @@
                         </div>
                     </div>
                     <div>
-                        <button><img src="img/setting.png" style="width:20px; height: 20px"></img>수정</button>
+                        <button class="modify-btn" onclick="location.href='/myPageUser/modify'"><img src="img/setting.png" style="width:14px; height: 14px" alt="수정"/>수정</button>
                     </div>
                 </div>
                 <div class="profile-right">
-                <div></div>
+                <div class="right-content">
+                    <ul>
+                        <li style="color:#868686">적립금</li>
+                    </ul>
+                    <ul style="font-weight: bold; font-size: 15px">
+                        <li>1,000<span>원</span></li>
+                    </ul>
+                </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="middle">
+        <div class="order-list">
+        <h1 style="font-weight: bold;font-size: 35px;">주문현황</h1>
+        </div>
+        <div class="logistic-container">
+            <div>
+            <a href="">
+                <div class="payment-logistic">
+                    <img src="img/payment.svg" class="order-img">
+                </div>
+                <span>결제완료</span>
+                <span class="logistic-count">0</span>
+            </a>
+                <div class="dashed"></div>
+            <a href="">
+                <div class="ready-logistic">
+                    <img src="img/box-time.svg" class="order-img">
+                </div>
+                <span>배송 준비중</span>
+                <span class="logistic-count">0</span>
+            </a>
+                <div class="dashed"></div>
+            <a>
+                <div class="start-logistic">
+                    <img src="img/logistic.svg" class="order-img">
+                </div>
+                <span>배송중</span>
+                <span class="logistic-count">0</span>
+            </a>
+                <div class="dashed"></div>
+            <a>
+                <div class="complete-logistic">
+                    <img  src="img/box-comp.svg" class="order-img">
+                </div>
+                <span>배송완료</span>
+                <span class="logistic-count">0</span>
+            </a>
+            </div>
+        </div>
+    </div>
+    <div class="my-menu">
+        <dl>
+            <dt>
+                <img src="img/icon_main_3.svg" alt="내정보">
+                정보관리
+            </dt>
+            <dd><a href="">회원정보 수정</a></dd>
+            <dd><a href="">배송지 관리</a></dd>
+            <dd><a href="">회원탈퇴</a></dd>
+        </dl>
+        <dl>
+            <dt>
+                <img src="img/icon_main_1.svg" alt="배송이미지">
+                주문관리
+            </dt>
+            <dd><a href="">주문/배송조회</a></dd>
+            <dd><a href="">장바구니</a></dd>
+            <dd><a href="">좋아요</a></dd>
+        </dl>
+        <dl>
+            <dt>
+                <img src="img/icon_main_2.svg" alt="나문희">
+                문의사항
+            </dt>
+            <dd><a href="">1:1 문의</a></dd>
+            <dd><a href="">상품 문의</a></dd>
+            <dd><a href="">신고 내역</a></dd>
+        </dl>
+        <dl>
+            <dt>
+                <img src="img/icon_main_4.svg" alt="커뮤니티">
+                커뮤니티
+            </dt>
+            <dd><a href="">팩다운 글</a></dd>
+            <dd><a href="">좋아요한 글</a></dd>
+            <dd><a href="">내가 쓴 글</a></dd>
+            <dd><a href="">내가 쓴 댓글</a></dd>
+        </dl>
     </div>
 </div>
 <script>

@@ -19,4 +19,11 @@ public interface ReviewService {
 	 * @return int
 	 */
 	public int registerReview(Review review);
+
+	/**
+	 * 상품에 대한 후기 갯수
+	 * @param int
+	 * @return int
+	 */
+	public int getReviewCount(int productNo);
 }

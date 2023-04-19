@@ -29,6 +29,12 @@ public class ReviewServiceImpl implements ReviewService {
 		int result = rRepository.registerReview(session, review);
 		return result;
 	}
+
+	@Override
+	public int getReviewCount(int productNo) {
+		int reviewCount = rRepository.getReviewCount(session, productNo);
+		return reviewCount;
+	}
 	
 
 }

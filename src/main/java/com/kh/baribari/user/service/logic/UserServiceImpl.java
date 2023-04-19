@@ -1,11 +1,12 @@
 package com.kh.baribari.user.service.logic;
 
-import com.kh.baribari.user.domain.Level;
-import com.kh.baribari.user.repository.UserRepository;
-import com.kh.baribari.user.domain.User;
-import com.kh.baribari.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.kh.baribari.user.domain.Level;
+import com.kh.baribari.user.domain.User;
+import com.kh.baribari.user.repository.UserRepository;
+import com.kh.baribari.user.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -36,4 +37,9 @@ public class UserServiceImpl implements UserService {
     public Level selectUserLevel(Level userLevel) {
         return uRepository.selectUserLevel(userLevel);
     }
+
+	@Override
+	public int checkCustomer(Integer productNo) {
+		return uRepository.checkCustomer(productNo);
+	}
 }

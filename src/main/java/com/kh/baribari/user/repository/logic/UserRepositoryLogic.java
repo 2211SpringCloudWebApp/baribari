@@ -1,14 +1,15 @@
 package com.kh.baribari.user.repository.logic;
 
-import com.kh.baribari.user.domain.Level;
-import com.kh.baribari.user.domain.Role;
-import com.kh.baribari.user.domain.User;
-import com.kh.baribari.user.repository.UserRepository;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.kh.baribari.user.domain.Level;
+import com.kh.baribari.user.domain.Role;
+import com.kh.baribari.user.domain.User;
+import com.kh.baribari.user.repository.UserRepository;
 
 @Repository
 public class UserRepositoryLogic implements UserRepository {
@@ -54,5 +55,8 @@ public class UserRepositoryLogic implements UserRepository {
         return session.selectOne("UserMapper.selectUserLevel",userLevel);
     }
 
-
+	@Override
+	public int checkCustomer(Integer productNo) {
+		return session.selectOne("UserMapper.checkCustomer", productNo);
+	}
 }

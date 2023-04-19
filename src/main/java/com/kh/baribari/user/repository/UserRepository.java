@@ -1,10 +1,10 @@
 package com.kh.baribari.user.repository;
 
+import java.util.List;
+
 import com.kh.baribari.user.domain.Level;
 import com.kh.baribari.user.domain.Role;
 import com.kh.baribari.user.domain.User;
-
-import java.util.List;
 
 public interface UserRepository {
         User selectIdCheck(String id);
@@ -20,4 +20,6 @@ public interface UserRepository {
     List<Role> findByUserNo(int userNo);
 
     Level selectUserLevel(Level userLevel);
+
+	int checkCustomer(Integer productNo);
 }

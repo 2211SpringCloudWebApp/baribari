@@ -16,6 +16,8 @@ import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
 import com.kh.baribari.product.service.ProductService;
+import com.kh.baribari.product.service.ReviewService;
+import com.kh.baribari.user.service.UserService;
 
 @Controller
 @RequestMapping("shopping")
@@ -23,6 +25,10 @@ public class ProductController {
 	
 	@Autowired
 	private ProductService pService;
+	@Autowired
+	private ReviewService rService;
+	@Autowired
+	private UserService uService;
 	@Autowired
 	@Qualifier("fileUpload")
 	private FileUpload fileUpload;
@@ -80,15 +86,25 @@ public class ProductController {
 			Product product = pService.getProductDetail(productNo);
 			// 상품 분류에 따른 추천 상품 목록
 			List<Product> pList = pService.getProductRecommendList(product.getProductCategory());
-			
+			// 상품에 대한 후기 갯수
+			int reviewCount = rService.getReviewCount(productNo);
+			// 상품을 구매한 회원인지 확인 여부
+			int customer = uService.checkCustomer(productNo);
+
 			mv.addObject("product", product);
 			mv.addObject("pList", pList);
+			mv.addObject("customer", customer);
+			mv.addObject("reviewCount", reviewCount);
 			mv.setViewName("shopping/detail");
 			return mv;
 		} catch (Exception e) {
 			mv.addObject("msg", e.getMessage()).setViewName("error");
 			return mv;
 		}
+	}
+	
+	public void scap() {
+		
 	}
 	
 }

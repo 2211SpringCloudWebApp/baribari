@@ -68,6 +68,12 @@
         WHERE USER_ID = #{userId}
     </insert>
 
-
+	<!-- 해당 상품을 구매해서 배송을 받은 회원인지 여부 -->
+	<select id="checkCustomer" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM USER_TBL
+		JOIN ORDER_TBL USING (USER_NO)
+		JOIN ORDER_DETAIL_TBL USING (ORDER_NO)
+		WHERE PRODUCT_NO = #{productNo} AND ORDER_STATUS = 3
+	</select>
 
 </mapper>

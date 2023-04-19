@@ -8,6 +8,7 @@ public class Review {
 	private String reviewContent;
 	private int productNo;
 	private int userNo;
+	private String userName;
 	private String reviewPic1;
 	private String reviewPic2;
 	private String reviewPic3;

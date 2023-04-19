@@ -40,7 +40,7 @@ public class ReviewController {
 		Map<String, String> fMap = new HashMap<String, String>();
 	    try {
 	    	// 파일 경로
-	        String path = "shopping\\review";
+	        String path = "shopping/review";
 	        int i = 1;
 	        // 첨부파일이 있을 경우 파일 저장
 	        if (fList != null) {

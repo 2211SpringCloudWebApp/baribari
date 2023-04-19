@@ -17,7 +17,7 @@
     <!-- IBM Plex Sans KR font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
     <!-- JQuery JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
@@ -66,7 +66,7 @@
 	                <div class="d-flex" id="totalPrice"><h2></h2></div>
 	            </div>
 	            <!-- 구매/장바구니/찜하기 버튼 -->
-	            <div class="d-flex">
+	            <div sec:authorize="hasRole('ROLE_USER')" class="d-flex">
 	                <button class="btn btn-outline-dark" type="button">바로 구매</button>
 	                <button class="btn btn-outline-dark" type="button">
 	                    <i class="fas fa-shopping-cart"></i>
@@ -93,7 +93,7 @@
     <div id="productNav">
         <ul class="detailMenu">
             <li><a href="#">상세정보</a></li>
-            <li><a href="#">상품후기</a></li>
+            <li><a href="#">상품후기 (<span th:text="${reviewCount}">10</span>)</a></li>
             <li><a href="#">상품문의</a></li>
             <li><a href="#">배송/반품/교환/AS</a></li>
         </ul>
@@ -111,8 +111,8 @@
         <div id="productReview">
             <h2 class="h2Class">상품후기</h2>
             
-            <!-- 후기 작성 -->
-            <div class="writeReview">
+            <!-- 후기 작성 - 해당 상품을 구매하고 배송받은 사용자만 작성 가능 -->
+            <div th:if="${customer >= 0}" class="writeReview">
                 <h3>상품후기 작성</h3>
                 <form id="reviewForm" action="/review/register" method="post" enctype="multipart/form-data">
                     <textarea id="reviewContent" placeholder="내용"></textarea>
@@ -122,14 +122,8 @@
                 </form>
             </div>
             
-            <!-- 후기 목록 -->
+            <!-- 후기 목록 (script영역에서 출력) -->
             <ul id="reviewBoard">
-                <li class="reviewTitle">
-                    <span class="num">번호</span>
-                    <span class="title">제목</span>
-                    <span class="author">작성자</span>
-                    <span class="date">작성일</span>
-                </li>
             </ul>
             <ul id="reviewPagination">
                 <li><a href="#" class="prev">◀</a></li>
@@ -143,7 +137,7 @@
 
         <div id="productQnA">
             <h2 class="h2Class">상품문의</h2>
-            <div class="writeQnA">
+            <div sec:authorize="hasRole('ROLE_USER')" class="writeQnA">
                 <h3>상품 문의작성</h3>
                 <form>
                     <input type="text" placeholder="제목" />
@@ -321,30 +315,30 @@
 	}
 
     /* 후기 출력 */
-    function getReviewList() {
-        $.ajax({
-            url: "/review/list",
-            data: {"productNo": productNo},
-            type: "get",
-            dataType: "json",
-            success: function(rList) {
-                var reviewListHtml = "";
-                for(var i=0; i<rList.length; i++) {
-                    reviewListHtml += "<li>"
-                                    + "<span class='num'>" + (rList.length - i) + "</span>" /* 후기 번호 (역순) */
-                                    + "<span class='title'>" + rList[i].reviewContent.replace(/\n/g, "<br>") + "</span>" /* 후기 내용 */
-                                    + "<span class='author'>" + rList[i].userNo + "</span>" /* 후기 작성자 */
-                                    + "<span class='date'>후기날짜</span>" /* 후기 작성일 */
-                                    + "</li>";   
-                }
-                $("#reviewBoard").empty();
-                $("#reviewBoard").append(reviewListHtml);
-            },
-            error: function() {
-                alert("처리 실패");
-            }
-        });
-    }
+	function getReviewList() {
+	    $.ajax({
+	        url: "/review/list",
+	        data: {"productNo": productNo},
+	        type: "get",
+	        dataType: "json",
+	        success: function(rList) {
+	            var reviewListHtml = "";
+	            for(var i=0; i<rList.length; i++) {
+	                reviewListHtml += "<li>"
+	                                + "<span class='num'>" + (rList.length - i) + "</span>" /* 후기 번호 (역순) */
+	                                + "<img src='/uploadFiles/shopping/review/" + rList[i].reviewPic1 + "' width=10%>"
+	                                + "<span class='title'>" + rList[i].reviewContent.replace(/\n/g, "<br>") + "</span>" /* 후기 내용 */
+	                                + "<span class='author'>" + rList[i].userName + "</span>" /* 후기 작성자 */
+	                                + "</li>"
+	            }
+	            $("#reviewBoard").empty();
+	            $("#reviewBoard").append(reviewListHtml);
+	        },
+	        error: function() {
+	            alert("처리 실패");
+	        }
+	    });
+	}
 
     /* 후기 등록 */
 	$("#submitReview").on("click", function() {

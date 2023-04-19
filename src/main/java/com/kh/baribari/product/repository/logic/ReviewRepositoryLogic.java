@@ -14,6 +14,7 @@ public class ReviewRepositoryLogic implements ReviewRepository {
 	@Override
 	public List<Review> getReviewList(SqlSession session, int productNo) {
 		List<Review> rList = session.selectList("ReviewMapper.getReviewList", productNo);
+		System.out.println(rList);
 		return rList;
 	}
 
@@ -28,6 +29,12 @@ public class ReviewRepositoryLogic implements ReviewRepository {
 			session.insert("ReviewMapper.registerReviewPictures", review);
 		}
 		return result;
+	}
+
+	@Override
+	public int getReviewCount(SqlSession session, int productNo) {
+		int reviewCount = session.selectOne("ReviewMapper.getReviewCount", productNo);
+		return reviewCount;
 	}
 
 }

@@ -13,4 +13,6 @@ public interface UserService {
     int insertUserBySeller(User user);
 
     Level selectUserLevel(Level userLevel);
+
+	int checkCustomer(Integer productNo);
 }

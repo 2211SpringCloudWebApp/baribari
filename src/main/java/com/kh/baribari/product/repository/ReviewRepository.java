@@ -24,4 +24,12 @@ public interface ReviewRepository {
 	 */
 	public int registerReview(SqlSession session, Review review);
 
+	/**
+	 * 상품에 대한 후기 갯수
+	 * @param SqlSession
+	 * @param int
+	 * @return int
+	 */
+	public int getReviewCount(SqlSession session, int productNo);
+
 }

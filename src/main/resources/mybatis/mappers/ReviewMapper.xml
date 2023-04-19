@@ -5,6 +5,7 @@
 		<id		property="reviewNo" column="REVIEW_NO"/>
 		<result	property="reviewContent" column="REVIEW_CONTENT"/>
 		<result	property="userNo" column="USER_NO"/>
+		<result property="userName" column="USER_NAME"/>
 		<result	property="reviewPic1" column="REVIEW_PIC_1"/>
 		<result	property="reviewPic2" column="REVIEW_PIC_2"/>
 		<result	property="reviewPic3" column="REVIEW_PIC_3"/>
@@ -12,14 +13,17 @@
 		<result	property="reviewPic5" column="REVIEW_PIC_5"/>
 	</resultMap>
     
-	<!-- 해당 제품에 대한 후기 목록 -->
+	<!-- 해당 제품에 대한 후기 목록 (첨부 사진 및 사용자 정보 포함) -->
 	<select id="getReviewList" parameterType="_int" resultMap="reviewResultMap">
-	    SELECT * FROM REVIEW_TBL LEFT JOIN REVIEW_PIC_TBL USING (REVIEW_NO) WHERE REVIEW_TBL.PRODUCT_NO = #{productNo} ORDER BY REVIEW_NO DESC
+	    SELECT * FROM REVIEW_TBL
+	    LEFT JOIN REVIEW_PIC_TBL USING (REVIEW_NO)
+	    LEFT JOIN USER_TBL USING (USER_NO)
+	    WHERE REVIEW_TBL.PRODUCT_NO = #{productNo} ORDER BY REVIEW_NO DESC
 	</select>
 
 	<!-- 해당 제품에 대한 후기 등록 -->
 	<insert id="registerReview" parameterType="Review">
-		INSERT INTO REVIEW_TBL VALUES (SEQ_REVIEW_NO.NEXTVAL, #{reviewContent}, #{productNo}, 1)
+		INSERT INTO REVIEW_TBL VALUES (SEQ_REVIEW_NO.NEXTVAL, #{reviewContent}, #{productNo}, #{userNo})
 	</insert>
 	
 	<!-- 첨부 사진이 있을 경우 사진 등록 (파일이 없을 경우 NULL값이 들어감) -->
@@ -38,4 +42,10 @@
 	<select id="getReviewNo" parameterType="Review" resultType="_int">
 		SELECT SEQ_REVIEW_NO.CURRVAL FROM DUAL
 	</select>
+	
+	<!-- 후기 갯수 -->
+	<select id="getReviewCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM REVIEW_TBL WHERE PRODUCT_NO = #{productNo}
+	</select>
+	
 </mapper>

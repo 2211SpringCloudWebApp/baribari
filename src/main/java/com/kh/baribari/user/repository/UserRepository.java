@@ -2,7 +2,7 @@ package com.kh.baribari.user.repository;
 
 import java.util.List;
 
-import com.kh.baribari.user.domain.Level;
+import com.kh.baribari.user.domain.UserMyPageData;
 import com.kh.baribari.user.domain.Role;
 import com.kh.baribari.user.domain.User;
 
@@ -19,7 +19,7 @@ public interface UserRepository {
 
     List<Role> findByUserNo(int userNo);
 
-    Level selectUserLevel(Level userLevel);
+    UserMyPageData selectUserMyPageData(UserMyPageData userUserMyPageData);
 
 	int checkCustomer(Integer productNo);
 }

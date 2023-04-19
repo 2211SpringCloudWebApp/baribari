@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.baribari.user.domain.Level;
+import com.kh.baribari.user.domain.UserMyPageData;
 import com.kh.baribari.user.domain.Role;
 import com.kh.baribari.user.domain.User;
 import com.kh.baribari.user.repository.UserRepository;
@@ -51,8 +51,8 @@ public class UserRepositoryLogic implements UserRepository {
     }
 
     @Override
-    public Level selectUserLevel(Level userLevel) {
-        return session.selectOne("UserMapper.selectUserLevel",userLevel);
+    public UserMyPageData selectUserMyPageData(UserMyPageData userUserMyPageData) {
+        return session.selectOne("UserMapper.selectUserLevel", userUserMyPageData);
     }
 
 	@Override

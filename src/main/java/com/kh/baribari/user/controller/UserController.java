@@ -1,5 +1,6 @@
 package com.kh.baribari.user.controller;
 
+import com.kh.baribari.user.domain.UserMyPageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.baribari.common.JsonParse;
 import com.kh.baribari.security.auth.PrincipalDetails;
-import com.kh.baribari.user.domain.Level;
 import com.kh.baribari.user.domain.User;
 import com.kh.baribari.user.service.UserService;
 
@@ -24,12 +24,13 @@ public class UserController {
     @Autowired
     private JsonParse jsonParse;
 
-    
+//    로그인 뷰
     @GetMapping("login")
     public String loginView(){
         return "login/login";
     }
 
+//    회원가입 뷰
     @GetMapping("register")
     public String registerView(){
         return "login/register";
@@ -45,6 +46,7 @@ public class UserController {
         return "login/registerSeller";
     }
 
+//    회원가입 id 유효성 체크
     @GetMapping("ajaxCheckId")
     @ResponseBody
     public String ajaxIdCheck(String id){
@@ -58,6 +60,7 @@ public class UserController {
         return jsonParse.returnJson(result);
     }
 
+//  회원가입 닉네임 유효성 체크 ajax
     @GetMapping("ajaxNickNameCheck")
     @ResponseBody
     public String ajaxNickNameCheck(String nickName){
@@ -71,7 +74,7 @@ public class UserController {
         return jsonParse.returnJson(result);
     }
 
-
+//    유저 회원가입 로직
     @PostMapping("registerUserProc")
     @ResponseBody
     public String registerUserProc(@ModelAttribute User user){
@@ -85,6 +88,7 @@ public class UserController {
         }
     }
 
+//  판매자 회원가입 로직
     @PostMapping("registerSellerProc")
     @ResponseBody
     public String registerSellerProc(@ModelAttribute User user){
@@ -98,16 +102,33 @@ public class UserController {
         }
     }
 
+//    유저-마이페이지 뷰
     @GetMapping("myPageUser")
     public String myPageUserView(
             Authentication authentication,
             Model model
     ){
-        PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
-        Level userLevel = new Level(userDetails.getUser().getUserNo(), userDetails.getUser().getUserLevelPoint());
-        Level level = uService.selectUserLevel(userLevel);
-        model.addAttribute("level",level);
+        User user = returnUser(authentication);
+        UserMyPageData userUserMyPageData = new UserMyPageData(user.getUserNo(), user.getUserLevelPoint());
+        UserMyPageData userMyPageData = uService.selectUserMyPageData(userUserMyPageData);
+        model.addAttribute("userMyPageData", userMyPageData);
         return "myPage/myPageUser";
+    }
+
+//    유저-마이페이지 수정 뷰
+    @GetMapping("myPageUser/modify")
+    public String myPageUserModifyView(
+            Authentication authentication,
+            Model model
+    ){
+        User user = returnUser(authentication);
+        model.addAttribute("user",user);
+        return "myPage/UserModify";
+    }
+
+    private User returnUser(Authentication authentication){
+        PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
+        return userDetails.getUser();
     }
 
 }

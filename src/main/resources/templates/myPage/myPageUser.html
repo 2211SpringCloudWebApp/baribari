@@ -40,13 +40,13 @@
                         <div>
                             <div class="info" th:text="${#authentication.principal.user.userName}+님">
                         </div>
-                        <div class="level">
-                            <span  th:text="'Lv.' + ${level.levelNo}" style="font-size: 25px; color:black; font-weight: bold"></span>
+                        <div class="userMyPageData">
+                            <span  th:text="'Lv.' + ${userMyPageData.levelNo}" style="font-size: 25px; color:black; font-weight: bold"></span>
                             <br>
                             <br>
                             <div style="width: 300px; height: 10px; background-color: #ccc">
-                                <div style="width: 0%; height: 100%; background-color: gold" class="level-bar"></div>
-                                <span class="userLevelPoint" style="color:black" th:text="${#authentication.principal.user.userLevelPoint}"></span><span style="color:black;">/</span><span class="levelMaxPoint" style="color: black" th:text="${level.levelMaxPoint}"></span>
+                                <div style="width: 0%; height: 100%; background-color: gold" class="userMyPageData-bar"></div>
+                                <span class="userLevelPoint" style="color:black" th:text="${#authentication.principal.user.userLevelPoint}"></span><span style="color:black;">/</span><span class="levelMaxPoint" style="color: black" th:text="${userMyPageData.levelMaxPoint}"></span>
                             </div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                         <li style="color:#868686">적립금</li>
                     </ul>
                     <ul style="font-weight: bold; font-size: 15px">
-                        <li>1,000<span>원</span></li>
+                        <li th:text="${#numbers.formatInteger(userMyPageData.pointVal, 3, 'COMMA')}+' 원'"></li>
                     </ul>
                 </div>
                 </div>
@@ -78,7 +78,7 @@
                     <img src="img/payment.svg" class="order-img">
                 </div>
                 <span>결제완료</span>
-                <span class="logistic-count">0</span>
+                <span class="logistic-count" th:text="${userMyPageData.payment}"></span>
             </a>
                 <div class="dashed"></div>
             <a href="">
@@ -86,7 +86,7 @@
                     <img src="img/box-time.svg" class="order-img">
                 </div>
                 <span>배송 준비중</span>
-                <span class="logistic-count">0</span>
+                <span class="logistic-count" th:text="${userMyPageData.ready}"></span>
             </a>
                 <div class="dashed"></div>
             <a>
@@ -94,7 +94,7 @@
                     <img src="img/logistic.svg" class="order-img">
                 </div>
                 <span>배송중</span>
-                <span class="logistic-count">0</span>
+                <span class="logistic-count" th:text="${userMyPageData.logistic}"></span>
             </a>
                 <div class="dashed"></div>
             <a>
@@ -102,7 +102,7 @@
                     <img  src="img/box-comp.svg" class="order-img">
                 </div>
                 <span>배송완료</span>
-                <span class="logistic-count">0</span>
+                <span class="logistic-count" th:text="${userMyPageData.complete}"></span>
             </a>
             </div>
         </div>
@@ -151,7 +151,7 @@
     window.onload = function(){
         var point = ($('.userLevelPoint').text() /  $('.levelMaxPoint').text()) * 100;
         point = Math.floor(point);
-        $('.level-bar').width(point+'%');
+        $('.userMyPageData-bar').width(point+'%');
 
     }
 </script>

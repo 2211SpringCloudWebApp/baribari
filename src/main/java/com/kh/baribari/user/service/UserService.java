@@ -1,6 +1,6 @@
 package com.kh.baribari.user.service;
 
-import com.kh.baribari.user.domain.Level;
+import com.kh.baribari.user.domain.UserMyPageData;
 import com.kh.baribari.user.domain.User;
 
 public interface UserService {
@@ -12,7 +12,7 @@ public interface UserService {
 
     int insertUserBySeller(User user);
 
-    Level selectUserLevel(Level userLevel);
+    UserMyPageData selectUserMyPageData(UserMyPageData userUserMyPageData);
 
 	int checkCustomer(Integer productNo);
 }

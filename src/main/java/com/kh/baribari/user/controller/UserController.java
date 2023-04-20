@@ -3,6 +3,7 @@ package com.kh.baribari.user.controller;
 import com.kh.baribari.user.domain.UserMyPageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -123,12 +124,36 @@ public class UserController {
     ){
         User user = returnUser(authentication);
         model.addAttribute("user",user);
-        return "myPage/UserModify";
+        return "myPage/information/UserModify";
     }
 
+
+    // 유저 수정 페이지
+    @PostMapping("myPageUser/modifySubmit")
+    @ResponseBody
+    public String modifySubmit(@ModelAttribute User user){
+        User updateByUser = uService.updateMyPageByUser(user);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        PrincipalDetails userDetails = (PrincipalDetails) auth.getPrincipal();
+        userDetails.setUser(updateByUser);
+        return "<script>alert('수정이 정상적으로 끝났습니다!'); location.href='/myPageUser/modify';</script>";
+    }
+
+    // 배송지 관리
+    @GetMapping("/myPageUser/address")
+    public String myPageUserAddressView(Authentication authentication){
+        User user = returnUser(authentication);
+
+
+        return "myPage/information/Address";
+    }
+
+    // 세션에서 user 를 꺼내줌
     private User returnUser(Authentication authentication){
         PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
         return userDetails.getUser();
     }
+
+
 
 }

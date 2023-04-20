@@ -42,4 +42,10 @@ public class UserServiceImpl implements UserService {
 	public int checkCustomer(Integer productNo) {
 		return uRepository.checkCustomer(productNo);
 	}
+
+//    유저마이페이지 - 개인정보 수정
+    @Override
+    public User updateMyPageByUser(User user) {
+        return uRepository.updateMyPageByUser(user);
+    }
 }

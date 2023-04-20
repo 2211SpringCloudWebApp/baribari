@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>마이페이지</title>
+    <title>배송지 관리</title>
     <!-- Favicons -->
     <link href="../assets/img/favicon.png" rel="icon">
     <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -25,6 +25,7 @@
     <link href="../assets/css/style.css" rel="stylesheet">
     <link href="../assets/css/userMypageCss.css" rel="stylesheet">
     <link href="../assets/css/userModifyCss.css" rel="stylesheet">
+    <link href="../assets/css/userAddressPageCss.css" rel="stylesheet">
 
 
 </head>
@@ -33,13 +34,13 @@
 <div class="mainContainer" style="padding-top: 170px">
     <div class="top">
         <div class="top-container">
-            <div class="profile-root">홈 > <a style="color:black" href="/myPage">마이페이지</a> > <a style="color:black" href="/myPage/modify">회원정보 수정</a></div>
-            <div>
-                <div class="modify-title">회원정보 수정</div>
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myPage/modify">회원정보 수정</a></div>
+            <div style="margin-top: 30px;">
+                <div class="page-title">배송지관리</div>
                 <div class="page-menu">
                     <dl>
-                        <dd><a href="/myPageUser/modify" class="page-active">회원정보 수정</a></dd>
-                        <dd class="page-address">배송지 관리</dd>
+                        <dd class="page-modify"><a href="/myPageUser/modify" >회원정보 수정</a></dd>
+                        <dd class="page-active"><a href="/myPageUser/address">배송지 관리</a></dd>
                         <dd class="page-withdraw">회원탈퇴</dd>
                     </dl>
                 </div>
@@ -47,14 +48,19 @@
         </div>
     </div>
 
-</div>
+    <div class="address-middle">
+        <div class="address-box">
+            <button class="address-btn">배송지 관리</button>
+        </div>
+        <div class="address-add-box">
+            <div onclick="">
+                배송지 추가 +
+            </div>
+        </div>
+    </div>
 <script>
-    window.onload = function(){
-        var point = ($('.userLevelPoint').text() /  $('.levelMaxPoint').text()) * 100;
-        point = Math.floor(point);
-        $('.userMyPageData-bar').width(point+'%');
 
-    }
+
 </script>
 <!-- Vendor JS Files -->
 <script src="../assets/vendor/aos/aos.js"></script>

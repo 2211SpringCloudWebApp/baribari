@@ -1,0 +1,35 @@
+.address-middle{
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.address-box{
+    width: 100%;
+    /*background-color: antiquewhite;*/
+    margin-top: 30px;
+}
+.address-btn{
+    display: block;
+    height: 59px;
+    border: 1px solid #3DB35E;
+    background: #fff;
+    font-size: 15px;
+    line-height: 59px;
+    border-radius: 8px;
+    color: #3DB35E;
+    width: 148px;
+}
+.address-add-box div{
+    width: 100%;
+    height: 64px;
+    margin-top: 30px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    cursor: pointer;
+}

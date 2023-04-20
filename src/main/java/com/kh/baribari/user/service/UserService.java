@@ -15,4 +15,6 @@ public interface UserService {
     UserMyPageData selectUserMyPageData(UserMyPageData userUserMyPageData);
 
 	int checkCustomer(Integer productNo);
+
+    User updateMyPageByUser(User user);
 }

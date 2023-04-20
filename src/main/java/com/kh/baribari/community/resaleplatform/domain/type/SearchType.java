@@ -1,4 +1,4 @@
-package com.kh.baribari.community.junggo.domain.type;
+package com.kh.baribari.community.resaleplatform.domain.type;
 
 public enum SearchType {
     SUBJECT,

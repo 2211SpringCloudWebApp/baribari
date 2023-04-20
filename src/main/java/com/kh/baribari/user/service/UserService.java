@@ -1,7 +1,10 @@
 package com.kh.baribari.user.service;
 
+import com.kh.baribari.user.domain.Address;
 import com.kh.baribari.user.domain.UserMyPageData;
 import com.kh.baribari.user.domain.User;
+
+import java.util.List;
 
 public interface UserService {
     User selectIdCheck(String id);
@@ -20,4 +23,10 @@ public interface UserService {
 	User selectUserByuserId(String userId);
 
     User updateMyPageByUser(User user);
+
+//    배송지 추가
+    int insertAddressByUser(Address address);
+
+//  배송지 리스트 가져오기
+    List<Address> selectAddressList(User user);
 }

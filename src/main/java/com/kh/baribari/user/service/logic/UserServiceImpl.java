@@ -1,5 +1,6 @@
 package com.kh.baribari.user.service.logic;
 
+import com.kh.baribari.user.domain.Address;
 import com.kh.baribari.user.domain.UserMyPageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,8 @@ import com.kh.baribari.user.domain.User;
 import com.kh.baribari.user.domain.UserMyPageData;
 import com.kh.baribari.user.repository.UserRepository;
 import com.kh.baribari.user.service.UserService;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -53,5 +56,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateMyPageByUser(User user) {
         return uRepository.updateMyPageByUser(user);
+    }
+
+    @Override
+    public int insertAddressByUser(Address address) {
+        return uRepository.insertAddressByUser(address);
+    }
+
+//    배송지 리스트 가져오기
+    @Override
+    public List<Address> selectAddressList(User user) {
+        return uRepository.selectAddressList(user);
     }
 }

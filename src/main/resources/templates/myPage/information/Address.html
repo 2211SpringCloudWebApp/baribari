@@ -53,12 +53,111 @@
             <button class="address-btn">배송지 관리</button>
         </div>
         <div class="address-add-box">
-            <div onclick="">
+            <div class="address-add-btn" onclick="modalActive();">
                 배송지 추가 +
             </div>
+            <ul class="address-list-ul">
+
+                <li class="address-list-li" style="font-size: 13px;" th:each="address : ${aList}">
+                    <div class="type">
+                        <span th:text="${address.addressPickup}+'['+${address.addressName}+']'"></span>
+                    </div>
+                    <div class="tel">
+                        <div>
+                            <p style="margin: 5px 0">
+                                <span th:text="${address.addressPhone}"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="address">
+                        <p th:text="${address.addressJibun } + ' ' + ${address.addressJibunDetail} + '[' + ${address.addressZipCode} + ']' "></p>
+                    </div>
+                    <div class="btn">
+                        <span >
+                            <a href="javascript:" onclick="">수정</a>
+                        </span>
+                        <span class="" style="display: inline;"><a href="javascript:" onclick="">삭제</a>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+            <form class="modal-form" action="/addAddress" method="post">
+            <div class="address-add-modal">
+                <p class="modal-p-title">배송지 추가</p>
+                <table>
+                    <colgroup>
+                        <col style="width: 145px">
+                    </colgroup>
+                    <tr>
+                        <th>배송지명</th>
+                        <td>
+                            <div>
+                                <input type="text" class="address-input" name="addressName">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="vertical-align: top;">배송지 주소</th>
+                        <td>
+                            <div><input type="text" class="address-zip" name="addressZipCode" readonly><button type="button" class="address-post-btn" onclick="findAddress();">우편번호 찾기</button></div>
+                            <div><input type="text" class="address-input address-jibun" name="addressJibun" readonly></div>
+                            <div><input type="text" class="address-input" name="addressJibunDetail"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>수령인</th>
+                        <td><input type="text" class="address-input" name="addressPickup"></td>
+                    </tr>
+                    <tr>
+                        <th>휴대폰</th>
+                        <td>
+                            <div><input type="text" id="phone1" class="address-phone-input"> - <input type="text" id="phone2" class="address-phone-input"> - <input type="text" id="phone3" class="address-phone-input"></div>
+                            <input type="hidden" name="addressPhone" id="address-phone">
+                        </td>
+                    </tr>
+                </table>
+                <input type="submit" value="배송지 등록" class="address-add-submit-btn" onclick="stringJoin();">
+            </div>
+            </form>
         </div>
+        <div class="modal-close-btn"></div>
+
     </div>
+
+    <div class="modal-back" onclick="modalRemove();"></div>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+    function stringJoin(){
+        var phone = $('#phone1').val() + '-' + $('#phone2').val() + '-' + $('#phone3').val();
+        $('#address-phone').val(phone);
+    }
+    function findAddress(){
+        new daum.Postcode({
+            oncomplete: function(data) {
+                console.log(data);
+                $('.address-zip').val(data.zonecode);
+                if(data.jibunAddress == ""){
+                    $('.address-jibun').val(data.autoJibunAddress + " " + data.buildingName);
+                }else {
+                    $('.address-jibun').val(data.jibunAddress + " " + data.buildingName);
+                }
+            }
+        }).open();
+    }
+
+    function modalActive(){
+       $('.address-add-modal').addClass('modal-active');
+       $('.modal-back').addClass('modal-back-active');
+       $('.modal-close-btn').addClass('modal-close-btn-active');
+    }
+
+    function modalRemove(){
+        $('.address-add-modal').removeClass('modal-active');
+        $('.modal-back').removeClass('modal-back-active')
+        $('.modal-close-btn').removeClass('modal-close-btn-active');
+    }
+
+
 
 
 </script>

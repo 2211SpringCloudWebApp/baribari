@@ -79,6 +79,16 @@
         WHERE USER_ID = #{userId}
     </insert>
 
+<!-- 배송지 추가 -->
+    <insert id="insertAddressByUser" parameterType="Address">
+        INSERT INTO ADDRESS_TBL VALUES (SEQ_ADDRESS_NO.NEXTVAL, #{userNo}, #{addressZipCode},#{addressName},#{addressJibunDetail},#{addressJibun},#{addressPickup},#{addressPhone})
+    </insert>
+
+<!-- 배송지 리스트 가져오기 -->
+    <select id="selectAddressList" resultType="Address">
+        SELECT * FROM ADDRESS_TBL WHERE USER_NO = #{userNo}
+    </select>
+
 	<!-- 해당 상품을 구매해서 배송을 받은 회원인지 여부 -->
 	<select id="checkCustomer" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM USER_TBL
@@ -90,7 +100,7 @@
 
 
 
-
+<!-- 유저 정보 업데이트 -->
     <update id="updateMyPageUser" parameterType="User">
         UPDATE USER_TBL SET USER_NICKNAME = #{userNickName}, USER_PHONE = #{userPhone}, USER_EMAIL = #{userEmail} WHERE USER_ID = #{userId}
     </update>

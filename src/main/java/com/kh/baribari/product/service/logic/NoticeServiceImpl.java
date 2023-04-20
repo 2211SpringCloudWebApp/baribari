@@ -30,4 +30,16 @@ public class NoticeServiceImpl implements NoticeService{
 		return result;
 	}
 
+	@Override
+	public int updateViewCount(int noticeNo) {
+		int result = nRepository.updateViewCount(session, noticeNo);
+		return result;
+	}
+
+	@Override
+	public Notice selectOneByNo(int noticeNo) {
+		Notice notice = nRepository.selectOneByNo(session, noticeNo);
+		return notice;
+	}
+
 }

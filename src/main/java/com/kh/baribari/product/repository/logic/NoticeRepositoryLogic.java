@@ -26,4 +26,16 @@ public class NoticeRepositoryLogic implements NoticeRepository{
 		return result;
 	}
 
+	@Override
+	public int updateViewCount(SqlSession session, int noticeNo) {
+		int result = session.update("NoticeMapper.updateViewCount", noticeNo);
+		return result;
+	}
+
+	@Override
+	public Notice selectOneByNo(SqlSession session, int noticeNo) {
+		Notice notice = session.selectOne("NoticeMapper.selectOneByNo", noticeNo);
+		return notice;
+	}
+
 }

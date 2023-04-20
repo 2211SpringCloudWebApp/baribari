@@ -19,6 +19,20 @@ public interface NoticeService {
 	 * @return
 	 */
 	public int noticeListCount();
+
+	/**
+	 * 조회수 증가 Service
+	 * @param noticeNo
+	 * @return
+	 */
+	public int updateViewCount(int noticeNo);
+
+	/**
+	 * 게시판 상세 조회 Service
+	 * @param noticeNo
+	 * @return
+	 */
+	public Notice selectOneByNo(int noticeNo);
 	
 
 }

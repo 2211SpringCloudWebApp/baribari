@@ -59,4 +59,10 @@ public class UserRepositoryLogic implements UserRepository {
 	public int checkCustomer(Integer productNo) {
 		return session.selectOne("UserMapper.checkCustomer", productNo);
 	}
+
+	@Override //공지게시판 상세조회
+	public User selectUserByuserId(String userId) {
+		User user = session.selectOne("NoticeMapper.selectUserByuserId", userId);
+		return user;
+	}
 }

@@ -30,7 +30,7 @@
         FROM (
         SELECT LEVEL_NO, LEVEL_MIN_POINT, LEVEL_MAX_POINT
         FROM LEVEL_TBL
-        WHERE LEVEL_MIN_POINT  &lt; (
+        WHERE LEVEL_MIN_POINT &lt; (
         SELECT USER_LEVEL_POINT
         FROM USER_TBL
         WHERE USER_NO = #{levelNo}
@@ -47,12 +47,15 @@
         COUNT(CASE WHEN ORDER_STATUS = 2 THEN 1 END) AS LOGISTIC,
         COUNT(CASE WHEN ORDER_STATUS = 3 THEN 1 END) AS COMPLETE,
         POINT_VAL
-        FROM ORDER_DETAIL_TBL A JOIN ORDER_TBL B ON A.ORDER_NO = B.ORDER_NO JOIN POINT_TBL P ON P.USER_NO = B.USER_NO
+        FROM ORDER_DETAIL_TBL A
+        JOIN ORDER_TBL B ON A.ORDER_NO = B.ORDER_NO
+        JOIN POINT_TBL P ON P.USER_NO = B.USER_NO
         WHERE P.USER_NO = #{levelNo}
         GROUP BY POINT_VAL
         )
         SELECT *
-        FROM level_info JOIN order_info ON 1=1
+        FROM level_info
+        JOIN order_info ON 1=1
     </select>
 
 

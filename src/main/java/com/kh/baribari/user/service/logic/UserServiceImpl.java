@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.baribari.user.domain.User;
+import com.kh.baribari.user.domain.UserMyPageData;
 import com.kh.baribari.user.repository.UserRepository;
 import com.kh.baribari.user.service.UserService;
 
@@ -41,6 +42,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int checkCustomer(Integer productNo) {
 		return uRepository.checkCustomer(productNo);
+	}
+
+	@Override
+	public User selectUserByuserId(String userId) {
+		return uRepository.selectUserByuserId(userId);
 	}
 
 //    유저마이페이지 - 개인정보 수정

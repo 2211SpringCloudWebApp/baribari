@@ -7,7 +7,8 @@ import com.kh.baribari.user.domain.Role;
 import com.kh.baribari.user.domain.User;
 
 public interface UserRepository {
-        User selectIdCheck(String id);
+
+		User selectIdCheck(String id);
 
     User selectNickNameCheck(String nickName);
 
@@ -22,6 +23,9 @@ public interface UserRepository {
     UserMyPageData selectUserMyPageData(UserMyPageData userUserMyPageData);
 
 	int checkCustomer(Integer productNo);
+
+	//공지게시판 상세조회
+	User selectUserByuserId(String userId);
 
     User updateMyPageByUser(User user);
 }

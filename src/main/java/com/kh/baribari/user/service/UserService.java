@@ -16,5 +16,8 @@ public interface UserService {
 
 	int checkCustomer(Integer productNo);
 
+	//공지게시판 상세조회
+	User selectUserByuserId(String userId);
+
     User updateMyPageByUser(User user);
 }

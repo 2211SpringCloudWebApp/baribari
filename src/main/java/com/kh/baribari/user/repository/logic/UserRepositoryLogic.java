@@ -60,6 +60,12 @@ public class UserRepositoryLogic implements UserRepository {
 		return session.selectOne("UserMapper.checkCustomer", productNo);
 	}
 
+	@Override //공지게시판 상세조회
+	public User selectUserByuserId(String userId) {
+		User user = session.selectOne("NoticeMapper.selectUserByuserId", userId);
+		return user;
+	}
+
 
 //    마이페이지 - 유저 - 개인정보 수정
     @Override

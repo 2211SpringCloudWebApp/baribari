@@ -13,12 +13,12 @@
 	</resultMap>
 	
 	<!-- notice 목록 -->
-	<select id="selectNoticeList" parameterType="_int">
+	<select id="selectNoticeList" parameterType="_int" resultMap="NoticeResultMap">
 		SELECT * FROM NOTICE_TBL ORDER BY NOTICE_NO DESC
 	</select>
 	
 	<!-- notice 게시물 전체 개수 -->
-	<select id="noticeListCount" parameterType="_int">
+	<select id="noticeListCount" resultType="_int">
 		SELECT COUNT(*) FROM NOTICE_TBL
 	</select>
 </mapper>

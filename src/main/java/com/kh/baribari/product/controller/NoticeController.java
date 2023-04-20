@@ -25,14 +25,15 @@ public class NoticeController {
 			int totalCount = nService.noticeListCount();
 			PageInfo pi = new PageInfo(page, totalCount, 10);
 			List<Notice> nList = nService.selectNoticeList(pi);
-			if(nList != null) {
+//			if(nList != null) {
 				mv.addObject("nList", nList);
 				mv.addObject("pi", pi);
+				mv.setViewName("shopping/noticelist");
 				return mv;
-			}else {
-				mv.addObject("msg", "오류").setViewName("error");
-				return mv;
-			}
+//			}else {
+//				mv.addObject("msg", "오류").setViewName("error");
+//				return mv;
+//			}
 		} catch (Exception e) {
 			mv.addObject("msg", e.getMessage()).setViewName("error");
 			return mv;

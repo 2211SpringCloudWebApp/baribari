@@ -23,39 +23,33 @@
     </select>
 <!-- 유저 마이페이지 데이터 -->
     <select id="selectUserLevel" resultType="UserMyPageData">
-        WITH level_info AS (
-        SELECT LEVEL_NO, LEVEL_MIN_POINT, LEVEL_MAX_POINT
-        FROM (
-        SELECT LEVEL_NO, LEVEL_MIN_POINT, LEVEL_MAX_POINT, ROWNUM RN
+        SELECT L.LEVEL_NO, L.LEVEL_MIN_POINT, L.LEVEL_MAX_POINT,
+        O.PAYMENT, O.READY, O.LOGISTIC, O.COMPLETE, O.POINT_VAL
         FROM (
         SELECT LEVEL_NO, LEVEL_MIN_POINT, LEVEL_MAX_POINT
         FROM LEVEL_TBL
         WHERE LEVEL_MIN_POINT &lt; (
         SELECT USER_LEVEL_POINT
         FROM USER_TBL
-        WHERE USER_NO = #{levelNo}
+        WHERE USER_NO = 22
         )
         ORDER BY LEVEL_MIN_POINT DESC
-        )
-        WHERE ROWNUM = 1
-        )
-        WHERE RN = 1
-        ),
-        order_info AS (
-        SELECT COUNT(CASE WHEN ORDER_STATUS = 0 THEN 1 END) AS PAYMENT,
+        ) L
+        JOIN (
+        SELECT
+        COUNT(CASE WHEN ORDER_STATUS = 0 THEN 1 END) AS PAYMENT,
         COUNT(CASE WHEN ORDER_STATUS = 1 THEN 1 END) AS READY,
         COUNT(CASE WHEN ORDER_STATUS = 2 THEN 1 END) AS LOGISTIC,
         COUNT(CASE WHEN ORDER_STATUS = 3 THEN 1 END) AS COMPLETE,
-        POINT_VAL
+        POINT_VAL, B.USER_NO
         FROM ORDER_DETAIL_TBL A
         JOIN ORDER_TBL B ON A.ORDER_NO = B.ORDER_NO
         JOIN POINT_TBL P ON P.USER_NO = B.USER_NO
-        WHERE P.USER_NO = #{levelNo}
-        GROUP BY POINT_VAL
-        )
-        SELECT *
-        FROM level_info
-        JOIN order_info ON 1=1
+        WHERE P.USER_NO = 22
+        GROUP BY P.POINT_VAL, B.USER_NO
+        ) O
+        ON 1 = 1
+        WHERE ROWNUM &lt;= 1
     </select>
 
 

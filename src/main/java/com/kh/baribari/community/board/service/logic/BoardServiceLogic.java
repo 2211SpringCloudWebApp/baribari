@@ -55,4 +55,9 @@ public class BoardServiceLogic implements BoardService {
 	public int boardRegister(Community commu) {
 		return brepository.boardRegister(session, commu);
 	}
+
+	@Override
+	public int deleteHashTag(HashTag hTag) {
+		return brepository.deleteHashTag(session, hTag);
+	}
 }

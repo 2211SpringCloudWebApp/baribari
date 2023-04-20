@@ -32,88 +32,165 @@
         <header>
         	<div th:replace="header.html :: header"></div>
         </header>
-        <div id="container">
-            <main>
-                <table id="fregister-header">
-                    <tr>
-                        <td colspan="2">
-                            글쓰기
-                        </td>
-                    </tr>
-                </table>
-                
-                <table id="fregister-main">
-                    <tr>
-                        <td>
-                            <select>
-                                <option value="">[말머리]</option>
-                                <option value="잡담">[잡담]</option>
-                                <option value="캠핑지">[캠핑지]</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input type="text" required placeholder="제목을 입력하세요.">
-                        </td>
-                    </tr>
+        
+        <form action="/boardRegister" method="post">
+            <div id="registerContainer">
+                <div id="registerdiv1">
+                    글쓰기
+                </div>
 
-                    <tr>
-                        <td colspan="2">
-                            <textarea rows="" cols="" placeholder="내용을 입력하세요"></textarea>
-                        </td>
-                    </tr>
-					<tr>
-						<td>
-							<input id="showTage" type="text" readonly="readonly" >
-						</td>
-					</tr>
-                    <tr>
-                        <td colspan="2">
-                            <input id="inputTage" type="text" placeholder="#해시태그 입력 ,로 구분" onmousedown="onmouseEvent()" >
-                        </td>
-                    </tr>
-                </table>
-                <table id="fregister-option">
-                    <tr>
-                        <td>
-                            지도첨부 <input type="button" value="장소선택">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            사진첨부 <input type="file">
-                        </td>
-                    </tr>
-                </table>
-                <table id="fregister-photo">
-                    <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                        <td>7</td>
-                        <td>8</td>
-                        <td>9</td>
-                        <td>10</td>
-                    </tr>
-                </table>
-                <table id="fregister-footer">
-                    <tr>
-                        <td>
-                            <input type="submit" value="등록">
-                        </td>
-                        <td>
-                            <input type="reset" value="취소">
-                        </td>
-                    </tr>
-                </table>
-            </main>
-        </div>
+                <div id="registerdiv2">
+                    <div id="registerdiv2-1">
+                        <select name="category" >
+                            <option value="0">[잡담]</option>
+                            <option value="1">[캠핑지]</option>
+                        </select>
+                    </div>
+                    <div id="registerdiv2-2">
+                        <input name="subject" type="text" required placeholder="제목을 입력하세요.">
+                        <input type="hidden" name="userNo" value = "45"/>
+	                    <input type="hidden" id="seq" name="seq" th:value="${seq}" />
+                    </div>
+                </div>
+                <div id="registerdiv6">
+                    <button id="mapOpenbtn" onclick="showElements()">장소추가</button>
+                    <input 
+                        type="text"
+                        id="inputSearch" 
+                        onkeypress="if( event.keyCode == 13 ){search();}"
+                        placeholder="검색할 장소를 입력하세요."
+                    >
+                    <button id="mapSearchbtn" onclick="search()">검색</button>
+                    <div id ="registerdiv6-1" style="overflow: auto;">
+                        <ul id="list_ul" ></ul>
+                    </div>
+                    <div id="map" ></div>
+                    <input type="hidden" name="mapX" value = "2"/>
+	                <input type="hidden" name="mapY" value = "2"/>
+                </div>
+                
+                <div id="registerdiv3">
+                    사진
+                </div>
+                <div id="registerdiv7">
+                    <div class="photo">1</div>
+                    <div class="photo">2</div>
+                    <div class="photo">3</div>
+                    <div class="photo">4</div>
+                    <div class="photo">5</div>
+                    <div class="photo">6</div>
+                    <div class="photo">7</div>
+                    <div class="photo">8</div>
+                    <div class="photo">9</div>
+                    <div>10</div>
+                </div>
+                <div id="registerdiv8">
+                    <input type="file">
+                </div>
+                <div name = "content" id="registerdiv4">
+                    <textarea required placeholder="내용을 입력하세요."></textarea>
+                </div>
+                <div id="registerdiv5">
+                    <div id="showTage" ></div>
+                    <div id="registerdiv5-2">
+                        <input id="inputTage" type="text" placeholder="#해시태그, 입력" onmousedown="onmouseEvent()">
+                    </div>
+                </div>
+                <div id="registerdiv9">
+                    <input type="submit">
+                    <input type="reset">
+                </div>
+            </div>
+        </form>
+
+        <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ba03b0afa21d048313b9d7072d06edb9&libraries=services"></script>
+        <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ba03b0afa21d048313b9d7072d06edb9"></script>
         <script>
-	        function onmouseEvent(){
+            //버튼 클릭시 요소들 보이게 하기.
+            function showElements() {
+                var input = document.getElementById("inputSearch");
+                var ul = document.getElementById("list_ul");
+                var map = document.getElementById("map");
+                var mapSearchbtn = document.getElementById("mapSearchbtn");
+                var registerdiv6 = document.getElementById("registerdiv6");
+
+
+                if (ul.style.display === "none") {
+                    input.style.display = "block";
+                    ul.style.display = "block";
+                    map.style.display = "block";
+                    mapSearchbtn.style.display = "block";
+                    registerdiv6.style.height = "750px";
+                    
+                } else {
+                    input.style.display = "none";
+                    ul.style.display = "none";
+                    map.style.display = "none";
+                    mapSearchbtn.style.display = "none";
+                    registerdiv6.style.height = "50px";
+                }
+            }
+
+            function search() {
+                var list_ul = document.getElementById('list_ul');
+                var keyword = document.getElementById('inputSearch').value;
+                var places = new kakao.maps.services.Places();
+                var str = "";
+                var callback = function (result, status) {
+                    if (status === kakao.maps.services.Status.OK) {
+                        for (var i = 0; i < result.length; i++) {
+                            var placeName = result[i].place_name;
+                            var addressName = result[i].address_name;
+                            var xCross = result[i].x;
+                            var yCross = result[i].y;
+                            str += '<li onclick="createMap('+xCross+','+yCross+',\''+placeName+'\');">'+placeName+'<br>'+addressName+'</li><br>';
+                        }
+                        list_ul.innerHTML = str;
+                    }
+                };
+
+                places.keywordSearch(keyword, callback);
+            }
+
+            function createMap(x, y,a) {
+                var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                    mapOption = {
+                        center: new kakao.maps.LatLng(y, x), // 지도의 중심좌표
+                        level: 3 // 지도의 확대 레벨
+                    };
+                var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+                // 마커를 표시할 위치입니다 
+                var position = new kakao.maps.LatLng(y, x);
+                // 마커를 생성합니다
+                var marker = new kakao.maps.Marker({
+                    position: position
+                });
+                // 마커를 지도에 표시합니다.
+                marker.setMap(map);
+                // 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
+                var iwContent = '<div style="padding:5px;">'+a+'</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+                // 인포윈도우를 생성합니다
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: iwContent
+                });
+                // 마커에 마우스오버 이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'mouseover', function () {
+                    // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
+                    infowindow.open(map, marker);
+                });
+                // 마커에 마우스아웃 이벤트를 등록합니다
+                kakao.maps.event.addListener(marker, 'mouseout', function () {
+                    // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
+                    infowindow.close();
+                });
+            }
+            
+            function onmouseEvent(){
 	            document.addEventListener('keydown', handleKeyDown);
 	        }
+	        
 			//해시태그 동작 부분
 	        function handleKeyDown(event) {
 	            if (event.key === ',') {
@@ -121,11 +198,10 @@
 	                var inputTage = document.getElementById('inputTage');
 	                var tags = inputTage.value; // 입력된 태그들 가져오기
 	                var tagArr = tags.split(','); // 태그들을 ','로 구분하여 배열로 변환
-	
 	                for (var i = 0; i < tagArr.length; i++) {
 	                    var tag = tagArr[i].trim(); // 각 태그의 양 끝 공백 제거
 	
-	                    // 태그 유효성 검사 (예시: '#'으로 시작하고, 2자 이상)
+	                    // 태그 유효성 검사 (예시: '#'으로 시작하고, 2자 이상, 5글자 이하)
 	                    if (tag.charAt(0) !== '#') {
 	                        alert('태그 앞에는 #을 붙여주세요.');
 	                        inputTage.value = "";
@@ -138,19 +214,25 @@
 	                        event.preventDefault(); // ,가 남아있지 않도록 기본 이벤트를 막음
 	                        return; // 유효하지 않은 태그일 경우 함수 종료
 	                    }
+	                    if (tag.length > 6) {
+	                        alert('태그는 다섯글자 이하여야 합니다.');
+	                        inputTage.value = "";
+	                        event.preventDefault(); // ,가 남아있지 않도록 기본 이벤트를 막음
+	                        return; // 유효하지 않은 태그일 경우 함수 종료
+	                    }
 	                }
-	                registerHashTag(tags);
-	                getHashTag();
-	                alert('유효한 해시태그 등록');
+	                registerHashTag(tags, getHashTag, 'register');
 	                inputTage.value = "";
 	                event.preventDefault(); // ,가 남아있지 않도록 기본 이벤트를 막음
 	            }
 	        }
+
 	        // 헤시태그 출력 함수
-	        getHashTag();
 	        function getHashTag(){
-	        	const communityNo = 60;
+	        	var communityNo = $("#seq").val();
 	        	var showTage = $("#showTage");
+	        	var inputTage = document.getElementById('inputTage');
+	        	var scrollTop = $(window).scrollTop(); // 스크롤위치 저장
 	        	$.ajax({
 	        		url : "getHashTag",
 	        		data : {
@@ -158,28 +240,44 @@
 	        			},
 	        		type : "GET",
 	        		success : function(data){
-	        			//showTage.empty();
-	        			showTage.val(data);
+	        			showTage.empty(); // 기존 내용 삭제
+	        		    for (var i = 0; i < data.length; i++) {
+	        		    	var tag = $("<a>").attr({
+	        		    		href : "#",
+	        		    		onclick: "registerHashTag('" + data[i].hashTagName + "', " + getHashTag + ", 'delete')"
+	        		    	}).text(data[i].hashTagName); // 새로운 a 태그 생성
+	        		    	showTage.append(tag); // 새로운 a 태그를 요소에 추가
+	        			}
+	        		    if (data.length == 10){
+	        		        inputTage.readOnly = true; // inputTage를 읽기전용으로 설정
+	        		        inputTage.placeholder = "해시태그는 10개까지 등록이 가능합니다."; // placeholder를 "해시태그는 10개까지 등록이 가능합니다." 로 설정
+	        		    }else{
+	        		    	inputTage.readOnly = false;
+	        		    	inputTage.placeholder = "#해시태그, 입력";
+	        		    }
+	        		    $(window).scrollTop(scrollTop);//스크롤위치 다시 불러오기
 	        		},
 	        		error : function(){
-	        			showTage.val("");
+	        			showTage.empty();
 	        		}
+	        		
 	        	});
 	        }
-	        // 해시태그 등록 함수
-	        function registerHashTag(tags){
+	        
+	        // 해시태그 등록(register) or 삭제(delete) 함수
+	        function registerHashTag(tags, showHashTag, choice){
 	        	const hasgTag = tags;
-	        	const communityNo = 60;
-	        	console.log('접근성공');
+	        	var communityNo = $("#seq").val();
 	        	$.ajax({
 	        		url:"registerHashTag",
 	        		data:{
 	        			"communityNo" : communityNo,
-	        			"hasgTag" : hasgTag
+	        			"hasgTag" : hasgTag,
+	        			"choice" : choice
 	        		},
 	        		type:"GET",
 	        		success : function(){
-	        			alert("태그등록 성공");
+	        			showHashTag();
 	        		},
 	        		error : function(){
 	        			alert("태그등록 실패");
@@ -187,6 +285,7 @@
 	        	});
 	        }
         </script>
+        
         <footer>
             <div th:replace="footer.html :: footer"></div>
         </footer>

@@ -2,53 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="CommunityMapper">
-	<resultMap type="Community" id="communityResultMap">
-		<id		property="communityNo"			column="COMMUNITY_NO"		/>
-		<result	property="communitySubject"		column="COMMUNITY_SUBJECT"	/>
-		<result	property="communityContent"		column="COMMUNITY_CONTENT"	/>
-		<result	property="communityCategory"	column="COMMUNITY_CATEGORY"	/>
-		<result	property="communityDate"		column="COMMUNITY_DATE"		/>
-		<result	property="mapX"					column="MAP_X"				/>
-		<result	property="mapY"					column="MAP_Y"				/>
-		<result	property="communityYn"			column="COMMUNITY_YN"		/>
-		<result	property="userNo"				column="USE_RNO"			/>
-		<result	property="viewCount"			column="VIEW_COUNT"			/>
-	</resultMap>
 	
-	<resultMap type="CommunityPIC" id="communityPICResultMap">
-		<id		property="communityNo"		column="COMMUNITY_NO"			/>
-		<result	property="communityPic1"	column="COMMUNITY_PIC_1"		/>
-		<result	property="communityPic2"	column="COMMUNITY_PIC_2"		/>
-		<result	property="communityPic3"	column="COMMUNITY_PIC_3"		/>
-		<result	property="communityPic4"	column="COMMUNITY_PIC_4"		/>
-		<result	property="communityPic5"	column="COMMUNITY_PIC_5"		/>
-		<result	property="communityPic6"	column="COMMUNITY_PIC_6"		/>
-		<result	property="communityPic7"	column="COMMUNITY_PIC_7"		/>
-		<result	property="communityPic8"	column="COMMUNITY_PIC_8"		/>
-		<result	property="communityPic9"	column="COMMUNITY_PIC_9"		/>
-		<result	property="communityPic10"	column="COMMUNITY_PIC_10"		/>
-	</resultMap>
-	
-	<resultMap type="HashTag" id="HashTagResultMap">
-		<id		property="communityNo"	column="COMMUNITY_NO"	/>
-		<result	property="hashTag" 		column="HASH_TAG_NAME"	/>
-	</resultMap>
-	
-	<select id="getSEQ">
+	<select id="getSEQ" resultType="_int">
 		SELECT COMMUNITY_SEQ.NEXTVAL FROM DUAL
 	</select>
 	
-	<select id="getHashTag" resultMap="HashTagResultMap">
-		SELECT HASH_TAG_NAME FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{boardNo}
+	<select id="getHashTag" resultType="HashTag">
+		SELECT HASH_TAG_NAME FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{boardNo} ORDER BY HASH_TAG_NAME DESC
 	</select>
 	
 	<insert id="registerHashTag">
-		INSERT INTO HASH_TAG_TBL VALUES(#{communityNo}, #{hashTag})
+		INSERT INTO HASH_TAG_TBL VALUES(#{communityNo}, #{hashTagName})
 	</insert>
+	
+	<delete id="deleteHashTag">
+		DELETE FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{communityNo} AND HASH_TAG_NAME = #{hashTagName}
+	</delete>
 	
 	<insert id="boardRegister">
 		INSERT INTO COMMUNITY_TBL VALUES(
 			#{communityNo},
+			#{userNo},
 			#{communitySubject},
 			#{communityContent},
 			#{communityCategory},
@@ -56,17 +30,18 @@
 			#{mapX},
 			#{mapY},
 			DEFAULT,
-			#{userNo},
-			DEFAULT,
-			DEFAULT
-		)
+			DEFAULT)
 	</insert>
 	
 	<select id="getBoardCount" resultType="_int">
 		SELECT COUNT(*) FROM COMMUNITY_TBL WHERE COMMUNITY_CATEGORY IN (0,1)
 	</select>
 	
-	<select id="getBoardListAll" resultMap="communityResultMap">
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*) FROM LIKE_TBL WHERE COMMUNITY_NO = #{boardNo}
+	</select>
+
+	<select id="getBoardListAll" resultType="community">
 		SELECT * FROM COMMUNITY_TBL WHERE 
 		<if test="category == 0">
 		COMMUNITY_CATEGORY = 0 AND
@@ -75,9 +50,5 @@
 		COMMUNITY_CATEGORY = 1 AND
 		</if>
 		COMMUNITY_CATEGORY IN (0, 1)
-	</select>
-	
-	<select id="getListCount">
-		SELECT COUNT(*) FROM LIKE_TBL WHERE COMMUNITY_NO = #{boardNo}
 	</select>
 </mapper>

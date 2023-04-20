@@ -61,4 +61,12 @@ public interface BoardRepository {
 	 */
 	public int boardRegister(SqlSession session, Community commu);
 
+	/**
+	 * 해시태그 삭제
+	 * @param session
+	 * @param hTag
+	 * @return
+	 */
+	public int deleteHashTag(SqlSession session, HashTag hTag);
+
 }

@@ -54,4 +54,11 @@ public interface BoardService {
 	 */
 	public int boardRegister(Community commu);
 
+	/**
+	 * 해시태그 삭제
+	 * @param hTag
+	 * @return
+	 */
+	public int deleteHashTag(HashTag hTag);
+
 }

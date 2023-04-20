@@ -100,9 +100,7 @@ main {
 	height: 50px;
 }
 
-#flist-main tr:nth-child(3) td:nth-child(1) {
-	text-align: right;
-}
+
 
 #flist-footer {
 	border-top: 1px solid black;

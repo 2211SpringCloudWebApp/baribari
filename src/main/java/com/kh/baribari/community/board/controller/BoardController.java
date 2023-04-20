@@ -32,8 +32,6 @@ public class BoardController {
 		try {
 			// 게시글 총 갯수
 			int bCount = bService.getBoardCount();
-			System.out.println(category);
-			System.out.println(currentPage);
 			// 페이지 정보 불러오기
 			PageInfo pi = new PageInfo(currentPage, bCount, 10);
 			List<Community> bList = bService.getBoardListAll(pi, category); // 전체 목록 조회
@@ -54,24 +52,31 @@ public class BoardController {
 		}
 	}
 	//게시글 등록
-		@GetMapping("boardRegister")
-		public String boardRegister() {
-			return "community/board/register";
-		}
-		/*
-	//게시글 등록
 	@GetMapping("boardRegister")
+	public ModelAndView showRegister(ModelAndView mv) {
+		try {
+			int seq = bService.getSEQ(); // 시퀀스 넘거를 받아옴
+			mv.addObject("seq", seq);
+			mv.setViewName("community/board/register");
+			return mv;
+		} catch (Exception e) {
+			mv.addObject("msg", e.getMessage()).setViewName("error");
+			return mv;
+		}
+	}
+	
+	//게시글 등록
+	@PostMapping("boardRegister")
 	public String boardRegister(
 			@RequestParam(value = "subject", required = false) String subject
 			,@RequestParam(value = "content", required = false) String content
-			,@RequestParam(value = "category", required = false) Integer category
-			,@RequestParam(value = "mapX", required = false) Integer mapX
-			,@RequestParam(value = "mapY", required = false) Integer mapY
-			,@RequestParam(value = "userNo", required = false) Integer userNo
+			,@RequestParam(value = "category", required = false, defaultValue = "9") Integer category
+			,@RequestParam(value = "mapX", required = false, defaultValue = "0") Integer mapX
+			,@RequestParam(value = "mapY", required = false, defaultValue = "0") Integer mapY
+			,@RequestParam(value = "userNo", required = false, defaultValue = "0") Integer userNo
+			,@RequestParam(value = "seq", required = false) Integer seq
 			) {
 		try {
-			int seq = bService.getSEQ(); // 시퀀스 넘거를 받아옴
-			
 			Community commu = new Community();		// 정보를 담은 해시태그 생성
 			commu.setCommunityNo(seq);				// 시퀀스넘버
 			commu.setCommunitySubject(subject);		// 제목
@@ -84,9 +89,9 @@ public class BoardController {
 			int result = bService.boardRegister(commu);
 			
 			if(result > 0) {
-				return "community/board/register";
+				return "community/board/list";
 			}else {
-				return "0";
+				return "실패";
 			}
 			
 		} catch (Exception e) {
@@ -94,62 +99,48 @@ public class BoardController {
 		}
 		
 	}
-	*/
+	
 	//해시태그 출력
 	@ResponseBody
 	@GetMapping("getHashTag")
-	public String getHashTag(
+	public List<HashTag> getHashTag(
 			@RequestParam(value="communityNo",required = false) Integer boardNo) 
 			 {
-			
 		try {
 			List<HashTag> hList = bService.getHashTag(boardNo);
-			System.out.println("hList : " + hList.get(0).getHashTag());
-			String hashTagResult = "";
-			for(int i = 0; i < hList.size(); i++) {
-				hashTagResult += hList.get(i).getHashTag();
-				if(i < hList.size() - 1) {
-					hashTagResult += " ";
-				}
-			}
-			
-			System.out.println(hashTagResult);
-			if(hList != null) {
-				return hashTagResult;
-			}else {
-				return "0";
-			}
+			return hList;
 		} catch (Exception e) {
-			return e.getMessage();
+			return null;
 		}
 	}
-	//해시태그 등록
+	//해시태그 등록(register) or 삭제(delete)
 	@ResponseBody
 	@GetMapping("registerHashTag")
 	public String registerHashTag(
 			@RequestParam(value="communityNo",required = false) Integer boardNo
 			, @RequestParam(value = "hasgTag", required = false) String hasgTag
+			, @RequestParam(value = "choice", required = false) String choice
 			) {
 		try {
 			HashTag hTag = new HashTag();
 			hTag.setCommunityNo(boardNo);
-			hTag.setHashTag(hasgTag);
-			System.out.println("해시태그 등록 접근");
-			System.out.println(hTag);
-			int result = bService.registerHashTag(hTag);
-			System.out.println(result);
-			if(result > 0) {
-				System.out.println("성공");
+			hTag.setHashTagName(hasgTag);
+			int result;
+			if(choice.equals("register")) {
+				result = bService.registerHashTag(hTag);
 				return "1";
+			}else if(choice.equals("delete")){
+				result = bService.deleteHashTag(hTag);
+				return "0";
 			}else {
-				System.out.println("실패");
 				return "0";
 			}
+			
 		} catch (Exception e) {
 			return e.getMessage();
 		}
 	}
-	
+
 	//게시글 상세
 	@GetMapping("boardDetail")
 	public String boardDetail() {
@@ -170,9 +161,9 @@ public class BoardController {
 	
 	//에러페이지 가자
 	@GetMapping("error")
-    public String error() {
-        return "error"; // 에러 페이지의 뷰 이름
-    }
+	public String error() {
+		return "error"; // 에러 페이지의 뷰 이름
+	}
 	
 	// 좋아요 갯수 조회
 	public int getListCount(int boardNo) {

@@ -5,7 +5,5 @@ import lombok.Data;
 @Data
 public class HashTag {
 	private int communityNo;
-	private String hashTag;
-	
-	public HashTag() {}
+	private String hashTagName;
 }

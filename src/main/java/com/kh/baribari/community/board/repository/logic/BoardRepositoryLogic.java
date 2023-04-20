@@ -37,7 +37,6 @@ public class BoardRepositoryLogic implements BoardRepository {
 
 	@Override
 	public int registerHashTag(SqlSession session, HashTag hTag) {
-		System.out.println("최종 레포지토리 접근");
 		return session.insert("CommunityMapper.registerHashTag", hTag);
 	}
 
@@ -49,6 +48,11 @@ public class BoardRepositoryLogic implements BoardRepository {
 	@Override
 	public int boardRegister(SqlSession session, Community commu) {
 		return session.insert("CommunityMapper.boardRegister", commu);
+	}
+
+	@Override
+	public int deleteHashTag(SqlSession session, HashTag hTag) {
+		return session.delete("CommunityMapper.deleteHashTag",hTag);
 	}
 
 }

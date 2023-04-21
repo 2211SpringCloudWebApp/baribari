@@ -1,8 +1,10 @@
 package com.kh.baribari.user.controller;
 
+import com.kh.baribari.user.domain.Address;
 import com.kh.baribari.user.domain.UserMyPageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,8 @@ import com.kh.baribari.common.JsonParse;
 import com.kh.baribari.security.auth.PrincipalDetails;
 import com.kh.baribari.user.domain.User;
 import com.kh.baribari.user.service.UserService;
+
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -123,12 +127,45 @@ public class UserController {
     ){
         User user = returnUser(authentication);
         model.addAttribute("user",user);
-        return "myPage/UserModify";
+        return "myPage/information/UserModify";
     }
 
+
+    // 유저 수정 페이지
+    @PostMapping("myPageUser/modifySubmit")
+    @ResponseBody
+    public String modifySubmit(@ModelAttribute User user){
+        User updateByUser = uService.updateMyPageByUser(user);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        PrincipalDetails userDetails = (PrincipalDetails) auth.getPrincipal();
+        userDetails.setUser(updateByUser);
+        return "<script>alert('수정이 정상적으로 끝났습니다!'); location.href='/myPageUser/modify';</script>";
+    }
+
+    // 배송지 관리 뷰
+    @GetMapping("myPageUser/address")
+    public String myPageUserAddressView(Authentication authentication, Model model){
+        User user = returnUser(authentication);
+        List<Address> alist = uService.selectAddressList(user);
+        model.addAttribute("aList", alist);
+        return "myPage/information/Address";
+    }
+
+//    배송지 추가 컨트롤러
+    @PostMapping("addAddress")
+    @ResponseBody
+    public String addAddressByUser(Authentication authentication, @ModelAttribute Address address){
+        address.setUserNo(returnUser(authentication).getUserNo());
+        int result = uService.insertAddressByUser(address);
+        return "<script>alert('배송지가 추가되었습니다!'); location.href='/myPageUser/address';</script>";
+    }
+
+    // 세션에서 user 를 꺼내줌
     private User returnUser(Authentication authentication){
         PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
         return userDetails.getUser();
     }
+
+
 
 }

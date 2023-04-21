@@ -1,0 +1,67 @@
+#noticedetailW {
+    background-color: #f8f9fa;
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    color: #495057;
+}
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 50px;
+    --background-color: #fff;
+    --border-radius: 10px;
+    --box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.header {
+    padding: 30px 30px 0 30px;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+h3 {
+    font-size: 25px;
+    margin: 0;
+    margin-right: 10px;
+    line-height: 1.2;
+}
+.author {
+    font-size: 14px;
+    color: #999;
+    margin-right: 10px;
+}
+.date {
+    font-size: 14px;
+    color: #999;
+}
+.content {
+    padding: 30px;
+    font-size: 18px;
+    line-height: 1.8;
+}
+.btns {
+    padding: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+.btn {
+    padding: 10px 20px;
+    background-color: #081333;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-right: 10px;
+    transition: all 0.2s ease;
+}
+.btn:hover {
+    background-color: #081333;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.btn:last-child {
+    margin-right: 0;
+}

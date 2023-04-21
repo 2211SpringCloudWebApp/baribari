@@ -1,0 +1,181 @@
+.address-middle{
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.address-box{
+    width: 100%;
+    /*background-color: antiquewhite;*/
+    margin-top: 30px;
+}
+.address-btn{
+    display: block;
+    height: 59px;
+    border: 1px solid #3DB35E;
+    background: #fff;
+    font-size: 15px;
+    line-height: 59px;
+    border-radius: 8px;
+    color: #3DB35E;
+    width: 148px;
+}
+.address-add-btn{
+    width: 100%;
+    height: 64px;
+    margin-top: 30px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    background-color: white;
+    cursor: pointer;
+}
+
+
+.modal-close-btn{
+    pointer-events: none;
+    content: "";
+    display: none;
+    width: 36px;
+    height: 36px;
+    position: fixed;
+    background: url(../../img/x.png) no-repeat;
+    top: 25%;
+    right: 31%;
+    z-index: 50000;
+}
+.modal-close-btn-active{
+    display: block;
+}
+.address-add-modal{
+    width: 600px;
+    margin: 0 auto;
+    position: fixed;
+    z-index: 10000;
+    height: 600px;
+    top: 23%;
+    left: 35%;
+    background-color: white;
+    border-radius: 30px;
+    padding: 0 30px;
+    display: none;
+}
+.modal-active{
+    display: block;
+}
+.modal-p-title{
+    text-align: center;
+    margin-top: 20px;
+    font-size: 25px;
+}
+.address-add-modal table{
+    margin-top: 35px;
+}
+tr th {
+    width: 145px;
+    vertical-align: top;
+    padding-top: 5px;
+}
+tr td{
+    width: 350px;
+}
+.address-input{
+    width: 100%;
+    padding: 15px 10px;
+    height: auto;
+    border-radius: 10px;
+    line-height: normal;
+    border: 1px solid #dbdbdb;
+    vertical-align: middle;
+    margin-bottom: 10px;
+
+}
+.address-zip{
+    width: calc(100% - 100px);
+    padding: 15px 10px;
+    height: auto;
+    border-radius: 10px;
+    line-height: normal;
+    border: 1px solid #dbdbdb;
+    vertical-align: middle;
+    margin-bottom: 10px;
+
+}
+.address-post-btn{
+    width: 95px;
+    font-size: 12px;
+    margin-left: 5px;
+    display: inline-block;
+    text-align: center;
+    background: #fff;
+    color: #000;
+    border: 1px solid #dbdbdb;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 8px;
+    vertical-align: top;
+}
+.address-phone-input{
+    width: 100px;
+    padding: 15px 10px;
+    height: auto;
+    border-radius: 10px;
+    line-height: normal;
+    background: #fff;
+    color: #888;
+    border: 1px solid #dbdbdb;
+    margin-bottom: 10px;
+}
+.address-add-submit-btn{
+    display: block;
+    width: 100%;
+    font-size: 14px;
+    padding: 20px 0;
+    border-radius: 10px;
+    border: 1px solid #25DBAE;
+    background-color: #25DBAE;
+    color: #fff;
+    margin-top: 35px;
+}
+.modal-back{
+    display: none;
+}
+.modal-back-active{
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 40;
+    background-color: rgba(0,0,0,0.7);
+}
+
+
+.address-list-ul{
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+.address-list-li{
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #e8e8e8;
+    margin-bottom: 10px;
+    padding: 20px 40px;
+}
+.address{
+    margin-bottom: 23px;
+}
+.address p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+.btn{
+    justify-content: space-around;
+    text-align: center;
+    display:flex;
+}

@@ -16,13 +16,13 @@ a:hover{
 
 /* profile area */
 .top{
-    background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    background-image: linear-gradient(180deg, #84fab0 0%, #8fd3f4 85%);
     width: 100%;
     height: 350px;
 }
 .top-container{
     width: 1200px;
-    height: 300px;
+    height: 250px;
     margin:0 auto;
 }
 .profile-root{
@@ -57,7 +57,7 @@ a:hover{
     position: relative;
     top: 20px;
     left: 50px;
-    border: 1px solid #ccc;
+    border: 1px solid #008000;
 }
 .profile-pic:hover{
     background-image:url("../../img/add-icon.svg"), url("../../img/campfire.svg");

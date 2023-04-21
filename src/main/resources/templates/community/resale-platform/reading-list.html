@@ -126,25 +126,33 @@
 
 
 
-    <div class="row">
-      <div class="col-md-4">
+    <div class="row" th:remove="all-but-first">
+      <div class="col-md-4" th:each="resalePost : ${resalePost}">
+
         <div class="work-box">
-          <a href="../../../static/img/community/work-1.jpg" data-lightbox="gallery-mf">
+          <!--이미지 부 -->
+          <a href="../../static/img/community/work-1.jpg" data-lightbox="gallery-mf">
             <div class="work-img">
-              <img src="../../../static/img/community/work-1.jpg"
+              <img src="../../static/img/community/work-1.jpg"
                    th:src="@{img/community/work-1.jpg}" alt="" class="img-fluid">
             </div>
+            <!-- 정보부 -->
             <div class="work-content">
               <div class="row">
                 <div class="col-sm-8">
-                  <h2 class="w-title">상품</h2>
+                  <h2 class="w-title" th:text="${resalePost.title}" th:href="@{'/resalePost/' + ${resalePost.id}}">상품</h2>
                   <div class="w-more">
-                    <span class="w-ctegory">Web Design</span> / <span class="w-date">18 Sep. 2018</span>
+                    <span class="w-ctegory" th:text="${resalePost.userNo.userNickName}">Web Design</span> /
+
+                    <!-- TODO :  작성일시 찍어주는것 둘중 무엇이 적정한지 확인하기
+                                        <span class="w-date" th:datetime="${resalePost.communityDate}" th:text="${#temporals.format(resalePost.communityDate, 'yyyy-MM-dd')}">18 Sep. 2018</span>-->
+                    <span class="w-date" th:text="${resalePost.communityDate}">18 Sep. 2018</span>
+
                   </div>
                 </div>
                 <div class="col-sm-4">
                   <div class="w-like">
-                    <span class="ion-ios-plus-outline"></span>
+                    <span class="ion-ios-heart-outline" >좋아요</span>
                   </div>
                 </div>
               </div>
@@ -152,6 +160,7 @@
           </a>
         </div>
       </div>
+
       <div class="col-md-4">
         <div class="work-box">
           <a href="../../../static/img/community/work-2.jpg" data-lightbox="gallery-mf">
@@ -340,8 +349,8 @@
       <div class="col-md-4">
         <div class="card card-blog">
           <div class="card-img">
-            <a href="blog-single.html"><img src="../../../static/img/community/post-1.jpg"
-                                            th:src="@{img/community/post-1.jpg}" alt="" class="img-fluid"></a>
+            <a href="blog-single.html"><img src="../../../static/img/community/resalePost-1.jpg"
+                                            th:src="@{img/community/resalePost-1.jpg}" alt="" class="img-fluid"></a>
           </div>
           <div class="card-body">
             <div class="card-category-box">
@@ -356,14 +365,14 @@
             </p>
           </div>
           <div class="card-footer">
-            <div class="post-author">
+            <div class="resalePost-author">
               <a href="#">
                 <img src="../../../static/img/community/testimonial-2.jpg"
                      th:src="@{img/community/testimonial-2.jpg}" alt="" class="avatar rounded-circle">
                 <span class="author">캠핑 고래</span>
               </a>
             </div>
-            <div class="post-date">
+            <div class="resalePost-date">
               <span class="ion-ios-clock-outline"></span> 10 min
             </div>
           </div>
@@ -372,8 +381,8 @@
       <div class="col-md-4">
         <div class="card card-blog">
           <div class="card-img">
-            <a href="blog-single.html"><img src="../../../static/img/community/post-2.jpg"
-                                            th:src="@{img/community/post-2.jpg}" alt="" class="img-fluid"></a>
+            <a href="blog-single.html"><img src="../../../static/img/community/resalePost-2.jpg"
+                                            th:src="@{img/community/resalePost-2.jpg}" alt="" class="img-fluid"></a>
           </div>
           <div class="card-body">
             <div class="card-category-box">
@@ -388,14 +397,14 @@
             </p>
           </div>
           <div class="card-footer">
-            <div class="post-author">
+            <div class="resalePost-author">
               <a href="#">
                 <img src="../../../static/img/community/testimonial-2.jpg"
                      th:src="@{img/community/testimonial-2.jpg}" alt="" class="avatar rounded-circle">
                 <span class="author">판매자</span>
               </a>
             </div>
-            <div class="post-date">
+            <div class="resalePost-date">
               <span class="ion-ios-clock-outline"></span> 30 min
             </div>
           </div>
@@ -404,8 +413,8 @@
       <div class="col-md-4">
         <div class="card card-blog">
           <div class="card-img">
-            <a href="blog-single.html"><img src="../../../static/img/community/post-3.jpg"
-                                            th:src="@{img/community/post-3.jpg}" alt="" class="img-fluid"></a>
+            <a href="blog-single.html"><img src="../../../static/img/community/resalePost-3.jpg"
+                                            th:src="@{img/community/resalePost-3.jpg}" alt="" class="img-fluid"></a>
           </div>
           <div class="card-body">
             <div class="card-category-box">
@@ -421,14 +430,14 @@
             </p>
           </div>
           <div class="card-footer">
-            <div class="post-author">
+            <div class="resalePost-author">
               <a href="#">
                 <img src="../../../static/img/community/testimonial-2.jpg"
                      th:src="@{img/community/testimonial-2.jpg}" alt="" class="avatar rounded-circle">
                 <span class="author">자매판</span>
               </a>
             </div>
-            <div class="post-date">
+            <div class="resalePost-date">
               <span class="ion-ios-clock-outline"></span> 50 min
             </div>
           </div>
@@ -438,6 +447,113 @@
   </div>
 </section>
 <!--/ Section Blog End /-->
+
+
+
+
+
+
+
+
+
+<!--⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 카드 영역 ⬜⬜⬜⬜⬜⬜⬜⬜⬜-->
+<div class="card">
+  <div class="card-body">
+
+    <h5 class="card-title" th:text="${enrollment.event.title}">Event title</h5>
+
+    <h6 class="card-subtitle mb-2 text-muted" th:text="${enrollment.event.study.title}">Study title</h6>
+
+    <p class="card-text">
+                                <span>
+                                    <i class="fa fa-calendar-o"></i>
+                                    <span class="calendar" th:text="${enrollment.event.startDateTime}">Last updated 3 mins ago</span>
+                                </span>
+    </p>
+
+    <a th:href="@{'/study/' + ${enrollment.event.study.path} + '/events/' + ${enrollment.event.id}}" class="card-link">모임 조회</a>
+    <a th:href="@{'/study/' + ${enrollment.event.study.path}}" class="card-link">스터디 조회</a>
+
+  </div>
+</div>
+<!--⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜카드 영역 ⬜⬜⬜⬜⬜⬜⬜⬜⬜-->
+
+<div class="row">
+  <table class="table" id="article-table">
+
+    <thead>
+    <tr>
+      <th class="title col-6"><a>제목</a></th>
+      <th class="hashtag col-2"><a>해시태그</a></th>
+      <th class="user-id"><a>작성자</a></th>
+      <th class="created-at"><a>작성일</a></th>
+    </tr>
+    </thead>
+
+    <tbody th:remove="all-but-first">
+
+    <tr th:each="article : ${articles}">
+      <td class="title">
+        <a th:text="${article.title}" th:href="@{'/articles/' + ${article.id}}">
+          첫글
+        </a>
+      </td>
+      <td class="hashtag">
+                <span class="badge text-bg-secondary mx-1" th:each="hashtag : ${article.hashtags}">
+                  <a class="text-reset"
+                     th:text="'#' + ${hashtag}"
+                     th:href="@{/templates/resalePost(searchType=${searchTypeHashtag},searchValue=${hashtag})}">
+                    #java
+                  </a>
+                </span>
+      </td>
+      <td class="user-id" th:text="${article.nickname}">
+        Uno
+      </td>
+      <td class="created-at">
+        <time th:datetime="${article.createdAt}" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd')}">
+          2022-01-01
+        </time>
+      </td>
+    </tr>
+    <tr>
+      <td>두번째글</td>
+      <td>#spring</td>
+      <td>Uno</td>
+      <td><time>2022-01-02</time></td>
+    </tr>
+    <tr>
+      <td>세번째글</td>
+      <td>#java</td>
+      <td>Uno</td>
+      <td><time>2022-01-03</time></td>
+    </tr>
+    </tbody>
+
+  </table>
+</div>
+
+<!--        <attr sel="tbody" th:remove="all-but-first">-->
+<!--          <attr sel="tr[0]" th:each="article : ${articles}">-->
+<!--            <attr sel="td.title/a" th:text="${article.title}" th:href="@{'/articles/' + ${article.id}}" />-->
+<!--            <attr sel="td.hashtag/span" th:each="hashtag : ${article.hashtags}">-->
+<!--              <attr sel="a"-->
+<!--                    th:text="'#' + ${hashtag}"-->
+<!--                    th:href="@{/templates/resalePost(searchType=${searchTypeHashtag},searchValue=${hashtag})}"-->
+<!--              />-->
+<!--            </attr>-->
+<!--            <attr sel="td.user-id" th:text="${article.nickname}" />-->
+<!--            <attr sel="td.created-at/time" th:datetime="${article.createdAt}" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd')}" />-->
+<!--          </attr>-->
+<!--        </attr>-->
+<!--        </attr>-->
+
+
+
+
+
+
+
 
 <!--/ Section Contact-Footer Star /-->
 <section class="paralax-mf footer-paralax bg-image sect-mt4 route"

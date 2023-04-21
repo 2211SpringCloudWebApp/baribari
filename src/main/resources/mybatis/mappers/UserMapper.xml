@@ -28,10 +28,10 @@
         FROM (
         SELECT LEVEL_NO, LEVEL_MIN_POINT, LEVEL_MAX_POINT
         FROM LEVEL_TBL
-        WHERE LEVEL_MIN_POINT &lt; (
+        WHERE LEVEL_MIN_POINT <![CDATA[<]]> (
         SELECT USER_LEVEL_POINT
         FROM USER_TBL
-        WHERE USER_NO = 22
+        WHERE USER_NO = #{levelNo}
         )
         ORDER BY LEVEL_MIN_POINT DESC
         ) L
@@ -45,11 +45,11 @@
         FROM ORDER_DETAIL_TBL A
         JOIN ORDER_TBL B ON A.ORDER_NO = B.ORDER_NO
         JOIN POINT_TBL P ON P.USER_NO = B.USER_NO
-        WHERE P.USER_NO = 22
+        WHERE P.USER_NO = #{levelNo}
         GROUP BY P.POINT_VAL, B.USER_NO
         ) O
         ON 1 = 1
-        WHERE ROWNUM &lt;= 1
+        WHERE ROWNUM <![CDATA[<]]> = 1
     </select>
 
 
@@ -79,6 +79,16 @@
         WHERE USER_ID = #{userId}
     </insert>
 
+<!-- 배송지 추가 -->
+    <insert id="insertAddressByUser" parameterType="Address">
+        INSERT INTO ADDRESS_TBL VALUES (SEQ_ADDRESS_NO.NEXTVAL, #{userNo}, #{addressZipCode},#{addressName},#{addressJibunDetail},#{addressJibun},#{addressPickup},#{addressPhone})
+    </insert>
+
+<!-- 배송지 리스트 가져오기 -->
+    <select id="selectAddressList" resultType="Address">
+        SELECT * FROM ADDRESS_TBL WHERE USER_NO = #{userNo}
+    </select>
+
 	<!-- 해당 상품을 구매해서 배송을 받은 회원인지 여부 -->
 	<select id="checkCustomer" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM USER_TBL
@@ -87,4 +97,14 @@
 		WHERE PRODUCT_NO = #{productNo} AND ORDER_STATUS = 3
 	</select>
 
+
+
+
+<!-- 유저 정보 업데이트 -->
+    <update id="updateMyPageUser" parameterType="User">
+        UPDATE USER_TBL SET USER_NICKNAME = #{userNickName}, USER_PHONE = #{userPhone}, USER_EMAIL = #{userEmail} WHERE USER_ID = #{userId}
+    </update>
+    <select id="selectUpdateByUser" resultType="User">
+        SELECT * FROM USER_TBL WHERE USER_ID = #{userId}
+    </select>
 </mapper>

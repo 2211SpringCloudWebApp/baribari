@@ -1,4 +1,4 @@
-package com.kh.baribari.community.junggo.domain;
+package com.kh.baribari.community.resaleplatform.domain;
 
 import com.kh.baribari.user.domain.User;
 import lombok.*;
@@ -9,11 +9,12 @@ import java.util.Objects;
 
 @Getter @ToString
 @AllArgsConstructor @NoArgsConstructor
-public class JunggoComment {
+public class ResaleComment
+{
 
     private Long commentNo; //댓글 번호
 
-    private Junggo communityNo; //게시글 번호
+    private ResalePost communityNo; //게시글 번호
     @Setter @NotBlank @Length(min = 2)
     private String commentContent; // 댓글 내용
 
@@ -24,7 +25,7 @@ public class JunggoComment {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        JunggoComment that = (JunggoComment) o;
+        ResaleComment that = (ResaleComment) o;
         return commentNo.equals(that.commentNo);
     }
 

@@ -12,6 +12,21 @@
 		<result	property="noticeUpdate"		column="NOTICE_UPDATE"/>
 	</resultMap>
 	
+	<!-- notice 글 등록 -->
+	<insert id="writeNotice">
+		INSERT INTO NOTICE_TBL(SEQ_NOTICENO.NEXTVAL, #{noticeCategory}, #{noticeTitle}, #{userId}, #{noticeContent}, DEFAULT, DEFAULT)
+	</insert>
+	
+	<!-- notice 수정 -->
+	<update id="modifyNotice">
+		UPDATE NOTICE_TBL SET NOTICE_CATEGORY= #{noticeCategory}, NOTICE_TITLE = #{noticeTitle}, NOTICE_CONTENT = #{noticeContent} WHERE NOTICE_NO = #{noticeNo}
+	</update>
+	
+	<!-- notice 삭제 -->
+	<delete id="deleteNotice">
+		DELETE FROM NOTICE_TBL WHERE NOTICE_NO = #{noticeNo}
+	</delete>
+	
 	<!-- notice 목록 -->
 	<select id="selectNoticeList" parameterType="_int">
 		SELECT * FROM NOTICE_TBL ORDER BY NOTICE_NO DESC
@@ -22,18 +37,56 @@
 		SELECT COUNT(*) FROM NOTICE_TBL
 	</select>
 	
-	<!-- 조회수 증가 -->
+	<!-- notice 조회수 증가 -->
 	<update id="updateViewCount">
 		UPDATE NOTICE_TBL VIEW_COUNT = VIEW_COUNT +1 WHERE NOTICE_NO = #{noticeNo}
 	</update>
 	
-	<!-- 게시판 상세조회 -->
+	<!-- notice 상세조회 -->
 	<select id="selectOneByNo">
 	SELECT * FROM NOTICE_TBL WHERE NOTICE_NO = #{noticeNO}
 	</select>
 	
-	<!-- 게시판 상세조회 -->
+	<!-- notice 상세조회 -->
 	<select id="selectUserByuserId">
 		SELECT * FROM NOTICE_TBL WHERE USER_ID = #{userId}
+	</select>
+	
+		<!-- notice 검색 -->
+	<select id="selectListByKeyword" resultMap="BoardResultMap">
+		SELECT * FROM NOTICE_TBL
+		<where>
+			<if test="searchCondition == 'all'">
+				NOTICE_TITLE LIKE '%' || #{searchValue } || '%' OR NOTICE_CONTENT LIKE '%' || #{searchValue } || '%'
+			</if>
+			<if test="searchCondition == 'title'">
+				NOTICE_TITLE LIKE '%' || #{searchValue } || '%'
+			</if>
+			<if test="searchCondition == 'content'">
+				NOTICE_CONTENT LIKE '%' || #{searchValue } || '%'
+			</if>
+			<if test="searchCondition == 'categoty'">
+				NOTICE_CATEGORY LIKE '%' || #{searchValue } || '%'
+			</if>
+		</where>
+	</select>
+	
+		<!-- notice 검색 결과 조회 -->
+	<select id="noticeSearch" resultType="_int">
+		SELECT COUNT(*) FROM NOTICE_TBL
+		<where>
+			<if test="searchCondition == 'all'">
+				NOTICE_TITLE LIKE '%' || #{searchValue } || '%' OR NOTICE_CONTENT LIKE '%' || #{searchValue } || '%'
+			</if>
+			<if test="searchCondition == 'title'">
+				NOTICE_TITLE LIKE '%' || #{searchValue } || '%'
+			</if>
+			<if test="searchCondition == 'content'">
+				NOTICE_CONTENT LIKE '%' || #{searchValue } || '%'
+			</if>
+			<if test="searchCondition == 'categoty'">
+				NOTICE_CATEGORY LIKE '%' || #{searchValue } || '%'
+			</if>
+		</where>
 	</select>
 </mapper>

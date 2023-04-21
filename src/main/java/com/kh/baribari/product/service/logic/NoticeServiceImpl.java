@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.baribari.common.PageInfo;
+import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Notice;
 import com.kh.baribari.product.repository.NoticeRepository;
 import com.kh.baribari.product.service.NoticeService;
@@ -40,6 +41,42 @@ public class NoticeServiceImpl implements NoticeService{
 	public Notice selectOneByNo(int noticeNo) {
 		Notice notice = nRepository.selectOneByNo(session, noticeNo);
 		return notice;
+	}
+
+	@Override
+	public int noticeSearch(Search search) {
+		int totalCount = nRepository.noticeSearch(session, search);
+		return totalCount;
+	}
+
+	@Override
+	public List<Notice> selectListByKeyword(PageInfo pi, Search search) {
+		List<Notice> searchList = nRepository.selectListByKeyword(session, pi, search);
+		return searchList;
+	}
+
+	@Override
+	public int writeNotice(Notice notice) {
+		int result = nRepository.writeNotice(session, notice);
+		return result;
+	}
+
+	@Override
+	public Notice noticeModifyView(int noticeNo) {
+		Notice notice = nRepository.noticeModifyView(session, noticeNo);
+		return notice;
+	}
+
+	@Override
+	public int modifyNotice(Notice notice) {
+		int result = nRepository.modifyNotice(session, notice);
+		return result;
+	}
+
+	@Override
+	public int deleteNotice(int noticeNo) {
+		int result = nRepository.deleteNotice(session, noticeNo);
+		return result;
 	}
 
 }

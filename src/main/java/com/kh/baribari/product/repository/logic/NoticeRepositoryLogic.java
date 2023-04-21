@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.baribari.common.PageInfo;
+import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Notice;
 import com.kh.baribari.product.repository.NoticeRepository;
 
@@ -38,4 +39,43 @@ public class NoticeRepositoryLogic implements NoticeRepository{
 		return notice;
 	}
 
+	@Override
+	public int noticeSearch(SqlSession session, Search search) {
+		int result = session.selectOne("NoticeMapper.noticeSearch" ,search);
+		return result;
+	}
+
+	@Override
+	public List<Notice> selectListByKeyword(SqlSession session, PageInfo pi, Search search) {
+		int limit = pi.getBoardLimit();
+		int currentPage = pi.getCurrentPage();
+		int offset = (currentPage - 1)*limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<Notice> searchList = session.selectList("NoticeMapper.selectListByKeyword", search, rowBounds);
+		return searchList;
+	}
+
+	@Override
+	public int writeNotice(SqlSession session, Notice notice) {
+		int result = session.insert("NoticeMapper.writeNotice", notice);
+		return result;
+	}
+
+	@Override
+	public Notice noticeModifyView(SqlSession session, int noticeNo) {
+		Notice notice = session.selectOne("NoticeMapper.noticeModifyView", noticeNo);
+		return notice;
+	}
+
+	@Override
+	public int modifyNotice(SqlSession session, Notice notice) {
+		int result = session.update("NoticeMapper.modifyNotice", notice);
+		return result;
+	}
+
+	@Override
+	public int deleteNotice(SqlSession session, int noticeNo) {
+		int result = session.delete("NoticeMapper.deleteNotice", noticeNo);
+		return result;
+	}
 }

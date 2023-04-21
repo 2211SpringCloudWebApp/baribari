@@ -59,7 +59,7 @@
                     <input 
                         type="text"
                         id="inputSearch" 
-                        onkeypress="if( event.keyCode == 13 ){search(event);}"
+                        onkeypress="if( event.keyCode == 13){search(event);}"
                         placeholder="검색할 장소를 입력하세요."
                     >
                     <button id="mapSearchbtn" onclick="search(event)">검색</button>
@@ -233,7 +233,7 @@
 	        
 			//해시태그 동작 부분
 	        function handleKeyDown(event) {
-	            if (event.key === ',') {
+	            if (event.key === ',' || event.key == ' ') {
 	                // ',' 키가 눌렸을 때 해시태그 유효성 검사
 	                var inputTage = document.getElementById('inputTage');
 	                var tags = inputTage.value; // 입력된 태그들 가져오기

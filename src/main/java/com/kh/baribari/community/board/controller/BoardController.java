@@ -71,19 +71,20 @@ public class BoardController {
 			@RequestParam(value = "subject", required = false) String subject
 			,@RequestParam(value = "content", required = false) String content
 			,@RequestParam(value = "category", required = false, defaultValue = "9") Integer category
-			,@RequestParam(value = "mapX", required = false, defaultValue = "0") Integer mapX
-			,@RequestParam(value = "mapY", required = false, defaultValue = "0") Integer mapY
+			,@RequestParam(value = "mapX", required = false, defaultValue = "0") String mapX
+			,@RequestParam(value = "mapY", required = false, defaultValue = "0") String mapY
 			,@RequestParam(value = "userNo", required = false, defaultValue = "0") Integer userNo
 			,@RequestParam(value = "seq", required = false) Integer seq
 			) {
 		try {
+			
 			Community commu = new Community();		// 정보를 담은 해시태그 생성
 			commu.setCommunityNo(seq);				// 시퀀스넘버
 			commu.setCommunitySubject(subject);		// 제목
 			commu.setCommunityContent(content);		// 내용
 			commu.setCommunityCategory(category);	// 말머리
-			commu.setMapX(mapX);					// 지도API X좌표
-			commu.setMapY(mapY);					// 지도API Y좌표
+			commu.setMapX(Double.parseDouble(mapX));					// 지도API X좌표
+			commu.setMapY(Double.parseDouble(mapY));					// 지도API Y좌표
 			commu.setUserNo(userNo);				// 작성자 No
 			
 			int result = bService.boardRegister(commu);

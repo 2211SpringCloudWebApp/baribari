@@ -33,7 +33,7 @@ body {
 	font-size: 50px;
 	margin-left: 50px;
 	margin-right: 50px;
-	color : black;
+	color: black;
 }
 /* 말머리, 제목 부분 */
 #registerdiv2 {
@@ -107,7 +107,7 @@ body {
 	font-weight: 900;
 	color: rgb(63, 114, 155);
 	margin-left: 6px;
-    font-size: 14px;
+	font-size: 14px;
 }
 
 #showTage a:hover {
@@ -124,6 +124,34 @@ body {
 	width: 100%;
 	height: 80%;
 }
+/*장소검색 오픈 버튼 부분*/
+#mapOpenDiv{
+	width: 900px;
+	height: 50px;
+	margin: auto;
+	margin-left: 50px;
+	margin-right: 50px;
+}
+
+#mapOpenbtn {
+	width: 100%;
+	height: 100%;
+}
+
+#mapRechoiceDiv{
+	width: 900px;
+	height: 50px;
+	margin: auto;
+	margin-left: 50px;
+	margin-right: 50px;
+	display : none;
+}
+
+#mapRechoicebtn {
+	width: 100%;
+	height: 100%;
+}
+
 /*장소추가 지도 부분*/
 #registerdiv6 {
 	width: 900px;
@@ -131,29 +159,25 @@ body {
 	margin: auto;
 	margin-left: 50px;
 	margin-right: 50px;
-	color : black;
-}
-
-#mapOpenbtn {
-	width: 100%;
-	height: 50px;
 }
 
 #inputSearch {
-	display: none;
 	float: left;
 	width: 750px;
 	height: 45px;
 }
 
 #mapSearchbtn {
-	display: none;
 	width: 140px;
 	height: 50px;
 }
-
-#list_ul {
+#mapChoicebtn {
 	display: none;
+	width: 900px;
+	height: 50px;
+}
+#list_ul {
+	color : black;
 }
 
 #registerdiv6-1 {
@@ -161,10 +185,14 @@ body {
 	height: 200px;
 }
 
+#registerdiv6-2 {
+	width: 900px;
+	height: 200px;
+}
+
 #map {
 	width: 900px;
 	height: 400px;
-	display: none;
 }
 /*사진 리스트*/
 #registerdiv7 {

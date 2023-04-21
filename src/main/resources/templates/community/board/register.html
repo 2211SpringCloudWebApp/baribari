@@ -33,7 +33,7 @@
         	<div th:replace="header.html :: header"></div>
         </header>
         
-        <form action="/boardRegister" method="post">
+        <form action="/boardRegister" method="post" onsubmit="return validateForm()">
             <div id="registerContainer">
                 <div id="registerdiv1">
                     글쓰기
@@ -47,26 +47,34 @@
                         </select>
                     </div>
                     <div id="registerdiv2-2">
-                        <input name="subject" type="text" required placeholder="제목을 입력하세요.">
+                        <input if="inputSubject" name="subject" type="text" placeholder="제목을 입력하세요.">
                         <input type="hidden" name="userNo" value = "45"/>
 	                    <input type="hidden" id="seq" name="seq" th:value="${seq}" />
                     </div>
                 </div>
-                <div id="registerdiv6">
-                    <button id="mapOpenbtn" onclick="showElements()">장소추가</button>
+                <div id="mapOpenDiv">
+                	<button id="mapOpenbtn" onclick="showElements(event)">장소추가</button>
+                </div>
+                <div id="registerdiv6" style="display: none;">
                     <input 
                         type="text"
                         id="inputSearch" 
-                        onkeypress="if( event.keyCode == 13 ){search();}"
+                        onkeypress="if( event.keyCode == 13 ){search(event);}"
                         placeholder="검색할 장소를 입력하세요."
                     >
-                    <button id="mapSearchbtn" onclick="search()">검색</button>
+                    <button id="mapSearchbtn" onclick="search(event)">검색</button>
                     <div id ="registerdiv6-1" style="overflow: auto;">
                         <ul id="list_ul" ></ul>
                     </div>
                     <div id="map" ></div>
-                    <input type="hidden" name="mapX" value = "2"/>
-	                <input type="hidden" name="mapY" value = "2"/>
+                    <div id ="registerdiv6-2">
+                        <button id="mapChoicebtn" onclick="mapChoice(event)">추가하기</button>
+                    </div>
+                    <input type="hidden" id="mapXval" name="mapX" value="0">
+	                <input type="hidden" id="mapYval" name="mapY" value="0">
+                </div>
+                <div id="mapRechoiceDiv">
+                	<button id="mapRechoicebtn" onclick="reChoiceMap(event)">다시선택하기</button>
                 </div>
                 
                 <div id="registerdiv3">
@@ -88,7 +96,7 @@
                     <input type="file">
                 </div>
                 <div name = "content" id="registerdiv4">
-                    <textarea required placeholder="내용을 입력하세요."></textarea>
+                    <textarea name="content" id="inputContent" placeholder="내용을 입력하세요."></textarea>
                 </div>
                 <div id="registerdiv5">
                     <div id="showTage" ></div>
@@ -108,84 +116,116 @@
         <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ba03b0afa21d048313b9d7072d06edb9"></script>
         <script>
-            //버튼 클릭시 요소들 보이게 하기.
-            function showElements() {
-                var input = document.getElementById("inputSearch");
-                var ul = document.getElementById("list_ul");
-                var map = document.getElementById("map");
-                var mapSearchbtn = document.getElementById("mapSearchbtn");
-                var registerdiv6 = document.getElementById("registerdiv6");
-
-
-                if (ul.style.display === "none") {
-                    input.style.display = "block";
-                    ul.style.display = "block";
-                    map.style.display = "block";
-                    mapSearchbtn.style.display = "block";
-                    registerdiv6.style.height = "750px";
-                    
-                } else {
-                    input.style.display = "none";
-                    ul.style.display = "none";
-                    map.style.display = "none";
-                    mapSearchbtn.style.display = "none";
-                    registerdiv6.style.height = "50px";
-                }
+        
+      	//버튼 클릭시 요소들 보이게 하기.
+        function showElements(event) {
+            if (event) {event.preventDefault();} // 폼 제출을 막음
+            var registerdiv6 = document.getElementById("registerdiv6");		// 검색영역
+			var mapOpenDiv = document.getElementById("mapOpenbtn");	
+			var mapXval = document.getElementById("mapXval");
+			var mapYval = document.getElementById("mapYval");
+			
+            // 버튼 클릭시 요소 보이게 하기
+            if (registerdiv6.style.display === "none") {
+                registerdiv6.style.height = "750px";
+                registerdiv6.style.display = "block";
+                mapOpenDiv.innerHTML = '취소';
+            
+            // 다시 클릭시 요소 안보이게 하기.
+            } else {
+                registerdiv6.style.height = "50px";   
+                registerdiv6.style.display = "none";
+                mapOpenDiv.innerHTML = '장소추가';
+                mapXval.value = "0";
+                mapYval.value = "0";
             }
+        }
 
-            function search() {
-                var list_ul = document.getElementById('list_ul');
-                var keyword = document.getElementById('inputSearch').value;
-                var places = new kakao.maps.services.Places();
-                var str = "";
-                var callback = function (result, status) {
-                    if (status === kakao.maps.services.Status.OK) {
-                        for (var i = 0; i < result.length; i++) {
-                            var placeName = result[i].place_name;
-                            var addressName = result[i].address_name;
-                            var xCross = result[i].x;
-                            var yCross = result[i].y;
-                            str += '<li onclick="createMap('+xCross+','+yCross+',\''+placeName+'\');">'+placeName+'<br>'+addressName+'</li><br>';
-                        }
-                        list_ul.innerHTML = str;
+        // 검색하는 함수.
+        function search(event) {
+            if (event) {event.preventDefault();} // 폼 제출을 막음
+            var list_ul = document.getElementById('list_ul');  // 검색 결과를 표시할 리스트를 가져옴
+            var keyword = document.getElementById('inputSearch').value;  // 검색어 입력란에서 검색어를 가져옴
+            var places = new kakao.maps.services.Places();  // Kakao Maps API의 Places 서비스 객체를 생성
+            var str = "";  // 검색 결과를 문자열로 저장할 변수를 초기화
+            var callback = function(result, status) {  // 검색 결과를 처리할 콜백 함수를 정의
+                if (status === kakao.maps.services.Status.OK) {  // 검색 결과가 성공적으로 수신되었다면
+                    for (var i=0; i<result.length; i++) {  // 검색 결과 배열을 반복하며
+                        var placeName = result[i].place_name;  // 장소 이름을 가져옴
+                        var addressName = result[i].address_name;  // 주소를 가져옴
+                        var xCross = result[i].x;  // 경도를 가져옴
+                        var yCross = result[i].y;  // 위도를 가져옴
+                        str += '<li onclick="createMap('+xCross+','+yCross+',\''+placeName+'\');">'+placeName+'<br>'+addressName+'</li><br>';  // 검색 결과를 HTML 문자열로 저장
                     }
+                    list_ul.innerHTML = str;  // 검색 결과 리스트에 HTML 문자열을 삽입하여 결과를 표시
+                }
+            };
+            places.keywordSearch(keyword, callback);  // Places 서비스 객체의 keywordSearch 메서드를 호출하여 검색을 실행
+        }
+
+        // 검색결과중 지도 한곳을 클릭했을 때 지도를 생성해주는 함수.
+        // 게시물 디테일 페이지에서도 사용하면 될듯함.
+        function createMap(x, y,a) {
+            var mapXval = document.getElementById('mapXval').value = x.toString();  // 지도 X좌표
+            var mapYval = document.getElementById('mapYval').value = y.toString();  // 지도 Y좌표
+            var mapChoicebtn = document.getElementById('mapChoicebtn');
+            mapChoicebtn.style.display = "block";
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                mapOption = {
+                    center: new kakao.maps.LatLng(y, x), // 지도의 중심좌표
+                    level: 3 // 지도의 확대 레벨
                 };
+            var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+            // 마커를 표시할 위치입니다 
+            var position = new kakao.maps.LatLng(y, x);
+            // 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                position: position
+            });
+            // 마커를 지도에 표시합니다.
+            marker.setMap(map);
+            // 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
+            var iwContent = '<div style="padding:5px;">'+a+'</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+            // 인포윈도우를 생성합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content: iwContent
+            });
+            // 마커에 마우스오버 이벤트를 등록합니다
+            kakao.maps.event.addListener(marker, 'mouseover', function () {
+                // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
+                infowindow.open(map, marker);
+            });
+            // 마커에 마우스아웃 이벤트를 등록합니다
+            kakao.maps.event.addListener(marker, 'mouseout', function () {
+                // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
+                infowindow.close();
+            });
+        }
 
-                places.keywordSearch(keyword, callback);
-            }
-
-            function createMap(x, y,a) {
-                var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-                    mapOption = {
-                        center: new kakao.maps.LatLng(y, x), // 지도의 중심좌표
-                        level: 3 // 지도의 확대 레벨
-                    };
-                var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-                // 마커를 표시할 위치입니다 
-                var position = new kakao.maps.LatLng(y, x);
-                // 마커를 생성합니다
-                var marker = new kakao.maps.Marker({
-                    position: position
-                });
-                // 마커를 지도에 표시합니다.
-                marker.setMap(map);
-                // 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
-                var iwContent = '<div style="padding:5px;">'+a+'</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-                // 인포윈도우를 생성합니다
-                var infowindow = new kakao.maps.InfoWindow({
-                    content: iwContent
-                });
-                // 마커에 마우스오버 이벤트를 등록합니다
-                kakao.maps.event.addListener(marker, 'mouseover', function () {
-                    // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
-                    infowindow.open(map, marker);
-                });
-                // 마커에 마우스아웃 이벤트를 등록합니다
-                kakao.maps.event.addListener(marker, 'mouseout', function () {
-                    // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
-                    infowindow.close();
-                });
-            }
+        // 장소 선택 완료버튼
+        function mapChoice(event){
+        	if (event) {event.preventDefault();} // 폼 제출을 막음
+        	document.getElementById("inputSearch").style.display = "none";
+            document.getElementById("list_ul").style.display = "none";
+            document.getElementById("mapSearchbtn").style.display = "none";
+            document.getElementById('mapChoicebtn').style.display = "none";
+            document.getElementById('mapOpenDiv').style.display = "none";
+            document.getElementById('registerdiv6-1').style.display = "none";
+            document.getElementById("mapRechoiceDiv").style.display = "block";
+            document.getElementById("registerdiv6").style.height = "400px";
+        }
+        
+        function reChoiceMap(event){
+        	if (event) {event.preventDefault();} // 폼 제출을 막음
+        	document.getElementById("inputSearch").style.display = "block";
+            document.getElementById("list_ul").style.display = "block";
+            document.getElementById("mapSearchbtn").style.display = "block";
+            document.getElementById('mapChoicebtn').style.display = "block";
+            document.getElementById('mapOpenDiv').style.display = "block";
+            document.getElementById('registerdiv6-1').style.display = "block";
+            document.getElementById("mapRechoiceDiv").style.display = "none";
+        	document.getElementById("registerdiv6").style.height = "750px";
+        }
             
             function onmouseEvent(){
 	            document.addEventListener('keydown', handleKeyDown);
@@ -283,6 +323,19 @@
 	        			alert("태그등록 실패");
 	        		}
 	        	});
+	        }
+	        
+	      	//폼체크 비어있는지 
+	        function validateForm() {
+		       	// 필수 입력 필드 검사
+		    	var requiredFields = document.querySelectorAll('#inputSubject[required], #inputContent[required]');
+		       	for (var i = 0; i < requiredFields.length; i++) {
+			       	if (!requiredFields[i].value) {
+			       		alert('필수 입력 필드를 모두 입력해주세요.');
+			       	    return false; // 폼 제출 중지
+			       	}
+		       	}
+	       		return true; // 폼 제출
 	        }
         </script>
         

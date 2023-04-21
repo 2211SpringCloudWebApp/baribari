@@ -10,8 +10,8 @@ public class Community {
 	private String communityContent;	// 게시글 내용
 	private int communityCategory;		// 게시글 말머리
 	private String communityDate;		// 게시글 작성날짜
-	private int mapX;					// 지도 X좌표
-	private int mapY;					// 지도 Y좌표
+	private double mapX;				// 지도 X좌표
+	private double mapY;				// 지도 Y좌표
 	private String communityYn;			// 블라인드 여부 0=정상, 1=블라인드
 	private int userNo;					// 작성자 유저넘버
 	private int viewCount;				// 조회수

@@ -40,26 +40,21 @@ public class ProductController {
 			, @RequestParam(value = "category", required = false, defaultValue = "All") String productCategory
 			, @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage
 			) {
-		try {
-			// 상품 총 갯수
-			int pCount = pService.getProductCount(productCategory);
-			// PageInfo 매개변수: 현재페이지 (RequestParam), 전체 게시글 수 (mapper), 페이지 당 게시글 수
-			PageInfo pi = new PageInfo(currentPage, pCount, 20); 
-			// 상품 목록
-			List<Product> pList = pService.getProductList(productCategory, pi);
-			
-			if(pList != null) {
-				mv.addObject("pList", pList);
-				mv.addObject("pCount", pCount);
-				mv.addObject("pi", pi);
-				mv.setViewName("shopping/list");
-				return mv;
-			} else {
-				mv.addObject("msg", "오류").setViewName("error");
-				return mv;
-			}
-		} catch (Exception e) {
-			mv.addObject("msg", e.getMessage()).setViewName("error");
+		// 상품 총 갯수
+		int pCount = pService.getProductCount(productCategory);
+		// PageInfo 매개변수: 현재페이지 (RequestParam), 전체 게시글 수 (mapper), 페이지 당 게시글 수
+		PageInfo pi = new PageInfo(currentPage, pCount, 20); 
+		// 상품 목록
+		List<Product> pList = pService.getProductList(productCategory, pi);
+		
+		if(pList != null) {
+			mv.addObject("pList", pList);
+			mv.addObject("pCount", pCount);
+			mv.addObject("pi", pi);
+			mv.setViewName("shopping/list");
+			return mv;
+		} else {
+			mv.addObject("msg", "오류").setViewName("error");
 			return mv;
 		}
 	}
@@ -81,29 +76,24 @@ public class ProductController {
 	// 상품 상세 페이지 (상품 정보, 추천 상품 목록)
 	@GetMapping("/detail")
 	public ModelAndView getProductDetail(ModelAndView mv, int productNo) {
-		try {
-			// 상품 정보
-			Product product = pService.getProductDetail(productNo);
-			// 상품 분류에 따른 추천 상품 목록
-			List<Product> pList = pService.getProductRecommendList(product.getProductCategory());
-			// 상품에 대한 후기 갯수
-			int reviewCount = rService.getReviewCount(productNo);
-			// 상품을 구매한 회원인지 확인 여부
-			int customer = uService.checkCustomer(productNo);
+		// 상품 정보
+		Product product = pService.getProductDetail(productNo);
+		// 상품 분류에 따른 추천 상품 목록
+		List<Product> pList = pService.getProductRecommendList(product.getProductCategory());
+		// 상품에 대한 후기 갯수
+		int reviewCount = rService.getReviewCount(productNo);
+		// 상품을 구매한 회원인지 확인 여부
+		int customer = uService.checkCustomer(productNo);
 
-			mv.addObject("product", product);
-			mv.addObject("pList", pList);
-			mv.addObject("customer", customer);
-			mv.addObject("reviewCount", reviewCount);
-			mv.setViewName("shopping/detail");
-			return mv;
-		} catch (Exception e) {
-			mv.addObject("msg", e.getMessage()).setViewName("error");
-			return mv;
-		}
+		mv.addObject("product", product);
+		mv.addObject("pList", pList);
+		mv.addObject("customer", customer);
+		mv.addObject("reviewCount", reviewCount);
+		mv.setViewName("shopping/detail");
+		return mv;
 	}
 	
-	public void scap() {
+	public void scrap() {
 		
 	}
 	

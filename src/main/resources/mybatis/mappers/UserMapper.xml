@@ -107,4 +107,8 @@
     <select id="selectUpdateByUser" resultType="User">
         SELECT * FROM USER_TBL WHERE USER_ID = #{userId}
     </select>
+    
+    <select id="findUserInfoByUserNo" parameterType="_int" resultType="User">
+		SELECT * FROM USER_TBL WHERE USER_NO = #{userNo}
+	</select>
 </mapper>

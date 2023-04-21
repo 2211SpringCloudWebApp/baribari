@@ -1,16 +1,15 @@
 package com.kh.baribari.user.service.logic;
 
-import com.kh.baribari.user.domain.Address;
-import com.kh.baribari.user.domain.UserMyPageData;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.baribari.user.domain.Address;
 import com.kh.baribari.user.domain.User;
 import com.kh.baribari.user.domain.UserMyPageData;
 import com.kh.baribari.user.repository.UserRepository;
 import com.kh.baribari.user.service.UserService;
-
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -68,4 +67,9 @@ public class UserServiceImpl implements UserService {
     public List<Address> selectAddressList(User user) {
         return uRepository.selectAddressList(user);
     }
+
+	@Override
+	public User getUserInfo(int userNo) {
+		return uRepository.getUserInfo(userNo);
+	}
 }

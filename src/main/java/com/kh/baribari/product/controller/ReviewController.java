@@ -36,45 +36,40 @@ public class ReviewController {
 	public String registerReview(
 			@RequestParam(value = "fileList", required = false) List<MultipartFile> fList
 			, @ModelAttribute Review review
-			, HttpServletRequest request) {
+			, HttpServletRequest request) throws Exception {
 		Map<String, String> fMap = new HashMap<String, String>();
-	    try {
-	    	// 파일 경로
-	        String path = "shopping/review";
-	        int i = 1;
-	        // 첨부파일이 있을 경우 파일 저장
-	        if (fList != null) {
-	        	for (MultipartFile file : fList) {
-	        		Map<String, String> fileInfo = fileUpload.saveFile(file, request, path);
-	        		for (String k : fileInfo.keySet()) {
-	        			String key = "file" + i;
-	        			String value = fileInfo.get(k);
-	        			fMap.put(key, value);
-	        			if (i == 1) {
-	        				review.setReviewPic1(value);
-	        			} else if (i == 2) {
-	        				review.setReviewPic2(value);
-	        			} else if (i == 3) {
-	        				review.setReviewPic3(value);
-	        			} else if (i == 4) {
-	        				review.setReviewPic4(value);
-	        			} else if (i == 5) {
-	        				review.setReviewPic5(value);
-	        			}
-	        		}
-	        		i++;
-	        	}
-			}
-	        int result = rService.registerReview(review);
-	        if (result > 0) {
-	            return "1";
-	        } else {
-	            return "0";
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return e.getMessage();
-	    }
+    	// 파일 경로
+        String path = "shopping/review";
+        int i = 1;
+        // 첨부파일이 있을 경우 파일 저장
+        if (fList != null) {
+        	for (MultipartFile file : fList) {
+        		Map<String, String> fileInfo = fileUpload.saveFile(file, request, path);
+        		for (String k : fileInfo.keySet()) {
+        			String key = "file" + i;
+        			String value = fileInfo.get(k);
+        			fMap.put(key, value);
+        			if (i == 1) {
+        				review.setReviewPic1(value);
+        			} else if (i == 2) {
+        				review.setReviewPic2(value);
+        			} else if (i == 3) {
+        				review.setReviewPic3(value);
+        			} else if (i == 4) {
+        				review.setReviewPic4(value);
+        			} else if (i == 5) {
+        				review.setReviewPic5(value);
+        			}
+        		}
+        		i++;
+        	}
+		}
+        int result = rService.registerReview(review);
+        if (result > 0) {
+            return "1";
+        } else {
+            return "0";
+        }
 	}
 	
 	// 상품 후기 목록 출력

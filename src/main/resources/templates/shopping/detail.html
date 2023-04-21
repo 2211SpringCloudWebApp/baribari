@@ -26,9 +26,11 @@
 </head>
 <body>
 <!-- Header -->
-<header th:replace="header :: header"></header>
+<!-- <header th:replace="header :: header"></header> -->
 
 <section class="py-5">
+	<input sec:authorize="!isAuthenticated()" value="0" type="hidden" name="userNo">
+	<input sec:authorize="isAuthenticated()" th:value="${#authentication.principal.user.userNo}" type="hidden" name="userNo">
 	<div class="container px-4 px-lg-5 my-5">
 	    <div class="row gx-4 gx-lg-5 align-items-center">
 	        <div class="col-md-6">
@@ -68,14 +70,8 @@
 	            <!-- 구매/장바구니/찜하기 버튼 -->
 	            <div sec:authorize="hasRole('ROLE_USER')" class="d-flex">
 	                <button class="btn btn-outline-dark" type="button">바로 구매</button>
-	                <button class="btn btn-outline-dark" type="button">
-	                    <i class="fas fa-shopping-cart"></i>
-	                    장바구니
-	                </button>
-	                <button class="btn btn-outline-dark" type="button">
-	                    <i class="fas fa-heart"></i>
-	                    찜하기
-	                </button>
+	                <button class="btn btn-outline-dark" type="button" onclick="addToCart()"><i class="fas fa-shopping-cart"></i>장바구니</button>
+	                <button class="btn btn-outline-dark" type="button"><i class="fas fa-heart"></i>찜하기</button>
 	            </div>
 	        </div>
 	    </div>
@@ -112,7 +108,7 @@
             <h2 class="h2Class">상품후기</h2>
             
             <!-- 후기 작성 - 해당 상품을 구매하고 배송받은 사용자만 작성 가능 -->
-            <div th:if="${customer >= 0}" class="writeReview">
+            <div sec:authorize="hasRole('ROLE_USER')" th:if="${customer >= 0}" class="writeReview">
                 <h3>상품후기 작성</h3>
                 <form id="reviewForm" action="/review/register" method="post" enctype="multipart/form-data">
                     <textarea id="reviewContent" placeholder="내용"></textarea>
@@ -284,13 +280,15 @@
 <script src="../../js/shopping/board.js"></script>
 <script>
     
+    var userNo = document.querySelector('input[name="userNo"]').value;
 	var productNo = [[${product.productNo}]];
+	
+	/* 후기 목록 출력 */
+	getReviewList();
 
-	getReviewList(); /* 후기 목록 출력 */
-
-    const quantity = document.querySelector('#quantity'); /* 수량 */
-    const price = document.querySelector('#price').textContent.replace(/[,원]/g, ''); /* 가격 - ','와 '원' 제거 */
-    const totalPrice = document.querySelector('#totalPrice'); /* 총 금액 */
+    const quantity = document.querySelector('#quantity'); // 수량
+    const price = document.querySelector('#price').textContent.replace(/[,원]/g, ''); // 가격 - ','와 '원' 제거
+    const totalPrice = document.querySelector('#totalPrice'); // 총 금액
     let currentQuantity = 0;
 
     /* 수량 증가 */
@@ -298,7 +296,6 @@
         currentQuantity++;
         quantity.value = currentQuantity;
     }
-
     /* 수량 감소 */
     function decrement() {
         if (currentQuantity > 0) {
@@ -306,12 +303,26 @@
             quantity.value = currentQuantity;
         }
     }
-
     /* 총 가격 */ 
 	function calculatePrice() {
 	    const selectedQuantity = Number(quantity.value);
 	    const result = selectedQuantity * price;
 	    totalPrice.textContent = result.toLocaleString() + " 원";
+	}
+
+    /* 장바구니에 추가 */
+	function addToCart() {
+	    $.post("/cart/add", {
+	        userNo: userNo,
+	        productNo: productNo,
+	        productQuantity: quantity.value
+	    })
+	    .done(function(result) {
+	            alert("장바구니에 상품이 추가되었습니다.");
+	    })
+	    .fail(function() {
+	        alert("처리 실패");
+	    });
 	}
 
     /* 후기 출력 */
@@ -325,10 +336,10 @@
 	            var reviewListHtml = "";
 	            for(var i=0; i<rList.length; i++) {
 	                reviewListHtml += "<li>"
-	                                + "<span class='num'>" + (rList.length - i) + "</span>" /* 후기 번호 (역순) */
-	                                + "<img src='/uploadFiles/shopping/review/" + rList[i].reviewPic1 + "' width=10%>"
-	                                + "<span class='title'>" + rList[i].reviewContent.replace(/\n/g, "<br>") + "</span>" /* 후기 내용 */
-	                                + "<span class='author'>" + rList[i].userName + "</span>" /* 후기 작성자 */
+	                                + "<span class='num'>" + (rList.length - i) + "</span>" // 후기 번호 (역순)
+	                                + "<img src='/uploadFiles/" + (rList[i].reviewPic1 ? rList[i].reviewPic1.replace(/\\/g, '/') : '') + "' width='10%'>"
+	                                + "<span class='title'>" + rList[i].reviewContent.replace(/\n/g, "<br>") + "</span>" // 후기 내용
+	                                + "<span class='author'>" + rList[i].userName + "</span>" // 후기 작성자 = 로그인된 사용자
 	                                + "</li>"
 	            }
 	            $("#reviewBoard").empty();
@@ -339,7 +350,6 @@
 	        }
 	    });
 	}
-
     /* 후기 등록 */
 	$("#submitReview").on("click", function() {
 		const formData = new FormData();
@@ -348,9 +358,9 @@
 		for (let i = 0; i < fileList.length; i++) {
 		  formData.append("fileList", fileList[i]);
 		}
-
 		formData.append("reviewContent", reviewContent.value);
 		formData.append("productNo", productNo);
+		formData.append("userNo", userNo);
 
 		$.ajax({
 		  url: "/review/register",

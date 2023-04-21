@@ -2,14 +2,14 @@ package com.kh.baribari.user.repository.logic;
 
 import java.util.List;
 
-import com.kh.baribari.user.domain.Address;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.kh.baribari.user.domain.UserMyPageData;
+import com.kh.baribari.user.domain.Address;
 import com.kh.baribari.user.domain.Role;
 import com.kh.baribari.user.domain.User;
+import com.kh.baribari.user.domain.UserMyPageData;
 import com.kh.baribari.user.repository.UserRepository;
 
 @Repository
@@ -84,4 +84,9 @@ public class UserRepositoryLogic implements UserRepository {
     public List<Address> selectAddressList(User user) {
         return session.selectList("UserMapper.selectAddressList",user);
     }
+
+	@Override
+	public User getUserInfo(int userNo) {
+		return session.selectOne("UserMapper.findUserInfoByUserNo", userNo);
+	}
 }

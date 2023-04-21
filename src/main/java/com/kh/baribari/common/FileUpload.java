@@ -17,13 +17,13 @@ public class FileUpload {
 	    Map<String, String> result = null;
 	    if (multi != null && !multi.equals("")) {
 	        result = new HashMap<String, String>();
-	        
+
 	        // 업로드 한 파일의 실제 파일명
 	        String originalFileName = multi.getOriginalFilename();
 	        // 파일을 서버의 static 폴더에 저장
 	        String root = request.getSession().getServletContext().getRealPath("");
-	        // 경로를 가져와서 폴더의 경로 지정: static\설정된 경로
-	        String savePath = root + "/resources/static/uploadFiles/" + path;
+	        // 경로를 가져와서 폴더의 경로 지정: static/설정된 경로
+	        String savePath = root + "resources/static/uploadFiles/" + path;
 
 	        File folder = new File(savePath);
 	        // 저장할 폴더가 없을 경우 생성

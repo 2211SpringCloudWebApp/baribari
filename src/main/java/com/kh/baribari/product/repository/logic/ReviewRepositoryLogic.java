@@ -14,7 +14,6 @@ public class ReviewRepositoryLogic implements ReviewRepository {
 	@Override
 	public List<Review> getReviewList(SqlSession session, int productNo) {
 		List<Review> rList = session.selectList("ReviewMapper.getReviewList", productNo);
-		System.out.println(rList);
 		return rList;
 	}
 

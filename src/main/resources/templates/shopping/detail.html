@@ -283,7 +283,7 @@
     var userNo = document.querySelector('input[name="userNo"]').value;
 	var productNo = [[${product.productNo}]];
 	
-	/* 후기 목록 출력 */
+	/* 후기 출력 함수 실행 */
 	getReviewList();
 
     const quantity = document.querySelector('#quantity'); // 수량
@@ -316,12 +316,18 @@
 	        userNo: userNo,
 	        productNo: productNo,
 	        productQuantity: quantity.value
-	    })
-	    .done(function(result) {
-	            alert("장바구니에 상품이 추가되었습니다.");
-	    })
-	    .fail(function() {
-	        alert("처리 실패");
+	    }, function(result) {
+	        if (result == "1") {
+	            var form = $('<form></form>');
+	            form.attr('action', '/cart/list');
+	            form.attr('method', 'post');
+	            var input = $('<input type="hidden" name="userNo" value="' + userNo + '"/>');
+	            form.append(input);
+	            form.appendTo('body');
+	            form.submit();
+	        } else {
+	            alert('장바구니 등록 실패');
+	        }
 	    });
 	}
 

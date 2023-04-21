@@ -53,7 +53,7 @@
 	</select>
 	
 		<!-- notice 검색 -->
-	<select id="selectListByKeyword" resultMap="BoardResultMap">
+	<select id="selectListByKeyword" resultMap="NoticeResultMap">
 		SELECT * FROM NOTICE_TBL
 		<where>
 			<if test="searchCondition == 'all'">

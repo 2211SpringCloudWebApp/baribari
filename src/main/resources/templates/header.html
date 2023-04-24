@@ -101,11 +101,17 @@
         </div>
         <div sec:authorize="isAuthenticated()">
             <div class="dropdown">
+            <span th:text="${#authentication.principal.user.userNo}"></span>
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${#authentication.principal.user.userName}"></button>
                     <ul class="dropdown-menu" sec:authorize="hasRole('ROLE_USER')">
                         <li><button class="dropdown-item" type="button" onclick="location.href='/myPageUser'">마이페이지</button></li>
                         <li><button class="dropdown-item" type="button">주문내역</button></li>
-                        <li><button class="dropdown-item" type="button">장바구니</button></li>
+                        <li>
+					        <form th:action="@{/cart/list}" method="post">
+					            <input type="hidden" th:name="userNo" th:value="${#authentication.principal.user.userNo}"/>
+					            <button class="dropdown-item" type="submit">장바구니</button>
+					        </form>
+					    </li>
                         <li><button class="dropdown-item" type="button" onclick="location.href='/logout'">로그아웃</button></li>
                     </ul>
                 <ul class="dropdown-menu" sec:authorize="hasRole('ROLE_MANAGER')">

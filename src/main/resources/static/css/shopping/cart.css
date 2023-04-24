@@ -131,6 +131,7 @@
 	}
 }
 
+/* type=number의 화살표 항시 표기 */
 input[type=number]::-webkit-inner-spin-button {
     opacity: 1;
 }

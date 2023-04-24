@@ -52,9 +52,7 @@
 	            <!-- 수량 선택 -->
 	            <div class="d-flex justify-content-md-between">
 	                <div class="d-flex">
-	                    <input class="form-control text-center me-3" id="quantity" type="num" value="0" min="0" placeholder="수량" style="width: 5rem" />
-	                    <button class="btn btn-outline-dark width_2_5_rem" type="button" onclick="increment()">+</button>
-	                    <button class="btn btn-outline-dark width_2_5_rem" type="button" onclick="decrement()">-</button>
+	                    <input class="form-control text-center me-3" type="number" id="quantity"  value="0" min="0" placeholder="수량" style="width: 5rem" />
 	                    <button class="btn btn-outline-dark width_4_0_rem" type="button" onclick="calculatePrice()">선택</button>
 	                </div>
 	                <div class="d-flex">
@@ -312,6 +310,10 @@
 
     /* 장바구니에 추가 */
 	function addToCart() {
+    	if (quantity.value == 0) {
+    		alert("수량을 선택해 주세요");
+    		return 0;
+    	}
 	    $.post("/cart/add", {
 	        userNo: userNo,
 	        productNo: productNo,

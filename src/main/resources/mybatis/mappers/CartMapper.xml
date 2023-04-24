@@ -7,9 +7,15 @@
 		<result	property="productQuantity" column="PRODUCT_QUANTITY"/>
 	</resultMap>
 	
-	<!-- 장바구니에 상품 추가 -->
+	<!-- 장바구니에 상품 추가, 기존에 추가된 상품이 있을 경우 수량 추가 -->
 	<insert id="addToCart" parameterType="Cart">
-		INSERT INTO CART_TBL VALUES (#{userNo}, #{productNo}, #{productQuantity})
+		MERGE INTO CART_TBL c
+		USING (SELECT #{userNo} AS USER_NO, #{productNo} AS PRODUCT_NO, #{productQuantity} AS PRODUCT_QUANTITY FROM DUAL) d
+		ON (c.USER_NO = d.USER_NO AND c.PRODUCT_NO = d.PRODUCT_NO)
+		WHEN MATCHED THEN
+			UPDATE SET c.PRODUCT_QUANTITY = c.PRODUCT_QUANTITY + d.PRODUCT_QUANTITY
+		WHEN NOT MATCHED THEN
+			INSERT (USER_NO, PRODUCT_NO, PRODUCT_QUANTITY) VALUES (d.USER_NO, d.PRODUCT_NO, d.PRODUCT_QUANTITY)
 	</insert>
 	
 	<!-- 장바구니 목록 -->

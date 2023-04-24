@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CartMapper">
+	<resultMap type="Cart" id="cartResultMap">
+		<id		property="userNo" column="USER_NO"/>
+		<result	property="productNo" column="PRODUCT_NO"/>
+		<result	property="productQuantity" column="PRODUCT_QUANTITY"/>
+	</resultMap>
+	
+	<!-- 장바구니에 상품 추가 -->
+	<insert id="addToCart" parameterType="Cart">
+		INSERT INTO CART_TBL VALUES (#{userNo}, #{productNo}, #{productQuantity})
+	</insert>
+	
+	<!-- 장바구니 목록 -->
+	<select id="getCartList" parameterType="_int" resultMap="cartResultMap">
+		SELECT USER_NO, PRODUCT_NO, PRODUCT_QUANTITY, PRODUCT_NAME, PRODUCT_PRICE FROM CART_TBL LEFT JOIN PRODUCT_TBL USING (PRODUCT_NO) WHERE USER_NO = #{userNo}
+	</select>
+	
+	<!-- 장바구니에서 상품 제거 -->
+	<delete id="removeFromCart" parameterType="_int">
+		DELETE FROM CART_TBL WHERE USER_NO = #{userNo} AND PRODUCT_NO = #{productNo}
+	</delete>
+</mapper>

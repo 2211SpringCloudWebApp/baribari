@@ -13,6 +13,8 @@ public class MyPageQna {
     private String qnaDate;
     private String qnaAnswerYn;
     private int answerNo;
+    private String answerContent;
+    private int answerUserNo;
 
     public MyPageQna() {
     }

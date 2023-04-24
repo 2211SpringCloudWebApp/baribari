@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>배송지 관리</title>
+    <title>1:1 문의</title>
     <!-- Favicons -->
     <link href="../assets/img/favicon.png" rel="icon">
     <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -25,7 +25,7 @@
     <link href="../assets/css/style.css" rel="stylesheet">
     <link href="../css/mypage/user/userMypageCss.css" rel="stylesheet">
     <link href="../css/mypage/user/userModifyCss.css" rel="stylesheet">
-    <link href="../css/mypage/user/userQnaCss.css" rel="stylesheet">
+    <link href="../css/mypage/user/userQnaDetailCss.css" rel="stylesheet">
 
 
 </head>
@@ -34,7 +34,9 @@
 <div class="mainContainer" style="padding-top: 170px">
     <div class="top">
         <div class="top-container">
-            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myPage/qna">1:1문의</a></div>
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black"
+                                                                                                   href="/myPage/qna">1:1문의</a>
+            </div>
             <div style="margin-top: 30px;">
                 <div class="page-title">1:1 문의</div>
                 <div class="page-menu">
@@ -49,36 +51,26 @@
     </div>
 
     <div class="qna-middle">
-        <div class="qna-btn-box">
-            <button class="qna-btn" id="all" onclick="btnSelect('all');">전체</button>
-            <button class="qna-btn" id="Y" onclick="btnSelect('Y');">답변완료</button>
-            <button class="qna-btn" id="N" onclick="btnSelect('N');">답변대기</button>
+        <div class="btn-box">
+            <button class="qna-detail-btn" onclick="location.href='/myPageUser/qna?qnaAnswerYn=all'">목록으로</button>
+            <div>
+                <button class="qna-detail-btn">수정</button>
+                <button class="qna-detail-btn">삭제</button>
+            </div>
+        </div>
+
+
+        <div>
+            <div class="qna-detail-content">
+                <div class="title">문의내용</div>
+                <div class="content" th:text="${qnaDetail.qnaContent}"></div>
+            </div>
         </div>
         <div>
-            <table class="qna-table">
-                <colgroup>
-                    <col style="width: 20%;">
-                    <col style="width: 14%;">
-                    <col>
-                    <col style="width: 10%;">
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>작성일</th>
-                        <th>문의구분</th>
-                        <th>내용</th>
-                        <th>답변여부</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="table-qna-tr" th:each="qna : ${qnaList}">
-                        <td th:text="${qna.qnaDate}"></td>
-                        <td th:text="${qna.qnaCategory}">구분</td>
-                        <td><a th:href="'/myPageUser/qnaDetail?qnaNo='+${qna.qnaNo}"><span th:text="${qna.qnaContent}" class="table-content"></span></a></td>
-                        <td th:class="${qna.qnaAnswerYn}" th:text="${qna.qnaAnswerYn}"></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="qna-detail-content">
+                <div class="title">답변내용</div>
+                <div class="content" th:text="${qnaDetail.answerContent}"></div>
+            </div>
         </div>
     </div>
 
@@ -94,5 +86,6 @@
 
     <!-- Template Main JS File -->
     <script src="../assets/js/main.js"></script>
+</div>
 </body>
 </html>

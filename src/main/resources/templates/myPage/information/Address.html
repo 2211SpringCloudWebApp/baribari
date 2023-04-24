@@ -23,9 +23,9 @@
     <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <link href="../assets/css/style.css" rel="stylesheet">
-    <link href="../assets/css/userMypageCss.css" rel="stylesheet">
-    <link href="../assets/css/userModifyCss.css" rel="stylesheet">
-    <link href="../assets/css/userAddressPageCss.css" rel="stylesheet">
+    <link href="../css/mypage/user/userMypageCss.css" rel="stylesheet">
+    <link href="../css/mypage/user/userModifyCss.css" rel="stylesheet">
+    <link href="../css/mypage/user/userAddressPageCss.css" rel="stylesheet">
 
 
 </head>
@@ -34,14 +34,14 @@
 <div class="mainContainer" style="padding-top: 170px">
     <div class="top">
         <div class="top-container">
-            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myPage/modify">회원정보 수정</a></div>
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myPage/modify">배송지관리</a></div>
             <div style="margin-top: 30px;">
                 <div class="page-title">배송지관리</div>
                 <div class="page-menu">
                     <dl>
                         <dd class="page-modify"><a href="/myPageUser/modify" >회원정보 수정</a></dd>
                         <dd class="page-active"><a href="/myPageUser/address">배송지 관리</a></dd>
-                        <dd class="page-withdraw">회원탈퇴</dd>
+                        <dd class="page-withdraw"><a href="/myPageUser/withdraw">회원탈퇴</a></dd>
                     </dl>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                         <span >
                             <a href="javascript:" onclick="">수정</a>
                         </span>
-                        <span class="" style="display: inline;"><a href="javascript:" th:data-param="${address.addressNo}" onclick="addressDelete(this.getAttribute('data-param'))">삭제</a>
+                        <span class="" style="display: inline;"><a th:data-no="${address.addressNo}" href="javascript:" onclick="removeAddress(this.getAttribute('data-no'))">삭제</a>
                         </span>
                     </div>
                 </li>
@@ -111,7 +111,7 @@
                     <tr>
                         <th>휴대폰</th>
                         <td>
-                            <div><input type="text" id="addressPhone1" class="address-phone-input" maxlength="3"> - <input type="text" id="addressPhone2" class="address-phone-input" maxlength="4"> - <input type="text" id="addressPhone3" class="address-phone-input" maxlength="4"></div>
+                            <div><input type="text" id="phone1-address" class="address-phone-input"> - <input type="text" id="phone2-address" class="address-phone-input"> - <input type="text" id="phone3-address" class="address-phone-input"></div>
                             <input type="hidden" name="addressPhone" id="address-phone">
                         </td>
                     </tr>
@@ -126,51 +126,9 @@
 
     <div class="modal-back" onclick="modalRemove();"></div>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="../js/user/user-address.js"></script>
 <script>
-    function stringJoin(){
-        var phone = $('#addressPhone1').val() + '-' + $('#addressPhone2').val() + '-' + $('#addressPhone3').val();
-        $('#address-phone').val(phone);
-    }
-    function findAddress(){
-        new daum.Postcode({
-            oncomplete: function(data) {
-                console.log(data);
-                $('.address-zip').val(data.zonecode);
-                if(data.jibunAddress == ""){
-                    $('.address-jibun').val(data.autoJibunAddress + " " + data.buildingName);
-                }else {
-                    $('.address-jibun').val(data.jibunAddress + " " + data.buildingName);
-                }
-            }
-        }).open();
-    }
 
-    function addressDelete(addressNo){
-        $.ajax({
-            url:'/addressDelete',
-            type:'post',
-            dataType: {
-                'addressNo' : addressNo
-            },
-            success:function(data){
-
-            },
-            error:function(data){
-                console.log(data);
-            }
-        })
-    }
-    function modalActive(){
-       $('.address-add-modal').addClass('modal-active');
-       $('.modal-back').addClass('modal-back-active');
-       $('.modal-close-btn').addClass('modal-close-btn-active');
-    }
-
-    function modalRemove(){
-        $('.address-add-modal').removeClass('modal-active');
-        $('.modal-back').removeClass('modal-back-active')
-        $('.modal-close-btn').removeClass('modal-close-btn-active');
-    }
 
 
 

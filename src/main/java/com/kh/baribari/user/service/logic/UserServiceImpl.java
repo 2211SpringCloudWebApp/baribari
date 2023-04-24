@@ -78,4 +78,21 @@ public class UserServiceImpl implements UserService {
     public List<MyPageQna> selectQna(MyPageQna qna) {
         return uRepository.selectQna(qna);
     }
+
+    @Override
+    public MyPageQna selectQnaDetail(int answerNo) {
+        return uRepository.selectQnaDetail(answerNo);
+    }
+
+    //  배송지 삭제
+    @Override
+    public int deleteAddress(int addressNo) {
+        return uRepository.deleteAddress(addressNo);
+    }
+
+//    유저 회원탈퇴
+    @Override
+    public int deleteUserByUserNo(int userNo) {
+        return uRepository.deleteUserByUser(userNo);
+    }
 }

@@ -29,20 +29,9 @@
     width: 148px;
     margin-right: 20px;
 }
-
-.qna-btn-active{
-    justify-content: space-around;
-    text-align: center;
-    display: flex;
-    height: 59px;
+.active{
     border: 1px solid #3DB35E;
-    background: #fff;
-    font-size: 15px;
-    line-height: 59px;
-    border-radius: 8px;
     color: #3DB35E;
-    width: 148px;
-    margin-right: 20px;
 }
 .qna-table{
     background-color: #fff;
@@ -72,8 +61,4 @@
 }
 .qna-table tr{
     border-bottom: 20px solid white;
-}
-.table-content{
-    width: 640px;
-    overflow: hidden;
 }

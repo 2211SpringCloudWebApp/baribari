@@ -6,6 +6,7 @@ import com.kh.baribari.user.domain.UserMyPageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -128,6 +129,22 @@ public class UserController {
         return "myPage/information/UserModify";
     }
 
+//  회원탈퇴 뷰
+    @GetMapping("myPageUser/withdraw")
+    public String withdrawView(){
+        return "myPage/information/withdraw";
+    }
+//    회원탈퇴 로직
+    @PostMapping("withdrawUser")
+    @ResponseBody
+    public String withdrawUser(int userNo){
+        int result = uService.deleteUserByUserNo(userNo);
+        if(result > 0){
+            return "성공";
+        }else {
+            return "실패";
+        }
+    }
 
     // 유저 수정 페이지
     @PostMapping("myPageUser/modifySubmit")
@@ -158,6 +175,18 @@ public class UserController {
         return "<script>alert('배송지가 추가되었습니다!'); location.href='/myPageUser/address';</script>";
     }
 
+//   배송지 삭제
+    @PostMapping("ajaxRemoveAddress")
+    @ResponseBody
+    public String ajaxRemoveAddress(int addressNo){
+        int result = uService.deleteAddress(addressNo);
+        if(result > 0){
+            return jsonParse.returnJson("성공");
+        }else {
+            return jsonParse.returnJson("실패");
+        }
+    }
+    
     // 세션에서 user 를 꺼내줌
     private User returnUser(Authentication authentication){
         PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
@@ -174,7 +203,18 @@ public class UserController {
         return "myPage/qna/qna";
     }
 
+//    문의 상세페이지
+    @GetMapping("/myPageUser/qnaDetail")
+    public String MyPageUserQnaDetailView(@RequestParam int qnaNo,Model model){
+        MyPageQna qna = uService.selectQnaDetail(qnaNo);
+        model.addAttribute("qnaDetail",qna);
+        return "myPage/qna/qnaDetail";
+    }
 
+//    주문배송조회 뷰
+    @GetMapping("myPageUser/orderLogistic")
+    public String orderLogisticView(){
 
-
+        return "myPage/order/order-logistic";
+    }
 }

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>주문배송 조회</title>
+    <!-- Favicons -->
+    <link href="../assets/img/favicon.png" rel="icon">
+    <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../css/mypage/user/userMypageCss.css" rel="stylesheet">
+    <link href="../css/mypage/user/userModifyCss.css" rel="stylesheet">
+    <link href="../css/mypage/user/order-logisticCss.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.css" rel="stylesheet"/>
+
+</head>
+<body>
+<header th:replace="header :: #header"></header>
+<div class="mainContainer" style="padding-top: 170px">
+    <div class="top">
+        <div class="top-container">
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black"
+                                                                                                   href="/myPage/modify">주문/배송조회</a>
+            </div>
+            <div style="margin-top: 30px;">
+                <div class="page-title">주문/배송 조회</div>
+                <div class="page-menu">
+                    <dl>
+                        <dd><a href="/myPageUser/modify" class="page-active">주문/배송조회</a></dd>
+                        <dd class="page-address"><a href="/myPageUser/address">장바구니</a></dd>
+                        <dd class="page-withdraw"><a href="/myPageUser/withdraw">찜한 상품</a></dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="order-middle" style="margin-top: 25px;">
+        <div style="overflow: hidden;" class="logistic-date-box">
+            <ul class="date_btn">
+                <li class="">
+                    <button class="btn"
+                            onclick="location.href='/member/order.php?sdate=2023-03-21&amp;edate=2023-04-21&amp;num=1#titleLine'">
+                        1개월
+                    </button>
+                </li>
+                <li class="">
+                    <button class="btn"
+                            onclick="location.href='/member/order.php?sdate=2023-01-21&amp;edate=2023-04-21&amp;num=2#titleLine'">
+                        3개월
+                    </button>
+                </li>
+                <li class="">
+                    <button class="btn"
+                            onclick="location.href='/member/order.php?sdate=2022-10-21&amp;edate=2023-04-21&amp;num=3#titleLine'">
+                        6개월
+                    </button>
+                </li>
+                <li class="">
+                    <button class="btn"
+                            onclick="location.href='/member/order.php?sdate=2022-04-21&amp;edate=2023-04-21&amp;num=5#titleLine'">
+                        1년
+                    </button>
+                </li>
+            </ul>
+            <div style="float: right; height:40px;">
+                <form method="get" action="">
+                    <div class="order_search">
+                        <div class="calendar">
+                            <input type="text" name="sdate" class="form_input start-day" id="sdate"
+                                   onclick="calendarActive();" value="2023-03-22" readonly>
+                            <span>-</span>
+                            <input type="text" name="edate" class="form_input end-day" id="edate" value="2023-04-21"
+                                   readonly>
+                            <input type="submit" value="조회" class="btn">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <!-- 주문내역리스트 -->
+        <div class="order-list">
+            <table id="myTable">
+                <colgroup>
+                    <col style="width:*">
+                    <col style="width:14.2%">
+                    <col style="width:14.2%">
+                    <col style="width:14.2%">
+                    <col style="width:10.2%">
+                    <col style="width:11%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th class="col">상품정보</th>
+                    <th class="col">주문일자</th>
+                    <th class="col">주문번호</th>
+                    <th class="col">주문금액(수량)</th>
+                    <th class="col">주문상태</th>
+                    <th class="col">후기</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="calendar-box">
+        <table class="Calendar">
+            <thead>
+            <tr>
+                <td onClick="prevCalendar();" style="cursor:pointer;">&#60;</td>
+                <td colspan="5">
+                    <span id="calYear"></span>년
+                    <span id="calMonth"></span>월
+                </td>
+                <td onClick="nextCalendar();" style="cursor:pointer;">&#62;</td>
+            </tr>
+            <tr>
+                <td>일</td>
+                <td>월</td>
+                <td>화</td>
+                <td>수</td>
+                <td>목</td>
+                <td>금</td>
+                <td>토</td>
+            </tr>
+            </thead>
+
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div class="modal-back" onclick="modalRemove();"></div>
+<script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+                "searching": false,
+                "lengthChange": false,
+                "info": false,
+                "ordering": false,
+                "autoWidth": false,
+                "language": {
+                    "emptyTable": "주문내역이 없어요ㅜㅜ",
+                    url : '//cdn.datatables.net/plug-ins/1.13.4/i18n/ko.json'
+                },
+            "ajax":function(data){
+                    $.ajax({
+                        url : "/loadOrderList",
+                        data:{
+                            'userNo' : $('#userNo').val()
+                        },
+
+                    })
+            }
+            }
+        );
+    })
+
+    function calendarActive() {
+        $('.calendar-box').addClass('calendar-box-active');
+        $('.modal-back').addClass('modal-back-active');
+    }
+
+    function modalRemove() {
+        $('.calendar-box').removeClass('calendar-box-active');
+        $('.modal-back').removeClass('modal-back-active');
+    }
+
+    window.onload = function () {
+        // 조회 input창에 날짜 입력
+        let now2Date = new Date();
+        let date1 = now2Date.getUTCFullYear() + '-' + leftPad(now2Date.getMonth()) + '-' + leftPad(now2Date.getDate() - 1);
+        let date2 = now2Date.getUTCFullYear() + '-' + leftPad(now2Date.getMonth() + 1) + '-' + leftPad(now2Date.getDate());
+        $('#sdate').val(date1);
+        $('#edate').val(date2);
+
+        // 웹 페이지가 로드되면 buildCalendar 실행
+        buildCalendar();
+    }
+
+    let nowMonth = new Date();  // 현재 달을 페이지를 로드한 날의 달로 초기화
+    let today = new Date();     // 페이지를 로드한 날짜를 저장
+    today.setHours(0, 0, 0, 0);    // 비교 편의를 위해 today의 시간을 초기화
+
+    // 달력 생성 : 해당 달에 맞춰 테이블을 만들고, 날짜를 채워 넣는다.
+    function buildCalendar() {
+
+        let firstDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth(), 1);     // 이번달 1일
+        let lastDate = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, 0);  // 이번달 마지막날
+
+        let tbody_Calendar = document.querySelector(".Calendar > tbody");
+        document.getElementById("calYear").innerText = nowMonth.getFullYear();             // 연도 숫자 갱신
+        document.getElementById("calMonth").innerText = leftPad(nowMonth.getMonth() + 1);  // 월 숫자 갱신
+
+        while (tbody_Calendar.rows.length > 0) {                        // 이전 출력결과가 남아있는 경우 초기화
+            tbody_Calendar.deleteRow(tbody_Calendar.rows.length - 1);
+        }
+
+        let nowRow = tbody_Calendar.insertRow();        // 첫번째 행 추가
+
+        for (let j = 0; j < firstDate.getDay(); j++) {  // 이번달 1일의 요일만큼
+            let nowColumn = nowRow.insertCell();        // 열 추가
+        }
+
+        for (let nowDay = firstDate; nowDay <= lastDate; nowDay.setDate(nowDay.getDate() + 1)) {   // day는 날짜를 저장하는 변수, 이번달 마지막날까지 증가시키며 반복
+
+            let nowColumn = nowRow.insertCell();        // 새 열을 추가하고
+
+
+            let newDIV = document.createElement("p");
+            newDIV.innerHTML = leftPad(nowDay.getDate());        // 추가한 열에 날짜 입력
+            nowColumn.appendChild(newDIV);
+
+            if (nowDay.getDay() == 6) {                 // 토요일인 경우
+                nowRow = tbody_Calendar.insertRow();    // 새로운 행 추가
+            }
+
+            // if (nowDay < today) {                       // 지난날인 경우
+            //     // newDIV.className = "pastDay";
+            // }
+            if (nowDay.getFullYear() == today.getFullYear() && nowDay.getMonth() == today.getMonth() && nowDay.getDate() == today.getDate()) { // 오늘인 경우
+                newDIV.className = "today";
+                newDIV.onclick = function () {
+                    choiceDate(this);
+                }
+            } else {                                      // 미래인 경우
+                newDIV.className = "futureDay";
+                newDIV.onclick = function () {
+                    choiceDate(this);
+                }
+            }
+        }
+    }
+
+    // 날짜 선택
+    function choiceDate(newDIV) {
+        if (document.getElementsByClassName("choiceDay")[0]) {                              // 기존에 선택한 날짜가 있으면
+            document.getElementsByClassName("choiceDay")[0].classList.remove("choiceDay");  // 해당 날짜의 "choiceDay" class 제거
+        }
+        newDIV.classList.add("choiceDay");           // 선택된 날짜에 "choiceDay" class 추가
+    }
+
+    // 이전달 버튼 클릭
+    function prevCalendar() {
+        nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() - 1, nowMonth.getDate());   // 현재 달을 1 감소
+        buildCalendar();    // 달력 다시 생성
+    }
+
+    // 다음달 버튼 클릭
+    function nextCalendar() {
+        nowMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, nowMonth.getDate());   // 현재 달을 1 증가
+        buildCalendar();    // 달력 다시 생성
+    }
+
+    // input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
+    function leftPad(value) {
+        if (value < 10) {
+            value = "0" + value;
+            return value;
+        }
+        return value;
+    }
+</script>
+
+
+<!-- Vendor JS Files -->
+<script src="../assets/vendor/aos/aos.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="../assets/vendor/php-email-form/validate.js"></script>
+<script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Template Main JS File -->
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

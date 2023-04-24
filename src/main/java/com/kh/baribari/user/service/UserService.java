@@ -30,9 +30,16 @@ public interface UserService {
 
 //  배송지 리스트 가져오기
     List<Address> selectAddressList(User user);
-    
+//  배송지 삭제
+    int deleteAddress(int addressNo);
+
+//    유저 회원 탈퇴
+    int deleteUserByUserNo(int userNo);
+
     User getUserInfo(int userNo);
 
 //     마이페이지 > 1:1문의 뷰
     List<MyPageQna> selectQna(MyPageQna qna);
+//  문의 상세페이지, 문의번호
+    MyPageQna selectQnaDetail(int answerNo);
 }

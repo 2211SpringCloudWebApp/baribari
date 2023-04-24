@@ -14,7 +14,6 @@
     border: 1px solid #3DB35E;
     background: #fff;
     font-size: 15px;
-    line-height: 59px;
     border-radius: 8px;
     color: #3DB35E;
     width: 148px;
@@ -42,7 +41,7 @@
     width: 36px;
     height: 36px;
     position: fixed;
-    background: url(../../img/x.png) no-repeat;
+    background: url(../../../img/x.png) no-repeat;
     top: 25%;
     right: 31%;
     z-index: 50000;

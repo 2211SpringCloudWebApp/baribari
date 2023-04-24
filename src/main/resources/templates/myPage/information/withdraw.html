@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>배송지 관리</title>
+    <!-- Favicons -->
+    <link href="../assets/img/favicon.png" rel="icon">
+    <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../css/mypage/user/userMypageCss.css" rel="stylesheet">
+    <link href="../css/mypage/user/userModifyCss.css" rel="stylesheet">
+    <link href="../css/mypage/user/userWithdraw.css" rel="stylesheet">
+
+
+
+</head>
+<body>
+<header th:replace="header :: #header"></header>
+<div class="mainContainer" style="padding-top: 170px">
+    <div class="top">
+        <div class="top-container">
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myPage/modify">회원탈퇴</a></div>
+            <div style="margin-top: 30px;">
+                <div class="page-title">회원탈퇴</div>
+                <div class="page-menu">
+                    <dl>
+                        <dd class="page-modify"><a href="/myPageUser/modify" >회원정보 수정</a></dd>
+                        <dd class="page-address"><a href="/myPageUser/address">배송지 관리</a></dd>
+                        <dd class="page-active"><a href="/myPageUser/withdraw">회원탈퇴</a></dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="withdraw-middle">
+        <div class="withdraw-span-box">
+            <span class="withdraw-span">
+                회원 탈퇴시 다시 되돌릴 수 없습니다.
+                <br>
+                신중하게 선택해주길 바랍니다.
+                <br>
+                <br>
+                앞으로 더 나은 모습으로 고객님을 다시 만날 수 있도록 노력하겠습니다. 그동안 이용해주신 것을 진심으로 감사드립니다.
+            </span>
+        </div>
+        <div class="withdraw-btn-box">
+            <button class="withdraw-btn" th:data-userNo="${#authentication.principal.user.userNo}" onclick="withdraw(this.getAttribute('data-userNo'));">회원탈퇴</button><button class="withdraw-out" onclick="history.back();">취소</button>
+        </div>
+    </div>
+    <div class="withdraw-bottom">
+        <div style="margin-bottom: 40px;">
+            <span>회원 탈퇴 안내</span>
+        </div>
+        <ul>
+            <li style="margin-bottom: 10px;">회원 탈퇴 시 회원님께서 보유하셨던 적립금, 예치금, 쿠폰, 회원정보 등은 모두 삭제됩니다.</li>
+            <li>탈퇴 후 게시판형 서비스에 등록된 게시물은 모두 삭제됩니다.</li>
+        </ul>
+    </div>
+<script src="../js/user/user-withdraw.js"></script>
+
+<!-- Vendor JS Files -->
+<script src="../assets/vendor/aos/aos.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="../assets/vendor/php-email-form/validate.js"></script>
+<script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Template Main JS File -->
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

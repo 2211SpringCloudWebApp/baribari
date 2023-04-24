@@ -37,4 +37,12 @@ public interface UserRepository {
 
 //    마이페이지 > 1:1 문의
     List<MyPageQna> selectQna(MyPageQna qna);
+//  배송지 삭제
+    int deleteAddress(int addressNo);
+
+//    유저 회원 탈퇴
+    int deleteUserByUser(int userNo);
+
+//  문의 상세페이지
+    MyPageQna selectQnaDetail(int answerNo);
 }

@@ -50,7 +50,7 @@ a:hover{
     border-radius: 50%;
     width: 160px;
     height: 160px;
-    background-image: url("../../img/campfire.svg");
+    background-image: url("../../../img/campfire.svg");
     background-size: 200px;
     background-position: center;
     background-repeat: no-repeat;
@@ -60,7 +60,7 @@ a:hover{
     border: 1px solid #008000;
 }
 .profile-pic:hover{
-    background-image:url("../../img/add-icon.svg"), url("../../img/campfire.svg");
+    background-image:url("../../../img/add-icon.svg"), url("../../../img/campfire.svg");
     background-color: rgba(240,240,240,0.5);
     transition: 0.5s;
 }

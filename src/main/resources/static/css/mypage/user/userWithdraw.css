@@ -1,0 +1,45 @@
+.withdraw-middle{
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 28px;
+}
+.withdraw-span-box{
+    margin-bottom: 28px;
+}
+.withdraw-span{
+    color: #888;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.withdraw-btn-box{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+.withdraw-btn{
+    display: inline-block;
+    font-size: 14px;
+    padding: 20px 0;
+    border-radius: 10px;
+    width: 200px;
+    border: 1px solid #3DB35E;
+    background-color: #fff;
+    color: #3DB35E;
+    margin-right: 30px;
+}
+.withdraw-out{
+    display: inline-block;
+    font-size: 14px;
+    padding: 20px 0;
+    border-radius: 10px;
+    width: 200px;
+    border: 1px solid #3DB35E;
+    background-color: #3DB35E;
+    color: #fff;
+}
+.withdraw-bottom{
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 50px;
+}

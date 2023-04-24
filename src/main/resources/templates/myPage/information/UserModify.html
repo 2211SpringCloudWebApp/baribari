@@ -23,8 +23,8 @@
     <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <link href="../assets/css/style.css" rel="stylesheet">
-    <link href="../assets/css/userMypageCss.css" rel="stylesheet">
-    <link href="../assets/css/userModifyCss.css" rel="stylesheet">
+    <link href="../css/mypage/user/userMypageCss.css" rel="stylesheet">
+    <link href="../css/mypage/user/userModifyCss.css" rel="stylesheet">
 
 
 </head>
@@ -40,7 +40,7 @@
                     <dl>
                         <dd><a href="/myPageUser/modify" class="page-active">회원정보 수정</a></dd>
                         <dd class="page-address"><a href="/myPageUser/address">배송지 관리</a></dd>
-                        <dd class="page-withdraw">회원탈퇴</dd>
+                        <dd class="page-withdraw"><a href="/myPageUser/withdraw">회원탈퇴</a></dd>
                     </dl>
                 </div>
             </div>
@@ -115,73 +115,8 @@
     </div>
 
 </div>
-<script>
-    function stringJoin(){
-        var phone = $('#phone1').val() + '-' + $('#phone2').val() + '-' + $('#phone3').val();
-        var email = $('#email-1').val() + '@' + $('#email-2').val();
-        $('#userPhoneNumber').val(phone);
-        $('#userEmail').val(email);
-    }
+<script src="../js/user/user-modify.js"></script>
 
-    window.onload = function(){
-
-        // 폰 번호 인풋창에 넣어줌
-        var phoneNumber = $('#userPhoneNumber').val();
-        var phone1 = phoneNumber.substring(0,3);
-        var phone2 = phoneNumber.substring(4,8);
-        var phone3 = phoneNumber.substring(9,13);
-        $('#phone1').val(phone1).prop("selected",true);
-        $('#phone2').val(phone2);
-        $('#phone3').val(phone3);
-
-        // 이메일 인풋창에 넣어줌
-        let email_split = $('#userEmail').val().split('@');
-        $('#email-1').val(email_split[0]);
-        $('#email-2').val(email_split[1]);
-    }
-
-    $('.submit-btn').addEventListener('submit', function(event){
-        stringJoin();
-    });
-
-
-    // 닉네임 정규표현식 및 유효성 검사
-    $('#nickName-input').focusout(function(){
-        const regex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
-        if(regex.test($('#nickName-input').val())){
-            $.ajax({
-                url:'/ajaxNickNameCheck',
-                type:'get',
-                dataType: 'json',
-                data:{
-                    'nickName' : $('#nickName-input').val()
-                },
-                success: function(data){
-                    console.log(data);
-                    if(data === '중복'){
-                        $('.nickName-check-success').css('display','none');
-                        $('.nickName-check-error').css('display','none');
-                        $('.nickName-check-same').css('display','block');
-                    }else  {
-                        $('.nickName-check-success').css('display','block');
-                        $('.nickName-check-error').css('display','none');
-                        $('.nickName-check-same').css('display','none');
-                    }
-                },
-                error:function(data){
-                    console.log('서버에러 : ',data );
-                }
-            });
-        }else {
-            $('.nickName-check-success').css('display','none');
-            $('.nickName-check-error').css('display','block');
-            $('.nickName-check-same').css('display','none');
-        }
-    });
-
-
-
-</script>
 <!-- Vendor JS Files -->
 <script src="../assets/vendor/aos/aos.js"></script>
 <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.kh.baribari.common.PageInfo;
+import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
 import com.kh.baribari.product.repository.ProductRepository;
 
@@ -35,6 +36,19 @@ public class ProductRepositoryLogic implements ProductRepository {
 	@Override
 	public List<Product> getProductRecommendList(SqlSession session, String productCategory) {
 		List<Product> pList = session.selectList("ProductMapper.getProductRecommendList", productCategory);
+		return pList;
+	}
+
+	@Override
+	public int getProductCountByKeyword(SqlSession session, Search search) {
+		int pCount = session.selectOne("ProductMapper.getProductCountByKeyword", search);
+		return pCount;
+	}
+
+	@Override
+	public List<Product> getProductList(SqlSession session, PageInfo pi) {
+		RowBounds rowBounds = new RowBounds(pi.getOffset(), pi.getBoardLimit());
+		List<Product> pList = session.selectList("ProductMapper.getProductListByKeyword", pi, rowBounds);
 		return pList;
 	}
 

@@ -9,6 +9,7 @@ public class Product {
 	private String productBrand;
 	private String productName;
 	private int productPrice;
+	private int productDeliveryCharge;
 	private String productContent;
 	private String productMdYn;
 	private int productSales;

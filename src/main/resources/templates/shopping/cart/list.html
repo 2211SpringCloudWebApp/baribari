@@ -25,14 +25,18 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<!-- Bootstrap JS -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- Template Main CSS File -->
+    <link href="../../../assets/css/style.css" rel="stylesheet">
 	
     <link href="../../../css/shopping/cart.css" rel="stylesheet" />
+        
+    
 </head>
 <body>
 <!-- Header -->
-<!-- <header th:replace="header :: header"></header> -->
+<header th:replace="header :: header"></header>
 
-<section class="shopping-cart dark">
+<section class="shopping-cart dark" style="margin-top: 110px;">
     <!-- 상단 이미지 -->
     <div class="bg-dark py-5">
         <div class="container px-4 px-lg-5 my-5">
@@ -52,7 +56,7 @@
 					<div class="col-md-12 items">
  						
 						<!-- 상품 목록 -->
-		 				<div class="product" th:each="product : ${pList}">
+		 				<div class="product" th:each="product, i : ${pList}">
 		 					<div class="row">
 		 						<div class="col-md-1">
 		 							<input type="checkbox">
@@ -71,13 +75,13 @@
 					 						<!-- 구매수량, 수량이 변함에 따라 총 가격이 달라짐 -->
 					 						<div class="col-md-3 quantity">
 											    <label for="quantity">수량</label>
-											    <input th:value="${product.productQuantity}" id="quantity" class="form-control quantity-input" type="number" oninput="updateTotalPrice(&quot;${product.productPrice}&quot;, &quot;${product.productDiscount}&quot;)">
+											    <input th:value="${product.productQuantity}" id="quantity" class="form-control quantity-input" type="number" oninput="updateTotalPrice(&quot;${product.productPrice}&quot;, &quot;${product.productDiscount}&quot;, &quot;${i.index}&quot;)">
 											</div>
 					 						<!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
 					 						<div class="col-md-3">
 					 							<span id="price" th:if="${product != null and product.productDiscount == 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|">상품가격</span>
 												<span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|" class="text-muted text-decoration-line-through">상품가격 취소선</span><br>
-												<span id="price" th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|">할인된 가격</span>
+												<span id="discounted-price" th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|">할인된 가격</span>
 												<input th:value="${product.productPrice * product.productDiscount / 100}" id="discount" type="hidden">
 					 						</div>
 					 						<div class="col-md-1">
@@ -94,7 +98,7 @@
 		 					<hr>
 	 							상품가격 <span th:text="|${#numbers.formatInteger(product.productPrice * product.productQuantity, 0, 'COMMA')}|" id="product-price"></span>원
 	 							- 할인가격 <span th:text="|${#numbers.formatInteger((product.productPrice * product.productDiscount / 100) * product.productQuantity, 0, 'COMMA')}|" id="product-discount"></span>원
-	 							+ 배송비 <span id="delivery-price">3,000</span>
+	 							+ 배송비 <span th:text="|${#numbers.formatInteger(product.productDeliveryCharge, 0, 'COMMA')}|" id="delivery-charge">3,000</span>원
 	 							= <span id="total-price-by-product">총 가격</span>원
 	 						</div>
 		 				</div>
@@ -103,7 +107,7 @@
 	 			</div>
 	 			
 	 			<!-- 가격/결제 -->
-	 			<div class="col-md-12 col-lg-4">
+	 			<div class="col-md-12 col-lg-4 position-fixed" style="right:0;">
 	 				<div class="summary">
 	 					<h3>가격</h3>
 	 					<div class="summary-item"><span class="text">상품 가격</span><span id="total-price" class="price">123,456 원</span></div>
@@ -114,7 +118,7 @@
 		 			</div>
 	 			</div>
 	 			
- 			</div> 
+			</div>	 			
  		</div>
 	</div>
 </section>
@@ -127,7 +131,7 @@
 	
 	updateTotalPrice();
 
-	function updateTotalPrice(price, discount) {
+	function updateTotalPrice(price, discount, index) {
 		  const quantity = document.getElementById('quantity').value;
 		  const productPrice = document.querySelector('#price').textContent.replace(/[,원]/g, '') * quantity; // 가격 - ','와 '원' 제거
 		  const discountPrice = document.querySelector('#discount').value * quantity;
@@ -140,6 +144,17 @@
 	function numberWithCommas(number) {
 		return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
+	
+	// 전체 가격 출력
+	const totalPriceByProductTags = document.querySelectorAll('#total-price-by-product');
+	let totalPrice = 0;
+	totalPriceByProductTags.forEach((el) => {
+	  const price = parseInt(el.textContent.replace(/[^0-9]/g, ''));
+	  totalPrice += price;
+	});
+	const totalPriceTag = document.querySelector('#total-price');
+	totalPriceTag.textContent = totalPrice.toLocaleString() + ' 원';
+
 	
 	/* 상품을 장바구니에서 제거 */
 	function removeFromCart(productNo) {

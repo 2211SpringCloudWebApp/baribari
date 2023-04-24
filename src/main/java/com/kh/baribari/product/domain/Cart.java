@@ -34,5 +34,11 @@ public class Cart {
     public void setProductDiscount(int productDiscount) {
         this.product.setProductDiscount(productDiscount);
     }
+    public int getProductDeliveryCharge() {
+        return product.getProductDeliveryCharge();
+    }
+    public void setProductDeliveryCharge(int productDeliveryCharge) {
+        this.product.setProductDeliveryCharge(productDeliveryCharge);
+    }
 }
 

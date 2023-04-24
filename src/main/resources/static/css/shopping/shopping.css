@@ -1,6 +1,7 @@
 /* body 전체에 폰트 적용 */
 body {
 	font-family: 'IBM Plex Sans KR', sans-serif;
+	color: #000;
 }
 /* a태그에 밑줄 및 색 제거 */
 a, a.page-link {

@@ -73,6 +73,33 @@ public class ProductController {
 		}
 	}
 	
+	// 헤더에서 검색한 상품 목록
+	@GetMapping("/search")
+	public ModelAndView getProductSearchList(ModelAndView mv
+			, Search search
+			, @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage
+			) {
+		// 상품 총 갯수
+		int pCount = pService.getProductCountByKeyword(search);
+		// PageInfo 매개변수: 현재페이지 (RequestParam), 전체 게시글 수 (mapper), 페이지 당 게시글 수
+		PageInfo pi = new PageInfo(currentPage, pCount, 20); 
+		// 상품 목록
+		List<Product> pList = pService.getProductList(pi);
+		
+		if(pList != null) {
+			mv.addObject("pList", pList);
+			mv.addObject("pCount", pCount);
+			mv.addObject("pi", pi);
+			mv.setViewName("shopping/search");
+			return mv;
+		} else {
+			mv.addObject("msg", "오류").setViewName("error");
+			return mv;
+		}
+		
+	}
+	
+	
 	// 상품 상세 페이지 (상품 정보, 추천 상품 목록)
 	@GetMapping("/detail")
 	public ModelAndView getProductDetail(ModelAndView mv, int productNo) {

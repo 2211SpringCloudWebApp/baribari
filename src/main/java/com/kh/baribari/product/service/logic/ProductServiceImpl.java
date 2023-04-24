@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.baribari.common.PageInfo;
+import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
 import com.kh.baribari.product.repository.ProductRepository;
 import com.kh.baribari.product.service.ProductService;
@@ -40,6 +41,18 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> getProductRecommendList(String productCategory) {
 		List<Product> pList = pRepository.getProductRecommendList(session, productCategory);
+		return pList;
+	}
+
+	@Override
+	public int getProductCountByKeyword(Search search) {
+		int pCount = pRepository.getProductCountByKeyword(session, search);
+		return pCount;
+	}
+
+	@Override
+	public List<Product> getProductList(PageInfo pi) {
+		List<Product> pList = pRepository.getProductList(session, pi);
 		return pList;
 	}
 

@@ -53,8 +53,10 @@
                 <span class="header-span" id="cate-span">카테고리</span>
             </div>
             <fieldset class="search-field">
-                <input id="search" name="" type="text" class="search-input">
+            <form action="/shopping/search" method="get">
+                <input id="search" name="keyword" type="text" class="search-input">
                 <input type="image" src="/assets/img/top_search_icon.png">
+            </form>
             </fieldset>
             <span class="header-span">가나다</span>
             <span class="header-span">가나다</span>
@@ -101,7 +103,6 @@
         </div>
         <div sec:authorize="isAuthenticated()">
             <div class="dropdown">
-            <span th:text="${#authentication.principal.user.userNo}"></span>
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${#authentication.principal.user.userName}"></button>
                     <ul class="dropdown-menu" sec:authorize="hasRole('ROLE_USER')">
                         <li><button class="dropdown-item" type="button" onclick="location.href='/myPageUser'">마이페이지</button></li>

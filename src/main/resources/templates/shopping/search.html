@@ -113,29 +113,29 @@
             <ul th:if="${pi.totalCount > 0}" class="pagination" >
                 <!-- 첫 페이지 버튼 -->
                 <li th:if="${pi.currentPage > 1}" class="page-item">
-                    <a th:href="@{/shopping/list?(page=1)}" class="page-link">
+                    <a th:href="@{/shopping/search?(page=1, keyword=${keyword})}" class="page-link">
                     	<i class="fas fa-angle-double-left"></i>
                     </a>
                 </li>
                 <!-- 이전 페이지 버튼 -->
                 <li th:if="${pi.currentPage > 1}" class="page-item">
-                    <a th:href="@{/shopping/list?(page=${pi.currentPage} - 1)}" class="page-link">
+                    <a th:href="@{/shopping/search?(page=${pi.currentPage} - 1, keyword=${keyword})}" class="page-link">
                     	<i class="fas fa-angle-left"></i>
                     </a>
                 </li>
                 <!-- 페이지 번호 버튼 -->
                 <li th:each="page : ${#numbers.sequence(pi.startNav, pi.endNav)}" th:class="${page == pi.currentPage} ? 'active' : ''">
-                    <a th:href="@{/shopping/list(page=${page})}" th:text="${page}" class="page-link"></a>
+                    <a th:href="@{/shopping/search(page=${page}, keyword=${keyword})}" th:text="${page}" class="page-link"></a>
                 </li>
                 <!-- 다음 페이지 버튼 -->
                 <li th:if="${pi.currentPage < pi.navTotalCount}" class="page-item">
-                    <a th:href="@{/shopping/list?(page=${pi.currentPage} + 1)}" class="page-link">
+                    <a th:href="@{/shopping/search?(page=${pi.currentPage} + 1, keyword=${keyword})}" class="page-link">
                     	<i class="fas fa-angle-right"></i>
                     </a>
                 </li>
                 <!-- 마지막 페이지 버튼 -->
                 <li th:if="${pi.currentPage < pi.navTotalCount}" class="page-item">
-                    <a th:href="@{/shopping/list?(page=${pi.navTotalCount})}" class="page-link">
+                    <a th:href="@{/shopping/search?(page=${pi.navTotalCount}, keyword=${keyword})}" class="page-link">
                     	<i class="fas fa-angle-double-right"></i>
                     </a>
                 </li>

@@ -61,4 +61,14 @@
   		ORDER BY CASE WHEN PRODUCT_CATEGORY = #{productCategory} THEN 0 ELSE 1 END, PRODUCT_SALES DESC
 	</select>
       
+    <!-- 헤더에서 검색한 상품의 수 -->
+    <select id="getProductCountByKeyword" resultType="_int">
+    	SELECT COUNT(*) FROM PRODUCT_TBL WHERE PRODUCT_NAME = ${search.keyword} OR PRODUCT_CATEGORY = ${search.keyword}
+    </select>
+    
+    	<!-- 상품 목록 -->
+    <select id="getProductListByKeyword" resultMap="productResultMap">
+        SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE PRODUCT_NAME = ${search.keyword} OR PRODUCT_CATEGORY = ${search.keyword} ORDER BY PRODUCT_NO DESC
+    </select>
+    
 </mapper>

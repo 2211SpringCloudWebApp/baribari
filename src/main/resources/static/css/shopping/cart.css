@@ -1,6 +1,11 @@
+/* body 전체에 폰트 적용 */
+body {
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	color: #000;
+}
+
 .shopping-cart{
 	padding-bottom: 50px;
-	font-family: 'Montserrat', sans-serif;
 }
 
 .shopping-cart.dark{
@@ -110,6 +115,11 @@
 	margin-top: 20px;
 }
 
+/* type=number의 화살표 항시 표기 */
+input[type=number]::-webkit-inner-spin-button {
+    opacity: 1;
+}
+
 @media (min-width: 768px) {
 	.shopping-cart .items .product .info {
 		padding-top: 25px;
@@ -129,9 +139,4 @@
 		padding: 4px 10px;
 		text-align: center; 
 	}
-}
-
-/* type=number의 화살표 항시 표기 */
-input[type=number]::-webkit-inner-spin-button {
-    opacity: 1;
 }

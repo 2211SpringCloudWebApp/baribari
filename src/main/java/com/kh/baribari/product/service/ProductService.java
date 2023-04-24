@@ -3,6 +3,7 @@ package com.kh.baribari.product.service;
 import java.util.List;
 
 import com.kh.baribari.common.PageInfo;
+import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
 
 public interface ProductService {
@@ -35,5 +36,19 @@ public interface ProductService {
 	 * @return List<Product>
 	 */
 	public List<Product> getProductRecommendList(String productCategory);
+
+	/**
+	 * 헤더에서 검색한 상품 갯수 가져오기
+	 * @param Search
+	 * #return int
+	 */
+	public int getProductCountByKeyword(Search search);
+
+	/**
+	 * 헤더에서 검색한 상품 목록 가져오기
+	 * @param PageInfo
+	 * #return int
+	 */
+	public List<Product> getProductList(PageInfo pi);
 
 }

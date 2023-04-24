@@ -84,6 +84,11 @@ public class UserServiceImpl implements UserService {
         return uRepository.selectQnaDetail(answerNo);
     }
 
+    @Override
+    public int qnaRemove(int qnaNo) {
+        return uRepository.qnaRemove(qnaNo);
+    }
+
     //  배송지 삭제
     @Override
     public int deleteAddress(int addressNo) {

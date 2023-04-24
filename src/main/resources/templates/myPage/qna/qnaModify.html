@@ -25,7 +25,7 @@
     <link href="../assets/css/style.css" rel="stylesheet">
     <link href="../css/mypage/user/userMypageCss.css" rel="stylesheet">
     <link href="../css/mypage/user/userModifyCss.css" rel="stylesheet">
-    <link href="../css/mypage/user/userQnaDetailCss.css" rel="stylesheet">
+    <link href="../css/mypage/user/userQnaModifyCss.css" rel="stylesheet">
 
 
 </head>
@@ -34,8 +34,7 @@
 <div class="mainContainer" style="padding-top: 170px">
     <div class="top">
         <div class="top-container">
-            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black"
-                                                                                                   href="/myPage/qna">1:1문의</a>
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myPage/qna">1:1문의</a>
             </div>
             <div style="margin-top: 30px;">
                 <div class="page-title">1:1 문의</div>
@@ -54,47 +53,28 @@
         <div class="btn-box">
             <button class="qna-detail-btn" onclick="location.href='/myPageUser/qna?qnaAnswerYn=all'">목록으로</button>
             <div>
-                <button class="qna-detail-btn" th:onclick="'qnaModify('+${qnaDetail.qnaNo}+')'">수정</button>
-                <button class="qna-detail-btn"  th:onclick="'qnaDetailRemove('+${qnaDetail.qnaNo}+')'">삭제</button>
+                <button class="qna-detail-btn" th:onclick="'location.href=/myPageUser/qnaModify?qnaNo='+${qnaDetail.qnaNo}">수정</button>
+                <button class="qna-detail-btn" th:onclick="'qnaDetailRemove('+${qnaDetail.qnaNo}+')'">저장</button>
             </div>
         </div>
 
 
         <div>
             <div class="qna-detail-content">
-                <div class="title">문의내용</div>
-                <div class="content" th:text="${qnaDetail.qnaContent}"></div>
-            </div>
-        </div>
-        <div>
-            <div class="qna-detail-content">
-                <div class="title">답변내용</div>
-                <div class="content" th:text="${qnaDetail.answerContent}"></div>
+                <div class="title">문의수정</div>
+                <div class="content" >
+                    <div class="qna-title">내용</div>
+                    <textarea th:text="${qnaDetail.qnaContent}">
+
+                    </textarea>
+                </div>
             </div>
         </div>
     </div>
 
 
     <script>
-        function qnaModify(qnaNo){
-            location.href='/myPageUser/qnaModify?qnaNo='+qnaNo;
-        }
-        function qnaDetailRemove(qnaNo){
-            $.ajax({
-                url:'/ajaxRemoveQna',
-                type:'post',
-                data:{
-                    'qnaNo' : qnaNo
-                },
-                success:function(){
-                    alert('삭제가 완료되었습니다.');
-                    location.href='/myPageUser/qna?qnaAnswerYn=all';
-                },
-                error:function(){
-                    alert('삭제 실패');
-                }
-            })
-        }
+
     </script>
     <script src="../js/user/user-qna.js"></script>
     <!-- Vendor JS Files -->

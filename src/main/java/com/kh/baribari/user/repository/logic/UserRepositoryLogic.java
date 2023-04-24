@@ -106,4 +106,9 @@ public class UserRepositoryLogic implements UserRepository {
     public MyPageQna selectQnaDetail(int answerNo) {
         return session.selectOne("UserMapper.selectQnaDetail", answerNo);
     }
+
+    @Override
+    public int qnaRemove(int qnaNo) {
+        return session.delete("UserMapper.deleteQna",qnaNo);
+    }
 }

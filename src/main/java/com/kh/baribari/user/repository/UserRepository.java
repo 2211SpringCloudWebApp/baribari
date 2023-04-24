@@ -45,4 +45,6 @@ public interface UserRepository {
 
 //  문의 상세페이지
     MyPageQna selectQnaDetail(int answerNo);
+//  문의 삭제
+    int qnaRemove(int qnaNo);
 }

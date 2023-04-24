@@ -64,7 +64,10 @@
     <select id="selectQnaDetail" resultType="MyPageQna">
         SELECT * FROM QNA_TBL FULL JOIN ANSWER_TBL ON QNA_ANSWER_NO = ANSWER_NO WHERE QNA_NO = #{qnaNo}
     </select>
-
+<!-- 문의 삭제 -->
+    <select id="deleteQna">
+        DELETE FROM QNA_TBL WHERE QNA_NO = #{qnaNo}
+    </select>
 
     <!-- 유저 등록 -->
     <insert id="insertUserByUser" parameterType="User">

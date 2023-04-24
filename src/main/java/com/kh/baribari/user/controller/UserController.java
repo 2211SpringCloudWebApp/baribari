@@ -205,10 +205,29 @@ public class UserController {
 
 //    문의 상세페이지
     @GetMapping("/myPageUser/qnaDetail")
-    public String MyPageUserQnaDetailView(@RequestParam int qnaNo,Model model){
+    public String myPageUserQnaDetailView(@RequestParam int qnaNo,Model model){
         MyPageQna qna = uService.selectQnaDetail(qnaNo);
         model.addAttribute("qnaDetail",qna);
         return "myPage/qna/qnaDetail";
+    }
+//    문의 삭제
+    @PostMapping("/ajaxRemoveQna")
+    @ResponseBody
+    public String ajaxRemoveQna(int qnaNo){
+        int result = uService.qnaRemove(qnaNo);
+        if(result > 0) {
+            return "성공";
+        }else {
+        return "실패";
+        }
+    }
+
+//    문의 수정 뷰
+    @GetMapping("/myPageUser/qnaModify")
+    public String myPageUserQnaModify(@RequestParam int qnaNo,Model model){
+        MyPageQna qna = uService.selectQnaDetail(qnaNo);
+        model.addAttribute("qnaDetail",qna);
+        return "myPage/qna/qnaModify";
     }
 
 //    주문배송조회 뷰

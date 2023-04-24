@@ -42,4 +42,6 @@ public interface UserService {
     List<MyPageQna> selectQna(MyPageQna qna);
 //  문의 상세페이지, 문의번호
     MyPageQna selectQnaDetail(int answerNo);
+//  문의 삭제
+    int qnaRemove(int qnaNo);
 }

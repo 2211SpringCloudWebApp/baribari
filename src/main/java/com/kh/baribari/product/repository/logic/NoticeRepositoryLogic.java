@@ -18,7 +18,7 @@ public class NoticeRepositoryLogic implements NoticeRepository{
 	public List<Notice> selectNoticeList(SqlSession session, PageInfo pi) {
 		RowBounds rowBounds = new RowBounds(pi.getOffset(), pi.getBoardLimit());
 		List<Notice> nList = session.selectList("NoticeMapper.selectNoticeList", null, rowBounds);
-		return null;
+		return nList;
 	}
 
 	@Override

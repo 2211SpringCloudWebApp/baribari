@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>배송지 관리</title>
+    <!-- Favicons -->
+    <link href="../assets/img/favicon.png" rel="icon">
+    <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/userMypageCss.css" rel="stylesheet">
+    <link href="../assets/css/userModifyCss.css" rel="stylesheet">
+    <link href="../assets/css/userQnaCss.css" rel="stylesheet">
+
+
+</head>
+<body>
+<header th:replace="header :: #header"></header>
+<div class="mainContainer" style="padding-top: 170px">
+    <div class="top">
+        <div class="top-container">
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myPage/qna">1:1문의</a></div>
+            <div style="margin-top: 30px;">
+                <div class="page-title">1:1 문의</div>
+                <div class="page-menu">
+                    <dl>
+                        <dd class="page-active"><a href="/myPageUser/qna">1:1 문의</a></dd>
+                        <dd class="page-productQna"><a href="/myPageUser/productQna">상품 문의</a></dd>
+                        <dd class="page-report">신고 내역</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="qna-middle">
+        <div class="qna-btn-box">
+            <button class="qna-btn-active" onclick="location.href='/myPage/qna'">전체</button>
+            <button class="qna-btn" onclick="location.href='/myPage/qna?qnaAnswerYn=Y'">답변완료</button>
+            <button class="qna-btn" onclick="location.href='/myPage/qna?qnaAnswerY=N'">답변대기</button>
+        </div>
+        <div>
+            <table class="qna-table">
+                <colgroup>
+                    <col style="width: 20%;">
+                    <col style="width: 14%;">
+                    <col>
+                    <col style="width: 10%;">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>작성일</th>
+                        <th>문의구분</th>
+                        <th>내용</th>
+                        <th>답변여부</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="qna : ${qnaList}">
+                        <td th:text="${qna.qnaDate}"></td>
+                        <td th:text="${qna.qnaCategory}">구분</td>
+                        <td><span th:text="${qna.qnaContent}" class="table-content" ></span></td>
+                        <td th:text="${qna.qnaAnswerYn}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        function stringJoin(){
+            var phone = $('#addressPhone1').val() + '-' + $('#addressPhone2').val() + '-' + $('#addressPhone3').val();
+            $('#address-phone').val(phone);
+        }
+        function findAddress(){
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    console.log(data);
+                    $('.address-zip').val(data.zonecode);
+                    if(data.jibunAddress == ""){
+                        $('.address-jibun').val(data.autoJibunAddress + " " + data.buildingName);
+                    }else {
+                        $('.address-jibun').val(data.jibunAddress + " " + data.buildingName);
+                    }
+                }
+            }).open();
+        }
+
+        function addressDelete(addressNo){
+            $.ajax({
+                url:'/addressDelete',
+                type:'post',
+                dataType: {
+                    'addressNo' : addressNo
+                },
+                success:function(data){
+
+                },
+                error:function(data){
+                    console.log(data);
+                }
+            })
+        }
+        function modalActive(){
+            $('.address-add-modal').addClass('modal-active');
+            $('.modal-back').addClass('modal-back-active');
+            $('.modal-close-btn').addClass('modal-close-btn-active');
+        }
+
+        function modalRemove(){
+            $('.address-add-modal').removeClass('modal-active');
+            $('.modal-back').removeClass('modal-back-active')
+            $('.modal-close-btn').removeClass('modal-close-btn-active');
+        }
+    </script>
+    <!-- Vendor JS Files -->
+    <script src="../assets/vendor/aos/aos.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="../assets/vendor/php-email-form/validate.js"></script>
+    <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

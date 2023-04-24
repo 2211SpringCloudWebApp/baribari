@@ -52,6 +52,19 @@
         WHERE ROWNUM <![CDATA[<]]> = 1
     </select>
 
+<!--     마이페이지 > 1:1 문의    -->
+    <select id="selectQnaByUserNo" resultType="MyPageQna">
+        SELECT * FROM QNA_TBL WHERE USER_NO = #{userNo}
+        <if test=" qnaAnswerYn = 'all'">
+            AND QNA_ANSWER_YN IN ('Y','N')
+        </if>
+        <if test=" qnaAnswerYn = 'Y'">
+        AND QNA_ANSWER_YN IN ('Y')
+        </if>
+        <if test=" qnaAnswerYn = 'N'">
+        AND QNA_ANSWER_YN IN ('Y')
+    </if>
+    </select>
 
     <!-- 유저 등록 -->
     <insert id="insertUserByUser" parameterType="User">

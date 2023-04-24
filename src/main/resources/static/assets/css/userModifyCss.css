@@ -62,7 +62,7 @@ dl dd {
 .del-save-btn a:hover{
     text-decoration: none;
 }
-form{
+.modify-form-box form{
     width: 800px;
     height: 700px;
     margin: 0 auto;

@@ -2,10 +2,7 @@ package com.kh.baribari.user.repository;
 
 import java.util.List;
 
-import com.kh.baribari.user.domain.Address;
-import com.kh.baribari.user.domain.Role;
-import com.kh.baribari.user.domain.User;
-import com.kh.baribari.user.domain.UserMyPageData;
+import com.kh.baribari.user.domain.*;
 
 public interface UserRepository {
 
@@ -37,4 +34,7 @@ public interface UserRepository {
     List<Address> selectAddressList(User user);
 
 	User getUserInfo(int userNo);
+
+//    마이페이지 > 1:1 문의
+    List<MyPageQna> selectQna(MyPageQna qna);
 }

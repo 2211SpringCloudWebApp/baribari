@@ -2,6 +2,7 @@ package com.kh.baribari.user.service.logic;
 
 import java.util.List;
 
+import com.kh.baribari.user.domain.MyPageQna;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,4 +73,9 @@ public class UserServiceImpl implements UserService {
 	public User getUserInfo(int userNo) {
 		return uRepository.getUserInfo(userNo);
 	}
+
+    @Override
+    public List<MyPageQna> selectQna(MyPageQna qna) {
+        return uRepository.selectQna(qna);
+    }
 }

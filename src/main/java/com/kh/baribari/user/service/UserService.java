@@ -3,6 +3,7 @@ package com.kh.baribari.user.service;
 import java.util.List;
 
 import com.kh.baribari.user.domain.Address;
+import com.kh.baribari.user.domain.MyPageQna;
 import com.kh.baribari.user.domain.User;
 import com.kh.baribari.user.domain.UserMyPageData;
 
@@ -31,4 +32,7 @@ public interface UserService {
     List<Address> selectAddressList(User user);
     
     User getUserInfo(int userNo);
+
+//     마이페이지 > 1:1문의 뷰
+    List<MyPageQna> selectQna(MyPageQna qna);
 }

@@ -1,0 +1,79 @@
+.qna-middle{
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.qna-btn-box{
+    width: 100%;
+    margin-top: 30px;
+    display: flex;
+}
+
+.qna-btn-box button{
+    justify-content: space-around;
+    text-align: center;
+    display: flex;
+}
+
+.qna-btn{
+    justify-content: space-around;
+    text-align: center;
+    display: flex;
+    height: 59px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 15px;
+    line-height: 59px;
+    border-radius: 8px;
+    color: black;
+    width: 148px;
+    margin-right: 20px;
+}
+
+.qna-btn-active{
+    justify-content: space-around;
+    text-align: center;
+    display: flex;
+    height: 59px;
+    border: 1px solid #3DB35E;
+    background: #fff;
+    font-size: 15px;
+    line-height: 59px;
+    border-radius: 8px;
+    color: #3DB35E;
+    width: 148px;
+    margin-right: 20px;
+}
+.qna-table{
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 0 20px 10px;
+    margin-top: 20px;
+    table-layout: fixed;
+    clear: both;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+.qna-table tr th {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+    color: #404040;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    border-top: 0;
+    padding: 20px 0;
+}
+.qna-table tr td {
+    height: 24px;
+}
+.qna-table tr{
+    border-bottom: 20px solid white;
+}
+.table-content{
+    width: 640px;
+    overflow: hidden;
+}

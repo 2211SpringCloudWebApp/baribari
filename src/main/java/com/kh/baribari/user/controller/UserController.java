@@ -1,6 +1,7 @@
 package com.kh.baribari.user.controller;
 
 import com.kh.baribari.user.domain.Address;
+import com.kh.baribari.user.domain.MyPageQna;
 import com.kh.baribari.user.domain.UserMyPageData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -8,10 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.kh.baribari.common.JsonParse;
 import com.kh.baribari.security.auth.PrincipalDetails;
@@ -165,6 +163,17 @@ public class UserController {
         PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
         return userDetails.getUser();
     }
+
+//    유저 1:1 문의 뷰
+    @GetMapping("/myPageUser/qna")
+    public String myPageUserQnaView(Authentication authentication,Model model,@RequestParam String qnaAnswerYn){
+        User user = returnUser(authentication);
+        MyPageQna qna = new MyPageQna(user.getUserNo(), qnaAnswerYn);
+        List<MyPageQna> qnaList = uService.selectQna(qna);
+        model.addAttribute("qnaList",qnaList);
+        return "myPage/qna/qna";
+    }
+
 
 
 

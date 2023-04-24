@@ -72,11 +72,11 @@
                     <div class="address">
                         <p th:text="${address.addressJibun } + ' ' + ${address.addressJibunDetail} + '[' + ${address.addressZipCode} + ']' "></p>
                     </div>
-                    <div class="btn">
+                    <div class="address-btn-box">
                         <span >
                             <a href="javascript:" onclick="">수정</a>
                         </span>
-                        <span class="" style="display: inline;"><a href="javascript:" onclick="">삭제</a>
+                        <span class="" style="display: inline;"><a href="javascript:" th:data-param="${address.addressNo}" onclick="addressDelete(this.getAttribute('data-param'))">삭제</a>
                         </span>
                     </div>
                 </li>
@@ -111,7 +111,7 @@
                     <tr>
                         <th>휴대폰</th>
                         <td>
-                            <div><input type="text" id="phone1" class="address-phone-input"> - <input type="text" id="phone2" class="address-phone-input"> - <input type="text" id="phone3" class="address-phone-input"></div>
+                            <div><input type="text" id="addressPhone1" class="address-phone-input" maxlength="3"> - <input type="text" id="addressPhone2" class="address-phone-input" maxlength="4"> - <input type="text" id="addressPhone3" class="address-phone-input" maxlength="4"></div>
                             <input type="hidden" name="addressPhone" id="address-phone">
                         </td>
                     </tr>
@@ -128,7 +128,7 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     function stringJoin(){
-        var phone = $('#phone1').val() + '-' + $('#phone2').val() + '-' + $('#phone3').val();
+        var phone = $('#addressPhone1').val() + '-' + $('#addressPhone2').val() + '-' + $('#addressPhone3').val();
         $('#address-phone').val(phone);
     }
     function findAddress(){
@@ -145,6 +145,21 @@
         }).open();
     }
 
+    function addressDelete(addressNo){
+        $.ajax({
+            url:'/addressDelete',
+            type:'post',
+            dataType: {
+                'addressNo' : addressNo
+            },
+            success:function(data){
+
+            },
+            error:function(data){
+                console.log(data);
+            }
+        })
+    }
     function modalActive(){
        $('.address-add-modal').addClass('modal-active');
        $('.modal-back').addClass('modal-back-active');

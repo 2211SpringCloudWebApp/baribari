@@ -102,6 +102,7 @@
         <a href="/login" class="book-a-table-btn scrollto d-none d-lg-flex">로그인</a>
         </div>
         <div sec:authorize="isAuthenticated()">
+            <input type="hidden" id="userNo" th:value="${#authentication.principal.user.userNo}"></input>
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${#authentication.principal.user.userName}"></button>
                     <ul class="dropdown-menu" sec:authorize="hasRole('ROLE_USER')">

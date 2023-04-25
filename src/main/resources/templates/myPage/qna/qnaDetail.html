@@ -35,7 +35,7 @@
     <div class="top">
         <div class="top-container">
             <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black"
-                                                                                                   href="/myPage/qna">1:1문의</a>
+                                                                                                   href="/uploadFiles/myPageUser/qna">1:1문의</a>
             </div>
             <div style="margin-top: 30px;">
                 <div class="page-title">1:1 문의</div>
@@ -52,7 +52,7 @@
 
     <div class="qna-middle">
         <div class="btn-box">
-            <button class="qna-detail-btn" onclick="location.href='/myPageUser/qna?qnaAnswerYn=all'">목록으로</button>
+            <button class="qna-detail-btn" onclick="location.href='../../../static/uploadFiles/myPageUser/qna'">목록으로</button>
             <div>
                 <button class="qna-detail-btn" th:onclick="'qnaModify('+${qnaDetail.qnaNo}+')'">수정</button>
                 <button class="qna-detail-btn"  th:onclick="'qnaDetailRemove('+${qnaDetail.qnaNo}+')'">삭제</button>
@@ -88,7 +88,7 @@
                 },
                 success:function(){
                     alert('삭제가 완료되었습니다.');
-                    location.href='/myPageUser/qna?qnaAnswerYn=all';
+                    location.href='../../../static/uploadFiles/myPageUser/qna';
                 },
                 error:function(){
                     alert('삭제 실패');

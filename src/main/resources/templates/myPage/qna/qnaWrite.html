@@ -53,15 +53,14 @@
     <div class="qna-middle">
 
         <div>
-            <form action="/qnaModify/save" method="post">
+            <form action="/qnaWrite/save" method="post" enctype="multipart/form-data">
                 <div class="qna-detail-content">
-                    <div class="title">문의수정</div>
-                    <input type="hidden" th:value="${qnaDetail.qnaNo}" name="qnaNo">
+                    <input type="hidden" th:value="${#authentication.principal.user.userNo}" name="userNo">
+                    <div class="title">문의작성</div>
                     <div class="content">
                         <div style="display: flex">
                             <div class="qna-title">내용</div>
-                            <textarea th:text="${qnaDetail.qnaContent}" name="qnaContent">
-                            </textarea>
+                            <textarea name="qnaContent"></textarea>
                         </div>
                         <div class="file-input-box">
                             <input class="file-input" type="file" name="qnaPic1">

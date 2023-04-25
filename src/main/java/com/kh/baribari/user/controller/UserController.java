@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UserController {
@@ -248,6 +249,24 @@ public class UserController {
         }else {
             return "<script>alert('수정이 정상적으로 끝났습니다!'); location.href='/myPageUser/qna?qnaAnswerYn=all';</script>";
         }
+    }
+//    문의 작성 뷰
+    @GetMapping("/myPageUser/qnaWrite")
+    public String myPageQnaWriteView(){
+        return "myPage/qna/qnaWrite";
+    }
+//    문의 작성 로직
+    @PostMapping("/qnaWrite/save")
+    public String myPageQnaWriteSave(
+            @RequestParam(name="qnaPic1") MultipartFile qnaPic1,
+            @RequestParam(name="qnaPic2") MultipartFile qnaPic2,
+            @RequestParam int userNo,
+            HttpServletRequest request
+    ) throws Exception {
+        String path = "myPageUser/qna";
+        Map<String,String> file = fileUpload.saveFile(qnaPic1,request,path);
+        System.out.println(file.get("filePath"));
+        return "asd";
     }
 
 //    주문배송조회 뷰

@@ -2,13 +2,10 @@ package com.kh.baribari.user.service.logic;
 
 import java.util.List;
 
-import com.kh.baribari.user.domain.MyPageQna;
+import com.kh.baribari.user.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.baribari.user.domain.Address;
-import com.kh.baribari.user.domain.User;
-import com.kh.baribari.user.domain.UserMyPageData;
 import com.kh.baribari.user.repository.UserRepository;
 import com.kh.baribari.user.service.UserService;
 
@@ -102,6 +99,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<MyPageQna> selectProductQna(User user) {
         return uRepository.selectProductQna(user);
+    }
+
+    @Override
+    public List<MyPageOrderList> selectOrderList(int userNo) {
+        return uRepository.selectOrderList(userNo);
     }
 
     //  배송지 삭제

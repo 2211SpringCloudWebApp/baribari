@@ -53,4 +53,6 @@ public interface UserRepository {
     int qnaWrite(MyPageQna myPageQna);
 //  상품 문의사항 뷰
     List<MyPageQna> selectProductQna(User user);
+//  주문내역 조회
+    List<MyPageOrderList> selectOrderList(int userNo);
 }

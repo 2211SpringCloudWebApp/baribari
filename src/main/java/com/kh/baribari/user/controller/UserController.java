@@ -1,14 +1,12 @@
 package com.kh.baribari.user.controller;
 
+import com.google.gson.Gson;
 import com.kh.baribari.common.FileUpload;
-import com.kh.baribari.user.domain.Address;
-import com.kh.baribari.user.domain.MyPageQna;
-import com.kh.baribari.user.domain.UserMyPageData;
+import com.kh.baribari.user.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.kh.baribari.common.JsonParse;
 import com.kh.baribari.security.auth.PrincipalDetails;
-import com.kh.baribari.user.domain.User;
 import com.kh.baribari.user.service.UserService;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -299,10 +296,23 @@ public class UserController {
         return "myPage/qna/productQna";
     }
 
+
     //    주문배송조회 뷰
     @GetMapping("myPageUser/orderLogistic")
-    public String orderLogisticView() {
-
+    public String orderLogisticView(Model model, Authentication authentication) {
+        User user = returnUser(authentication);
+        List<MyPageOrderList> myPageOrderList = uService.selectOrderList(user.getUserNo());
+        model.addAttribute("orderList",myPageOrderList);
         return "myPage/order/order-logistic";
     }
+
+
+    // 주문배송리스트 ajax 리턴
+//    @PostMapping("/loadOrderList")
+//    @ResponseBody
+//    public String ajaxDataTableLogistic(int userNo){
+//        List<MyPageOrderList> myPageOrderListList = uService.selectOrderList(userNo);
+//        Gson gson = new Gson();
+//        return gson.toJson(myPageOrderListList);
+//    }
 }

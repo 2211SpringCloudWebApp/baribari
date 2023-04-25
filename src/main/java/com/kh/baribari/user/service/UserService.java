@@ -2,10 +2,7 @@ package com.kh.baribari.user.service;
 
 import java.util.List;
 
-import com.kh.baribari.user.domain.Address;
-import com.kh.baribari.user.domain.MyPageQna;
-import com.kh.baribari.user.domain.User;
-import com.kh.baribari.user.domain.UserMyPageData;
+import com.kh.baribari.user.domain.*;
 
 public interface UserService {
     User selectIdCheck(String id);
@@ -51,4 +48,7 @@ public interface UserService {
 
 //  상품 문의사항 뷰
     List<MyPageQna> selectProductQna(User user);
+
+//    주문내역 조회
+    List<MyPageOrderList> selectOrderList(int userNo);
 }

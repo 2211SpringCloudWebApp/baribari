@@ -68,7 +68,7 @@
 }
 .content textarea:focus{
     outline: none;
-    font-size: 20px 30px 20px 30px;
+    font-size: 20px;
 }
 .file-input-box{
     display: flex;

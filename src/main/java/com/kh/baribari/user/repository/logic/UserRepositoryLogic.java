@@ -126,4 +126,9 @@ public class UserRepositoryLogic implements UserRepository {
     public List<MyPageQna> selectProductQna(User user) {
         return session.selectList("UserMapper.selectProductQna",user);
     }
+
+    @Override
+    public List<MyPageOrderList> selectOrderList(int userNo) {
+        return session.selectList("UserMapper.selectOrderList",userNo);
+    }
 }

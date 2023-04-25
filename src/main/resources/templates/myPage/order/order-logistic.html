@@ -91,7 +91,7 @@
         </div>
         <!-- 주문내역리스트 -->
         <div class="order-list">
-            <table id="myTable">
+            <table id="myTable" >
                 <colgroup>
                     <col style="width:*">
                     <col style="width:14.2%">
@@ -110,6 +110,20 @@
                     <th class="col">후기</th>
                 </tr>
                 </thead>
+                <tr class="table-tr" th:each="order : ${orderList}">
+                    <td class="table-td">
+                        <img src="../img/campfire.svg">
+                        <div class="table-title">
+                        <span th:text="${order.userNickname}"></span>
+                        <span th:text="${order.productName}" style="font-weight: bold"></span>
+                        </div>
+                    </td>
+                    <td th:text="${order.orderDate}"></td>
+                    <td th:text="${order.orderNo}"></td>
+                    <td th:text="${order.orderPrice} + '원 (' + ${order.orderDetailCount} + ')'"></td>
+                    <td th:text="${order.orderStatus}"></td>
+                    <td><button>후기작성</button></td>
+                </tr>
             </table>
         </div>
     </div>
@@ -117,7 +131,7 @@
 
 </div>
 <script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
-
+<script src="../js/datatables-simple-demo.js"></script>
 <script>
     $(document).ready(function () {
         $('#myTable').DataTable({
@@ -127,22 +141,30 @@
                 "ordering": false,
                 "autoWidth": false,
                 "language": {
-                    "emptyTable": "주문내역이 없어요ㅜㅜ",
+                    // "emptyTable": "주문내역이 없어요ㅜㅜ",
                     url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/ko.json'
-                },
-                "ajax": function (data) {
-                    $.ajax({
-                        url: "/loadOrderList",
-                        data: {
-                            'userNo': $('#userNo').val()
-                        },
-                        type:"post",
-                        columns:[
-                            { data : ''}
-                        ]
-
-                    })
                 }
+                // "ajax": function (data) {
+                //     $.ajax({
+                //         url: "/loadOrderList",
+                //         data: {
+                //             'userNo': $('#userNo').val()
+                //         },
+                //         type:"post",
+                //         success:function(res){
+                //             console.log(res);
+                //             data(res);
+                //         }
+                //     });
+                // },
+                // "columns" : [
+                //     {"data" : "productName"},
+                //     {"data" : "orderDate"},
+                //     {"data" : "orderNo"},
+                //     {"data" : "orderPrice"},
+                //     {"data" : "orderStatus"},
+                //     {"data" : "productName"},
+                // ]
             }
         );
     })

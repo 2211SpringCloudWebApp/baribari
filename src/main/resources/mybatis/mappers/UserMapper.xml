@@ -114,6 +114,16 @@
         SELECT * FROM ADDRESS_TBL WHERE USER_NO = #{userNo}
     </select>
 
+<!--   주문사항 조회 -->
+    <select id="selectOrderList" resultType="MyPageOrderList">
+        SELECT P.PRODUCT_NAME,PP.PRODUCT_PIC_1 , O.ORDER_DATE, O.ORDER_NO, D.ORDER_DETAIL_COUNT, D.ORDER_LOGIS, D.ORDER_TRACKING_NO, D.ORDER_STATUS, D.ORDER_PRICE, U.USER_NICKNAME, O.USER_NO
+        FROM ORDER_DETAIL_TBL D
+                 JOIN ORDER_TBL O ON O.ORDER_NO = D.ORDER_NO
+                 JOIN USER_TBL U ON U.USER_NO = D.SELLER_USER_NO
+                 JOIN PRODUCT_TBL P ON P.PRODUCT_NO = D.PRODUCT_NO
+                 FULL JOIN PRODUCT_PIC_TBL PP ON PP.PRODUCT_NO = P.PRODUCT_NO
+        WHERE O.USER_NO = #{userNo}
+    </select>
     <!--    배송지 삭제 -->
     <delete id="deleteAddress" parameterType="_int">
         DELETE FROM ADDRESS_TBL WHERE ADDRESS_NO = #{addressNo}

@@ -3,8 +3,8 @@
     font-family: 'IBM Plex Sans KR', sans-serif;
     color: #495057;
 }
-.container {
-    width: 80%;
+.container1 {
+    width: 1000px;
     margin: 0 auto;
     padding-top: 50px;
     --background-color: #fff;
@@ -36,20 +36,21 @@ h3 {
     color: #999;
 }
 .content {
-    padding: 30px;
-    font-size: 18px;
+    padding: 20px;
+    font-size: 15px;
     line-height: 1.8;
 }
 .btns {
-    padding: 30px;
+    padding: 20px;
     display: flex;
     justify-content: flex-end;
 }
 .btn {
-    padding: 10px 20px;
-    background-color: #081333;
-    color: #fff;
-    font-size: 16px;
+    padding: 2px 7px;
+    background-color: #fff;
+    border: 0.5px solid #081333;
+    color: #081333;
+    font-size: 14px;
     font-weight: bold;
     border-radius: 5px;
     text-decoration: none;
@@ -65,3 +66,34 @@ h3 {
 .btn:last-child {
     margin-right: 0;
 }
+
+.container2 {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .prev-next {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .prev-next a{
+    text-decoration: none;
+    color: black;
+  }
+  
+  .prev-next .prev,
+  .prev-next .next {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .prev-next .prev .title,
+  .prev-next .next .title {
+    margin-left: 10px;
+  }
+  

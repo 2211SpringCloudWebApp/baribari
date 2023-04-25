@@ -100,6 +100,11 @@
         INSERT INTO ADDRESS_TBL VALUES (SEQ_ADDRESS_NO.NEXTVAL, #{userNo}, #{addressZipCode},#{addressName},#{addressJibunDetail},#{addressJibun},#{addressPickup},#{addressPhone})
     </insert>
 
+<!--    문의사항 작성 -->
+    <insert id="qnaWrite">
+        INSERT INTO QNA_TBL VALUES(SEQ_QNA_NO.nextval, #{qnaContent}, 1, #{userNo},1,1,default,default,null,#{qnaPic1, jdbcType=VARCHAR},#{qnaPic2, jdbcType=VARCHAR } )
+    </insert>
+
 <!-- 배송지 리스트 가져오기 -->
     <select id="selectAddressList" resultType="Address">
         SELECT * FROM ADDRESS_TBL WHERE USER_NO = #{userNo}

@@ -94,6 +94,11 @@ public class UserServiceImpl implements UserService {
         return uRepository.qnaModifySave(myPageQna);
     }
 
+    @Override
+    public int qnaWrite(MyPageQna myPageQna) {
+        return uRepository.qnaWrite(myPageQna);
+    }
+
     //  배송지 삭제
     @Override
     public int deleteAddress(int addressNo) {

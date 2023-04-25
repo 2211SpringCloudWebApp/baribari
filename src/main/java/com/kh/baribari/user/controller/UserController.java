@@ -261,11 +261,23 @@ public class UserController {
             @RequestParam(name="qnaPic1") MultipartFile qnaPic1,
             @RequestParam(name="qnaPic2") MultipartFile qnaPic2,
             @RequestParam int userNo,
-            HttpServletRequest request
+            HttpServletRequest request,
+            @RequestParam String qnaContent
     ) throws Exception {
-        String path = "myPageUser/qna";
+        String path = "myPageUser\\qna\\";
+        String filePath1 = null, filePath2 = null;
+        if(!qnaPic1.isEmpty()){
         Map<String,String> file = fileUpload.saveFile(qnaPic1,request,path);
-        System.out.println(file.get("filePath"));
+        filePath1 = file.get("dbSavePath");
+        }
+        if(!qnaPic2.isEmpty()){
+        Map<String,String> file2 = fileUpload.saveFile(qnaPic2,request,path);
+            filePath2 = file2.get("dbSavePath");
+        }
+
+        MyPageQna myPageQna = new MyPageQna(qnaContent,userNo,filePath1,filePath2);
+        int result = uService.qnaWrite(myPageQna);
+
         return "asd";
     }
 

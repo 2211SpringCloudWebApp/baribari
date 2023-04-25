@@ -24,7 +24,7 @@ public class FileUpload {
 			String rootPath = String.valueOf(file.getAbsoluteFile());
 	        // 경로를 가져와서 폴더의 경로 지정: static/설정된 경로
 	        String savePath = rootPath+"\\src\\main\\resources\\static\\uploadFiles\\" + path;
-			System.out.println(savePath);
+			System.out.println("저장경로명 : "+savePath);
 	        File folder = new File(savePath);
 	        // 저장할 폴더가 없을 경우 생성
 	        if (!folder.exists()) {
@@ -37,13 +37,16 @@ public class FileUpload {
 	        String fileName = uuid.toString() + "." + originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
 	        // 저장되는 경로 및 파일명
 	        String filePath = savePath + "/" + fileName;
-
+			String dbSavePath = "\\uploadFiles\\"+path+fileName;
 	        // 파일 저장
 	        multi.transferTo(new File(filePath));
+
+			System.out.println("db에 저장될 경로+파일이름 : "+dbSavePath);
 
 	        result.put("original", originalFileName);
 	        result.put("fileName", fileName);
 	        result.put("filePath", filePath);
+			result.put("dbSavePath",dbSavePath);
 	    }
 	    return result;
 	}

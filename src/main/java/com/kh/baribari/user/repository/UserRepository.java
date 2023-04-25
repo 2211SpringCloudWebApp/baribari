@@ -49,4 +49,6 @@ public interface UserRepository {
     int qnaRemove(int qnaNo);
 //  문의 수정 저장
     int qnaModifySave(MyPageQna myPageQna);
+//  문의사항 작성
+    int qnaWrite(MyPageQna myPageQna);
 }

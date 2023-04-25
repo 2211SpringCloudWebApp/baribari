@@ -116,4 +116,9 @@ public class UserRepositoryLogic implements UserRepository {
     public int qnaModifySave(MyPageQna myPageQna) {
         return session.update("UserMapper.updateQna", myPageQna);
     }
+
+    @Override
+    public int qnaWrite(MyPageQna myPageQna) {
+        return session.insert("UserMapper.qnaWrite",myPageQna);
+    }
 }

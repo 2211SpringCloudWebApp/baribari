@@ -25,4 +25,11 @@ public class MyPageQna {
         this.userNo = userNo;
         this.qnaAnswerYn = qnaAnswerYn;
     }
+
+    public MyPageQna(String qnaContent, int userNo, String qnaPic1, String qnaPic2) {
+        this.qnaContent = qnaContent;
+        this.userNo = userNo;
+        this.qnaPic1 = qnaPic1;
+        this.qnaPic2 = qnaPic2;
+    }
 }

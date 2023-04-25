@@ -46,9 +46,20 @@ public class FileUpload {
 	        result.put("original", originalFileName);
 	        result.put("fileName", fileName);
 	        result.put("filePath", dbSavePath);
-//			result.put("dbSavePath",dbSavePath);
 	    }
 	    return result;
+	}
+	
+	public void deleteFile(HttpServletRequest request, String fileName) throws Exception {
+		File file = new File("");
+		String rootPath = String.valueOf(file.getAbsoluteFile());
+		String deletePath = rootPath+"\\src\\main\\resources\\static\\";
+		String deleteFilePath = deletePath + "\\" + fileName;
+		File deleteFile = new File(deleteFilePath);
+		System.out.println(deleteFile);
+		if(deleteFile.exists()) {
+			deleteFile.delete();
+		}
 	}
 	
 }

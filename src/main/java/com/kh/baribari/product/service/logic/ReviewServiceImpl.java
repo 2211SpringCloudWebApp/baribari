@@ -31,4 +31,14 @@ public class ReviewServiceImpl implements ReviewService {
 	public int getReviewCount(int productNo) {
 		return rRepository.getReviewCount(session, productNo);
 	}
+
+	@Override
+	public int removeReview(Review review) {
+		return rRepository.removeReview(session, review);
+	}
+
+	@Override
+	public Review getReview(Review review) {
+		return rRepository.getReview(session, review);
+	}
 }

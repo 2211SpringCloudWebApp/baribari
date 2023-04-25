@@ -32,4 +32,14 @@ public class ReviewRepositoryLogic implements ReviewRepository {
 	public int getReviewCount(SqlSession session, int productNo) {
 		return session.selectOne("ReviewMapper.getReviewCount", productNo);
 	}
+
+	@Override
+	public int removeReview(SqlSession session, Review review) {
+		return session.delete("ReviewMapper.removeReview", review);
+	}
+
+	@Override
+	public Review getReview(SqlSession session, Review review) {
+		return session.selectOne("ReviewMapper.getReview", review);
+	}
 }

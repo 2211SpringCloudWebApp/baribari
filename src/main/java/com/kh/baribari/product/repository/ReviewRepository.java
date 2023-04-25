@@ -32,4 +32,20 @@ public interface ReviewRepository {
 	 */
 	public int getReviewCount(SqlSession session, int productNo);
 
+	/**
+	 * 상품에 대한 후기 삭제
+	 * @param SqlSession
+	 * @param Review
+	 * @return int
+	 */
+	public int removeReview(SqlSession session, Review review);
+
+	/**
+	 * 상품에 대한 후기
+	 * @param SqlSession
+	 * @param Review
+	 * @return Review
+	 */
+	public Review getReview(SqlSession session, Review review);
+
 }

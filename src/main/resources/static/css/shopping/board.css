@@ -77,11 +77,23 @@
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 1px solid #ccc;
 }
-
-#reviewBoard li:last-child {
-    border-bottom: none;
+#reviewBoard li:first-child {
+	border-top: none;
+}
+#reviewBoard li:not(:first-child) {
+	border-top: 1px solid #ccc;
+}
+#reviewBoard div, #imgPreview div {
+	display: inline-block;
+	vertical-align: top;
+	width: 10%;
+	margin-right: 10px;
+}
+#reviewBoard img, #imgPreview img {
+	max-width: 100%;
+	height: auto;
+	margin-bottom: 1em;
 }
 
 

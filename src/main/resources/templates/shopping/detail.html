@@ -385,8 +385,8 @@
     /* 후기 등록 */
 	$("#submitReview").on("click", function() {
 		// 내용이 입력되지 않았을 경우
-		var reviewContent = $("#reviewContent").val().trim();
-	    if(reviewContent.length == 0) {
+		var reviewContent = document.querySelector('#reviewContent');
+	    if(reviewContent.value.length == 0) {
 	        alert("내용을 입력해주세요.");
 	        return;
 	    }

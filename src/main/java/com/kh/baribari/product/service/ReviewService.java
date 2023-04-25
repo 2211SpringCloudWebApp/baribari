@@ -25,4 +25,18 @@ public interface ReviewService {
 	 * @return int
 	 */
 	public int getReviewCount(int productNo);
+
+	/**
+	 * 상품에 대한 후기 삭제
+	 * @param Review
+	 * @return int
+	 */
+	public int removeReview(Review review);
+
+	/**
+	 * 상품에 대한 후기
+	 * @param Review
+	 * @return Review
+	 */
+	public Review getReview(Review review);
 }

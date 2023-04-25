@@ -58,7 +58,11 @@
 
 <!--     마이페이지 > 1:1 문의    -->
     <select id="selectQnaByUserNo" resultType="MyPageQna">
-        SELECT * FROM QNA_TBL WHERE USER_NO = #{userNo}
+        SELECT * FROM QNA_TBL WHERE USER_NO = #{userNo} AND QNA_CATEGORY = 1 ORDER BY QNA_DATE DESC
+    </select>
+<!--    마이페이지 상품 문의 뷰  -->
+    <select id="selectProductQna" resultType="MyPageQna">
+        SELECT * FROM QNA_TBL WHERE USER_NO = #{userNo} AND QNA_CATEGORY = 2 ORDER BY QNA_DATE DESC
     </select>
 <!--    마이페이지 문의 상세페이지 -->
     <select id="selectQnaDetail" resultType="MyPageQna">

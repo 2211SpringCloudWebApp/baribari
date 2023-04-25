@@ -121,4 +121,9 @@ public class UserRepositoryLogic implements UserRepository {
     public int qnaWrite(MyPageQna myPageQna) {
         return session.insert("UserMapper.qnaWrite",myPageQna);
     }
+
+    @Override
+    public List<MyPageQna> selectProductQna(User user) {
+        return session.selectList("UserMapper.selectProductQna",user);
+    }
 }

@@ -35,14 +35,14 @@
     <div class="top">
         <div class="top-container">
             <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black"
-                                                                                                   href="/uploadFiles/myPageUser/qna">1:1문의</a>
+                                                                                                   href="/myPageUser/qna?qnaAnswerYn=all">1:1문의</a>
             </div>
             <div style="margin-top: 30px;">
                 <div class="page-title">1:1 문의</div>
                 <div class="page-menu">
                     <dl>
-                        <dd class="page-active"><a href="/myPageUser/qna">1:1 문의</a></dd>
-                        <dd class="page-productQna"><a href="/myPageUser/productQna">상품 문의</a></dd>
+                        <dd class="page-active"><a href="/myPageUser/qna?qnaAnswerYn=all">1:1 문의</a></dd>
+                        <dd class="page-productQna"><a href="/myPageUser/productQna?qnaAnswerYn=all">상품 문의</a></dd>
                         <dd class="page-report">신고 내역</dd>
                     </dl>
                 </div>
@@ -52,7 +52,7 @@
 
     <div class="qna-middle">
         <div class="btn-box">
-            <button class="qna-detail-btn" onclick="location.href='../../../static/uploadFiles/myPageUser/qna'">목록으로</button>
+            <button class="qna-detail-btn" onclick="location.href='/myPageUser/qna?qnaAnswerYn=all'">목록으로</button>
             <div>
                 <button class="qna-detail-btn" th:onclick="'qnaModify('+${qnaDetail.qnaNo}+')'">수정</button>
                 <button class="qna-detail-btn"  th:onclick="'qnaDetailRemove('+${qnaDetail.qnaNo}+')'">삭제</button>
@@ -64,7 +64,8 @@
             <div class="qna-detail-content">
                 <div class="title">문의내용</div>
                 <div class="content" th:text="${qnaDetail.qnaContent}"></div>
-                <img th:src="${qnaDetail.qnaPic1}">
+                <img th:if="${qnaDetail.qnaPic1 != null}" th:src="${qnaDetail.qnaPic1}">
+                <img th:if="${qnaDetail.qnaPic2 != null}" th:src="${qnaDetail.qnaPic2}">
             </div>
         </div>
         <div>
@@ -89,7 +90,7 @@
                 },
                 success:function(){
                     alert('삭제가 완료되었습니다.');
-                    location.href='../../../static/uploadFiles/myPageUser/qna';
+                    location.href='/myPageUser/qna?qnaAnswerYn=all';
                 },
                 error:function(){
                     alert('삭제 실패');

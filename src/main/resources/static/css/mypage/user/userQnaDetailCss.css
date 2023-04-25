@@ -50,4 +50,7 @@
     font-size: 14px;
     padding: 20px 15px;
 }
-
+.qna-detail-content img{
+    width: 300px;
+    height: 300px;
+}

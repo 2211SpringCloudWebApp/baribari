@@ -48,4 +48,7 @@ public interface UserService {
     int qnaModifySave(MyPageQna myPageQna);
 //  문의사항 작성
     int qnaWrite(MyPageQna myPageQna);
+
+//  상품 문의사항 뷰
+    List<MyPageQna> selectProductQna(User user);
 }

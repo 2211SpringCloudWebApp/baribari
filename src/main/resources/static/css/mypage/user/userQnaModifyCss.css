@@ -72,8 +72,7 @@
 }
 .file-input-box{
     display: flex;
-    flex-direction: column;
-    padding-left: 30px;
+    padding-left: 100px;
 }
 .qna-btn-box{
     display: flex;
@@ -86,4 +85,9 @@
 
 .file-input{
     margin: 10px 0 5px 60px;
+}
+.file-input-box label{
+    background-color: aliceblue;
+    width: 100px;
+    height: 100px;
 }

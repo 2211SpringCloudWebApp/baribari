@@ -36,90 +36,90 @@ public class UserController {
     @Qualifier("fileUpload")
     private FileUpload fileUpload;
 
-//    로그인 뷰
+    //    로그인 뷰
     @GetMapping("login")
-    public String loginView(){
+    public String loginView() {
         return "login/login";
     }
 
-//    회원가입 뷰
+    //    회원가입 뷰
     @GetMapping("register")
-    public String registerView(){
+    public String registerView() {
         return "login/register";
     }
 
     @GetMapping("registerUser")
-    public String registerUserView(){
+    public String registerUserView() {
         return "login/registerUser";
     }
 
     @GetMapping("registerSeller")
-    public String registerSellerView(){
+    public String registerSellerView() {
         return "login/registerSeller";
     }
 
-//    회원가입 id 유효성 체크
+    //    회원가입 id 유효성 체크
     @GetMapping("ajaxCheckId")
     @ResponseBody
-    public String ajaxIdCheck(String id){
+    public String ajaxIdCheck(String id) {
         User user = uService.selectIdCheck(id);
         String result;
-        if(user != null) {
+        if (user != null) {
             result = "중복";
-        }else {
+        } else {
             result = "사용가능";
         }
         return jsonParse.returnJson(result);
     }
 
-//  회원가입 닉네임 유효성 체크 ajax
+    //  회원가입 닉네임 유효성 체크 ajax
     @GetMapping("ajaxNickNameCheck")
     @ResponseBody
-    public String ajaxNickNameCheck(String nickName){
+    public String ajaxNickNameCheck(String nickName) {
         User user = uService.selectNickNameCheck(nickName);
         String result;
         if (user != null) {
             result = "중복";
-        }else {
+        } else {
             result = "사용가능";
         }
         return jsonParse.returnJson(result);
     }
 
-//    유저 회원가입 로직
+    //    유저 회원가입 로직
     @PostMapping("registerUserProc")
     @ResponseBody
-    public String registerUserProc(@ModelAttribute User user){
+    public String registerUserProc(@ModelAttribute User user) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setUserPw(passwordEncoder.encode(user.getUserPw()));
         int result = uService.insertUserByUser(user);
-        if(result > 0 ){
-            return "<script>alert('"+ user.getUserNickName() +"님 환영합니다!'); location.href='/';</script>";
-        }else {
+        if (result > 0) {
+            return "<script>alert('" + user.getUserNickName() + "님 환영합니다!'); location.href='/';</script>";
+        } else {
             return "<script>alert('회원가입에 실패하였습니다. \n 관리자에게 문의하시거나 다시 시도해주세요.'); location.href='/register';</script>";
         }
     }
 
-//  판매자 회원가입 로직
+    //  판매자 회원가입 로직
     @PostMapping("registerSellerProc")
     @ResponseBody
-    public String registerSellerProc(@ModelAttribute User user){
+    public String registerSellerProc(@ModelAttribute User user) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setUserPw(passwordEncoder.encode(user.getUserPw()));
         int result = uService.insertUserBySeller(user);
-        if(result > 0){
-            return "<script>alert('"+ user.getUserNickName() +"님 환영합니다!'); location.href='/';</script>";
-        }else {
+        if (result > 0) {
+            return "<script>alert('" + user.getUserNickName() + "님 환영합니다!'); location.href='/';</script>";
+        } else {
             return "<script>alert('회원가입에 실패하였습니다. \n 관리자에게 문의하시거나 다시 시도해주세요.'); location.href='/register';</script>";
         }
     }
 
-//    유저-마이페이지 뷰
+    //    유저-마이페이지 뷰
     @GetMapping("myPageUser")
     public String myPageUserView(
             Authentication authentication,
             Model model
-    ){
+    ) {
         User user = returnUser(authentication);
         UserMyPageData userUserMyPageData = new UserMyPageData(user.getUserNo(), user.getUserLevelPoint());
         UserMyPageData userMyPageData = uService.selectUserMyPageData(userUserMyPageData);
@@ -127,30 +127,31 @@ public class UserController {
         return "myPage/myPageUser";
     }
 
-//    유저-마이페이지 수정 뷰
+    //    유저-마이페이지 수정 뷰
     @GetMapping("myPageUser/modify")
     public String myPageUserModifyView(
             Authentication authentication,
             Model model
-    ){
+    ) {
         User user = returnUser(authentication);
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "myPage/information/UserModify";
     }
 
-//  회원탈퇴 뷰
+    //  회원탈퇴 뷰
     @GetMapping("myPageUser/withdraw")
-    public String withdrawView(){
+    public String withdrawView() {
         return "myPage/information/withdraw";
     }
-//    회원탈퇴 로직
+
+    //    회원탈퇴 로직
     @PostMapping("withdrawUser")
     @ResponseBody
-    public String withdrawUser(int userNo){
+    public String withdrawUser(int userNo) {
         int result = uService.deleteUserByUserNo(userNo);
-        if(result > 0){
+        if (result > 0) {
             return "성공";
-        }else {
+        } else {
             return "실패";
         }
     }
@@ -158,7 +159,7 @@ public class UserController {
     // 유저 수정 페이지
     @PostMapping("myPageUser/modifySubmit")
     @ResponseBody
-    public String modifySubmit(@ModelAttribute User user){
+    public String modifySubmit(@ModelAttribute User user) {
         User updateByUser = uService.updateMyPageByUser(user);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         PrincipalDetails userDetails = (PrincipalDetails) auth.getPrincipal();
@@ -168,122 +169,139 @@ public class UserController {
 
     // 배송지 관리 뷰
     @GetMapping("myPageUser/address")
-    public String myPageUserAddressView(Authentication authentication, Model model){
+    public String myPageUserAddressView(Authentication authentication, Model model) {
         User user = returnUser(authentication);
         List<Address> alist = uService.selectAddressList(user);
         model.addAttribute("aList", alist);
         return "myPage/information/Address";
     }
 
-//    배송지 추가 컨트롤러
+    //    배송지 추가 컨트롤러
     @PostMapping("addAddress")
     @ResponseBody
-    public String addAddressByUser(Authentication authentication, @ModelAttribute Address address){
+    public String addAddressByUser(Authentication authentication, @ModelAttribute Address address) {
         address.setUserNo(returnUser(authentication).getUserNo());
         int result = uService.insertAddressByUser(address);
         return "<script>alert('배송지가 추가되었습니다!'); location.href='/myPageUser/address';</script>";
     }
 
-//   배송지 삭제
+    //   배송지 삭제
     @PostMapping("ajaxRemoveAddress")
     @ResponseBody
-    public String ajaxRemoveAddress(int addressNo){
+    public String ajaxRemoveAddress(int addressNo) {
         int result = uService.deleteAddress(addressNo);
-        if(result > 0){
+        if (result > 0) {
             return jsonParse.returnJson("성공");
-        }else {
+        } else {
             return jsonParse.returnJson("실패");
         }
     }
-    
+
     // 세션에서 user 를 꺼내줌
-    private User returnUser(Authentication authentication){
+    private User returnUser(Authentication authentication) {
         PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
         return userDetails.getUser();
     }
 
-//    유저 1:1 문의 뷰
+    //    유저 1:1 문의 뷰
     @GetMapping("/myPageUser/qna")
-    public String myPageUserQnaView(Authentication authentication,Model model,@RequestParam String qnaAnswerYn){
+    public String myPageUserQnaView(Authentication authentication, Model model, @RequestParam String qnaAnswerYn) {
         User user = returnUser(authentication);
         MyPageQna qna = new MyPageQna(user.getUserNo(), qnaAnswerYn);
         List<MyPageQna> qnaList = uService.selectQna(qna);
-        model.addAttribute("qnaList",qnaList);
+        model.addAttribute("qnaList", qnaList);
         return "myPage/qna/qna";
     }
 
-//    문의 상세페이지
+    //    문의 상세페이지
     @GetMapping("/myPageUser/qnaDetail")
-    public String myPageUserQnaDetailView(@RequestParam int qnaNo,Model model){
+    public String myPageUserQnaDetailView(@RequestParam int qnaNo, Model model) {
         MyPageQna qna = uService.selectQnaDetail(qnaNo);
-        model.addAttribute("qnaDetail",qna);
+        model.addAttribute("qnaDetail", qna);
         return "myPage/qna/qnaDetail";
     }
-//    문의 삭제
+
+    //    문의 삭제
     @PostMapping("/ajaxRemoveQna")
     @ResponseBody
-    public String ajaxRemoveQna(int qnaNo){
+    public String ajaxRemoveQna(int qnaNo) {
         int result = uService.qnaRemove(qnaNo);
-        if(result > 0) {
+        if (result > 0) {
             return "성공";
-        }else {
-        return "실패";
+        } else {
+            return "실패";
         }
     }
 
-//    문의 수정 뷰
+    //    문의 수정 뷰
     @GetMapping("/myPageUser/qnaModify")
-    public String myPageUserQnaModify(@RequestParam int qnaNo,Model model){
+    public String myPageUserQnaModify(@RequestParam int qnaNo, Model model) {
         MyPageQna qna = uService.selectQnaDetail(qnaNo);
-        model.addAttribute("qnaDetail",qna);
+        model.addAttribute("qnaDetail", qna);
         return "myPage/qna/qnaModify";
     }
 
-//    문의 수정 저장
+    //    문의 수정 저장
     @PostMapping("/qnaModify/save")
     @ResponseBody
-    public String myPageUserQnaModifySave(@ModelAttribute MyPageQna myPageQna, MultipartFile file, HttpServletRequest request){
+    public String myPageUserQnaModifySave(@ModelAttribute MyPageQna myPageQna, MultipartFile file, HttpServletRequest request) {
         int result = uService.qnaModifySave(myPageQna);
-        if(result > 0){
-        return "<script>alert('수정이 정상적으로 끝났습니다!'); location.href='/myPageUser/qna?qnaAnswerYn=all';</script>";
-        }else {
+        if (result > 0) {
+            return "<script>alert('수정이 정상적으로 끝났습니다!'); location.href='/myPageUser/qna?qnaAnswerYn=all';</script>";
+        } else {
             return "<script>alert('수정이 정상적으로 끝났습니다!'); location.href='/myPageUser/qna?qnaAnswerYn=all';</script>";
         }
     }
-//    문의 작성 뷰
+
+    //    문의 작성 뷰
     @GetMapping("/myPageUser/qnaWrite")
-    public String myPageQnaWriteView(){
+    public String myPageQnaWriteView() {
         return "myPage/qna/qnaWrite";
     }
-//    문의 작성 로직
+
+    //    문의 작성 로직
     @PostMapping("/qnaWrite/save")
+    @ResponseBody
     public String myPageQnaWriteSave(
-            @RequestParam(name="qnaPic1") MultipartFile qnaPic1,
-            @RequestParam(name="qnaPic2") MultipartFile qnaPic2,
+            @RequestParam(name = "qnaPic1") MultipartFile qnaPic1,
+            @RequestParam(name = "qnaPic2") MultipartFile qnaPic2,
             @RequestParam int userNo,
             HttpServletRequest request,
             @RequestParam String qnaContent
     ) throws Exception {
         String path = "myPageUser\\qna\\";
         String filePath1 = null, filePath2 = null;
-        if(!qnaPic1.isEmpty()){
-        Map<String,String> file = fileUpload.saveFile(qnaPic1,request,path);
-        filePath1 = file.get("dbSavePath");
+        if (!qnaPic1.isEmpty()) {
+            Map<String, String> file = fileUpload.saveFile(qnaPic1, request, path);
+            filePath1 = file.get("dbSavePath");
         }
-        if(!qnaPic2.isEmpty()){
-        Map<String,String> file2 = fileUpload.saveFile(qnaPic2,request,path);
+        if (!qnaPic2.isEmpty()) {
+            Map<String, String> file2 = fileUpload.saveFile(qnaPic2, request, path);
             filePath2 = file2.get("dbSavePath");
         }
 
-        MyPageQna myPageQna = new MyPageQna(qnaContent,userNo,filePath1,filePath2);
+        MyPageQna myPageQna = new MyPageQna(qnaContent, userNo, filePath1, filePath2);
         int result = uService.qnaWrite(myPageQna);
-
-        return "asd";
+        if (result > 0) {
+            return "<script>alert('저장이 잘됐어요!'); location.href='/myPageUser/qna?qnaAnswerYn=all';</script>";
+        }else {
+            return "<script>alert('저장에 실패했어요ㅠㅠ'); location.href='/myPageUser/qna?qnaAnswerYn=all';</script>";
+        }
     }
 
-//    주문배송조회 뷰
+
+//    상품 문의 뷰
+    @GetMapping("/myPageUser/productQna")
+    public String productQnaView(Authentication authentication, Model model){
+        User user = returnUser(authentication);
+        List<MyPageQna> myPageQnaList = uService.selectProductQna(user);
+        model.addAttribute("qnaList", myPageQnaList);
+        return "myPage/qna/productQna";
+    }
+
+    //    주문배송조회 뷰
     @GetMapping("myPageUser/orderLogistic")
-    public String orderLogisticView(){
+    public String orderLogisticView() {
 
         return "myPage/order/order-logistic";
     }

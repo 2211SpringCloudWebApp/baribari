@@ -35,14 +35,14 @@
     <div class="top">
         <div class="top-container">
             <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black"
-                                                                                                   href="/uploadFiles/myPageUser/qna">1:1문의</a>
+                                                                                                   href="/myPageUser/qna?qnaAnswerYn=all">1:1문의</a>
             </div>
             <div style="margin-top: 30px;">
                 <div class="page-title">1:1 문의</div>
                 <div class="page-menu">
                     <dl>
-                        <dd class="page-active"><a href="/myPageUser/qna">1:1 문의</a></dd>
-                        <dd class="page-productQna"><a href="/myPageUser/productQna">상품 문의</a></dd>
+                        <dd class="page-active"><a href="/myPageUser/qna?qnaAnswerYn=all">1:1 문의</a></dd>
+                        <dd class="page-productQna"><a href="/myPageUser/productQna?qnaAnswerYn=all">상품 문의</a></dd>
                         <dd class="page-report">신고 내역</dd>
                     </dl>
                 </div>
@@ -60,17 +60,28 @@
                     <div class="content">
                         <div style="display: flex">
                             <div class="qna-title">내용</div>
-                            <textarea name="qnaContent"></textarea>
+                            <textarea name="qnaContent" wrap="hard" rows="10" cols="40">
+안녕하세요. 바리바리입니다 :)
+문의 사항 있으신가요?
+고객님 성함/연락처/주문번호를 적어주시면 보다 빠르고 정확한 상담처리 도와드리겠습니다.
+주문번호:
+성함:
+연락처:
+                            </textarea>
                         </div>
                         <div class="file-input-box">
-                            <input class="file-input" type="file" name="qnaPic1">
-                            <input class="file-input" type="file" name="qnaPic2">
+                            <label for="file1"><img class="upload-pic-miri1"
+                                                    style="width: 100px; height: 100px;"></label>
+                            <input id="file1" class="file-input" type="file" name="qnaPic1" style="display: none">
+                            <label for="file2" style="margin-left: 20px"><img class="upload-pic-miri2"
+                                                                              style="width: 100px; height: 100px;"></label>
+                            <input id="file2" class="file-input" type="file" name="qnaPic2" style="display: none">
                         </div>
                     </div>
                 </div>
                 <div class="qna-btn-box">
                     <button type="button" class="qna-detail-btn"
-                            onclick="location.href='../../../static/uploadFiles/myPageUser/qna'">목록으로
+                            onclick="location.href='/myPageUser/qna?qnaAnswerYn=all'">목록으로
                     </button>
                     <button type="submit" class="qna-detail-btn save-btn">저장</button>
                 </div>
@@ -81,7 +92,62 @@
 
 
     <script>
+        //이미지 미리보기
+        var sel_file;
 
+        $(document).ready(function () {
+            $("#file1").on("change", handleImgFileSelect);
+        });
+
+        function handleImgFileSelect(e) {
+            var files = e.target.files;
+            var filesArr = Array.prototype.slice.call(files);
+
+            var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+
+            filesArr.forEach(function (f) {
+                if (!f.type.match(reg)) {
+                    alert("확장자는 이미지 확장자만 가능합니다.");
+                    return;
+                }
+
+                sel_file = f;
+
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    console.log(e.target.result);
+                    $(".upload-pic-miri1").attr("src", e.target.result);
+                }
+                reader.readAsDataURL(f);
+            });
+        }
+
+        $(document).ready(function () {
+            $("#file2").on("change", handleImgFileSelect2);
+        });
+
+        function handleImgFileSelect2(e) {
+            var files = e.target.files;
+            var filesArr = Array.prototype.slice.call(files);
+
+            var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+
+            filesArr.forEach(function (f) {
+                if (!f.type.match(reg)) {
+                    alert("확장자는 이미지 확장자만 가능합니다.");
+                    return;
+                }
+
+                sel_file = f;
+
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    console.log(e.target.result);
+                    $(".upload-pic-miri2").attr("src", e.target.result);
+                }
+                reader.readAsDataURL(f);
+            });
+        }
     </script>
     <script src="../js/user/user-qna.js"></script>
     <!-- Vendor JS Files -->

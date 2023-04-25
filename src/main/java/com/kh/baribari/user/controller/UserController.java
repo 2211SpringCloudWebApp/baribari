@@ -1,9 +1,11 @@
 package com.kh.baribari.user.controller;
 
+import com.kh.baribari.common.FileUpload;
 import com.kh.baribari.user.domain.Address;
 import com.kh.baribari.user.domain.MyPageQna;
 import com.kh.baribari.user.domain.UserMyPageData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
@@ -16,7 +18,9 @@ import com.kh.baribari.common.JsonParse;
 import com.kh.baribari.security.auth.PrincipalDetails;
 import com.kh.baribari.user.domain.User;
 import com.kh.baribari.user.service.UserService;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -26,6 +30,10 @@ public class UserController {
 
     @Autowired
     private JsonParse jsonParse;
+
+    @Autowired
+    @Qualifier("fileUpload")
+    private FileUpload fileUpload;
 
 //    로그인 뷰
     @GetMapping("login")
@@ -228,6 +236,18 @@ public class UserController {
         MyPageQna qna = uService.selectQnaDetail(qnaNo);
         model.addAttribute("qnaDetail",qna);
         return "myPage/qna/qnaModify";
+    }
+
+//    문의 수정 저장
+    @PostMapping("/qnaModify/save")
+    @ResponseBody
+    public String myPageUserQnaModifySave(@ModelAttribute MyPageQna myPageQna, MultipartFile file, HttpServletRequest request){
+        int result = uService.qnaModifySave(myPageQna);
+        if(result > 0){
+        return "<script>alert('수정이 정상적으로 끝났습니다!'); location.href='/myPageUser/qna?qnaAnswerYn=all';</script>";
+        }else {
+            return "<script>alert('수정이 정상적으로 끝났습니다!'); location.href='/myPageUser/qna?qnaAnswerYn=all';</script>";
+        }
     }
 
 //    주문배송조회 뷰

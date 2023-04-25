@@ -111,4 +111,9 @@ public class UserRepositoryLogic implements UserRepository {
     public int qnaRemove(int qnaNo) {
         return session.delete("UserMapper.deleteQna",qnaNo);
     }
+
+    @Override
+    public int qnaModifySave(MyPageQna myPageQna) {
+        return session.update("UserMapper.updateQna", myPageQna);
+    }
 }

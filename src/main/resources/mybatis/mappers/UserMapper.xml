@@ -136,4 +136,9 @@
     <select id="findUserInfoByUserNo" parameterType="_int" resultType="User">
 		SELECT * FROM USER_TBL WHERE USER_NO = #{userNo}
 	</select>
+
+<!--    qna 수정 저장 -->
+    <update id="updateQna">
+        UPDATE QNA_TBL SET QNA_CONTENT = #{qnaContent} WHERE QNA_NO = #{qnaNo}
+    </update>
 </mapper>

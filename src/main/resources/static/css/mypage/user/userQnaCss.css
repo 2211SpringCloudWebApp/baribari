@@ -62,3 +62,12 @@
 .qna-table tr{
     border-bottom: 20px solid white;
 }
+.table-content{
+    overflow: hidden;
+    width: 670px;
+    display: inline-block;
+    height: 46px;
+}
+.table-content:hover{
+    color: #3DB35E;
+}

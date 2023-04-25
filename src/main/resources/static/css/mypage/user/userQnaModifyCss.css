@@ -1,6 +1,7 @@
 .qna-middle{
     width: 1000px;
     margin: 0 auto;
+    margin-top: 30px;
 }
 
 .btn-box{
@@ -16,7 +17,7 @@
     border-radius: 8px;
     font-size: 15px !important;
     background: #fff;
-    color: #333 !important;
+    color: #333;
     height: 50px;
     padding: 0;
     line-height: 48px;
@@ -50,12 +51,11 @@
     color: #848484;
     font-size: 14px;
     padding: 20px 15px;
-    display: flex;
     height: 94%;
 }
 .qna-title{
     width: 10%;
-    height: 100%;
+    height: 370px;
     border-right: 1px solid #ccc;
 }
 .content textarea{
@@ -68,5 +68,22 @@
 }
 .content textarea:focus{
     outline: none;
-    font-size: 20px;
+    font-size: 20px 30px 20px 30px;
+}
+.file-input-box{
+    display: flex;
+    flex-direction: column;
+    padding-left: 30px;
+}
+.qna-btn-box{
+    display: flex;
+    justify-content: space-between;
+}
+.save-btn{
+    border: 1px solid #3DB35E;
+    color: #3DB35E;
+}
+
+.file-input{
+    margin: 10px 0 5px 60px;
 }

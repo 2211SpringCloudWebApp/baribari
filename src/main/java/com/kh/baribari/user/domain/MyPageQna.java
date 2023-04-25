@@ -15,6 +15,8 @@ public class MyPageQna {
     private int answerNo;
     private String answerContent;
     private int answerUserNo;
+    private String qnaPic1;
+    private String qnaPic2;
 
     public MyPageQna() {
     }

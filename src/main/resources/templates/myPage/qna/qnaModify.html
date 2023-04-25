@@ -34,7 +34,8 @@
 <div class="mainContainer" style="padding-top: 170px">
     <div class="top">
         <div class="top-container">
-            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myPage/qna">1:1문의</a>
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black"
+                                                                                                   href="/myPage/qna">1:1문의</a>
             </div>
             <div style="margin-top: 30px;">
                 <div class="page-title">1:1 문의</div>
@@ -50,25 +51,32 @@
     </div>
 
     <div class="qna-middle">
-        <div class="btn-box">
-            <button class="qna-detail-btn" onclick="location.href='/myPageUser/qna?qnaAnswerYn=all'">목록으로</button>
-            <div>
-                <button class="qna-detail-btn" th:onclick="'location.href=/myPageUser/qnaModify?qnaNo='+${qnaDetail.qnaNo}">수정</button>
-                <button class="qna-detail-btn" th:onclick="'qnaDetailRemove('+${qnaDetail.qnaNo}+')'">저장</button>
-            </div>
-        </div>
-
 
         <div>
-            <div class="qna-detail-content">
-                <div class="title">문의수정</div>
-                <div class="content" >
-                    <div class="qna-title">내용</div>
-                    <textarea th:text="${qnaDetail.qnaContent}">
-
-                    </textarea>
+            <form action="/qnaModify/save" method="post">
+                <div class="qna-detail-content">
+                    <div class="title">문의수정</div>
+                    <input type="hidden" th:value="${qnaDetail.qnaNo}" name="qnaNo">
+                    <div class="content">
+                        <div style="display: flex">
+                            <div class="qna-title">내용</div>
+                            <textarea th:text="${qnaDetail.qnaContent}" name="qnaContent">
+                            </textarea>
+                        </div>
+                        <div class="file-input-box">
+                            <input class="file-input" type="file" name="qnaPic1">
+                            <input class="file-input" type="file" name="qnaPic2">
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <div class="qna-btn-box">
+                    <button type="button" class="qna-detail-btn"
+                            onclick="location.href='/myPageUser/qna?qnaAnswerYn=all'">목록으로
+                    </button>
+                    <button type="submit" class="qna-detail-btn save-btn">저장</button>
+                </div>
+            </form>
+
         </div>
     </div>
 

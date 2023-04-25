@@ -44,4 +44,6 @@ public interface UserService {
     MyPageQna selectQnaDetail(int answerNo);
 //  문의 삭제
     int qnaRemove(int qnaNo);
+//  문의 수정 저장
+    int qnaModifySave(MyPageQna myPageQna);
 }

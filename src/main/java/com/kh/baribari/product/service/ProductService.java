@@ -47,8 +47,9 @@ public interface ProductService {
 	/**
 	 * 헤더에서 검색한 상품 목록 가져오기
 	 * @param PageInfo
+	 * @param Search
 	 * #return int
 	 */
-	public List<Product> getProductList(PageInfo pi);
+	public List<Product> getProductList(PageInfo pi, Search search);
 
 }

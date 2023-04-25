@@ -13,20 +13,17 @@ public class CartRepositoryLogic implements CartRepository {
 
 	@Override
 	public int addToCart(SqlSession session, Cart cart) {
-		int result = session.insert("CartMapper.addToCart", cart);
-		return result;
+		return session.insert("CartMapper.addToCart", cart);
 	}
 
 	@Override
 	public List<Cart> getCartList(SqlSession session, int userNo) {
-		List<Cart> cList = session.selectList("CartMapper.getCartList", userNo);
-		return cList;
+		return session.selectList("CartMapper.getCartList", userNo);
 	}
 
 	@Override
 	public int removeFromCart(SqlSession session, Cart cart) {
-		int result = session.delete("CartMapper.removeFromCart", cart);
-		return result;
+		return session.delete("CartMapper.removeFromCart", cart);
 	}
 
 }

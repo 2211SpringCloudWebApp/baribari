@@ -52,6 +52,7 @@
             <div>
                 <span class="header-span" id="cate-span">카테고리</span>
             </div>
+            <!-- 상품 검색 -->
             <fieldset class="search-field">
             <form action="/shopping/search" method="get">
                 <input id="search" name="keyword" type="text" class="search-input">
@@ -108,12 +109,7 @@
                     <ul class="dropdown-menu" sec:authorize="hasRole('ROLE_USER')">
                         <li><button class="dropdown-item" type="button" onclick="location.href='/myPageUser'">마이페이지</button></li>
                         <li><button class="dropdown-item" type="button">주문내역</button></li>
-                        <li>
-					        <form th:action="@{/cart/list}" method="post">
-					            <input type="hidden" th:name="userNo" th:value="${#authentication.principal.user.userNo}"/>
-					            <button class="dropdown-item" type="submit">장바구니</button>
-					        </form>
-					    </li>
+                        <li><button class="dropdown-item" type="button" onclick="location.href='/cart/list'">장바구니</button></li>
                         <li><button class="dropdown-item" type="button" onclick="location.href='/logout'">로그아웃</button></li>
                     </ul>
                 <ul class="dropdown-menu" sec:authorize="hasRole('ROLE_MANAGER')">

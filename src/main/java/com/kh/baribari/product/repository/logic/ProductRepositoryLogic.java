@@ -13,43 +13,35 @@ import com.kh.baribari.product.repository.ProductRepository;
 
 @Repository
 public class ProductRepositoryLogic implements ProductRepository {
-	
 	@Override
 	public int getProductCount(SqlSession session, String productCategory) {
-		int pCount = session.selectOne("ProductMapper.getProductCount", productCategory);
-		return pCount;
+		return session.selectOne("ProductMapper.getProductCount", productCategory);
 	}
 	
 	@Override
 	public List<Product> getProductList(SqlSession session, String productCategory, PageInfo pi) {
 		RowBounds rowBounds = new RowBounds(pi.getOffset(), pi.getBoardLimit());
-		List<Product> pList = session.selectList("ProductMapper.getProductList", productCategory, rowBounds);
-		return pList;
+		return session.selectList("ProductMapper.getProductList", productCategory, rowBounds);
 	}
 
 	@Override
 	public Product getProductDetail(SqlSession session, int productNo) {
-		Product product = session.selectOne("ProductMapper.getProductDetail", productNo);
-		return product;
+		return session.selectOne("ProductMapper.getProductDetail", productNo);
 	}
 
 	@Override
 	public List<Product> getProductRecommendList(SqlSession session, String productCategory) {
-		List<Product> pList = session.selectList("ProductMapper.getProductRecommendList", productCategory);
-		return pList;
+		return session.selectList("ProductMapper.getProductRecommendList", productCategory);
 	}
 
 	@Override
 	public int getProductCountByKeyword(SqlSession session, Search search) {
-		int pCount = session.selectOne("ProductMapper.getProductCountByKeyword", search);
-		return pCount;
+		return session.selectOne("ProductMapper.getProductCountByKeyword", search);
 	}
 
 	@Override
-	public List<Product> getProductList(SqlSession session, PageInfo pi) {
+	public List<Product> getProductList(SqlSession session, PageInfo pi, Search search) {
 		RowBounds rowBounds = new RowBounds(pi.getOffset(), pi.getBoardLimit());
-		List<Product> pList = session.selectList("ProductMapper.getProductListByKeyword", pi, rowBounds);
-		return pList;
+		return session.selectList("ProductMapper.getProductListByKeyword", search, rowBounds);
 	}
-
 }

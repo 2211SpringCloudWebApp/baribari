@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,8 +23,8 @@ import com.kh.baribari.product.domain.Review;
 import com.kh.baribari.product.service.ReviewService;
 
 @Controller
+@RequestMapping("review")
 public class ReviewController {
-
 	@Autowired
 	private ReviewService rService;
 	@Autowired
@@ -31,7 +32,7 @@ public class ReviewController {
 	private FileUpload fileUpload;
 	
 	// 상품 후기 등록
-	@PostMapping("review/register")
+	@PostMapping("/register")
 	@ResponseBody
 	public String registerReview(
 			@RequestParam(value = "fileList", required = false) List<MultipartFile> fList
@@ -73,11 +74,10 @@ public class ReviewController {
 	}
 	
 	// 상품 후기 목록 출력
-	@GetMapping("review/list")
+	@GetMapping("/list")
 	@ResponseBody
 	public String getReviewList(Integer productNo) {
 		List<Review> rList = rService.getReviewList(productNo);
 		return new Gson().toJson(rList);
 	}
-	
 }

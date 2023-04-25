@@ -12,7 +12,6 @@ import com.kh.baribari.product.service.ReviewService;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
-	
 	@Autowired
 	private ReviewRepository rRepository;
 	@Autowired
@@ -20,21 +19,16 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Override
 	public List<Review> getReviewList(int productNo) {
-		List<Review> rList = rRepository.getReviewList(session, productNo);
-		return rList;
+		return rRepository.getReviewList(session, productNo);
 	}
 
 	@Override
 	public int registerReview(Review review) {
-		int result = rRepository.registerReview(session, review);
-		return result;
+		return rRepository.registerReview(session, review);
 	}
 
 	@Override
 	public int getReviewCount(int productNo) {
-		int reviewCount = rRepository.getReviewCount(session, productNo);
-		return reviewCount;
+		return rRepository.getReviewCount(session, productNo);
 	}
-	
-
 }

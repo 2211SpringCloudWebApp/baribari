@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -24,198 +23,181 @@
 
     <link href="../../css/shopping/shopping.css" rel="stylesheet" />
     <link href="../../css/shopping/board.css" rel="stylesheet" />
-
+    
     <!-- Template Main CSS File -->
     <link href="../../assets/css/style.css" rel="stylesheet">
 </head>
-
 <body>
-    <!-- Header -->
-    <header th:replace="header :: header"></header>
+<!-- Header -->
+<header th:replace="header :: header"></header>
 
-    <section class="py-5">
-        <input sec:authorize="!isAuthenticated()" value="0" type="hidden" name="userNo">
-        <input sec:authorize="isAuthenticated()" th:value="${#authentication.principal.user.userNo}" type="hidden"
-            name="userNo">
-        <div class="container px-4 px-lg-5 my-5">
-            <div class="row gx-4 gx-lg-5 align-items-center">
-                <div class="col-md-6">
-                    <img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg"
-                        alt="..." />
-                </div>
-                <div class="col-md-6">
-                    <!-- 상품명 -->
-                    <span th:text="${product.productBrand}" class="mb-1">상품 브랜드</span>
-                    <h1 th:text="${product.productName}" class="display-5 fw-bolder">상품명</h1>
-                    <hr>
-                    <!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
-                    <div class="fs-5 mb-5">
-                        <span th:if="${product != null and product.productDiscount == 0}"
-                            th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|"
-                            id="price">상품가격</span>
-                        <span th:if="${product != null and product.productDiscount != 0}"
-                            th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|"
-                            class="text-muted text-decoration-line-through">상품가격 취소선</span>
-                        <span th:if="${product != null and product.productDiscount != 0}"
-                            th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|"
-                            id="price">할인된 가격</span>
-                    </div>
-                    <!-- 상품 설명 -->
-                    <p class="lead" th:text="${product.productName}">상품 설명</p>
-                    <!-- 수량 선택 -->
-                    <div class="d-flex justify-content-md-between">
-                        <div class="d-flex">
-                            <input class="form-control text-center me-3" type="number" id="quantity" value="0" min="0"
-                                placeholder="수량" style="width: 5rem" />
-                            <button class="btn btn-outline-dark width_4_0_rem" type="button"
-                                onclick="calculatePrice()">선택</button>
-                        </div>
-                        <div class="d-flex">
-                            <span>123,567 원</span>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-md-between">
-                        <div class="d-flex">
-                            <span>배송비</span>
-                        </div>
-                        <div class="d-flex">
-                            <span th:text="|${#numbers.formatInteger(product.productDeliveryCharge, 0, 'COMMA')}원|"
-                                id="delivery-charge"></span>
-                        </div>
-                    </div>
-                    <hr>
-                    <!-- 총 가격 -->
-                    <div class="d-flex justify-content-md-between">
-                        <div class="d-flex">
-                            <h2>Total</h2>
-                        </div>
-                        <div class="d-flex" id="totalPrice">
-                            <h2></h2>
-                        </div>
-                    </div>
-                    <!-- 구매/장바구니/찜하기 버튼 -->
-                    <div sec:authorize="hasRole('ROLE_USER')" class="d-flex">
-                        <button class="btn btn-outline-dark" type="button">바로 구매</button>
-                        <button class="btn btn-outline-dark" type="button" onclick="addToCart()"><i
-                                class="fas fa-shopping-cart"></i>장바구니</button>
-                        <button class="btn btn-outline-dark" type="button"><i class="fas fa-heart"></i>찜하기</button>
-                    </div>
-                </div>
-            </div>
-            <hr>
+<section class="py-5">
+	<input sec:authorize="!isAuthenticated()" value="0" type="hidden" name="userNo">
+	<input sec:authorize="isAuthenticated()" th:value="${#authentication.principal.user.userNo}" type="hidden" name="userNo">
+	<div class="container px-4 px-lg-5 my-5">
+	    <div class="row gx-4 gx-lg-5 align-items-center">
+	        <div class="col-md-6">
+	            <img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." />
+	        </div>
+	        <div class="col-md-6">
+	            <!-- 상품명 -->
+	            <span th:text="${product.productBrand}" class="mb-1">상품 브랜드</span>
+	            <h1 th:text="${product.productName}" class="display-5 fw-bolder">상품명</h1>
+	            <hr>
+	            <!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
+	            <div class="fs-5 mb-5">
+	                <span th:if="${product != null and product.productDiscount == 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|" id="price">상품가격</span>
+	                <span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|" class="text-muted text-decoration-line-through">상품가격 취소선</span>
+	                <span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|" id="price">할인된 가격</span>
+	            </div>
+	            <!-- 상품 설명 -->
+	            <p class="lead" th:text="${product.productName}">상품 설명</p>
+	            <!-- 수량 선택 -->
+	            <div class="d-flex justify-content-md-between">
+	                <div class="d-flex">
+	                    <input class="form-control text-center me-3" type="number" id="quantity"  value="0" min="0" placeholder="수량" style="width: 5rem" />
+	                    <button class="btn btn-outline-dark width_4_0_rem" type="button" onclick="calculatePrice()">선택</button>
+	                </div>
+	                <div class="d-flex">
+	                    <span>123,567 원</span>
+	                </div>
+	            </div>
+	            <div class="d-flex justify-content-md-between">
+	            	<div class="d-flex">
+	                    <span>배송비</span>
+	                </div>
+	                <div class="d-flex">
+	                    <span th:text="|${#numbers.formatInteger(product.productDeliveryCharge, 0, 'COMMA')}원|" id="delivery-charge"></span>
+	                </div>
+	            </div>
+	            <hr>
+	            <!-- 총 가격 -->
+	            <div class="d-flex justify-content-md-between">
+	                <div class="d-flex"><h2>Total</h2></div>
+	                <div class="d-flex" id="totalPrice"><h2></h2></div>
+	            </div>
+	            <!-- 구매/장바구니/찜하기 버튼 -->
+	            <div sec:authorize="hasRole('ROLE_USER')" class="d-flex">
+	                <button class="btn btn-outline-dark" type="button">바로 구매</button>
+	                <button class="btn btn-outline-dark" type="button" onclick="addToCart()"><i class="fas fa-shopping-cart"></i>장바구니</button>
+	                <button class="btn btn-outline-dark" type="button"><i class="fas fa-heart"></i>찜하기</button>
+	            </div>
+	        </div>
+	    </div>
+	    <hr>
+	
+	    <div class="align-items-center">
+	        <img src="../../img/dummy-event.jpg" alt="배너/이벤트" class="img-banner" style="width: 100%;">
+	    </div>
+	</div>
+</section>
 
-            <div class="align-items-center">
-                <img src="../../img/dummy-event.jpg" alt="배너/이벤트" class="img-banner" style="width: 100%;">
-            </div>
+<!-- 상품 내용 / 후기 / 문의 -->
+<section id="bodyFont">
+	<!-- 메뉴 내비게이션 -->
+    <div id="productNav">
+        <ul class="detailMenu">
+            <li><a href="#">상세정보</a></li>
+            <li><a href="#">상품후기 (<span th:text="${reviewCount}">10</span>)</a></li>
+            <li><a href="#">상품문의</a></li>
+            <li><a href="#">배송/반품/교환/AS</a></li>
+        </ul>
+    </div>
+
+	<!-- 상품 정보 -->
+    <div id="productContainer">
+        <div id="productInfo">
+            <img src="../../img/dummy-detail-1.jpg" alt="상품정보" class="img-detail" style="width: 100%;">
+            <img src="../../img/dummy-detail-2.jpg" alt="상품정보" class="img-detail" style="width: 100%;">
+            <img src="../../img/dummy-detail-3.jpg" alt="상품정보" class="img-detail" style="width: 100%;">
         </div>
-    </section>
 
-    <!-- 상품 내용 / 후기 / 문의 -->
-    <section id="bodyFont">
-        <!-- 메뉴 내비게이션 -->
-        <div id="productNav">
-            <ul class="detailMenu">
-                <li><a href="#">상세정보</a></li>
-                <li><a href="#">상품후기 (<span th:text="${reviewCount}">10</span>)</a></li>
-                <li><a href="#">상품문의</a></li>
-                <li><a href="#">배송/반품/교환/AS</a></li>
+		<!-- 상품후기 -->
+        <div id="productReview">
+            <h2 class="h2Class">상품후기</h2>
+            
+            <!-- 후기 작성 - 해당 상품을 구매하고 배송받은 사용자만 작성 가능 -->
+            <div sec:authorize="hasRole('ROLE_USER')" th:if="${customer >= 0}" class="writeReview">
+                <h3>상품후기 작성</h3>
+                <form id="reviewForm" action="/review/register" method="post" enctype="multipart/form-data">
+                    <textarea id="reviewContent" placeholder="내용"></textarea>
+                    <label for="photoInput">사진 첨부</label>
+                    <input type="file" id="photoInput" accept="image/*" name="fileUpload" multiple>
+                    <button type="button" id="submitReview">등록</button>
+                </form>
+            </div>
+            
+            <!-- 후기 목록 (script영역에서 출력) -->
+            <ul id="reviewBoard">
+            </ul>
+            <ul id="reviewPagination">
+                <li><a href="#" class="prev">◀</a></li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#" class="next">▶</a></li>
             </ul>
         </div>
 
-        <!-- 상품 정보 -->
-        <div id="productContainer">
-            <div id="productInfo">
-                <img src="../../img/dummy-detail-1.jpg" alt="상품정보" class="img-detail" style="width: 100%;">
-                <img src="../../img/dummy-detail-2.jpg" alt="상품정보" class="img-detail" style="width: 100%;">
-                <img src="../../img/dummy-detail-3.jpg" alt="상품정보" class="img-detail" style="width: 100%;">
-            </div>
+		<div id="productQnA">
+       		<h2 class="h2Class">상품문의</h2>
+	        <div sec:authorize="hasRole('ROLE_USER')" class="writeQnA">
+	            <h3>상품 문의작성</h3>
+	            <form>
+	                <input type="text" placeholder="제목" />
+	                <textarea placeholder="내용"></textarea>
+	                <button type="submit">등록</button>
+	            </form>
+	        </div>
+	        <ul id="qnaBoard">
+	            <li class="qnaTitle">
+	                <span class="num">번호</span>
+	                <span class="title">제목</span>
+	                <span class="author">작성자</span>
+	                <span class="date">작성날짜</span>
+	                <span class="views">조회수</span>
+	            </li>
+	            <li>
+	                <span class="num">1</span>
+	                <span class="title">제목1</span>
+	                <span class="author">작성자1</span>
+	                <span class="date">2023-04-13</span>
+	                <span class="views">100</span>
+	            </li>
+	            <li>
+	                <span class="num">2</span>
+	                <span class="title">제목2</span>
+	                <span class="author">작성자2</span>
+	                <span class="date">2023-04-14</span>
+	                <span class="views">50</span>
+	            </li>
+	            <li>
+	                <span class="num">3</span>
+	                <span class="title">제목3</span>
+	                <span class="author">작성자3</span>
+	                <span class="date">2023-04-15</span>
+	                <span class="views">20</span>
+	            </li>
+	        </ul>
+	        <ul id="qnaPagination">
+	            <li><a href="#" class="prev">◀</a></li>
+	            <li><a href="#">1</a></li>
+	            <li><a href="#">2</a></li>
+	            <li><a href="#">3</a></li>
+	            <li><a href="#">4</a></li>
+	            <li><a href="#">5</a></li>
+	            <li><a href="#" class="next">▶</a></li>
+	        </ul>
+	    </div>
+	    
+	</div>
 
-            <!-- 상품후기 -->
-            <div id="productReview">
-                <h2 class="h2Class">상품후기</h2>
-
-                <!-- 후기 작성 - 해당 상품을 구매하고 배송받은 사용자만 작성 가능 -->
-                <div sec:authorize="hasRole('ROLE_USER')" th:if="${customer >= 0}" class="writeReview">
-                    <h3>상품후기 작성</h3>
-                    <form id="reviewForm" action="/review/register" method="post" enctype="multipart/form-data">
-                        <textarea id="reviewContent" placeholder="내용"></textarea>
-                        <label for="photoInput">사진 첨부</label>
-                        <input type="file" id="photoInput" accept="image/*" name="fileUpload" multiple>
-                        <button type="button" id="submitReview">등록</button>
-                    </form>
-                </div>
-
-                <!-- 후기 목록 (script영역에서 출력) -->
-                <ul id="reviewBoard">
-                </ul>
-                <ul id="reviewPagination">
-                    <li><a href="#" class="prev">◀</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#" class="next">▶</a></li>
-                </ul>
-            </div>
-
-            <div id="productQnA">
-                <h2 class="h2Class">상품문의</h2>
-                <div sec:authorize="hasRole('ROLE_USER')" class="writeQnA">
-                    <h3>상품 문의작성</h3>
-                    <form>
-                        <input type="text" placeholder="제목" />
-                        <textarea placeholder="내용"></textarea>
-                        <button type="submit">등록</button>
-                    </form>
-
-                </div>
-                <ul id="qnaBoard">
-                    <li class="qnaTitle">
-                        <span class="num">번호</span>
-                        <span class="title">제목</span>
-                        <span class="author">작성자</span>
-                        <span class="date">작성날짜</span>
-                        <span class="views">조회수</span>
-                    </li>
-                    <li>
-                        <span class="num">1</span>
-                        <span class="title">제목1</span>
-                        <span class="author">작성자1</span>
-                        <span class="date">2023-04-13</span>
-                        <span class="views">100</span>
-                    </li>
-                    <li>
-                        <span class="num">2</span>
-                        <span class="title">제목2</span>
-                        <span class="author">작성자2</span>
-                        <span class="date">2023-04-14</span>
-                        <span class="views">50</span>
-                    </li>
-                    <li>
-                        <span class="num">3</span>
-                        <span class="title">제목3</span>
-                        <span class="author">작성자3</span>
-                        <span class="date">2023-04-15</span>
-                        <span class="views">20</span>
-                    </li>
-                </ul>
-                <ul id="qnaPagination">
-                    <li><a href="#" class="prev">◀</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#" class="next">▶</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- 배송/반품/교환/AS -->
-        <div id="productAS">
-            <h2 class="h2Class">배송/반품/교환/AS</h2>
-            <h3>쇼핑몰 이용안내</h3>
-            <table id="infoTable">
+	<!-- 배송/반품/교환/AS -->
+    <div id="productAS">
+        <h2 class="h2Class">배송/반품/교환/AS</h2>
+        <h3>쇼핑몰 이용안내</h3>
+        <table  id="infoTable">
                 <tr>
                     <td class="td1">배송안내</td>
                     <td class="td2">
@@ -229,23 +211,23 @@
                         <b>주문상품 배송은 결제 확인 후 2~5일 정도 소요되며, 제품에 따라 배송일이 지연될 수 있음을 양해바랍니다.</b><br>
                         택배사는 우체국 택배를 이용하고 있으며, <b>배송 및 택배 관련 문의는 1588-1300 우체국 택배로 문의하시기 바랍니다.</b><br>
                         <b>총 결제금액 50,000원 미만시 배송비 3,000원이 청구됩니다.(도서 산간지역 별도 적용)<br>
-                            제품에 따라 묶음배송 불가상품이 있으며, 주문금액과 상관없이 별도 배송비가 부과될 수 있습니다.</b></p>
+                        제품에 따라 묶음배송 불가상품이 있으며, 주문금액과 상관없이 별도 배송비가 부과될 수 있습니다.</b></p>
                     </td>
                 </tr>
                 <tr>
                     <td class="td1">교환/반품안내</td>
                     <td class="td2">
                         <p><b>교환/반품이 가능한 경우</b><br>
-                            - 단순변심으로 인한 교환/반품은 왕복배송비를 고객님께서 지불해 주셔야 합니다.<br>
-                            - 초기불량, 배송오류는 오캠몰에서 왕복 택배비를 부담하여 교환 및 반품처리 해드립니다.</p>
-
+                        - 단순변심으로 인한 교환/반품은 왕복배송비를 고객님께서 지불해 주셔야 합니다.<br>
+                        - 초기불량, 배송오류는 오캠몰에서 왕복 택배비를 부담하여 교환 및 반품처리 해드립니다.</p>
+                        
                         <p><b>교환/반품이 불가능한 경우</b><br>
-                            - 상품 수령 후 7일을 초과한 경우 변심 또는 제품 만에 대한 교환/반품은 불가합니다.<br>
-                            (디자인, 사이즈, 실측정보, 소재, 색상, 스크래치, 실밥 등)<br>
-                            - 고객부주의 또는 제품 사용으로 상품훼손 등 상품 가치가 떨어진 경우 교환/반품이 불가합니다.<br>
-                            - 브랜드 박스 개봉 및 훼손, 상품태그 제거 등 상품 가치가 떨어진 경우 교환/반품이 불가합니다.<br>
-                            - 상품 초기불량 확인 후 고객의 과실에 의한 상품훼손 및 사용으로 상품 가치가 떨어진 경우 교환/반품이 불가합니다.<br>
-                            - 세탁,수선 등 취급부주의로 인하여 상품이 훼손된 경우 교환/반품이 불가합니다.</p>
+                        - 상품 수령 후 7일을 초과한 경우 변심 또는 제품 만에 대한 교환/반품은 불가합니다.<br>
+                        (디자인, 사이즈, 실측정보, 소재, 색상, 스크래치, 실밥 등)<br>
+                        - 고객부주의 또는 제품 사용으로 상품훼손 등 상품 가치가 떨어진 경우 교환/반품이 불가합니다.<br>
+                        - 브랜드 박스 개봉 및 훼손, 상품태그 제거 등 상품 가치가 떨어진 경우 교환/반품이 불가합니다.<br>
+                        - 상품 초기불량 확인 후 고객의 과실에 의한 상품훼손 및 사용으로 상품 가치가 떨어진 경우 교환/반품이 불가합니다.<br>
+                        - 세탁,수선 등 취급부주의로 인하여 상품이 훼손된 경우 교환/반품이 불가합니다.</p>
                     </td>
                 </tr>
                 <tr>
@@ -254,7 +236,7 @@
                         <p><b>제품 A/S는 반드시 손상된 제품이 입고되어야 A/S가 가능합니다.</b></p>
 
                         <p><b>본사제품의 경우 제품 결함에 의한 수리는 제품 구입일로부터 30일간 무상 A/S를 받으실 수 있습니다.</b><br>
-                            그외 A/S는 모두 유상 수리로 진행되며, 일부 손상 정도에 따라 A/S가 불가할 수 있습니다.</p>
+                        그외 A/S는 모두 유상 수리로 진행되며, 일부 손상 정도에 따라 A/S가 불가할 수 있습니다.</p>
                     </td>
                 </tr>
                 <tr>
@@ -262,174 +244,158 @@
                     <td class="td2">
                         <p><b>교환/반품/AS접수는 우체국 택배(1588-1300)로 전화하셔서 배송 운송장 번호 또는 개별접수로 반송해 주시면 됩니다.</b></p>
                         <p>주소 : (04540) 서울특별시 중구 남대문로 120 그레이츠 청계 3층 바리바리<br>
-                            연락처 : 1544-9970(09:00 ~ 18:00)</p>
+                        연락처 : 1544-9970(09:00 ~ 18:00)</p>
                     </td>
                 </tr>
-            </table>
-        </div>
-    </section>
+        </table>
+    </div>
+</section>
 
-    <!-- 관련 상품 -->
-    <section class="py-5 bg-light">
-        <div class="container px-4 px-lg-5 mt-5">
-            <h2 class="fw-bolder mb-4">관련 상품</h2>
-            <hr>
-            <div class="row gx-4 gx-lg-6 row-cols-2 row-cols-md-3 row-cols-xl-6 justify-content-center">
-                <!-- 상품 카드-->
-                <div th:each="product : ${pList}" class="col mb-6">
-                    <div class="card h-100">
-                        <!-- Sale 뱃지, productDiscount가 있으면 Sale 뱃지 출력 -->
-                        <div th:if="${product != null and product.productDiscount != 0}"
-                            class="badge bg-baribari text-black position-absolute" style="top: 0.5rem; right: 0.5rem">
-                            Sale</div>
-                        <!-- 상품 사진 -->
-                        <img class="card-img-top"
-                            th:src="@{${product.productPic1} != null} ? @{${product.productPic1}} : @{'../../img/logo.png'}"
-                            alt="제품사진" />
-                        <!-- 상품 내용 -->
-                        <a th:href="@{'/shopping/detail?productNo=' + ${product.productNo}}">
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- 상품명 -->
-                                    <h5 class="fw-bolder" th:text="${product.productName}">상품명</h5>
-                                    <!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
-                                    <span th:if="${product != null and product.productDiscount == 0}"
-                                        th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|">상품가격</span>
-                                    <span th:if="${product != null and product.productDiscount != 0}"
-                                        th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|"
-                                        class="text-muted text-decoration-line-through">상품가격 취소선</span>
-                                    <span th:if="${product != null and product.productDiscount != 0}"
-                                        th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|">할인된
-                                        가격</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- 관련 상품 -->
+<section class="py-5 bg-light">
+	<div class="container px-4 px-lg-5 mt-5">
+		<h2 class="fw-bolder mb-4">관련 상품</h2>
+		<hr>
+		<div class="row gx-4 gx-lg-6 row-cols-2 row-cols-md-3 row-cols-xl-6 justify-content-center">
+			<!-- 상품 카드-->
+			<div th:each="product : ${pList}" class="col mb-6">
+				<div class="card h-100">
+					<!-- Sale 뱃지, productDiscount가 있으면 Sale 뱃지 출력 -->
+					<div th:if="${product != null and product.productDiscount != 0}" class="badge bg-baribari text-black position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+					<!-- 상품 사진 -->
+					<img class="card-img-top" th:src="@{${product.productPic1} != null} ? @{${product.productPic1}} : @{'../../img/logo.png'}" alt="제품사진" />
+					<!-- 상품 내용 -->
+					<a th:href="@{'/shopping/detail?productNo=' + ${product.productNo}}">
+						<div class="card-body p-4">
+						    <div class="text-center">
+						        <!-- 상품명 -->
+						        <h5 class="fw-bolder" th:text="${product.productName}">상품명</h5>
+						        <!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
+						        <span th:if="${product != null and product.productDiscount == 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|">상품가격</span>
+						        <span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|" class="text-muted text-decoration-line-through">상품가격 취소선</span>
+						        <span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|">할인된 가격</span>
+						    </div>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 
-    <!-- Footer -->
-    <footer th:replace="footer :: footer"></footer>
+<!-- Footer -->
+<footer th:replace="footer :: footer"></footer>
 
-    <script src="../../js/shopping/board.js"></script>
-    <script>
+<script src="../../js/shopping/board.js"></script>
+<script>
+    
+    var userNo = document.querySelector('input[name="userNo"]').value;
+	var productNo = [[${product.productNo}]];
+	
+	/* 후기 출력 함수 실행 */
+	getReviewList();
 
-        var userNo = document.querySelector('input[name="userNo"]').value;
-        var productNo = [[${ product.productNo }]];
+    const quantity = document.querySelector('#quantity'); // 수량
+    const price = document.querySelector('#price').textContent.replace(/[,원]/g, ''); // 가격 - ','와 '원' 제거
+    const deliveryCharge = document.querySelector('#delivery-charge').textContent.replace(/[,원]/g, ''); // 가격 - ','와 '원' 제거
+    const totalPrice = document.querySelector('#totalPrice'); // 총 금액
+    let currentQuantity = 0;
 
-        /* 후기 출력 함수 실행 */
-        getReviewList();
-
-        const quantity = document.querySelector('#quantity'); // 수량
-        const price = document.querySelector('#price').textContent.replace(/[,원]/g, ''); // 가격 - ','와 '원' 제거
-        const deliveryCharge = document.querySelector('#delivery-charge').textContent.replace(/[,원]/g, ''); // 가격 - ','와 '원' 제거
-        const totalPrice = document.querySelector('#totalPrice'); // 총 금액
-        let currentQuantity = 0;
-
-        /* 수량 증가 */
-        function increment() {
-            currentQuantity++;
+    /* 수량 증가 */
+    function increment() {
+        currentQuantity++;
+        quantity.value = currentQuantity;
+    }
+    /* 수량 감소 */
+    function decrement() {
+        if (currentQuantity > 0) {
+            currentQuantity--;
             quantity.value = currentQuantity;
         }
-        /* 수량 감소 */
-        function decrement() {
-            if (currentQuantity > 0) {
-                currentQuantity--;
-                quantity.value = currentQuantity;
-            }
-        }
-        /* 총 가격 */
-        function calculatePrice() {
-            const selectedQuantity = Number(quantity.value);
-            const result = selectedQuantity * price;
-            totalPrice.textContent = result.toLocaleString() + " 원";
-        }
+    }
+    /* 총 가격 */ 
+	function calculatePrice() {
+	    const selectedQuantity = Number(quantity.value);
+	    const result = selectedQuantity * price;
+	    totalPrice.textContent = result.toLocaleString() + " 원";
+	}
 
-        /* 장바구니에 추가 */
-        function addToCart() {
-            if (quantity.value == 0) {
-                alert("수량을 선택해 주세요");
-                return 0;
-            }
-            $.post("/cart/add", {
-                userNo: userNo,
-                productNo: productNo,
-                productQuantity: quantity.value
-            }, function (result) {
-                if (result == "1") {
-                    var form = $('<form></form>');
-                    form.attr('action', '/cart/list');
-                    form.attr('method', 'post');
-                    var input = $('<input type="hidden" name="userNo" value="' + userNo + '"/>');
-                    form.append(input);
-                    form.appendTo('body');
-                    form.submit();
-                } else {
-                    alert('장바구니 등록 실패');
-                }
-            });
-        }
+    /* 장바구니에 추가 */
+	function addToCart() {
+    	if (quantity.value == 0) {
+    		alert("수량을 선택해 주세요");
+    		return 0;
+    	}
+	    $.post("/cart/add", {
+	        userNo: userNo,
+	        productNo: productNo,
+	        productQuantity: quantity.value
+	    }, function(result) {
+	        if (result == "1") {
+	            location.href="/cart/list";
+	        } else {
+	            alert('장바구니 등록 실패');
+	        }
+	    });
+	}
 
-        /* 후기 출력 */
-        function getReviewList() {
-            $.ajax({
-                url: "/review/list",
-                data: { "productNo": productNo },
-                type: "get",
-                dataType: "json",
-                success: function (rList) {
-                    var reviewListHtml = "";
-                    for (var i = 0; i < rList.length; i++) {
-                        reviewListHtml += "<li>"
-                            + "<span class='num'>" + (rList.length - i) + "</span>" // 후기 번호 (역순)
-                            + "<img src='/uploadFiles/" + (rList[i].reviewPic1 ? rList[i].reviewPic1.replace(/\\/g, '/') : '') + "' width='10%'>"
-                            + "<span class='title'>" + rList[i].reviewContent.replace(/\n/g, "<br>") + "</span>" // 후기 내용
-                            + "<span class='author'>" + rList[i].userName + "</span>" // 후기 작성자 = 로그인된 사용자
-                            + "</li>"
-                    }
-                    $("#reviewBoard").empty();
-                    $("#reviewBoard").append(reviewListHtml);
-                },
-                error: function () {
-                    alert("처리 실패");
-                }
-            });
-        }
-        /* 후기 등록 */
-        $("#submitReview").on("click", function () {
-            const formData = new FormData();
-            const fileList = document.querySelector("#photoInput").files;
+    /* 후기 출력 */
+	function getReviewList() {
+	    $.ajax({
+	        url: "/review/list",
+	        data: {"productNo": productNo},
+	        type: "get",
+	        dataType: "json",
+	        success: function(rList) {
+	            var reviewListHtml = "";
+	            for(var i=0; i<rList.length; i++) {
+	                reviewListHtml += "<li>"
+	                                + "<span class='num'>" + (rList.length - i) + "</span>" // 후기 번호 (역순)
+	                                + "<img src='" + (rList[i].reviewPic1 ? rList[i].reviewPic1.replace(/\\/g, '/') : '') + "' width='10%'>"
+	                                + "<span class='title'>" + rList[i].reviewContent.replace(/\n/g, "<br>") + "</span>" // 후기 내용
+	                                + "<span class='author'>" + rList[i].userName + "</span>" // 후기 작성자 = 로그인된 사용자
+	                                + "</li>"
+	            }
+	            $("#reviewBoard").empty();
+	            $("#reviewBoard").append(reviewListHtml);
+	        },
+	        error: function() {
+	            alert("처리 실패");
+	        }
+	    });
+	}
+    /* 후기 등록 */
+	$("#submitReview").on("click", function() {
+		const formData = new FormData();
+		const fileList = document.querySelector("#photoInput").files;
 
-            for (let i = 0; i < fileList.length; i++) {
-                formData.append("fileList", fileList[i]);
-            }
-            formData.append("reviewContent", reviewContent.value);
-            formData.append("productNo", productNo);
-            formData.append("userNo", userNo);
+		for (let i = 0; i < fileList.length; i++) {
+		  formData.append("fileList", fileList[i]);
+		}
+		formData.append("reviewContent", reviewContent.value);
+		formData.append("productNo", productNo);
+		formData.append("userNo", userNo);
 
-            $.ajax({
-                url: "/review/register",
-                data: formData,
-                type: "post",
-                processData: false,
-                contentType: false,
-                success: function (result) {
-                    if (result == "1") {
-                        alert("후기 등록 완료");
-                        getReviewList();
-                    } else {
-                        alert("후기 등록 실패");
-                        console.log(result);
-                    }
-                },
-                error: function () {
-                    alert("처리 실패");
-                }
-            });
-        });
-    </script>
+		$.ajax({
+		  url: "/review/register",
+		  data: formData,
+		  type: "post",
+		  processData: false,
+		  contentType: false,
+		  success: function(result) {
+		    if (result == "1") {
+		      alert("후기 등록 완료");
+		      getReviewList();
+		    } else {
+		      alert("후기 등록 실패");
+		      console.log(result);
+		    }
+		  },
+		  error: function() {
+		    alert("처리 실패");
+		  }
+		});
+    });
+</script>
 </body>
-
 </html>

@@ -12,7 +12,6 @@ import com.kh.baribari.product.service.CartService;
 
 @Service
 public class CartServiceImpl implements CartService {
-	
 	@Autowired
 	private SqlSession session;
 	@Autowired
@@ -20,20 +19,16 @@ public class CartServiceImpl implements CartService {
 	
 	@Override
 	public int addToCart(Cart cart) {
-		int result = cRepository.addToCart(session, cart);
-		return result;
+		return cRepository.addToCart(session, cart);
 	}
 
 	@Override
 	public List<Cart> getCartList(int userNo) {
-		List<Cart> cList = cRepository.getCartList(session, userNo);
-		return cList;
+		return cRepository.getCartList(session, userNo);
 	}
 
 	@Override
 	public int removeFromCart(Cart cart) {
-		int result = cRepository.removeFromCart(session, cart);
-		return result;
+		return cRepository.removeFromCart(session, cart);
 	}
-
 }

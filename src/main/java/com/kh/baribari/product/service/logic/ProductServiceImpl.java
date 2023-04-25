@@ -22,38 +22,32 @@ public class ProductServiceImpl implements ProductService {
     
     @Override
     public int getProductCount(String productCategory) {
-    	int pCount = pRepository.getProductCount(session, productCategory);
-    	return pCount;
+    	return pRepository.getProductCount(session, productCategory);
     }
 
 	@Override
 	public List<Product> getProductList(String productCategory, PageInfo pi) {
-		List<Product> pList = pRepository.getProductList(session, productCategory, pi);
-		return pList;
+		return pRepository.getProductList(session, productCategory, pi);
 	}
 
 	@Override
 	public Product getProductDetail(int productNo) {
-		Product product = pRepository.getProductDetail(session ,productNo);
-		return product;
+		return pRepository.getProductDetail(session ,productNo);
 	}
 
 	@Override
 	public List<Product> getProductRecommendList(String productCategory) {
-		List<Product> pList = pRepository.getProductRecommendList(session, productCategory);
-		return pList;
+		return pRepository.getProductRecommendList(session, productCategory);
 	}
 
 	@Override
 	public int getProductCountByKeyword(Search search) {
-		int pCount = pRepository.getProductCountByKeyword(session, search);
-		return pCount;
+		return pRepository.getProductCountByKeyword(session, search);
 	}
 
 	@Override
-	public List<Product> getProductList(PageInfo pi) {
-		List<Product> pList = pRepository.getProductList(session, pi);
-		return pList;
+	public List<Product> getProductList(PageInfo pi, Search search) {
+		return pRepository.getProductList(session, pi, search);
 	}
 
 }

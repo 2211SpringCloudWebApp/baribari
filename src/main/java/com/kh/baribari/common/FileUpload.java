@@ -37,7 +37,7 @@ public class FileUpload {
 	        String fileName = uuid.toString() + "." + originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
 	        // 저장되는 경로 및 파일명
 	        String filePath = savePath + "/" + fileName;
-			String dbSavePath = "\\uploadFiles\\"+path+fileName;
+			String dbSavePath = "/uploadFiles/" + path + "/" + fileName;
 	        // 파일 저장
 	        multi.transferTo(new File(filePath));
 
@@ -45,10 +45,21 @@ public class FileUpload {
 
 	        result.put("original", originalFileName);
 	        result.put("fileName", fileName);
-	        result.put("filePath", filePath);
-			result.put("dbSavePath",dbSavePath);
+	        result.put("filePath", dbSavePath);
 	    }
 	    return result;
+	}
+	
+	public void deleteFile(HttpServletRequest request, String fileName) throws Exception {
+		File file = new File("");
+		String rootPath = String.valueOf(file.getAbsoluteFile());
+		String deletePath = rootPath+"\\src\\main\\resources\\static\\";
+		String deleteFilePath = deletePath + "\\" + fileName;
+		File deleteFile = new File(deleteFilePath);
+		System.out.println(deleteFile);
+		if(deleteFile.exists()) {
+			deleteFile.delete();
+		}
 	}
 	
 }

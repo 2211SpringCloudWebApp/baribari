@@ -20,8 +20,8 @@
 	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <link href="../../css/shopping/shopping.css" rel="stylesheet" />
+    <!-- Template Main CSS File -->
+    <link href="../../assets/css/style.css" rel="stylesheet">
     <link href="../../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
     <link href="../../assets/vendor/aos/aos.css" rel="stylesheet">
     <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -29,15 +29,16 @@
     <link href="../../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
     <link href="../../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="../../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-    <!-- Template Main CSS File -->
-    <link href="../../assets/css/style.css" rel="stylesheet">
+    <!-- JQuery JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    
+    <link href="../../css/shopping/shopping.css" rel="stylesheet" />
 </head>
 <body>
 <!-- Header -->
 <header th:replace="header :: header"></header>
 
-<section style="margin-top: 280px;">
+<section style="margin-top: 110px;">
     <!-- 상단 이미지 -->
     <div class="bg-dark py-5">
         <div class="container px-4 px-lg-5 my-5">
@@ -47,6 +48,9 @@
         </div>
     </div>
 
+	<input sec:authorize="!isAuthenticated()" value="0" type="hidden" name="userNo">
+	<input sec:authorize="isAuthenticated()" th:value="${#authentication.principal.user.userNo}" type="hidden" name="userNo">
+	
     <!-- 상품 분류 -->
     <form action="/shopping/list" method="get">
         <div class="category-btn-container px-4 px-lg-5 my-5">
@@ -92,7 +96,7 @@
                         </div>
                     </a>
                     <!-- 찜하기/장바구니 버튼 -->
-                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                    <div  sec:authorize="hasRole('ROLE_USER')" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                         <div class="text-center">
                         	<a class="btn btn-outline-dark mt-auto" href="#">
                         		<i class="fas fa-heart"></i>
@@ -144,6 +148,57 @@
     </div>
     
 </section>
+
+<script>
+	var userNo = document.querySelector('input[name="userNo"]').value;
+	
+	/* 찜하기 */
+	$(document).ready(function() {
+		$('body').on('click', '.fa-heart', function(event) {
+			event.preventDefault();
+			var productNo = $(this).closest('.card').find('a').attr('href').split("=")[1];
+			$.ajax({
+				url: "/shopping/scrap/add",
+				data: {
+					"productNo": productNo,
+					"userNo": userNo
+				},
+				type: "POST",
+				success: function(result) {
+					 if (result == "1") {
+					      alert("찜하기 완료");
+					    } else {
+					      alert("찜하기 실패");
+					      console.log(result);
+					    }
+				},
+				error: function() {
+					alert("실패");
+				}
+			});
+		});
+	});
+	
+	/* 장바구니에 추가 */
+	$(document).ready(function() {
+		$('body').on('click', '.fa-shopping-cart', function(event) {
+			event.preventDefault();
+			var productNo = $(this).closest('.card').find('a').attr('href').split("=")[1];
+			confirm('해당 상품을 장바구니에 추가하시겠습니까?');
+			$.post("/cart/add", {
+		        userNo: userNo,
+		        productNo: productNo,
+		        productQuantity: 1
+		    }, function(result) {
+		        if (result == "1") {
+		        	alert('장바구니에 추가되었습니다.');
+		        } else {
+		            alert('장바구니 등록 실패');
+		        }
+		    });
+		});
+	});
+</script>
 
 <!-- Footer -->
 <footer th:replace="footer :: footer"></footer>

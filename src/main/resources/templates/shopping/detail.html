@@ -20,12 +20,15 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
     <!-- JQuery JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- Template Main CSS File -->
+    <link href="../../assets/css/style.css" rel="stylesheet">
+	<!-- Fancybox -->    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 
     <link href="../../css/shopping/shopping.css" rel="stylesheet" />
     <link href="../../css/shopping/board.css" rel="stylesheet" />
     
-    <!-- Template Main CSS File -->
-    <link href="../../assets/css/style.css" rel="stylesheet">
 </head>
 <body>
 <!-- Header -->
@@ -121,6 +124,7 @@
                 <h3>상품후기 작성</h3>
                 <form id="reviewForm" action="/review/register" method="post" enctype="multipart/form-data">
                     <textarea id="reviewContent" placeholder="내용"></textarea>
+                    <div id="imgPreview"></div>
                     <label for="photoInput">사진 첨부</label>
                     <input type="file" id="photoInput" accept="image/*" name="fileUpload" multiple>
                     <button type="button" id="submitReview">등록</button>
@@ -140,58 +144,54 @@
             </ul>
         </div>
 
-        <div id="productQnA">
-            <h2 class="h2Class">상품문의</h2>
-            <div sec:authorize="hasRole('ROLE_USER')" class="writeQnA">
-                <h3>상품 문의작성</h3>
-                <form>
-                    <input type="text" placeholder="제목" />
-                    <textarea placeholder="내용"></textarea>
-                    <button type="submit">등록</button>
-                </form>
-
-            </div>
-            <ul id="qnaBoard">
-                <li class="qnaTitle">
-                    <span class="num">번호</span>
-                    <span class="title">제목</span>
-                    <span class="author">작성자</span>
-                    <span class="date">작성날짜</span>
-                    <span class="views">조회수</span>
-                </li>
-                <li>
-                    <span class="num">1</span>
-                    <span class="title">제목1</span>
-                    <span class="author">작성자1</span>
-                    <span class="date">2023-04-13</span>
-                    <span class="views">100</span>
-                </li>
-                <li>
-                    <span class="num">2</span>
-                    <span class="title">제목2</span>
-                    <span class="author">작성자2</span>
-                    <span class="date">2023-04-14</span>
-                    <span class="views">50</span>
-                </li>
-                <li>
-                    <span class="num">3</span>
-                    <span class="title">제목3</span>
-                    <span class="author">작성자3</span>
-                    <span class="date">2023-04-15</span>
-                    <span class="views">20</span>
-                </li>
-            </ul>
-            <ul id="qnaPagination">
-                <li><a href="#" class="prev">◀</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#" class="next">▶</a></li>
-            </ul>
-        </div>
-    </div>
+	  <!--상품 문의 -->
+           <div id="productQnA">
+               <h2 class="h2Class">상품문의</h2>
+               <div sec:authorize="hasRole('ROLE_USER')" class="writeQnA">
+                   <h3>상품 문의작성</h3>
+                   <form>
+                       <div class="form-group">
+                           <input type="text" class="form-control" placeholder="제목" />
+                       </div>
+                       <div class="form-group">
+                           <textarea class="form-control" placeholder="내용"></textarea>
+                       </div>
+                       <button type="submit" class="btn btn-primary">등록</button>
+                   </form>
+               </div>
+               <ul id="qnaBoard" class="list-unstyled">
+                   <li>
+                       <span class="num">1</span>
+                       <span class="title"><a href="#" data-toggle="collapse" data-target="#content1">제목1</a></span>
+                       <span class="author">작성자1</span>
+                       <span class="date">2023-04-13</span>
+                       <span class="views">100</span>
+                   </li>
+                   <li>
+                       <span class="num">2</span>
+                       <span class="title"><a href="#" data-toggle="collapse" data-target="#content2">제목2</a></span>
+                       <span class="author">작성자2</span>
+                       <span class="date">2023-04-14</span>
+                       <span class="views">50</span>
+                   </li>
+                   <li>
+                       <span class="num">3</span>
+                       <span class="title"><a href="#" data-toggle="collapse" data-target="#content3">제목3</a></span>
+                       <span class="author">작성자3</span>
+                       <span class="date">2023-04-15</span>
+                       <span class="views">20</span>
+                   </li>
+               </ul>
+               <div id="content1" class="content collapse">
+                   <p>내용1</p>
+               </div>
+               <div id="content2" class="content collapse">
+                   <p>내용2</p>
+               </div>
+               <div id="content3" class="content collapse">
+                   <p>내용3</p>
+               </div>
+           </div>
 
 	<!-- 배송/반품/교환/AS -->
     <div id="productAS">
@@ -288,9 +288,8 @@
 
 <script src="../../js/shopping/board.js"></script>
 <script>
-    
-    var userNo = document.querySelector('input[name="userNo"]').value;
-	var productNo = [[${product.productNo}]];
+    var userNo = document.querySelector('input[name="userNo"]').value; // 현재 로그인한 사용자의 사용자 번호
+	var productNo = [[${product.productNo}]]; // 상품 번호
 	
 	/* 후기 출력 함수 실행 */
 	getReviewList();
@@ -332,46 +331,66 @@
 	        productQuantity: quantity.value
 	    }, function(result) {
 	        if (result == "1") {
-	            var form = $('<form></form>');
-	            form.attr('action', '/cart/list');
-	            form.attr('method', 'post');
-	            var input = $('<input type="hidden" name="userNo" value="' + userNo + '"/>');
-	            form.append(input);
-	            form.appendTo('body');
-	            form.submit();
+	            location.href="/cart/list";
 	        } else {
 	            alert('장바구니 등록 실패');
 	        }
 	    });
 	}
 
+	/* Fancybox: 사진 확대를 위한 라이브러리 */
+    $(document).ready(function() {
+		$(".fancybox").fancybox({
+			buttons: ["zoom", "slideShow", "fullScreen", "close"],
+			transitionEffect: "slide",
+			transitionDuration: 500,
+			loop: true,
+			margin: [50, 50]
+		});
+	});
     /* 후기 출력 */
 	function getReviewList() {
-	    $.ajax({
-	        url: "/review/list",
-	        data: {"productNo": productNo},
-	        type: "get",
-	        dataType: "json",
-	        success: function(rList) {
-	            var reviewListHtml = "";
-	            for(var i=0; i<rList.length; i++) {
-	                reviewListHtml += "<li>"
-	                                + "<span class='num'>" + (rList.length - i) + "</span>" // 후기 번호 (역순)
-	                                + "<img src='/uploadFiles/" + (rList[i].reviewPic1 ? rList[i].reviewPic1.replace(/\\/g, '/') : '') + "' width='10%'>"
-	                                + "<span class='title'>" + rList[i].reviewContent.replace(/\n/g, "<br>") + "</span>" // 후기 내용
-	                                + "<span class='author'>" + rList[i].userName + "</span>" // 후기 작성자 = 로그인된 사용자
-	                                + "</li>"
-	            }
-	            $("#reviewBoard").empty();
-	            $("#reviewBoard").append(reviewListHtml);
-	        },
-	        error: function() {
-	            alert("처리 실패");
-	        }
-	    });
+		$.ajax({
+			url: "/review/list",
+			data: {"productNo": productNo},
+			type: "get",
+			dataType: "json",
+			success: function(rList) {
+				var reviewList = "";
+				for(var i=0; i<rList.length; i++) {
+				  reviewList += "<li>"
+					         + "<span class='num'>" + (rList.length - i) + "</span>" // 후기 번호 (역순)
+					         + "<span class='title'>" + rList[i].reviewContent.replace(/\n/g, "<br>") + "</span>" // 후기 내용
+					         + "<span class='author'>" + rList[i].userName + "</span>" // 후기 작성자 = 로그인된 사용자
+					         + (rList[i].userNo == userNo ? "<span class='btns'>" + "<button>수정</button>" + "<button onclick='deleteReview(" + rList[i].reviewNo + ", " + userNo + ")'>삭제</button>" + "</span>" : "") // 후기 작성자와 로그인한 사용자가 같은 경우 수정/삭제 버튼 출력
+					         + "</li>";
+				  for (var j = 1; j <= 5; j++) { // 후기 사진 (최대 5장)
+					  if (rList[i]['reviewPic'+j]) {
+						  reviewList += "<a href='" + rList[i]['reviewPic'+j].replace(/\\/g, '/') + "' data-fancybox='gallery' class='fancybox' rel='group" + i + "'>"
+				                     + "<div>"
+				                     + "<img src='" + rList[i]['reviewPic'+j].replace(/\\/g, '/') + "'>"
+				                     + "</div>"
+				                     + "</a>";
+					  }
+				  }
+			}
+			$("#reviewBoard").empty();
+			$("#reviewBoard").append(reviewList);
+			},
+			error: function() {
+				alert("처리 실패");
+			}
+		});
 	}
     /* 후기 등록 */
 	$("#submitReview").on("click", function() {
+		// 내용이 입력되지 않았을 경우
+		var reviewContent = document.querySelector('#reviewContent');
+	    if(reviewContent.value.length == 0) {
+	        alert("내용을 입력해주세요.");
+	        return;
+	    }
+	    
 		const formData = new FormData();
 		const fileList = document.querySelector("#photoInput").files;
 
@@ -402,6 +421,47 @@
 		  }
 		});
     });
+    /* 사진 미리보기 */
+    $("#photoInput").on("change", function() {
+		var fileList = this.files;
+		var imgPreview = $("#imgPreview");
+		imgPreview.empty();
+		for (var i = 0; i < fileList.length; i++) {
+			var file = fileList[i];
+			var reader = new FileReader();
+			reader.onload = function(event) {
+				var img = $("<img>").attr("src", event.target.result);
+				var imgPreviewItem = $("<div>").addClass("img-preview").append(img);
+				imgPreview.append(imgPreviewItem);
+			};
+			reader.readAsDataURL(file);
+		}
+	});
+
+    /* 후기 삭제 */
+	function deleteReview(reviewNo, userNo) {
+    	confirm("삭제하시겠습니까");
+	    $.ajax({
+	        url: "/review/remove",
+	        data: {
+	        	"reviewNo": reviewNo,
+	        	"userNo": userNo
+	        	},
+	        type: "post",
+	        success: function (result) {
+	        	if (result == "1") {
+	  		      alert("후기 삭제 완료");
+	  		      getReviewList();
+	  		    } else {
+	  		      alert("후기 삭제 실패");
+	  		      console.log(result);
+	  		    }
+	        },
+	        error: function () {
+	            alert("처리 실패");
+	        }
+	    });
+	}
 </script>
 </body>
 </html>

@@ -10,11 +10,9 @@ import com.kh.baribari.product.repository.ReviewRepository;
 
 @Repository
 public class ReviewRepositoryLogic implements ReviewRepository {
-
 	@Override
 	public List<Review> getReviewList(SqlSession session, int productNo) {
-		List<Review> rList = session.selectList("ReviewMapper.getReviewList", productNo);
-		return rList;
+		return session.selectList("ReviewMapper.getReviewList", productNo);
 	}
 
 	@Override
@@ -32,8 +30,16 @@ public class ReviewRepositoryLogic implements ReviewRepository {
 
 	@Override
 	public int getReviewCount(SqlSession session, int productNo) {
-		int reviewCount = session.selectOne("ReviewMapper.getReviewCount", productNo);
-		return reviewCount;
+		return session.selectOne("ReviewMapper.getReviewCount", productNo);
 	}
 
+	@Override
+	public int removeReview(SqlSession session, Review review) {
+		return session.delete("ReviewMapper.removeReview", review);
+	}
+
+	@Override
+	public Review getReview(SqlSession session, Review review) {
+		return session.selectOne("ReviewMapper.getReview", review);
+	}
 }

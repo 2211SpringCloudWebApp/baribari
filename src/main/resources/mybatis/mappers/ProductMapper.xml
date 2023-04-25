@@ -62,13 +62,13 @@
 	</select>
       
     <!-- 헤더에서 검색한 상품의 수 -->
-    <select id="getProductCountByKeyword" resultType="_int">
-    	SELECT COUNT(*) FROM PRODUCT_TBL WHERE PRODUCT_NAME = ${search.keyword} OR PRODUCT_CATEGORY = ${search.keyword}
+    <select id="getProductCountByKeyword" parameterType="Search" resultType="_int">
+		SELECT COUNT(*) FROM PRODUCT_TBL WHERE PRODUCT_NAME LIKE '%' || #{keyword} || '%' OR PRODUCT_CATEGORY LIKE '%' || #{keyword} || '%' ORDER BY PRODUCT_NO DESC
     </select>
     
     	<!-- 상품 목록 -->
-    <select id="getProductListByKeyword" resultMap="productResultMap">
-        SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE PRODUCT_NAME = ${search.keyword} OR PRODUCT_CATEGORY = ${search.keyword} ORDER BY PRODUCT_NO DESC
+    <select id="getProductListByKeyword" parameterType="Search" resultMap="productResultMap">
+        SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE PRODUCT_NAME LIKE '%' || #{keyword} || '%' OR PRODUCT_CATEGORY LIKE '%' || #{keyword} || '%' ORDER BY PRODUCT_NO DESC
     </select>
     
 </mapper>

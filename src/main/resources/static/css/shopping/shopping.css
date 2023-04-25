@@ -1,5 +1,5 @@
-/* body 전체에 폰트 적용 */
-body {
+/* 전체에 폰트 적용 */
+* {
 	font-family: 'IBM Plex Sans KR', sans-serif;
 	color: #000;
 }

@@ -21,7 +21,6 @@ import lombok.Data;
 
 @Data
 public class PageInfo {
-
 	private int currentPage;	// 현재 페이지
 	private int boardLimit;		// 페이지 당 게시글 갯수
 	private int totalCount;		// 전체 게시글 갯수
@@ -44,5 +43,4 @@ public class PageInfo {
 		}
 		offset = (currentPage - 1) * boardLimit;
 	}
-	
 }

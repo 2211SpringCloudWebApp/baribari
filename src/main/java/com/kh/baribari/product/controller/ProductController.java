@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -58,21 +57,7 @@ public class ProductController {
 			return mv;
 		}
 	}
-	
-	// 상품 검색 목록 및 갯수 출력
-	public ModelAndView getProductSearchList(
-			ModelAndView mv
-			, @RequestParam(value = "category", required = false, defaultValue = "All") String productCategory
-			, @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage
-			, @ModelAttribute Search search
-			) {
-		try {
-			return mv;
-		} catch (Exception e) {
-			return mv;
-		}
-	}
-	
+
 	// 헤더에서 검색한 상품 목록
 	@GetMapping("/search")
 	public ModelAndView getProductSearchList(ModelAndView mv
@@ -84,7 +69,7 @@ public class ProductController {
 		// PageInfo 매개변수: 현재페이지 (RequestParam), 전체 게시글 수 (mapper), 페이지 당 게시글 수
 		PageInfo pi = new PageInfo(currentPage, pCount, 20); 
 		// 상품 목록
-		List<Product> pList = pService.getProductList(pi);
+		List<Product> pList = pService.getProductList(pi, search);
 		
 		if(pList != null) {
 			mv.addObject("pList", pList);
@@ -96,9 +81,7 @@ public class ProductController {
 			mv.addObject("msg", "오류").setViewName("error");
 			return mv;
 		}
-		
 	}
-	
 	
 	// 상품 상세 페이지 (상품 정보, 추천 상품 목록)
 	@GetMapping("/detail")
@@ -118,10 +101,6 @@ public class ProductController {
 		mv.addObject("reviewCount", reviewCount);
 		mv.setViewName("shopping/detail");
 		return mv;
-	}
-	
-	public void scrap() {
-		
 	}
 	
 }

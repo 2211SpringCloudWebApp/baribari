@@ -9,7 +9,6 @@ import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
 
 public interface ProductRepository {
-	
 	/**
 	 * 상품 갯수 가져오기
 	 * @param SqlSession
@@ -55,8 +54,8 @@ public interface ProductRepository {
 	 * 헤더에서 검색한 상품 갯수 가져오기
 	 * @param SqlSession
 	 * @param PageInfo
+	 * @param Search
 	 * @return List<Product>
 	 */
-	public List<Product> getProductList(SqlSession session, PageInfo pi);
-	
+	public List<Product> getProductList(SqlSession session, PageInfo pi, Search search);
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,8 +23,8 @@ import com.kh.baribari.product.domain.Review;
 import com.kh.baribari.product.service.ReviewService;
 
 @Controller
+@RequestMapping("review")
 public class ReviewController {
-
 	@Autowired
 	private ReviewService rService;
 	@Autowired
@@ -31,7 +32,7 @@ public class ReviewController {
 	private FileUpload fileUpload;
 	
 	// 상품 후기 등록
-	@PostMapping("review/register")
+	@PostMapping("/register")
 	@ResponseBody
 	public String registerReview(
 			@RequestParam(value = "fileList", required = false) List<MultipartFile> fList
@@ -72,12 +73,44 @@ public class ReviewController {
         }
 	}
 	
+	// 상품 후기 삭제
+	@PostMapping("/remove")
+	@ResponseBody
+	public String removeReview(@ModelAttribute Review reviewParam, HttpServletRequest request) throws Exception {
+		// 후기 정보 가져오기 → 사진이 있을 경우 사진 물리적 삭제 → 후기 삭제 (CASCADE로 인해 후기 사진 테이블의 자료도 자동 삭제)
+		// 사진 정보를 가져오기 위해 review정보 가져오기
+		Review review = rService.getReview(reviewParam);
+		String path = "shopping/review";
+		// 사진이 있을 경우 삭제
+		if (review.getReviewPic1() != null && !review.getReviewPic1().isEmpty()) {
+		    fileUpload.deleteFile(request, review.getReviewPic1());
+		}
+		if (review.getReviewPic2() != null && !review.getReviewPic2().isEmpty()) {
+			fileUpload.deleteFile(request, review.getReviewPic2());
+		}
+		if (review.getReviewPic3() != null && !review.getReviewPic3().isEmpty()) {
+			fileUpload.deleteFile(request, review.getReviewPic3());
+		}
+		if (review.getReviewPic4() != null && !review.getReviewPic4().isEmpty()) {
+			fileUpload.deleteFile(request, review.getReviewPic4());
+		}
+		if (review.getReviewPic5() != null && !review.getReviewPic5().isEmpty()) {
+			fileUpload.deleteFile(request, review.getReviewPic5());
+		}
+		// 후기 삭제
+		int result = rService.removeReview(review);
+		if (result > 0) {
+            return "1";
+        } else {
+            return "0";
+        }
+	}
+	
 	// 상품 후기 목록 출력
-	@GetMapping("review/list")
+	@GetMapping("/list")
 	@ResponseBody
 	public String getReviewList(Integer productNo) {
 		List<Review> rList = rService.getReviewList(productNo);
 		return new Gson().toJson(rList);
 	}
-	
 }

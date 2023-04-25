@@ -43,9 +43,18 @@
 		SELECT SEQ_REVIEW_NO.CURRVAL FROM DUAL
 	</select>
 	
-	<!-- 후기 갯수 -->
+	<!-- 해당 제품에 대한 후기 갯수 -->
 	<select id="getReviewCount" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM REVIEW_TBL WHERE PRODUCT_NO = #{productNo}
 	</select>
 	
+	<!-- 해당 제품에 대한 후기 삭제 -->
+	<delete id="removeReview" parameterType="Review">
+		DELETE FROM REVIEW_TBL WHERE REVIEW_NO = #{reviewNo} AND USER_NO = #{userNo}
+	</delete>
+	
+	<!-- 해당 제품에 대한 후기 -->
+	<select id="getReview" parameterType="Review" resultType="Review">
+		SELECT * FROM REVIEW_TBL LEFT JOIN REVIEW_PIC_TBL USING (REVIEW_NO) WHERE REVIEW_NO = #{reviewNo}
+	</select>
 </mapper>

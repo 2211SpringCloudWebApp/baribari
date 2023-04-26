@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.baribari.common.FileUpload;
+import com.kh.baribari.common.FileInfo;
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
@@ -32,7 +32,7 @@ public class ProductController {
 	private UserService uService;
 	@Autowired
 	@Qualifier("fileUpload")
-	private FileUpload fileUpload;
+	private FileInfo fileUpload;
 
 	// 상품 목록 및 갯수 출력
 	@GetMapping("/list")

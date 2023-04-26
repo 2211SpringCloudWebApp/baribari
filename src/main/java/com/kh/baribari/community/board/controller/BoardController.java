@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.baribari.common.FileUpload;
+import com.kh.baribari.common.FileInfo;
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.community.board.service.BoardService;
 import com.kh.baribari.community.domain.Community;
@@ -33,7 +33,7 @@ public class BoardController {
 	
 	@Autowired
 	@Qualifier("fileUpload")
-	private FileUpload fileUpload;
+	private FileInfo fileUpload;
 
 	//자유게시판 목록 출력
 	@GetMapping("boardList")
@@ -52,7 +52,7 @@ public class BoardController {
 				mv.addObject("bList", bList);
 				mv.addObject("bCount", bCount);
 				mv.addObject("pi",pi);
-				mv.setViewName("community/board/list");
+				mv.setViewName("community/board/board-reading-list");
 				return mv;
 			} else {
 				mv.addObject("msg", "게시글 목록을 가져오지 못했습니다.").setViewName("error");

@@ -8,7 +8,7 @@
 	</select>
 	
 	<select id="getHashTag" resultType="HashTag">
-		SELECT HASH_TAG_NAME FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{boardNo} ORDER BY HASH_TAG_NAME DESC
+		SELECT HASH_TAG_NAME FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{boardNo}
 	</select>
 	
 	<insert id="registerHashTag">

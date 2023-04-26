@@ -57,4 +57,11 @@ public interface ProductService {
 	 */
 	public List<Product> getProductListBySales();
 
+	/**
+	 * 상품 등록
+	 * @param Product
+	 * @return int
+	 */
+	public int registerProduct(Product product);
+
 }

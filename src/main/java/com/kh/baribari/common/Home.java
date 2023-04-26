@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.baribari.product.domain.Product;
+import com.kh.baribari.product.domain.Review;
 import com.kh.baribari.product.service.ProductService;
 import com.kh.baribari.product.service.ReviewService;
 
@@ -25,10 +26,11 @@ public class Home {
 		// 인기상품 가져오기
 		List<Product> pList = pService.getProductListBySales();
 		// 후기 가져오기
-		
+		List<Review> rList = rService.getReviewList();
 		// 커뮤니티 가져오기
 		
 		mv.addObject("pList", pList);
+		mv.addObject("rList", rList);
 		mv.setViewName("index");
 		return mv;
 	}

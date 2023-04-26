@@ -73,7 +73,7 @@
     
     <!-- 판매량이 높은 상품 목록 (메인 게시용, 12개까지) -->
     <select id="getProductListBySales" resultMap="productResultMap">
-    	SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE ROWNUM &lt;= 12 ORDER BY PRODUCT_SALES
+    	SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE ROWNUM &lt;= 20 ORDER BY PRODUCT_SALES
     </select>
     
 </mapper>

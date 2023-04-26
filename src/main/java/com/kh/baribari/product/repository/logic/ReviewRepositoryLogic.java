@@ -42,4 +42,9 @@ public class ReviewRepositoryLogic implements ReviewRepository {
 	public Review getReview(SqlSession session, Review review) {
 		return session.selectOne("ReviewMapper.getReview", review);
 	}
+
+	@Override
+	public List<Review> getReviewList(SqlSession session) {
+		return session.selectList("ReviewMapper.getAllReviewList");
+	}
 }

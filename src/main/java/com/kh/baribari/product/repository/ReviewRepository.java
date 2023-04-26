@@ -48,4 +48,11 @@ public interface ReviewRepository {
 	 */
 	public Review getReview(SqlSession session, Review review);
 
+	/**
+	 * 모든 후기 목록
+	 * @param SqlSession
+	 * @return List<Review>
+	 */
+	public List<Review> getReviewList(SqlSession session);
+
 }

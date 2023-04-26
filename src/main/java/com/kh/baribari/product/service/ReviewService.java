@@ -39,4 +39,10 @@ public interface ReviewService {
 	 * @return Review
 	 */
 	public Review getReview(Review review);
+	
+	/**
+	 * 모든 후기 목록
+	 * @return List<Review>
+	 */
+	public List<Review> getReviewList();
 }

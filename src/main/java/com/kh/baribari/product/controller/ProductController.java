@@ -97,4 +97,11 @@ public class ProductController {
 		mv.setViewName("shopping/detail");
 		return mv;
 	}
+	
+	@GetMapping("/register")
+	public ModelAndView registerProduct(ModelAndView mv) {
+		mv.setViewName("shopping/register");
+		return mv;
+	}
+	
 }

@@ -102,8 +102,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<MyPageOrderList> selectOrderList(int userNo) {
-        return uRepository.selectOrderList(userNo);
+    public List<MyPageOrderList> selectOrderList(MyPageOrderList myPageOrderListParam) {
+        return uRepository.selectOrderList(myPageOrderListParam);
+    }
+
+    @Override
+    public List<CartList> selectCartList(int userNo) {
+        return uRepository.selectCartList(userNo);
     }
 
     //  배송지 삭제

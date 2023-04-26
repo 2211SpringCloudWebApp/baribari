@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="stylesheet">
+    <script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
 
     <!-- Vendor CSS Files -->
     <link href="../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
@@ -34,15 +35,15 @@
 <div class="mainContainer" style="padding-top: 170px">
     <div class="top">
         <div class="top-container">
-            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black"
-                                                                                                   href="/uploadFiles/myPageUser/modify">주문/배송조회</a>
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black; cursor: pointer"
+                                                                                                   onclick="MonthSearch(1)">주문/배송조회</a>
             </div>
             <div style="margin-top: 30px;">
                 <div class="page-title">주문/배송 조회</div>
                 <div class="page-menu">
                     <dl>
-                        <dd><a href="/myPageUser/modify" class="page-active">주문/배송조회</a></dd>
-                        <dd class="page-address"><a href="/myPageUser/address">장바구니</a></dd>
+                        <dd onclick="MonthSearch(1);"><a class="page-active">주문/배송조회</a></dd>
+                        <dd class="page-address"><a href="/myPageUser/cart">장바구니</a></dd>
                         <dd class="page-withdraw"><a href="/myPageUser/withdraw">찜한 상품</a></dd>
                     </dl>
                 </div>
@@ -54,25 +55,25 @@
             <ul class="date_btn">
                 <li class="">
                     <button class="btn"
-                            onclick="location.href='/member/order.php?sdate=2023-03-21&amp;edate=2023-04-21&amp;num=1#titleLine'">
+                            onclick="MonthSearch(1);">
                         1개월
                     </button>
                 </li>
                 <li class="">
                     <button class="btn"
-                            onclick="location.href='/member/order.php?sdate=2023-01-21&amp;edate=2023-04-21&amp;num=2#titleLine'">
+                            onclick="MonthSearch(3);">
                         3개월
                     </button>
                 </li>
                 <li class="">
                     <button class="btn"
-                            onclick="location.href='/member/order.php?sdate=2022-10-21&amp;edate=2023-04-21&amp;num=3#titleLine'">
+                            onclick="MonthSearch(6);">
                         6개월
                     </button>
                 </li>
                 <li class="">
                     <button class="btn"
-                            onclick="location.href='/member/order.php?sdate=2022-04-21&amp;edate=2023-04-21&amp;num=5#titleLine'">
+                            onclick="MonthSearch(12);">
                         1년
                     </button>
                 </li>
@@ -83,7 +84,7 @@
                         <input type="date" name="sdate" class="form_input start-day" id="sdate">
                         <span>-</span>
                         <input type="date" name="edate" class="form_input end-day" id="edate">
-                        <input type="button" value="조회" class="btn" onclick="">
+                        <input type="button" value="조회" class="btn" onclick="inputBySearch()">
                     </div>
                 </div>
             </div>
@@ -101,13 +102,13 @@
                     <col style="width:11%">
                 </colgroup>
                 <thead>
-                <tr>
-                    <th class="col">상품정보</th>
-                    <th class="col">주문일자</th>
-                    <th class="col">주문번호</th>
-                    <th class="col">주문금액(수량)</th>
-                    <th class="col">주문상태</th>
-                    <th class="col">후기</th>
+                <tr style="text-align: center">
+                    <th class="sorting_disabled col">상품정보</th>
+                    <th class="sorting_disabled col">주문일자</th>
+                    <th class="sorting_disabled col">주문번호</th>
+                    <th class="sorting_disabled col">주문금액(수량)</th>
+                    <th class="sorting_disabled col">주문상태</th>
+                    <th class="sorting_disabled col">후기</th>
                 </tr>
                 </thead>
                 <tr class="table-tr" th:each="order : ${orderList}">
@@ -115,14 +116,17 @@
                         <img src="../img/campfire.svg">
                         <div class="table-title">
                         <span th:text="${order.userNickname}"></span>
-                        <span th:text="${order.productName}" style="font-weight: bold"></span>
+                        <a th:href="'/shopping/detail?productNo='+${order.productNo}"><span th:text="${order.productName}" style="font-weight: bold"></span></a>
                         </div>
                     </td>
-                    <td th:text="${order.orderDate}"></td>
-                    <td th:text="${order.orderNo}"></td>
-                    <td th:text="${order.orderPrice} + '원 (' + ${order.orderDetailCount} + ')'"></td>
-                    <td th:text="${order.orderStatus}"></td>
-                    <td><button>후기작성</button></td>
+                    <td th:text="${order.orderDate}" class=" td-center"></td>
+                    <td th:text="${order.orderNo}" class=" td-center"></td>
+                    <td class="td-center"><span th:text="${order.orderPrice} + '원'"></span><br><span th:text="${order.orderDetailCount}+'개'"></span></td>
+                    <td th:if="${order.orderStatus} == 0 " class="td-center">결제완료</td>
+                    <td th:if="${order.orderStatus} == 1 " class="td-center">상품 준비중</td>
+                    <td th:if="${order.orderStatus} == 2 " class="td-center">상품 배송중</td>
+                    <td th:if="${order.orderStatus} == 3 " class="td-center">배송완료</td>
+                    <td class="td-center"><button class="review-button">후기작성</button></td>
                 </tr>
             </table>
         </div>
@@ -130,65 +134,8 @@
 
 
 </div>
-<script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
 <script src="../js/datatables-simple-demo.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#myTable').DataTable({
-                "searching": false,
-                "lengthChange": false,
-                "info": false,
-                "ordering": false,
-                "autoWidth": false,
-                "language": {
-                    // "emptyTable": "주문내역이 없어요ㅜㅜ",
-                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/ko.json'
-                }
-                // "ajax": function (data) {
-                //     $.ajax({
-                //         url: "/loadOrderList",
-                //         data: {
-                //             'userNo': $('#userNo').val()
-                //         },
-                //         type:"post",
-                //         success:function(res){
-                //             console.log(res);
-                //             data(res);
-                //         }
-                //     });
-                // },
-                // "columns" : [
-                //     {"data" : "productName"},
-                //     {"data" : "orderDate"},
-                //     {"data" : "orderNo"},
-                //     {"data" : "orderPrice"},
-                //     {"data" : "orderStatus"},
-                //     {"data" : "productName"},
-                // ]
-            }
-        );
-    })
-
-    window.onload = function () {
-        // 조회 input창에 날짜 입력
-        let now2Date = new Date();
-        let date1 = now2Date.getUTCFullYear() + '-' + leftPad(now2Date.getMonth()) + '-' + leftPad(now2Date.getDate() - 1);
-        let date2 = now2Date.getUTCFullYear() + '-' + leftPad(now2Date.getMonth() + 1) + '-' + leftPad(now2Date.getDate());
-        $('#sdate').val(date1);
-        $('#edate').val(date2);
-    }
-
-    // input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
-    function leftPad(value) {
-        if (value < 10) {
-            value = "0" + value;
-            return value;
-        }
-        return value;
-    }
-
-
-</script>
+<script src="../js/user/user-orderLogis.js"></script>
 
 
 <!-- Vendor JS Files -->

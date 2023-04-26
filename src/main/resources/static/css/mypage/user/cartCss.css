@@ -1,0 +1,152 @@
+.order-middle {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.order-middle-top {
+    margin-top: 25px;
+    margin-bottom: 20px;
+}
+
+.order-middle-top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-middle-top div {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.order-middle-top div ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#product-check {
+    display: inline-block;
+    margin: 3px 3px 3px 4px;
+    padding: initial;
+    vertical-align: middle;
+}
+
+.checkbox-div {
+
+}
+
+.select-remove-btn {
+    width: 90px;
+    height: 40px;
+    border: 1px solid #3DB35E;
+    color: #3DB35E;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.order-cart-content-box {
+    height: 270px;
+    margin-top: 20px;
+    border-radius: 20px;
+    background-color: white;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.order-cart-content-box div {
+    display: flex;
+    justify-content: center;
+}
+
+.order-cart-content-box div span {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.order-cart-content-box img {
+    width: 113px;
+}
+
+.cart-list {
+    list-style: none;
+    padding: 0;
+}
+
+.cart-list li{
+    background-color: #fff;
+    padding: 20px 0;
+    margin-bottom: 20px;
+    border-radius: 20px;
+    border: 1px solid #e6e6e6;
+    display: flex;
+    align-items: center;
+}
+.check{
+    width: 5%;
+    justify-content: center;
+    display: flex;
+}
+.thumbnail{
+    width: 10%;
+}
+.title{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 35%;
+    padding-left: 20px;
+}
+.count {
+    display: flex;
+    justify-content: center;
+}
+.count a{
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 24px;
+    height: 28px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.ea_down{
+    width: 24px;
+    height: 28px;
+    background-size: cover;
+    border: 1px solid #ccc;
+    /*background-image: url("static/img/minus-svgrepo-com.svg");*/
+}
+.ea_up{
+    width: 24px;
+    height: 28px;
+    background-size: cover;
+    border: 1px solid #ccc;
+}
+.count input {
+    width: 35px;
+    height: 28px;
+    color: #333;
+    font-size: 13px;
+    line-height: 28px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+.price{
+    width: 25%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.delete-btn{
+    background-color: white;
+    width: 70px;
+    height: 40px;
+    border: 1px solid #3DB35E;
+    color: #3DB35E;
+    border-radius: 10px;
+}

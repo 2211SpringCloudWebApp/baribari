@@ -16,6 +16,7 @@ import com.kh.baribari.common.JsonParse;
 import com.kh.baribari.security.auth.PrincipalDetails;
 import com.kh.baribari.user.service.UserService;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.model.IModel;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -299,20 +300,21 @@ public class UserController {
 
     //    주문배송조회 뷰
     @GetMapping("myPageUser/orderLogistic")
-    public String orderLogisticView(Model model, Authentication authentication) {
+    public String orderLogisticView(Model model, Authentication authentication, @RequestParam String startDate, @RequestParam String endDate) {
         User user = returnUser(authentication);
-        List<MyPageOrderList> myPageOrderList = uService.selectOrderList(user.getUserNo());
+        MyPageOrderList myPageOrderListParam = new MyPageOrderList(user.getUserNo(), startDate,endDate);
+        List<MyPageOrderList> myPageOrderList = uService.selectOrderList(myPageOrderListParam);
         model.addAttribute("orderList",myPageOrderList);
         return "myPage/order/order-logistic";
     }
 
 
-    // 주문배송리스트 ajax 리턴
-//    @PostMapping("/loadOrderList")
-//    @ResponseBody
-//    public String ajaxDataTableLogistic(int userNo){
-//        List<MyPageOrderList> myPageOrderListList = uService.selectOrderList(userNo);
-//        Gson gson = new Gson();
-//        return gson.toJson(myPageOrderListList);
-//    }
+//  장바구니 뷰
+    @GetMapping("myPageUser/cart")
+    public String cartView(Authentication authentication, Model model){
+        User user = returnUser(authentication);
+        List<CartList> cartList = uService.selectCartList(user.getUserNo());
+        model.addAttribute("cartList",cartList);
+        return "myPage/order/cart";
+    }
 }

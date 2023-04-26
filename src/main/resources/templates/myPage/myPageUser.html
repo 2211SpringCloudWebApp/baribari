@@ -122,7 +122,7 @@
                 <img src="img/icon_main_1.svg" alt="배송이미지">
                 주문관리
             </dt>
-            <dd><a href="/myPageUser/orderLogistic">주문/배송조회</a></dd>
+            <dd onclick="MonthSearch(1);"><a>주문/배송조회</a></dd>
             <dd><a href="">장바구니</a></dd>
             <dd><a href="">찜한 상품</a></dd>
         </dl>
@@ -147,14 +147,7 @@
         </dl>
     </div>
 </div>
-<script>
-    window.onload = function(){
-        var point = ($('.userLevelPoint').text() /  $('.levelMaxPoint').text()) * 100;
-        point = Math.floor(point);
-        $('.userMyPageData-bar').width(point+'%');
-
-    }
-</script>
+<script src="../js/user/myPageJs.js"></script>
 <!-- Vendor JS Files -->
 <script src="assets/vendor/aos/aos.js"></script>
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>장바구니</title>
+    <!-- Favicons -->
+    <link href="../assets/img/favicon.png" rel="icon">
+    <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="stylesheet">
+    <script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
+
+    <!-- Vendor CSS Files -->
+    <link href="../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../css/mypage/user/userMypageCss.css" rel="stylesheet">
+    <link href="../css/mypage/user/userModifyCss.css" rel="stylesheet">
+    <link href="../css/mypage/user/cartCss.css" rel="stylesheet">
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"-->
+<!--          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">-->
+
+
+</head>
+<body>
+<header th:replace="header :: #header"></header>
+<div class="mainContainer" style="padding-top: 170px">
+    <div class="top">
+        <div class="top-container">
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black"
+                                                                                                   href="/myPageUser/cart">장바구니</a>
+            </div>
+            <div style="margin-top: 30px;">
+                <div class="page-title">장바구니</div>
+                <div class="page-menu">
+                    <dl>
+                        <dd onclick="MonthSearch(1);"><a class="page-order">주문/배송조회</a></dd>
+                        <dd><a class="page-active" href="/myPageUser/cart">장바구니</a></dd>
+                        <dd class="page-withdraw"><a href="/myPageUser/withdraw">찜한 상품</a></dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="order-middle" style="margin-top: 25px;">
+        <div class="order-middle-top">
+            <div class="checkbox-div">
+                <ul style="padding: 0;">
+                    <li>
+                        <input type="checkbox" class="form-check-input" id="product-check"><label for="product-check">
+                        전체상품</label>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <button class="select-remove-btn">선택삭제</button>
+            </div>
+        </div>
+        <div class="order-cart-content-box" th:if="${cartList.isEmpty()}">
+            <div><img src="../img/empty_cart.png"></div>
+            <div>
+                <span>장바구니가 비었어요!!</span>
+            </div>
+        </div>
+        <div th:if="${!cartList.isEmpty()}">
+            <ul class="cart-list">
+                <li th:each="cartList : ${ cartList}">
+                    <div class="check">
+                        <input type="checkbox" class="form-check-input">
+                    </div>
+                    <div class="thumbnail">
+                        <img src="../img/campfire.svg">
+                    </div>
+                    <div class="title">
+                        <span th:text="${cartList.userNickname}"></span>
+                        <a th:href="'/shopping/detail?productNo='+${cartList.productNo}"><span th:text="${cartList.productName}" style="font-weight: bold"></span></a>
+                    </div>
+                    <div class="count">
+                        <button type="button" class="ea_down" onclick="eaDown();">-</button>
+                        <input type="text" th:value="${cartList.productQuantity}" class="ea-count">
+                        <button type="button" class="ea_up" onclick="eaUp();">+</button>
+                    </div>
+                    <div class="price">
+                        <span th:text="${#numbers.formatInteger(cartList.productPrice*cartList.productQuantity, 3, 'COMMA')}+' 원'"></span>
+                        <span th:if="${cartList.productDeliveryCharge} > 0" th:text="${#numbers.formatInteger(cartList.productDeliveryCharge, 3, 'COMMA')}+' 원'"></span>
+                        <span th:if="${cartList.productDeliveryCharge} == 0">무료배송</span>
+                    </div>
+                    <div>
+                        <button type="button" class="delete-btn">삭제</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<script src="../js/datatables-simple-demo.js"></script>
+<script src="../js/user/user-orderLogis.js"></script>
+<script>
+
+    function eaUp() {
+        let eaCount = parseInt($('.ea-count').val());
+        $.ajax({
+            url:'/ajaxEaUp',
+            type:'get',
+            data:{
+                'eaCount' : $('.')
+            }
+        })
+    }
+
+    function eaDown() {
+
+    }
+
+
+</script>
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"-->
+<!--        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"-->
+<!--        crossorigin="anonymous"></script>-->
+
+<!-- Vendor JS Files -->
+<script src="../assets/vendor/aos/aos.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="../assets/vendor/php-email-form/validate.js"></script>
+<script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Template Main JS File -->
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

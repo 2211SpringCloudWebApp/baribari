@@ -1,4 +1,4 @@
-package com.kh.baribari.product.domain;
+package com.kh.baribari.qna.domain;
 
 import lombok.Data;
 
@@ -11,5 +11,4 @@ public class QnA {
 	private int productNo;
 	private int categoryNo;
 	private String qnaDate;
-
 }

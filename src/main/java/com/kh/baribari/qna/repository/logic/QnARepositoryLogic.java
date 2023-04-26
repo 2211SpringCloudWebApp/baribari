@@ -1,12 +1,12 @@
-package com.kh.baribari.product.repository.logic;
+package com.kh.baribari.qna.repository.logic;
 
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.kh.baribari.product.domain.QnA;
-import com.kh.baribari.product.repository.QnARepository;
+import com.kh.baribari.qna.domain.QnA;
+import com.kh.baribari.qna.repository.QnARepository;
 
 @Repository
 public class QnARepositoryLogic implements QnARepository{

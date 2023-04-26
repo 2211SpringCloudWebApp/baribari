@@ -1,4 +1,4 @@
-package com.kh.baribari.product.domain;
+package com.kh.baribari.notice.domain;
 
 import java.sql.Date;
 
@@ -13,5 +13,4 @@ public class Notice {
 	private String noticeContent;
 	private Date noticeDate;
 	private Date noticeUpdate;
-	
 }

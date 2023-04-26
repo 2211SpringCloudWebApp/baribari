@@ -1,4 +1,4 @@
-package com.kh.baribari.product.service.logic;
+package com.kh.baribari.notice.service.logic;
 
 import java.util.List;
 
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.common.Search;
-import com.kh.baribari.product.domain.Notice;
-import com.kh.baribari.product.repository.NoticeRepository;
-import com.kh.baribari.product.service.NoticeService;
+import com.kh.baribari.notice.domain.Notice;
+import com.kh.baribari.notice.repository.NoticeRepository;
+import com.kh.baribari.notice.service.NoticeService;
 
 @Service
 public class NoticeServiceImpl implements NoticeService{

@@ -1,4 +1,4 @@
-package com.kh.baribari.product.controller;
+package com.kh.baribari.notice.controller;
 
 import java.util.List;
 
@@ -6,17 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.common.Search;
-import com.kh.baribari.product.domain.Notice;
-import com.kh.baribari.product.service.NoticeService;
+import com.kh.baribari.notice.domain.Notice;
+import com.kh.baribari.notice.service.NoticeService;
 import com.kh.baribari.user.domain.User;
 import com.kh.baribari.user.service.UserService;
 
 @Controller
+@RequestMapping("/notice")
 public class NoticeController {
 	@Autowired
 	private NoticeService nService;
@@ -24,14 +27,14 @@ public class NoticeController {
 	private UserService uService;
 
 	// 게시판 글쓰기 화면
-	@GetMapping("shopping/noticeWriteView")
+	@GetMapping("/write")
 	public ModelAndView noticeWriteView(ModelAndView mv) {
-		mv.setViewName("shopping/noticeWrite");
+		mv.setViewName("notice/noticeWrite");
 		return mv;
 	}
 
 	// 게시판 글쓰기 등록
-	@PostMapping("shopping/noticeWrite")
+	@PostMapping("/write")
 	public ModelAndView noticeWrite(ModelAndView mv, Notice notice) {
 		try {
 			int result = nService.writeNotice(notice);
@@ -51,7 +54,7 @@ public class NoticeController {
 	}
 
 	// 게시판 수정 view
-	@GetMapping("/shopping/noticeModify")
+	@GetMapping("/modify")
 	public ModelAndView noticeModifyView(@RequestParam("noticeNo") int noticeNo, ModelAndView mv) {
 		try {
 			Notice notice = nService.noticeModifyView(noticeNo);
@@ -71,7 +74,7 @@ public class NoticeController {
 	}
 
 	// 게시판 수정 logic
-	@PostMapping("/shopping/noticeModify")
+	@PostMapping("/modify")
 	public ModelAndView noticeModify(ModelAndView mv, Notice notice) {
 		try {
 			int result = nService.modifyNotice(notice);
@@ -91,7 +94,7 @@ public class NoticeController {
 	}
 
 	// 게시판 삭제
-	@PostMapping("/shopping/noticeDelete")
+	@PostMapping("/delete")
 	public ModelAndView noticeDelete(@RequestParam("noticeNo") int noticeNo) {
 		ModelAndView mv = new ModelAndView();
 		try {
@@ -112,7 +115,7 @@ public class NoticeController {
 	}
 
 	// 게시판 목록
-	@GetMapping("/noticeList")
+	@GetMapping("/list")
 	public ModelAndView noticeList(ModelAndView mv,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
 		try {
@@ -122,7 +125,7 @@ public class NoticeController {
 //			if(nList != null) {
 			mv.addObject("nList", nList);
 			mv.addObject("pi", pi);
-			mv.setViewName("shopping/noticelist");
+			mv.setViewName("notice/noticelist");
 			return mv;
 //			}else {
 //				mv.addObject("msg", "오류").setViewName("error");
@@ -136,7 +139,7 @@ public class NoticeController {
 	}
 
 	// 게시판 상세조회
-	@GetMapping("noticeDetail")
+	@GetMapping("/detail")
 	public ModelAndView noticeDetail(ModelAndView mv, int noticeNo) {
 		try {
 			int result = nService.updateViewCount(noticeNo);
@@ -150,7 +153,7 @@ public class NoticeController {
 					mv.addObject("viewCount", viewCount);
 					mv.addObject("userId", userId);
 					mv.addObject("writer", writer);
-					mv.setViewName("shopping/noticeDetail");
+					mv.setViewName("notice/noticeDetail");
 					return mv;
 				}
 			}
@@ -163,6 +166,7 @@ public class NoticeController {
 	}
 
 	// 게시판 검색
+	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public ModelAndView noticeSearch(ModelAndView mv, Search search,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage) {
 		try {

@@ -1,4 +1,4 @@
-package com.kh.baribari.product.service.logic;
+package com.kh.baribari.qna.service.logic;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.baribari.product.domain.QnA;
-import com.kh.baribari.product.repository.QnARepository;
-import com.kh.baribari.product.service.QnAService;
+import com.kh.baribari.qna.domain.QnA;
+import com.kh.baribari.qna.repository.QnARepository;
+import com.kh.baribari.qna.service.QnAService;
 
 @Service
 public class QnAServiceImpl implements QnAService {

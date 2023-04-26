@@ -1,8 +1,8 @@
-package com.kh.baribari.product.service;
+package com.kh.baribari.qna.service;
 
 import java.util.List;
 
-import com.kh.baribari.product.domain.QnA;
+import com.kh.baribari.qna.domain.QnA;
 
 public interface QnAService {
 

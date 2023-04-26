@@ -1,10 +1,10 @@
-package com.kh.baribari.product.service;
+package com.kh.baribari.notice.service;
 
 import java.util.List;
 
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.common.Search;
-import com.kh.baribari.product.domain.Notice;
+import com.kh.baribari.notice.domain.Notice;
 
 public interface NoticeService {
 

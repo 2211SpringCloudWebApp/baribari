@@ -14,16 +14,15 @@ import com.kh.baribari.product.service.ProductService;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-	
 	@Autowired
 	private ProductRepository pRepository;
-    @Autowired
-    private SqlSession session;
-    
-    @Override
-    public int getProductCount(String productCategory) {
-    	return pRepository.getProductCount(session, productCategory);
-    }
+	@Autowired
+	private SqlSession session;
+
+	@Override
+	public int getProductCount(String productCategory) {
+		return pRepository.getProductCount(session, productCategory);
+	}
 
 	@Override
 	public List<Product> getProductList(String productCategory, PageInfo pi) {
@@ -32,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Product getProductDetail(int productNo) {
-		return pRepository.getProductDetail(session ,productNo);
+		return pRepository.getProductDetail(session, productNo);
 	}
 
 	@Override
@@ -53,6 +52,11 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> getProductListBySales() {
 		return pRepository.getProductListBySales(session);
+	}
+
+	@Override
+	public int registerProduct(Product product) {
+		return pRepository.registerProduct(session, product);
 	}
 
 }

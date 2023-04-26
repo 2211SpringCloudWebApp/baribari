@@ -38,7 +38,7 @@
 					<h2>Camping with BARIBARI</h2>
 
 					<div class="btns">
-						<a href="#menu" class="btn-menu animated fadeInUp scrollto">쇼핑몰 바로가기</a>
+						<a href="shopping/list" class="btn-menu animated fadeInUp scrollto">쇼핑몰 바로가기</a>
 						<a href="#book-a-table" class="btn-book animated fadeInUp scrollto">커뮤니티 바로가기</a>
 					</div>
 				</div>
@@ -108,7 +108,7 @@
 				<div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
 				
 					<div th:each="product : ${pList}" th:class="'col-lg-6 menu-item filter-' + ${product.productCategory}" style="position: absolute; left: 0px; top: 0px;">
-						<img src="assets/img/menu/lobster-bisque.jpg" class="menu-img" alt="">
+						<img th:src="@{${product.productPic1} != null} ? @{${product.productPic1}} : @{'../../img/logo.png'}" class="menu-img" alt="제품사진">
 						<div class="menu-content">
 							<a th:text="${product.productName}" th:href="@{'/shopping/detail?productNo=' + ${product.productNo}}">상품명</a>
 							<span th:if="${product != null and product.productDiscount == 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|">상품가격</span>
@@ -120,7 +120,7 @@
 				
 				</div>
 			</div>
-		</section><!-- End Menu Section -->
+		</section>
 
 
 		<!-- ======= Why Us Section ======= -->
@@ -390,7 +390,7 @@
 			</div>
 		</section><!-- End Events Section -->
 
-		<!-- ======= Testimonials Section ======= -->
+		<!-- 최신 후기 목록 -->
 		<section id="testimonials" class="testimonials section-bg">
 			<div class="container" data-aos="fade-up">
 
@@ -402,75 +402,27 @@
 				<div class="testimonials-slider swiper-container" data-aos="fade-up" data-aos-delay="100">
 					<div class="swiper-wrapper">
 
-						<div class="swiper-slide">
+						<div th:each="review : ${rList}" class="swiper-slide">
 							<div class="testimonial-item">
 								<p>
-									<i class="bx bxs-quote-alt-left quote-icon-left"></i>
-									Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium
-									quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
-									<i class="bx bxs-quote-alt-right quote-icon-right"></i>
+									<a th:href="@{'/shopping/detail?productNo=' + ${review.productNo}}">
+									<img th:src="${review.reviewPic1}" style="width: 4em;">
+									<img th:src="${review.reviewPic2}" style="width: 4em;">
+									<img th:src="${review.reviewPic3}" style="width: 4em;">
+									<img th:src="${review.reviewPic4}" style="width: 4em;">
+									<img th:src="${review.reviewPic5}" style="width: 4em;">
+										<i th:text="${review.reviewContent}" class="bx bxs-quote-alt-left quote-icon-left"></i>
+										<i class="bx bxs-quote-alt-right quote-icon-right"></i>
+									</a>
 								</p>
-								<img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
-								<h3>Saul Goodman</h3>
-								<h4>Ceo &amp; Founder</h4>
-							</div>
-						</div><!-- End testimonial item -->
+								<img th:src="@{'../../img/user.webp'}" class="testimonial-img" alt="">
+								<h3>
+									<span th:text="${#strings.substring(review.userName, 0, 3)}"></span>
+									<span th:if="${#strings.length(review.userName) > 3}">*</span>
+								</h3>
 
-						<div class="swiper-slide">
-							<div class="testimonial-item">
-								<p>
-									<i class="bx bxs-quote-alt-left quote-icon-left"></i>
-									Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis
-									quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
-									<i class="bx bxs-quote-alt-right quote-icon-right"></i>
-								</p>
-								<img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
-								<h3>Sara Wilsson</h3>
-								<h4>Designer</h4>
 							</div>
-						</div><!-- End testimonial item -->
-
-						<div class="swiper-slide">
-							<div class="testimonial-item">
-								<p>
-									<i class="bx bxs-quote-alt-left quote-icon-left"></i>
-									Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim
-									tempor labore quem eram duis noster aute amet eram fore quis sint minim.
-									<i class="bx bxs-quote-alt-right quote-icon-right"></i>
-								</p>
-								<img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-								<h3>Jena Karlis</h3>
-								<h4>Store Owner</h4>
-							</div>
-						</div><!-- End testimonial item -->
-
-						<div class="swiper-slide">
-							<div class="testimonial-item">
-								<p>
-									<i class="bx bxs-quote-alt-left quote-icon-left"></i>
-									Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit
-									minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
-									<i class="bx bxs-quote-alt-right quote-icon-right"></i>
-								</p>
-								<img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-								<h3>Matt Brandon</h3>
-								<h4>Freelancer</h4>
-							</div>
-						</div><!-- End testimonial item -->
-
-						<div class="swiper-slide">
-							<div class="testimonial-item">
-								<p>
-									<i class="bx bxs-quote-alt-left quote-icon-left"></i>
-									Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa
-									labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
-									<i class="bx bxs-quote-alt-right quote-icon-right"></i>
-								</p>
-								<img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
-								<h3>John Larson</h3>
-								<h4>Entrepreneur</h4>
-							</div>
-						</div><!-- End testimonial item -->
+						</div>
 
 					</div>
 					<div class="swiper-pagination"></div>
@@ -485,7 +437,7 @@
 			<div class="container" data-aos="fade-up">
 				<div class="section-title">
 					<h2>Brand</h2>
-					<p>바리바리에서 구매할 수 있는 브랜드를 소개합니다.</p>
+					<p>바리바리와 함께하는 브랜드</p>
 				</div>
 			</div>
 
@@ -560,15 +512,15 @@
 				</div>
 
 			</div>
-		</section><!-- End Gallery Section -->
+		</section>
 
-		<!-- ======= Chefs Section ======= -->
+		<!-- Chefs Section -->
 		<section id="chefs" class="chefs">
 			<div class="container" data-aos="fade-up">
 
 				<div class="section-title">
 					<h2>BARIBARI</h2>
-					<p>공지사항 & 진행중인 이벤트 바로가기</p>
+					<p>공지사항 & 진행중인 이벤트</p>
 				</div>
 
 				<div class="row">
@@ -630,12 +582,11 @@
 				</div>
 
 			</div>
-		</section><!-- End Chefs Section -->
+		</section>
 
+	</main>
 
-	</main><!-- End #main -->
-
-	<!-- ======= Footer ======= -->
+	<!-- Footer -->
 	<footer id="footer">
 		<div class="footer-top">
 			<div class="container">
@@ -662,13 +613,13 @@
 
 					<div class="col-lg-2 col-md-6 footer-links">
 						<h4>바로 가기</h4>
-						<ul>
-							<li><i class="bx bx-chevron-right"></i> <a href="#">메인</a></li>
-							<li><i class="bx bx-chevron-right"></i> <a href="#">쇼핑몰</a></li>
-							<li><i class="bx bx-chevron-right"></i> <a href="#">커뮤니티</a></li>
-							<li><i class="bx bx-chevron-right"></i> <a href="#">중고거래</a></li>
-							<li><i class="bx bx-chevron-right"></i> <a href="#">이벤트 & 공지</a></li>
-						</ul>
+			            <ul>
+			              <li><i class="bx bx-chevron-right"></i> <a href="/">메인</a></li>
+			              <li><i class="bx bx-chevron-right"></i> <a href="/shopping/list">쇼핑몰</a></li>
+			              <li><i class="bx bx-chevron-right"></i> <a href="/boardList">커뮤니티</a></li>
+			              <li><i class="bx bx-chevron-right"></i> <a href="/resale">중고거래</a></li>
+			              <li><i class="bx bx-chevron-right"></i> <a href="/noticeList">이벤트 & 공지</a></li>
+			            </ul>
 					</div>
 
 					<div class="col-lg-3 col-md-6 footer-links">
@@ -700,14 +651,10 @@
 				&copy; Copyright <strong><span>BARIBARI</span></strong>. All Rights Reserved
 			</div>
 			<div class="credits">
-				<!-- All the links in the footer should remain intact. -->
-				<!-- You can delete the links only if you purchased the pro version. -->
-				<!-- Licensing information: https://bootstrapmade.com/license/ -->
-				<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/restaurantly-restaurant-template/ -->
 				Designed by <a href="https://bootstrapmade.com/">바리바리</a>
 			</div>
 		</div>
-	</footer><!-- End Footer -->
+	</footer>
 
 	<div id="preloader"></div>
 	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
@@ -720,7 +667,6 @@
 	<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
 	<script src="assets/vendor/php-email-form/validate.js"></script>
 	<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-
 	<!-- Template Main JS File -->
 	<script src="assets/js/main.js"></script>
 </body>

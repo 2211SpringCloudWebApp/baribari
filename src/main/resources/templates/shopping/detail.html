@@ -46,8 +46,7 @@
 		<div class="container px-4 px-lg-5 my-5">
 			<div class="row gx-4 gx-lg-5 align-items-center">
 				<div class="col-md-6">
-					<img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg"
-						alt="..." />
+					<img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." />
 				</div>
 				<div class="col-md-6">
 					<!-- 상품명 -->
@@ -56,25 +55,17 @@
 					<hr>
 					<!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
 					<div class="fs-5 mb-5">
-						<span th:if="${product != null and product.productDiscount == 0}"
-							th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|"
-							id="price">상품가격</span>
-						<span th:if="${product != null and product.productDiscount != 0}"
-							th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|"
-							class="text-muted text-decoration-line-through">상품가격 취소선</span>
-						<span th:if="${product != null and product.productDiscount != 0}"
-							th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|"
-							id="price">할인된 가격</span>
+						<span th:if="${product != null and product.productDiscount == 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|"	id="price">상품가격</span>
+						<span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|"	class="text-muted text-decoration-line-through">상품가격 취소선</span>
+						<span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|" id="price">할인된 가격</span>
 					</div>
 					<!-- 상품 설명 -->
 					<p class="lead" th:text="${product.productName}">상품 설명</p>
 					<!-- 수량 선택 -->
 					<div class="d-flex justify-content-md-between">
 						<div class="d-flex">
-							<input class="form-control text-center me-3" type="number" id="quantity" value="0" min="0"
-								placeholder="수량" style="width: 5rem" />
-							<button class="btn btn-outline-dark width_4_0_rem" type="button"
-								onclick="calculatePrice()">선택</button>
+							<input class="form-control text-center me-3" type="number" id="quantity" value="0" min="0" placeholder="수량" style="width: 5rem" />
+							<button class="btn btn-outline-dark width_4_0_rem" type="button" onclick="calculatePrice()">선택</button>
 						</div>
 						<div class="d-flex">
 							<span>123,567 원</span>
@@ -85,8 +76,7 @@
 							<span>배송비</span>
 						</div>
 						<div class="d-flex">
-							<span th:text="|${#numbers.formatInteger(product.productDeliveryCharge, 0, 'COMMA')}원|"
-								id="delivery-charge"></span>
+							<span th:text="|${#numbers.formatInteger(product.productDeliveryCharge, 0, 'COMMA')}원|" id="delivery-charge"></span>
 						</div>
 					</div>
 					<hr>
@@ -102,8 +92,7 @@
 					<!-- 구매/장바구니/찜하기 버튼 -->
 					<div sec:authorize="hasRole('ROLE_USER')" class="d-flex">
 						<button class="btn btn-outline-dark" type="button">바로 구매</button>
-						<button class="btn btn-outline-dark" type="button" onclick="addToCart()"><i
-								class="fas fa-shopping-cart"></i>장바구니</button>
+						<button class="btn btn-outline-dark" type="button" onclick="addToCart()"><i	class="fas fa-shopping-cart"></i>장바구니</button>
 						<button class="btn btn-outline-dark" type="button"><i class="fas fa-heart"></i>찜하기</button>
 					</div>
 				</div>
@@ -282,13 +271,9 @@
 				<div th:each="product : ${pList}" class="col mb-6">
 					<div class="card h-100">
 						<!-- Sale 뱃지, productDiscount가 있으면 Sale 뱃지 출력 -->
-						<div th:if="${product != null and product.productDiscount != 0}"
-							class="badge bg-baribari text-black position-absolute" style="top: 0.5rem; right: 0.5rem">
-							Sale</div>
+						<div th:if="${product != null and product.productDiscount != 0}" class="badge bg-baribari text-black position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
 						<!-- 상품 사진 -->
-						<img class="card-img-top"
-							th:src="@{${product.productPic1} != null} ? @{${product.productPic1}} : @{'../../img/logo.png'}"
-							alt="제품사진" />
+						<img class="card-img-top" th:src="@{${product.productPic1} != null} ? @{${product.productPic1}} : @{'../../img/logo.png'}" alt="제품사진" />
 						<!-- 상품 내용 -->
 						<a th:href="@{'/shopping/detail?productNo=' + ${product.productNo}}">
 							<div class="card-body p-4">
@@ -296,14 +281,9 @@
 									<!-- 상품명 -->
 									<h5 class="fw-bolder" th:text="${product.productName}">상품명</h5>
 									<!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
-									<span th:if="${product != null and product.productDiscount == 0}"
-										th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|">상품가격</span>
-									<span th:if="${product != null and product.productDiscount != 0}"
-										th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|"
-										class="text-muted text-decoration-line-through">상품가격 취소선</span>
-									<span th:if="${product != null and product.productDiscount != 0}"
-										th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|">할인된
-										가격</span>
+									<span th:if="${product != null and product.productDiscount == 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|">상품가격</span>
+									<span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|" class="text-muted text-decoration-line-through">상품가격 취소선</span>
+									<span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|">할인된 가격</span>
 								</div>
 							</div>
 						</a>
@@ -450,6 +430,22 @@
 					alert("처리 실패");
 				}
 			});
+		});
+	    /* 사진 미리보기 */
+	    $("#photoInput").on("change", function() {
+			var fileList = this.files;
+			var imgPreview = $("#imgPreview");
+			imgPreview.empty();
+			for (var i = 0; i < fileList.length; i++) {
+				var file = fileList[i];
+				var reader = new FileReader();
+				reader.onload = function(event) {
+					var img = $("<img>").attr("src", event.target.result);
+					var imgPreviewItem = $("<div>").addClass("img-preview").append(img);
+					imgPreview.append(imgPreviewItem);
+				};
+				reader.readAsDataURL(file);
+			}
 		});
 		/* 후기 삭제 */
 		function deleteReview(reviewNo, userNo) {

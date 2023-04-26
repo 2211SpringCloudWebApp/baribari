@@ -41,4 +41,9 @@ public class ReviewServiceImpl implements ReviewService {
 	public Review getReview(Review review) {
 		return rRepository.getReview(session, review);
 	}
+
+	@Override
+	public List<Review> getReviewList() {
+		return rRepository.getReviewList(session);
+	}
 }

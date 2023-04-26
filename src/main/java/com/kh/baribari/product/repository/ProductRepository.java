@@ -65,4 +65,12 @@ public interface ProductRepository {
 	 * @return List<Product>
 	 */
 	public List<Product> getProductListBySales(SqlSession session);
+
+	/**
+	 * 상품 등록
+	 * @param SqlSession
+	 * @param Product
+	 * @return int
+	 */
+	public int registerProduct(SqlSession session, Product product);
 }

@@ -5,7 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -95,6 +98,24 @@ public class ProductController {
 		mv.addObject("customer", customer);
 		mv.addObject("reviewCount", reviewCount);
 		mv.setViewName("shopping/detail");
+		return mv;
+	}
+
+	// 상품 등록 페이지 뷰
+	@GetMapping("/register")
+	public String registerProduct(Model model) {
+		return "shopping/register";
+	}
+
+	// 상품 등록
+	@PostMapping("/registerProduct")
+	public ModelAndView registerProduct(ModelAndView mv, @ModelAttribute Product product) {
+		int result = pService.registerProduct(product);
+		if (result > 0) {
+			mv.setViewName("shopping/list");
+		} else {
+			mv.addObject("msg", "오류").setViewName("error");
+		}
 		return mv;
 	}
 }

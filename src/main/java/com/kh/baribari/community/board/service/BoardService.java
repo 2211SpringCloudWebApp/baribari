@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.community.domain.Community;
+import com.kh.baribari.community.domain.CommunityPIC;
 import com.kh.baribari.community.domain.HashTag;
 
 public interface BoardService {
@@ -60,5 +61,12 @@ public interface BoardService {
 	 * @return
 	 */
 	public int deleteHashTag(HashTag hTag);
+
+	/**
+	 * 사진등록
+	 * @param pic
+	 * @return
+	 */
+	public int registerPhoto(CommunityPIC pic);
 
 }

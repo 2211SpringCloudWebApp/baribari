@@ -10,6 +10,7 @@ import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.community.board.repository.BoardRepository;
 import com.kh.baribari.community.board.service.BoardService;
 import com.kh.baribari.community.domain.Community;
+import com.kh.baribari.community.domain.CommunityPIC;
 import com.kh.baribari.community.domain.HashTag;
 
 @Service
@@ -59,5 +60,10 @@ public class BoardServiceLogic implements BoardService {
 	@Override
 	public int deleteHashTag(HashTag hTag) {
 		return brepository.deleteHashTag(session, hTag);
+	}
+
+	@Override
+	public int registerPhoto(CommunityPIC pic) {
+		return brepository.registerPhoto(session, pic);
 	}
 }

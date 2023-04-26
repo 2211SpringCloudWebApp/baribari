@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.community.board.repository.BoardRepository;
 import com.kh.baribari.community.domain.Community;
+import com.kh.baribari.community.domain.CommunityPIC;
 import com.kh.baribari.community.domain.HashTag;
 
 @Repository
@@ -53,6 +54,12 @@ public class BoardRepositoryLogic implements BoardRepository {
 	@Override
 	public int deleteHashTag(SqlSession session, HashTag hTag) {
 		return session.delete("CommunityMapper.deleteHashTag",hTag);
+	}
+
+	@Override
+	public int registerPhoto(SqlSession session, CommunityPIC pic) {
+		System.out.println(pic);
+		return session.insert("CommunityMapper.registerPhoto",pic);
 	}
 
 }

@@ -68,7 +68,7 @@ body {
 /*사진 보여주는 부분*/
 #registerdiv3 {
 	width: 900px;
-	height: 300px;
+	height: 0px;
 	margin: auto;
 	margin-left: 50px;
 	margin-right: 50px;
@@ -125,7 +125,7 @@ body {
 	height: 80%;
 }
 /*장소검색 오픈 버튼 부분*/
-#mapOpenDiv{
+#mapOpenDiv {
 	width: 900px;
 	height: 50px;
 	margin: auto;
@@ -138,13 +138,13 @@ body {
 	height: 100%;
 }
 
-#mapRechoiceDiv{
+#mapRechoiceDiv {
 	width: 900px;
 	height: 50px;
 	margin: auto;
 	margin-left: 50px;
 	margin-right: 50px;
-	display : none;
+	display: none;
 }
 
 #mapRechoicebtn {
@@ -171,13 +171,15 @@ body {
 	width: 140px;
 	height: 50px;
 }
+
 #mapChoicebtn {
 	display: none;
 	width: 900px;
 	height: 50px;
 }
+
 #list_ul {
-	color : black;
+	color: black;
 }
 
 #registerdiv6-1 {
@@ -200,17 +202,9 @@ body {
 	height: 90px;
 	margin-left: 50px;
 	margin-right: 50px;
+	border: 1px dotted rgb(218, 214, 214);
 }
 
-#registerdiv7 div {
-	width: 87px;
-	height: 90px;
-	border: 1px solid black;
-}
-
-.photo {
-	float: left;
-}
 /*사진 버튼*/
 #registerdiv8 {
 	width: 900px;

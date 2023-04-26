@@ -7,7 +7,6 @@ import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
 
 public interface ProductService {
-	
 	/**
 	 * 상품 갯수 가져오기
 	 * @param String
@@ -51,5 +50,18 @@ public interface ProductService {
 	 * #return int
 	 */
 	public List<Product> getProductList(PageInfo pi, Search search);
+
+	/**
+	 * 인기 상품 목록 가져오기
+	 * @return List<Product>
+	 */
+	public List<Product> getProductListBySales();
+
+	/**
+	 * 상품 등록
+	 * @param Product
+	 * @return int
+	 */
+	public int registerProduct(Product product);
 
 }

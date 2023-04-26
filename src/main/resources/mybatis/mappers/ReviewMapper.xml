@@ -57,4 +57,12 @@
 	<select id="getReview" parameterType="Review" resultType="Review">
 		SELECT * FROM REVIEW_TBL LEFT JOIN REVIEW_PIC_TBL USING (REVIEW_NO) WHERE REVIEW_NO = #{reviewNo}
 	</select>
+	
+	<!-- 모든 후기 목록 (첨부 사진 및 사용자 정보 포함) -->
+	<select id="getAllReviewList" parameterType="_int" resultMap="reviewResultMap">
+	    SELECT * FROM REVIEW_TBL
+	    LEFT JOIN REVIEW_PIC_TBL USING (REVIEW_NO)
+	    LEFT JOIN USER_TBL USING (USER_NO)
+	    ORDER BY REVIEW_NO DESC
+	</select>
 </mapper>

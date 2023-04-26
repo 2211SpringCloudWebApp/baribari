@@ -41,4 +41,3 @@ public class Cart {
         this.product.setProductDeliveryCharge(productDeliveryCharge);
     }
 }
-

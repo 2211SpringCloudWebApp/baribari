@@ -1,3 +1,5 @@
+<!-- 공용 해더 -->
+
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
@@ -39,6 +41,11 @@
   <script src="../../lib/lightbox/js/lightbox.min.js"></script>
   <script src="../../lib/typed/typed.min.js"></script>
 
+<!--  tagify-->
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+
   <!-- Template Main Javascript File -->
   <script src="../../js/community/community.js" defer></script>
   <style>
@@ -48,6 +55,83 @@
     }
   </style>
 </head>
+
+<!-- 민준 맞춤 해더 -->
+
+
+<head th:fragment="head-min">
+  <meta charset="utf-8">
+  <title>바리바리 커뮤니티</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+  <link href="../../css/community/board/list.css" rel="stylesheet">
+  <!-- Favicons -->
+  <link href="../../img/바리바리로고_낮_컬러.png" rel="icon">
+  <link href="../../img/community/apple-touch-icon.png" rel="apple-touch-icon">
+
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="styles">
+
+<!--   Bootstrap CSS File -->
+
+  <link href="../../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="../../lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="../../lib/animate/animate.css" rel="stylesheet">
+  <link href="../../lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="../../lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="../../css/community/community.css" rel="stylesheet">
+
+
+  <!-- JavaScript Libraries -->
+  <script src="../../lib/jquery/jquery.min.js"></script>
+  <script src="../../lib/jquery/jquery-migrate.min.js"></script>
+  <script src="../../lib/popper/popper.min.js"></script>
+  <script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../../lib/easing/easing.min.js"></script>
+  <script src="../../lib/counterup/jquery.waypoints.min.js"></script>
+  <script src="../../lib/counterup/jquery.counterup.js"></script>
+  <script src="../../lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="../../lib/lightbox/js/lightbox.min.js"></script>
+  <script src="../../lib/typed/typed.min.js"></script>
+
+  <!--  tagify-->
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+
+  <!-- Template Main Javascript File -->
+  <script src="../../js/community/community.js" defer></script>
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+  <style>
+    #home{
+      background-image: url("../../img/camping/night-ged7e95dc0_1920.jpg");
+
+    }
+  </style>
+</head>
+
+
+
+
+
+
+
+
+
 <nav class="navbar navbar-b navbar-trans navbar-expand-md fixed-top" id="mainNav">
   <div class="container">
     <a class="navbar-brand js-scroll" href="#page-top">
@@ -82,7 +166,10 @@
       </ul>
     </div>
   </div>
-</nav> 
+</nav>
+
+
+
 
 <footer>
   <div class="container">

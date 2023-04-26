@@ -12,6 +12,7 @@
 		<result	property="productSales" column="PRODUCT_SALES"/>
 		<result	property="productHashTag" column="PRODUCT_HASHTAG"/>
 		<result	property="productDiscount" column="PRODUCT_DISCOUNT"/>
+		<result	property="productDeliveryCharge" column="PRODUCT_DELIVERY_CHARGE"/>
 		<result	property="sellerUserNo" column="SELLER_USER_NO"/>
 		<result	property="productPic1" column="PRODUCT_PIC_1"/>
 		<result	property="productPic2" column="PRODUCT_PIC_2"/>
@@ -50,7 +51,7 @@
     	SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE PRODUCT_NO = #{productNo}
     </select>
     
-    <!-- 상품 분류에 따른 추천 상품 목록 -->
+    <!-- 상품 분류에 따른 추천 상품 목록: 1순위 - 같은 카테고리, 2순위 - 판매량 -->
     <select id="getProductRecommendList" parameterType="string" resultMap="productResultMap">
   		SELECT * FROM (
   			SELECT * FROM PRODUCT_TBL WHERE PRODUCT_CATEGORY = #{productCategory}
@@ -66,9 +67,23 @@
 		SELECT COUNT(*) FROM PRODUCT_TBL WHERE PRODUCT_NAME LIKE '%' || #{keyword} || '%' OR PRODUCT_CATEGORY LIKE '%' || #{keyword} || '%' ORDER BY PRODUCT_NO DESC
     </select>
     
-    	<!-- 상품 목록 -->
+   	<!-- 상품 목록 -->
     <select id="getProductListByKeyword" parameterType="Search" resultMap="productResultMap">
         SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE PRODUCT_NAME LIKE '%' || #{keyword} || '%' OR PRODUCT_CATEGORY LIKE '%' || #{keyword} || '%' ORDER BY PRODUCT_NO DESC
     </select>
+    
+    <!-- 판매량이 높은 상품 목록 (메인 게시용, 12개까지) -->
+    <select id="getProductListBySales" resultMap="productResultMap">
+    	SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE ROWNUM &lt;= 20 ORDER BY PRODUCT_SALES
+    </select>
+    
+    <!-- 상품 등록 -->
+    <insert id="insertProduct" parameterType="Product">
+    	INSERT INTO PRODUCT_TBL VALUES (SEQ_PRODUCT_NO, #{productName}, #{productPrice}, #{productContent}, DEFAULTE, DEFAULT, #{productHashTag}, #{productDiscount}, #{SellerUserNo}, #{productCategory}, #{productBrand}, #{productDeliveryCharge})
+    </insert>
+    <!-- 상품 사진 등록 --> 
+    <insert id="insertProductPic" parameterType="Product">
+    	INSERT INTO PRODUCT_PIC_TBL VALUES (#{productNo}, #{productPic1}, #{productPic2}, #{productPic3}, #{productPic4})
+    </insert>
     
 </mapper>

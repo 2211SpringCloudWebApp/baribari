@@ -1,8 +1,8 @@
-package com.kh.baribari.product.service;
+package com.kh.baribari.review.service;
 
 import java.util.List;
 
-import com.kh.baribari.product.domain.Review;
+import com.kh.baribari.review.domain.Review;
 
 public interface ReviewService {
 	/**
@@ -39,4 +39,10 @@ public interface ReviewService {
 	 * @return Review
 	 */
 	public Review getReview(Review review);
+	
+	/**
+	 * 모든 후기 목록
+	 * @return List<Review>
+	 */
+	public List<Review> getReviewList();
 }

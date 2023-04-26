@@ -1,4 +1,4 @@
-package com.kh.baribari.product.service.logic;
+package com.kh.baribari.review.service.logic;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.baribari.product.domain.Review;
-import com.kh.baribari.product.repository.ReviewRepository;
-import com.kh.baribari.product.service.ReviewService;
+import com.kh.baribari.review.domain.Review;
+import com.kh.baribari.review.repository.ReviewRepository;
+import com.kh.baribari.review.service.ReviewService;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
@@ -40,5 +40,10 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public Review getReview(Review review) {
 		return rRepository.getReview(session, review);
+	}
+
+	@Override
+	public List<Review> getReviewList() {
+		return rRepository.getReviewList(session);
 	}
 }

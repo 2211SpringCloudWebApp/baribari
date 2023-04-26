@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.community.domain.Community;
+import com.kh.baribari.community.domain.CommunityPIC;
 import com.kh.baribari.community.domain.HashTag;
 
 public interface BoardRepository {
@@ -68,5 +69,13 @@ public interface BoardRepository {
 	 * @return
 	 */
 	public int deleteHashTag(SqlSession session, HashTag hTag);
+
+	/**
+	 * 사진등록
+	 * @param session
+	 * @param pic
+	 * @return
+	 */
+	public int registerPhoto(SqlSession session, CommunityPIC pic);
 
 }

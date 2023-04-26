@@ -1007,10 +1007,10 @@ section {
   color: #FFBF1F;
 }
 
-.menu .menu-ingredients {
+.menu .menu-description {
   margin-left: 85px;
   font-style: italic;
-  font-size: 14px;
+  font-size: 0.8em;
   font-family: 'IBM Plex Sans KR', sans-serif;
   color: rgba(255, 255, 255, 0.5);
 }

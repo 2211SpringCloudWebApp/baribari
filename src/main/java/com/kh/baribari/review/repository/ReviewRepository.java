@@ -1,10 +1,10 @@
-package com.kh.baribari.product.repository;
+package com.kh.baribari.review.repository;
 
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.kh.baribari.product.domain.Review;
+import com.kh.baribari.review.domain.Review;
 
 public interface ReviewRepository {
 	

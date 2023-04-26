@@ -39,14 +39,30 @@
 
 <body>
 	<!-- Header -->
-	<header th:replace="header :: header"></header>
+	<!-- <header th:replace="header :: header"></header> -->
 	
 	<section>
-	상품등록
+	<form action="/shopping/registerProduct" method="post" enctype="multipart/form-data">
+		상품분류: <input name="productCategory"><br>
+		브랜드: <input name="productBrand"><br>
+		상품명: <input name="productName"><br>
+		상품가격: <input name="productPrice"><br>
+		할인율: <input name="productDiscount">%<br>
+		배송비: <input name="productDeliveryCharge"><br>
+		해시태그: <input name="productHashTag"><br>
+		상품내용: <textarea name="productContent"></textarea>
+		판매자: <input name="sellerUserNo" value="44">
+		사진등록: <input type="file" id="photoInput" accept="image/*" name="fileList" multiple>
+		<button>등록</button> 
+	</form>
 	</section>
 	
 	<!-- Footer -->
 	<footer th:replace="footer :: footer"></footer>
+	
+	<script>
+		
+	</script>
 </body>
 
 </html>

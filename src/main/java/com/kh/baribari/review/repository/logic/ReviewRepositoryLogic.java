@@ -1,4 +1,4 @@
-package com.kh.baribari.product.repository.logic;
+package com.kh.baribari.review.repository.logic;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kh.baribari.product.domain.Review;
-import com.kh.baribari.product.repository.ReviewRepository;
+import com.kh.baribari.review.domain.Review;
+import com.kh.baribari.review.repository.ReviewRepository;
 
 @Repository
 public class ReviewRepositoryLogic implements ReviewRepository {

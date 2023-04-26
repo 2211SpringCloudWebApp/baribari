@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,7 +22,6 @@ import com.kh.baribari.community.board.service.BoardService;
 import com.kh.baribari.community.domain.Community;
 import com.kh.baribari.community.domain.CommunityPIC;
 import com.kh.baribari.community.domain.HashTag;
-import org.springframework.ui.Model;
 
 @Controller
 public class BoardController {

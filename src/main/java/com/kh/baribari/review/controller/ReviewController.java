@@ -1,4 +1,4 @@
-package com.kh.baribari.product.controller;
+package com.kh.baribari.review.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.kh.baribari.common.FileUpload;
-import com.kh.baribari.product.domain.Review;
-import com.kh.baribari.product.service.ReviewService;
+import com.kh.baribari.review.domain.Review;
+import com.kh.baribari.review.service.ReviewService;
 
 @Controller
 @RequestMapping("review")
@@ -37,7 +37,8 @@ public class ReviewController {
 	public String registerReview(
 			@RequestParam(value = "fileList", required = false) List<MultipartFile> fList
 			, @ModelAttribute Review review
-			, HttpServletRequest request) throws Exception {
+			, HttpServletRequest request
+			) throws Exception {
 		Map<String, String> fMap = new HashMap<String, String>();
     	// 파일 경로
         String path = "shopping/review";

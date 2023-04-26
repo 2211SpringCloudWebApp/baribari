@@ -50,4 +50,9 @@ public class ProductServiceImpl implements ProductService {
 		return pRepository.getProductList(session, pi, search);
 	}
 
+	@Override
+	public List<Product> getProductListBySales() {
+		return pRepository.getProductListBySales(session);
+	}
+
 }

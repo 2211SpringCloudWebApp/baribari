@@ -58,4 +58,11 @@ public interface ProductRepository {
 	 * @return List<Product>
 	 */
 	public List<Product> getProductList(SqlSession session, PageInfo pi, Search search);
+
+	/**
+	 * 인기 상품 목록 가져오기
+	 * @param SqlSession
+	 * @return List<Product>
+	 */
+	public List<Product> getProductListBySales(SqlSession session);
 }

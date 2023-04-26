@@ -44,4 +44,9 @@ public class ProductRepositoryLogic implements ProductRepository {
 		RowBounds rowBounds = new RowBounds(pi.getOffset(), pi.getBoardLimit());
 		return session.selectList("ProductMapper.getProductListByKeyword", search, rowBounds);
 	}
+
+	@Override
+	public List<Product> getProductListBySales(SqlSession session) {
+		return session.selectList("ProductMapper.getProductListBySales");
+	}
 }

@@ -21,7 +21,6 @@ import com.kh.baribari.user.service.UserService;
 @Controller
 @RequestMapping("shopping")
 public class ProductController {
-	
 	@Autowired
 	private ProductService pService;
 	@Autowired
@@ -31,22 +30,20 @@ public class ProductController {
 	@Autowired
 	@Qualifier("fileUpload")
 	private FileUpload fileUpload;
-	
+
 	// 상품 목록 및 갯수 출력
 	@GetMapping("/list")
-	public ModelAndView getProductList(
-			ModelAndView mv
-			, @RequestParam(value = "category", required = false, defaultValue = "All") String productCategory
-			, @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage
-			) {
+	public ModelAndView getProductList(ModelAndView mv,
+			@RequestParam(value = "category", required = false, defaultValue = "All") String productCategory,
+			@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage) {
 		// 상품 총 갯수
 		int pCount = pService.getProductCount(productCategory);
 		// PageInfo 매개변수: 현재페이지 (RequestParam), 전체 게시글 수 (mapper), 페이지 당 게시글 수
-		PageInfo pi = new PageInfo(currentPage, pCount, 20); 
+		PageInfo pi = new PageInfo(currentPage, pCount, 20);
 		// 상품 목록
 		List<Product> pList = pService.getProductList(productCategory, pi);
-		
-		if(pList != null) {
+
+		if (pList != null) {
 			mv.addObject("pList", pList);
 			mv.addObject("pCount", pCount);
 			mv.addObject("pi", pi);
@@ -60,18 +57,16 @@ public class ProductController {
 
 	// 헤더에서 검색한 상품 목록
 	@GetMapping("/search")
-	public ModelAndView getProductSearchList(ModelAndView mv
-			, Search search
-			, @RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage
-			) {
+	public ModelAndView getProductSearchList(ModelAndView mv, Search search,
+			@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage) {
 		// 상품 총 갯수
 		int pCount = pService.getProductCountByKeyword(search);
 		// PageInfo 매개변수: 현재페이지 (RequestParam), 전체 게시글 수 (mapper), 페이지 당 게시글 수
-		PageInfo pi = new PageInfo(currentPage, pCount, 20); 
+		PageInfo pi = new PageInfo(currentPage, pCount, 20);
 		// 상품 목록
 		List<Product> pList = pService.getProductList(pi, search);
-		
-		if(pList != null) {
+
+		if (pList != null) {
 			mv.addObject("pList", pList);
 			mv.addObject("pCount", pCount);
 			mv.addObject("pi", pi);
@@ -82,7 +77,7 @@ public class ProductController {
 			return mv;
 		}
 	}
-	
+
 	// 상품 상세 페이지 (상품 정보, 추천 상품 목록)
 	@GetMapping("/detail")
 	public ModelAndView getProductDetail(ModelAndView mv, int productNo) {
@@ -102,5 +97,4 @@ public class ProductController {
 		mv.setViewName("shopping/detail");
 		return mv;
 	}
-	
 }

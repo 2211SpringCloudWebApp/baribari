@@ -50,7 +50,7 @@
     	SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE PRODUCT_NO = #{productNo}
     </select>
     
-    <!-- 상품 분류에 따른 추천 상품 목록 -->
+    <!-- 상품 분류에 따른 추천 상품 목록: 1순위 - 같은 카테고리, 2순위 - 판매량 -->
     <select id="getProductRecommendList" parameterType="string" resultMap="productResultMap">
   		SELECT * FROM (
   			SELECT * FROM PRODUCT_TBL WHERE PRODUCT_CATEGORY = #{productCategory}
@@ -66,9 +66,14 @@
 		SELECT COUNT(*) FROM PRODUCT_TBL WHERE PRODUCT_NAME LIKE '%' || #{keyword} || '%' OR PRODUCT_CATEGORY LIKE '%' || #{keyword} || '%' ORDER BY PRODUCT_NO DESC
     </select>
     
-    	<!-- 상품 목록 -->
+   	<!-- 상품 목록 -->
     <select id="getProductListByKeyword" parameterType="Search" resultMap="productResultMap">
         SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE PRODUCT_NAME LIKE '%' || #{keyword} || '%' OR PRODUCT_CATEGORY LIKE '%' || #{keyword} || '%' ORDER BY PRODUCT_NO DESC
+    </select>
+    
+    <!-- 판매량이 높은 상품 목록 (메인 게시용, 12개까지) -->
+    <select id="getProductListBySales" resultMap="productResultMap">
+    	SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE ROWNUM &lt;= 12 ORDER BY PRODUCT_SALES
     </select>
     
 </mapper>

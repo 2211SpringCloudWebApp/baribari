@@ -1,206 +1,225 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>BARIBARI</title>
-    <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-    <!-- Fontawesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-    <!-- Bootstrap icons-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="../../css/shopping/style.css" rel="stylesheet" />
-    <!-- IBM Plex Sans KR font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	
+	<title>BARIBARI</title>
+	
+	<!-- JQuery JS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<!-- Fancybox JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+	
+	<!-- Favicon-->
+	<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+	<!-- Fontawesome -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+	<!-- Bootstrap icons-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+	<!-- Core theme CSS (includes Bootstrap)-->
+	<link href="../../css/shopping/style.css" rel="stylesheet" />
+	<!-- IBM Plex Sans KR font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Template Main CSS File -->
-    <link href="../../assets/css/style.css" rel="stylesheet">
-    <link href="../../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-    <link href="../../assets/vendor/aos/aos.css" rel="stylesheet">
-    <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="../../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="../../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="../../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-    <!-- JQuery JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    
-    <link href="../../css/shopping/shopping.css" rel="stylesheet" />
+	<!-- Template Main CSS File -->
+	<link href="../../assets/css/style.css" rel="stylesheet">
+	<!-- Fancybox -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+	<link href="../../css/shopping/shopping.css" rel="stylesheet" />
+	<link href="../../css/shopping/board.css" rel="stylesheet" />
 </head>
+
 <body>
-<!-- Header -->
-<header th:replace="header :: header"></header>
+    <!-- Header -->
+    <header th:replace="header :: header"></header>
 
-<section style="margin-top: 110px;">
-    <!-- 상단 이미지 -->
-    <div class="bg-dark py-5">
-        <div class="container px-4 px-lg-5 my-5">
-			<div class="text-center text-white">
-			    쇼핑몰 메인사진이 들어가는 위치
-			</div>
+    <section style="margin-top: 110px;">
+        <!-- 상단 이미지 -->
+        <div class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    쇼핑몰 메인사진이 들어가는 위치
+                </div>
+            </div>
         </div>
-    </div>
 
-	<input sec:authorize="!isAuthenticated()" value="0" type="hidden" name="userNo">
-	<input sec:authorize="isAuthenticated()" th:value="${#authentication.principal.user.userNo}" type="hidden" name="userNo">
-	
-    <!-- 상품 분류 -->
-    <form action="/shopping/list" method="get">
-        <div class="category-btn-container px-4 px-lg-5 my-5">
-        	<!-- 1열 -->
-            <button class="category-btn" name="category" value="텐트">텐트</button>
-            <button class="category-btn" name="category" value="타프">타프</button>
-            <button class="category-btn" name="category" value="침낭">침낭</button>
-            <button class="category-btn" name="category" value="매트">매트</button>
-            <button class="category-btn" name="category" value="테이블">테이블</button>
-            <!-- 2열 -->
-            <button class="category-btn" name="category" value="체어">체어</button>
-            <button class="category-btn" name="category" value="랜턴">랜턴</button>
-            <button class="category-btn" name="category" value="스토브">스토브</button>
-            <button class="category-btn" name="category" value="쿠커">쿠커</button>
-            <button class="category-btn" name="category" value="기타">기타</button>
-        </div>
-    </form>
-        
-	<!-- 상품 목록 -->
-    <div class="container px-4 px-lg-5 mt-5">
-        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-4 row-cols-xl-5 justify-content-center">
-        	<!-- 상품이 없을 경우 -->
-            <div th:if="${pCount == 0}" class="col full-width text-center"><h1>상품을 찾을 수 없습니다.</h1></div>
-            <!-- 상품이 있을 경우 -->
-            <div th:each="product : ${pList}" class="col mt-5">
-            	<!-- 상품 카드 -->
-                <div class="card h-100">
-                    <!-- Sale 뱃지, productDiscount가 있으면 Sale 뱃지 출력 -->
-                    <div th:if="${product != null and product.productDiscount != 0}" class="badge bg-baribari text-black position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
-                    <!-- 상품 사진 -->
-                    <img th:src="@{${product.productPic1} != null} ? @{${product.productPic1}} : @{'../../img/logo.png'}" class="card-img-top" alt="제품사진" />
-                    <!-- 상품 내용 -->
-                    <a th:href="@{'/shopping/detail?productNo=' + ${product.productNo}}">
-                        <div class="card-body p-4">
+        <input sec:authorize="!isAuthenticated()" value="0" type="hidden" name="userNo">
+        <input sec:authorize="isAuthenticated()" th:value="${#authentication.principal.user.userNo}" type="hidden"
+            name="userNo">
+
+        <!-- 상품 분류 -->
+        <form action="/shopping/list" method="get">
+            <div class="category-btn-container px-4 px-lg-5 my-5">
+                <!-- 1열 -->
+                <button class="category-btn" name="category" value="텐트">텐트</button>
+                <button class="category-btn" name="category" value="타프">타프</button>
+                <button class="category-btn" name="category" value="침낭">침낭</button>
+                <button class="category-btn" name="category" value="매트">매트</button>
+                <button class="category-btn" name="category" value="테이블">테이블</button>
+                <!-- 2열 -->
+                <button class="category-btn" name="category" value="체어">체어</button>
+                <button class="category-btn" name="category" value="랜턴">랜턴</button>
+                <button class="category-btn" name="category" value="스토브">스토브</button>
+                <button class="category-btn" name="category" value="쿠커">쿠커</button>
+                <button class="category-btn" name="category" value="기타">기타</button>
+            </div>
+        </form>
+
+        <!-- 상품 목록 -->
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-4 row-cols-xl-5 justify-content-center">
+                <!-- 상품이 없을 경우 -->
+                <div th:if="${pCount == 0}" class="col full-width text-center">
+                    <h1>상품을 찾을 수 없습니다.</h1>
+                </div>
+                <!-- 상품이 있을 경우 -->
+                <div th:each="product : ${pList}" class="col mt-5">
+                    <!-- 상품 카드 -->
+                    <div class="card h-100">
+                        <!-- Sale 뱃지, productDiscount가 있으면 Sale 뱃지 출력 -->
+                        <div th:if="${product != null and product.productDiscount != 0}"
+                            class="badge bg-baribari text-black position-absolute" style="top: 0.5rem; right: 0.5rem">
+                            Sale</div>
+                        <!-- 상품 사진 -->
+                        <img th:src="@{${product.productPic1} != null} ? @{${product.productPic1}} : @{'../../img/logo.png'}"
+                            class="card-img-top" alt="제품사진" />
+                        <!-- 상품 내용 -->
+                        <a th:href="@{'/shopping/detail?productNo=' + ${product.productNo}}">
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- 상품명 -->
+                                    <h5 class="fw-bolder" th:text="${product.productName}">상품명</h5>
+                                    <!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
+                                    <span th:if="${product != null and product.productDiscount == 0}"
+                                        th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|">상품가격</span>
+                                    <span th:if="${product != null and product.productDiscount != 0}"
+                                        th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|"
+                                        class="text-muted text-decoration-line-through">상품가격 취소선</span>
+                                    <span th:if="${product != null and product.productDiscount != 0}"
+                                        th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|">할인된
+                                        가격</span>
+                                </div>
+                            </div>
+                        </a>
+                        <!-- 찜하기/장바구니 버튼 -->
+                        <div sec:authorize="hasRole('ROLE_USER')"
+                            class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <div class="text-center">
-                                <!-- 상품명 -->
-                                <h5 class="fw-bolder" th:text="${product.productName}">상품명</h5>
-                                <!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
-                                <span th:if="${product != null and product.productDiscount == 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|">상품가격</span>
-                                <span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|" class="text-muted text-decoration-line-through">상품가격 취소선</span>
-                                <span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|">할인된 가격</span>
+                                <a class="btn btn-outline-dark mt-auto" href="#">
+                                    <i class="fas fa-heart"></i>
+                                </a>
+                                <a class="btn btn-outline-dark mt-auto" href="#">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </a>
                             </div>
                         </div>
-                    </a>
-                    <!-- 찜하기/장바구니 버튼 -->
-                    <div  sec:authorize="hasRole('ROLE_USER')" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center">
-                        	<a class="btn btn-outline-dark mt-auto" href="#">
-                        		<i class="fas fa-heart"></i>
-                        	</a>
-                       		<a class="btn btn-outline-dark mt-auto" href="#">
-                       			<i class="fas fa-shopping-cart"></i>
-                       		</a>
-                       	</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<!-- 페이징 네비게이션 -->
-	<div class="container px-4 px-lg-5 mt-5">
-       <nav class="col md-12">
-           <ul th:if="${pi.totalCount > 0}" class="pagination" >
-               <!-- 첫 페이지 버튼 -->
-               <li th:if="${pi.currentPage > 1}" class="page-item">
-                   <a th:href="@{/shopping/search?(page=1, keyword=${keyword})}" class="page-link">
-                   	<i class="fas fa-angle-double-left"></i>
-                   </a>
-               </li>
-               <!-- 이전 페이지 버튼 -->
-               <li th:if="${pi.currentPage > 1}" class="page-item">
-                   <a th:href="@{/shopping/search?(page=${pi.currentPage} - 1, keyword=${keyword})}" class="page-link">
-                   	<i class="fas fa-angle-left"></i>
-                   </a>
-               </li>
-               <!-- 페이지 번호 버튼 -->
-               <li th:each="page : ${#numbers.sequence(pi.startNav, pi.endNav)}" th:class="${page == pi.currentPage} ? 'active' : ''">
-                   <a th:href="@{/shopping/search(page=${page}, keyword=${keyword})}" th:text="${page}" class="page-link"></a>
-               </li>
-               <!-- 다음 페이지 버튼 -->
-               <li th:if="${pi.currentPage < pi.navTotalCount}" class="page-item">
-                   <a th:href="@{/shopping/search?(page=${pi.currentPage} + 1, keyword=${keyword})}" class="page-link">
-                   	<i class="fas fa-angle-right"></i>
-                   </a>
-               </li>
-               <!-- 마지막 페이지 버튼 -->
-               <li th:if="${pi.currentPage < pi.navTotalCount}" class="page-item">
-                   <a th:href="@{/shopping/search?(page=${pi.navTotalCount}, keyword=${keyword})}" class="page-link">
-                   	<i class="fas fa-angle-double-right"></i>
-                   </a>
-               </li>
-           </ul>
-       </nav>
-   </div>
-    
-</section>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<script>
-	var userNo = document.querySelector('input[name="userNo"]').value;
-	
-	/* 찜하기 */
-	$(document).ready(function() {
-		$('body').on('click', '.fa-heart', function(event) {
-			event.preventDefault();
-			var productNo = $(this).closest('.card').find('a').attr('href').split("=")[1];
-			$.ajax({
-				url: "/shopping/scrap/add",
-				data: {
-					"productNo": productNo,
-					"userNo": userNo
-				},
-				type: "POST",
-				success: function(result) {
-					 if (result == "1") {
-					      alert("찜하기 완료");
-					    } else {
-					      alert("찜하기 실패");
-					      console.log(result);
-					    }
-				},
-				error: function() {
-					alert("실패");
-				}
-			});
-		});
-	});
-	
-	/* 장바구니에 추가 */
-	$(document).ready(function() {
-		$('body').on('click', '.fa-shopping-cart', function(event) {
-			event.preventDefault();
-			var productNo = $(this).closest('.card').find('a').attr('href').split("=")[1];
-			confirm('해당 상품을 장바구니에 추가하시겠습니까?');
-			$.post("/cart/add", {
-		        userNo: userNo,
-		        productNo: productNo,
-		        productQuantity: 1
-		    }, function(result) {
-		        if (result == "1") {
-		        	alert('장바구니에 추가되었습니다.');
-		        } else {
-		            alert('장바구니 등록 실패');
-		        }
-		    });
-		});
-	});
-</script>
+        <!-- 페이징 네비게이션 -->
+        <div class="container px-4 px-lg-5 mt-5">
+            <nav class="col md-12">
+                <ul th:if="${pi.totalCount > 0}" class="pagination">
+                    <!-- 첫 페이지 버튼 -->
+                    <li th:if="${pi.currentPage > 1}" class="page-item">
+                        <a th:href="@{/shopping/search?(page=1, keyword=${keyword})}" class="page-link">
+                            <i class="fas fa-angle-double-left"></i>
+                        </a>
+                    </li>
+                    <!-- 이전 페이지 버튼 -->
+                    <li th:if="${pi.currentPage > 1}" class="page-item">
+                        <a th:href="@{/shopping/search?(page=${pi.currentPage} - 1, keyword=${keyword})}"
+                            class="page-link">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+                    </li>
+                    <!-- 페이지 번호 버튼 -->
+                    <li th:each="page : ${#numbers.sequence(pi.startNav, pi.endNav)}"
+                        th:class="${page == pi.currentPage} ? 'active' : ''">
+                        <a th:href="@{/shopping/search(page=${page}, keyword=${keyword})}" th:text="${page}"
+                            class="page-link"></a>
+                    </li>
+                    <!-- 다음 페이지 버튼 -->
+                    <li th:if="${pi.currentPage < pi.navTotalCount}" class="page-item">
+                        <a th:href="@{/shopping/search?(page=${pi.currentPage} + 1, keyword=${keyword})}"
+                            class="page-link">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </li>
+                    <!-- 마지막 페이지 버튼 -->
+                    <li th:if="${pi.currentPage < pi.navTotalCount}" class="page-item">
+                        <a th:href="@{/shopping/search?(page=${pi.navTotalCount}, keyword=${keyword})}"
+                            class="page-link">
+                            <i class="fas fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
-<!-- Footer -->
-<footer th:replace="footer :: footer"></footer>
+    </section>
+
+    <script>
+        var userNo = document.querySelector('input[name="userNo"]').value;
+
+        /* 찜하기 */
+        $(document).ready(function () {
+            $('body').on('click', '.fa-heart', function (event) {
+                event.preventDefault();
+                var productNo = $(this).closest('.card').find('a').attr('href').split("=")[1];
+                $.ajax({
+                    url: "/shopping/scrap/add",
+                    data: {
+                        "productNo": productNo,
+                        "userNo": userNo
+                    },
+                    type: "POST",
+                    success: function (result) {
+                        if (result == "1") {
+                            alert("찜하기 완료");
+                        } else {
+                            alert("찜하기 실패");
+                            console.log(result);
+                        }
+                    },
+                    error: function () {
+                        alert("실패");
+                    }
+                });
+            });
+        });
+
+        /* 장바구니에 추가 */
+        $(document).ready(function () {
+            $('body').on('click', '.fa-shopping-cart', function (event) {
+                event.preventDefault();
+                var productNo = $(this).closest('.card').find('a').attr('href').split("=")[1];
+                confirm('해당 상품을 장바구니에 추가하시겠습니까?');
+                $.post("/cart/add", {
+                    userNo: userNo,
+                    productNo: productNo,
+                    productQuantity: 1
+                }, function (result) {
+                    if (result == "1") {
+                        alert('장바구니에 추가되었습니다.');
+                    } else {
+                        alert('장바구니 등록 실패');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer th:replace="footer :: footer"></footer>
 </body>
+
 </html>

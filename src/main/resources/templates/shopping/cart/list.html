@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
+
     <title>BARIBARI</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- JQuery JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<!-- Bootstrap JS -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Fontawesome -->
@@ -21,16 +27,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
-    <!-- JQuery JS -->
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-	<!-- Bootstrap JS -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <!-- Template Main CSS File -->
     <link href="../../../assets/css/style.css" rel="stylesheet">
 	
     <link href="../../../css/shopping/cart.css" rel="stylesheet" />
-        
-    
 </head>
 <body>
 <!-- Header -->
@@ -140,11 +140,10 @@
 		  document.getElementById('product-discount').textContent = numberWithCommas(discountPrice);
 		  document.getElementById('total-price-by-product').textContent = numberWithCommas(totalPrice);
 	}
-
+	// 자릿수 콤마
 	function numberWithCommas(number) {
 		return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
-	
 	// 전체 가격 출력
 	const totalPriceByProductTags = document.querySelectorAll('#total-price-by-product');
 	let totalPrice = 0;
@@ -155,7 +154,6 @@
 	const totalPriceTag = document.querySelector('#total-price');
 	totalPriceTag.textContent = totalPrice.toLocaleString() + ' 원';
 
-	
 	/* 상품을 장바구니에서 제거 */
 	function removeFromCart(productNo) {
 		var confirmed = confirm("정말로 삭제하시겠습니까?");

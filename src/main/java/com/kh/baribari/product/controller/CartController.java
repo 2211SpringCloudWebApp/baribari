@@ -34,8 +34,8 @@ public class CartController {
 		if (result > 0) {
 			return "1";
 		} else {
-		    return "0";
-	    }
+			return "0";
+		}
 	}
 
 	// 장바구니 목록
@@ -44,38 +44,38 @@ public class CartController {
 		// 사용자 정보
 		User user = returnUser(authentication);
 		// 장바구니 목록
-	    List<Cart> cList = cService.getCartList(user.getUserNo());
-	    // 장바구니의 각 상품에 대한 정보 
-	    for(Cart cart : cList) {
-	        int productNo = cart.getProductNo();
-	        Product product = pService.getProductDetail(productNo);
-	        cart.setProduct(product);
-	    }
-	    
-	    mv.addObject("user", user);
-	    mv.addObject("pList", cList);
-	    mv.setViewName("shopping/cart/list");
-	    return mv;
+		List<Cart> cList = cService.getCartList(user.getUserNo());
+		// 장바구니의 각 상품에 대한 정보
+		for (Cart cart : cList) {
+			int productNo = cart.getProductNo();
+			Product product = pService.getProductDetail(productNo);
+			cart.setProduct(product);
+		}
+
+		mv.addObject("user", user);
+		mv.addObject("pList", cList);
+		mv.setViewName("shopping/cart/list");
+		return mv;
 	}
-	
+
 	// 장바구니에서 상품 제거
 	@PostMapping("/cart/remove")
 	@ResponseBody
 	public String removeFromCart(Integer userNo, Integer productNo) {
-	    Cart cart = new Cart();
-	    cart.setUserNo(userNo);
-	    cart.setProductNo(productNo);
-	    int result = cService.removeFromCart(cart);
-	    if (result > 0) {
+		Cart cart = new Cart();
+		cart.setUserNo(userNo);
+		cart.setProductNo(productNo);
+		int result = cService.removeFromCart(cart);
+		if (result > 0) {
 			return "1";
 		} else {
-		    return "0";
-	    }
+			return "0";
+		}
 	}
-	
-    // 세션에서 사용자 불러오기
-    private User returnUser(Authentication authentication){
-        PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
-        return userDetails.getUser();
-    }
+
+	// 세션에서 사용자 불러오기
+	private User returnUser(Authentication authentication) {
+		PrincipalDetails userDetails = (PrincipalDetails) authentication.getPrincipal();
+		return userDetails.getUser();
+	}
 }

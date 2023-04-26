@@ -199,6 +199,7 @@ a:hover{
     margin-bottom: 10px;
     font-family: 'Nanum Gothic';
     font-weight: bold;
+
 }
 
 .my-menu dl dd{
@@ -207,6 +208,8 @@ a:hover{
     color: #888;
     font-family: Malgun Gothic, '맑은 고딕';
     font-size: 15px;
+    cursor: pointer;
+    color: black;
 }
 
 

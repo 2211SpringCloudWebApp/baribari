@@ -2,6 +2,8 @@ package com.kh.baribari.product.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -11,14 +13,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.baribari.common.FileInfo;
+import com.kh.baribari.common.FileUpload;
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
 import com.kh.baribari.product.service.ProductService;
-import com.kh.baribari.product.service.ReviewService;
+import com.kh.baribari.review.service.ReviewService;
 import com.kh.baribari.user.service.UserService;
 
 @Controller
@@ -32,7 +35,7 @@ public class ProductController {
 	private UserService uService;
 	@Autowired
 	@Qualifier("fileUpload")
-	private FileInfo fileUpload;
+	private FileUpload fileUpload;
 
 	// 상품 목록 및 갯수 출력
 	@GetMapping("/list")
@@ -106,16 +109,48 @@ public class ProductController {
 	public String registerProduct(Model model) {
 		return "shopping/register";
 	}
-
+	
 	// 상품 등록
 	@PostMapping("/registerProduct")
-	public ModelAndView registerProduct(ModelAndView mv, @ModelAttribute Product product) {
-		int result = pService.registerProduct(product);
-		if (result > 0) {
-			mv.setViewName("shopping/list");
-		} else {
-			mv.addObject("msg", "오류").setViewName("error");
-		}
+	public ModelAndView registerProduct(
+			@RequestParam(value = "fileList", required = false) List<MultipartFile> fList
+			, @ModelAttribute Product product
+			, HttpServletRequest request
+			, ModelAndView mv
+			) throws Exception {
+		System.out.println("fList : " + fList);
+		System.out.println("product : " + product);
+//		Map<String, String> fMap = new HashMap<String, String>();
+//		String path = "product";
+//		int i = 1;
+//		if (fList != null) {
+//        	for (MultipartFile file : fList) {
+//        		Map<String, String> fileInfo = fileUpload.saveFile(file, request, path);
+//        		for (String k : fileInfo.keySet()) {
+//        			String key = "file" + i;
+//        			String value = fileInfo.get(k);
+//        			fMap.put(key, value);
+//        			if (i == 1) {
+//        				product.setProductPic1(value);
+//        			} else if (i == 2) {
+//        				product.setProductPic2(value);
+//        			} else if (i == 3) {
+//        				product.setProductPic3(value);
+//        			} else if (i == 4) {
+//        				product.setProductPic4(value);
+//        			}
+//        		}
+//        		i++;
+//        	}
+//		}
+//		int result = pService.registerProduct(product);
+//		if (result > 0) {
+//			mv.setViewName("shopping/list");
+//		} else {
+//			mv.addObject("msg", "오류").setViewName("error");
+//		}
+//		return mv;
+		mv.setViewName("/");
 		return mv;
 	}
 }

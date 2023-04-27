@@ -1,8 +1,8 @@
-package com.kh.baribari.product.service;
+package com.kh.baribari.review.service;
 
 import java.util.List;
 
-import com.kh.baribari.product.domain.Review;
+import com.kh.baribari.review.domain.Review;
 
 public interface ReviewService {
 	/**

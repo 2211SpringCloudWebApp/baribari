@@ -10,20 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.baribari.common.FileInfo;
+import com.kh.baribari.common.FileUpload;
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.community.board.service.BoardService;
 import com.kh.baribari.community.domain.Community;
 import com.kh.baribari.community.domain.CommunityPIC;
 import com.kh.baribari.community.domain.HashTag;
-import org.springframework.ui.Model;
 
 @Controller
 public class BoardController {
@@ -33,7 +31,7 @@ public class BoardController {
 	
 	@Autowired
 	@Qualifier("fileUpload")
-	private FileInfo fileUpload;
+	private FileUpload fileUpload;
 
 	//자유게시판 목록 출력
 	@GetMapping("boardList")
@@ -52,7 +50,7 @@ public class BoardController {
 				mv.addObject("bList", bList);
 				mv.addObject("bCount", bCount);
 				mv.addObject("pi",pi);
-				mv.setViewName("community/board/board-reading-list");
+				mv.setViewName("community/board/list");
 				return mv;
 			} else {
 				mv.addObject("msg", "게시글 목록을 가져오지 못했습니다.").setViewName("error");

@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.baribari.product.domain.Product;
-import com.kh.baribari.product.domain.Review;
 import com.kh.baribari.product.service.ProductService;
-import com.kh.baribari.product.service.ReviewService;
+import com.kh.baribari.review.domain.Review;
+import com.kh.baribari.review.service.ReviewService;
 
 @Controller
 public class Home {

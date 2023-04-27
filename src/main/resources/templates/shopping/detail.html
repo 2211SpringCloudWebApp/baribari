@@ -160,12 +160,12 @@
 					<h3>상품 문의작성</h3>
 					<form id="qnaForm" action="/qna/register" method="post">
 						<div class="form-group">
-							<input type="text" class="form-control" name="qnaNo" placeholder="제목" />
+							<input type="text" class="form-control" placeholder="제목" />
 						</div>
 						<div class="form-group">
 							<textarea class="form-control" name="qnaContent" placeholder="내용"></textarea>
 						</div>
-						<input type="hidden" name="userNo" th:value="${product.userNo}">
+						<input type="hidden" name="userNo" th:value="${#authentication.principal.user.userNo}">
 						<input type="hidden" name="productNo" th:value="${product.productNo}">
 						<button type="submit" class="btn btn-primary">등록</button>
 					</form>

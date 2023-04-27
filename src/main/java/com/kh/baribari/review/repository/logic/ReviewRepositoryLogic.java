@@ -23,9 +23,6 @@ public class ReviewRepositoryLogic implements ReviewRepository {
 		// 첨부 사진이 있을 경우 후기사진테이블에 사진 등록
 		int result2 = 0;
 		if (review.getReviewPic1() != null) {
-			// REVIEW_TBL에서 현재 시퀀스값을 가져와서 reviewNo에 저장
-			int reviewNo = session.selectOne("ReviewMapper.getReviewNo");
-			review.setReviewNo(reviewNo);
 			// REVIEW_PIC_TBL에 저장
 			result2 = session.insert("ReviewMapper.registerReviewPictures", review);
 		}

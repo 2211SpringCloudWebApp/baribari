@@ -79,11 +79,21 @@
     
     <!-- 상품 등록 -->
     <insert id="insertProduct" parameterType="Product">
-    	INSERT INTO PRODUCT_TBL VALUES (SEQ_PRODUCT_NO, #{productName}, #{productPrice}, #{productContent}, DEFAULTE, DEFAULT, #{productHashTag}, #{productDiscount}, #{SellerUserNo}, #{productCategory}, #{productBrand}, #{productDeliveryCharge})
+    	INSERT INTO PRODUCT_TBL VALUES (SEQ_PRODUCT_NO.NEXTVAL, #{productName}, #{productPrice}, #{productContent}, DEFAULT, DEFAULT, #{productHashTag}, #{productDiscount}, #{sellerUserNo}, #{productCategory}, #{productBrand}, #{productDeliveryCharge})
     </insert>
     <!-- 상품 사진 등록 --> 
     <insert id="insertProductPic" parameterType="Product">
-    	INSERT INTO PRODUCT_PIC_TBL VALUES (#{productNo}, #{productPic1}, #{productPic2}, #{productPic3}, #{productPic4})
+    	INSERT INTO PRODUCT_PIC_TBL VALUES (
+    	SEQ_PRODUCT_NO.CURRVAL
+    	, <if test="productPic1 != null">#{productPic1}</if><if test="productPic1 == null">NULL</if>
+    	, <if test="productPic2 != null">#{productPic2}</if><if test="productPic2 == null">NULL</if>
+    	, <if test="productPic3 != null">#{productPic3}</if><if test="productPic3 == null">NULL</if>
+    	, <if test="productPic4 != null">#{productPic4}</if><if test="productPic4 == null">NULL</if>
+    	)
     </insert>
     
+    <!-- 상품 삭제 -->
+    <delete id="deleteProduct" parameterType="_int">
+    	DELETE FROM PRODUCT_TBL WHERE PRODUCT_NO = #{productNo}
+    </delete>
 </mapper>

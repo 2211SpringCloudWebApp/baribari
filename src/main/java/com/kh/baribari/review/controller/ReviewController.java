@@ -29,7 +29,7 @@ public class ReviewController {
 	private ReviewService rService;
 	@Autowired
 	@Qualifier("fileUpload")
-	private FileInfo fileUpload;
+	private FileInfo filesInfo;
 	
 	// 상품 후기 등록
 	@PostMapping("/register")
@@ -46,10 +46,10 @@ public class ReviewController {
         // 첨부파일이 있을 경우 파일 저장
         if (fList != null) {
         	for (MultipartFile file : fList) {
-        		Map<String, String> fileInfo = fileUpload.saveFile(file, request, path);
-        		for (String k : fileInfo.keySet()) {
+        		Map<String, String> files = filesInfo.saveFile(file, request, path);
+        		for (String k : files.keySet()) {
         			String key = "file" + i;
-        			String value = fileInfo.get(k);
+        			String value = files.get(k);
         			fMap.put(key, value);
         			if (i == 1) {
         				review.setReviewPic1(value);
@@ -84,19 +84,19 @@ public class ReviewController {
 		String path = "shopping/review";
 		// 사진이 있을 경우 삭제
 		if (review.getReviewPic1() != null && !review.getReviewPic1().isEmpty()) {
-		    fileUpload.deleteFile(request, review.getReviewPic1());
+		    filesInfo.deleteFile(request, review.getReviewPic1());
 		}
 		if (review.getReviewPic2() != null && !review.getReviewPic2().isEmpty()) {
-			fileUpload.deleteFile(request, review.getReviewPic2());
+			filesInfo.deleteFile(request, review.getReviewPic2());
 		}
 		if (review.getReviewPic3() != null && !review.getReviewPic3().isEmpty()) {
-			fileUpload.deleteFile(request, review.getReviewPic3());
+			filesInfo.deleteFile(request, review.getReviewPic3());
 		}
 		if (review.getReviewPic4() != null && !review.getReviewPic4().isEmpty()) {
-			fileUpload.deleteFile(request, review.getReviewPic4());
+			filesInfo.deleteFile(request, review.getReviewPic4());
 		}
 		if (review.getReviewPic5() != null && !review.getReviewPic5().isEmpty()) {
-			fileUpload.deleteFile(request, review.getReviewPic5());
+			filesInfo.deleteFile(request, review.getReviewPic5());
 		}
 		// 후기 삭제
 		int result = rService.removeReview(review);

@@ -41,12 +41,11 @@
 
 	<section class="py-5">
 		<input sec:authorize="!isAuthenticated()" value="0" type="hidden" name="userNo">
-		<input sec:authorize="isAuthenticated()" th:value="${#authentication.principal.user.userNo}" type="hidden"
-			name="userNo">
+		<input sec:authorize="isAuthenticated()" th:value="${#authentication.principal.user.userNo}" type="hidden" name="userNo">
 		<div class="container px-4 px-lg-5 my-5">
 			<div class="row gx-4 gx-lg-5 align-items-center">
 				<div class="col-md-6">
-					<img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." />
+					<img th:src="@{${product.productPic1} != null} ? @{${product.productPic1}} : @{'../../img/logo.png'}" class="card-img-top mb-5 mb-md-0" alt="제품사진" />
 				</div>
 				<div class="col-md-6">
 					<!-- 상품명 -->
@@ -120,9 +119,9 @@
 		<!-- 상품 정보 -->
 		<div id="productContainer">
 			<div id="productInfo">
-				<img src="../../img/dummy-detail-1.jpg" alt="상품정보" class="img-detail" style="width: 100%;">
-				<img src="../../img/dummy-detail-2.jpg" alt="상품정보" class="img-detail" style="width: 100%;">
-				<img src="../../img/dummy-detail-3.jpg" alt="상품정보" class="img-detail" style="width: 100%;">
+				<img th:if="${product.productPic2 != null}" th:src="@{${product.productPic2}}" alt="상품정보" class="img-detail" style="width: 100%;">
+				<img th:if="${product.productPic3 != null}" th:src="@{${product.productPic3}}" alt="상품정보" class="img-detail" style="width: 100%;">
+				<img th:if="${product.productPic4 != null}" th:src="@{${product.productPic4}}" alt="상품정보" class="img-detail" style="width: 100%;">
 			</div>
 
 			<!-- 상품후기 -->
@@ -133,7 +132,7 @@
 				<div sec:authorize="hasRole('ROLE_USER')" th:if="${customer >= 0}" class="writeReview">
 					<h3>상품후기 작성</h3>
 					<form id="reviewForm" action="/review/register" method="post" enctype="multipart/form-data">
-						<textarea id="reviewContent" placeholder="내용"></textarea>
+						<textarea id="reviewContent" placeholder="후기를 입력해 주세요"></textarea>
 						<div id="imgPreview"></div>
 						<label for="photoInput">사진 첨부</label>
 						<input type="file" id="photoInput" accept="image/*" name="fileUpload" multiple>
@@ -159,13 +158,15 @@
 				<h2 class="h2Class">상품문의</h2>
 				<div sec:authorize="hasRole('ROLE_USER')" class="writeQnA">
 					<h3>상품 문의작성</h3>
-					<form>
+					<form id="qnaForm" action="/qna/register" method="post">
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="제목" />
+							<input type="text" class="form-control" name="qnaNo" placeholder="제목" />
 						</div>
 						<div class="form-group">
-							<textarea class="form-control" placeholder="내용"></textarea>
+							<textarea class="form-control" name="qnaContent" placeholder="내용"></textarea>
 						</div>
+						<input type="hidden" name="userNo" th:value="${product.userNo}">
+						<input type="hidden" name="productNo" th:value="${product.productNo}">
 						<button type="submit" class="btn btn-primary">등록</button>
 					</form>
 				</div>
@@ -259,6 +260,8 @@
 					</tr>
 				</table>
 			</div>
+			
+		</div>
 	</section>
 
 	<!-- 관련 상품 -->

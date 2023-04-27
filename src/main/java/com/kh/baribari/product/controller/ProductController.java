@@ -1,6 +1,8 @@
 package com.kh.baribari.product.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,7 +37,7 @@ public class ProductController {
 	private UserService uService;
 	@Autowired
 	@Qualifier("fileUpload")
-	private FileInfo fileUpload;
+	private FileInfo fileInfo;
 
 	// 상품 목록 및 갯수 출력
 	@GetMapping("/list")
@@ -118,39 +120,42 @@ public class ProductController {
 			, HttpServletRequest request
 			, ModelAndView mv
 			) throws Exception {
-		System.out.println("fList : " + fList);
-		System.out.println("product : " + product);
-//		Map<String, String> fMap = new HashMap<String, String>();
-//		String path = "product";
-//		int i = 1;
-//		if (fList != null) {
-//        	for (MultipartFile file : fList) {
-//        		Map<String, String> fileInfo = fileUpload.saveFile(file, request, path);
-//        		for (String k : fileInfo.keySet()) {
-//        			String key = "file" + i;
-//        			String value = fileInfo.get(k);
-//        			fMap.put(key, value);
-//        			if (i == 1) {
-//        				product.setProductPic1(value);
-//        			} else if (i == 2) {
-//        				product.setProductPic2(value);
-//        			} else if (i == 3) {
-//        				product.setProductPic3(value);
-//        			} else if (i == 4) {
-//        				product.setProductPic4(value);
-//        			}
-//        		}
-//        		i++;
-//        	}
-//		}
-//		int result = pService.registerProduct(product);
-//		if (result > 0) {
-//			mv.setViewName("shopping/list");
-//		} else {
-//			mv.addObject("msg", "오류").setViewName("error");
-//		}
-//		return mv;
-		mv.setViewName("/");
-		return mv;
+		Map<String, String> fMap = new HashMap<String, String>();
+		String path = "product";
+		int i = 1;
+		if (fList != null) {
+        	for (MultipartFile file : fList) {
+        		Map<String, String> files = fileInfo.saveFile(file, request, path);
+        		for (String k : files.keySet()) {
+        			String key = "file" + i;
+        			String value = files.get(k);
+        			fMap.put(key, value);
+        			if (i == 1) {
+        				product.setProductPic1(value);
+        			} else if (i == 2) {
+        				product.setProductPic2(value);
+        			} else if (i == 3) {
+        				product.setProductPic3(value);
+        			} else if (i == 4) {
+        				product.setProductPic4(value);
+        			}
+        		}
+        		i++;
+        	}
+		}
+		int result = pService.registerProduct(product);
+		if (result > 0) {
+			mv.setViewName("redirect:/shopping/list?category=All&page=1");
+			return mv;
+		} else {
+			mv.addObject("msg", "오류").setViewName("error");
+			return mv;
+		}
+	}
+	
+	// 상품 삭제
+	@PostMapping("/delete")
+	public void deleteProduct(int productNo) {
+		
 	}
 }

@@ -29,7 +29,6 @@
 	<!-- HEADER -->
 	<header th:replace="header :: header"></header>
 
-	<!-- ======= Hero Section ======= -->
 	<section id="hero" class="d-flex align-items-center">
 		<div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
 			<div class="row">
@@ -49,11 +48,10 @@
 
 			</div>
 		</div>
-	</section><!-- End Hero -->
+	</section>
 
 	<main id="main">
 
-		<!-- ======= About Section ======= -->
 		<section id="about" class="about">
 			<div class="container" data-aos="fade-up">
 
@@ -113,7 +111,7 @@
 				</div>
 
 				<div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
-				
+					<!-- 상품 --> 
 					<div th:each="product : ${pList}" th:class="'col-lg-6 menu-item filter-' + ${product.productCategory}" style="position: absolute; left: 0px; top: 0px;">
 						<img th:src="@{${product.productPic1} != null} ? @{${product.productPic1}} : @{'../../img/logo.png'}" class="menu-img" alt="제품사진">
 						<div class="menu-content">
@@ -130,7 +128,7 @@
 		</section>
 
 
-		<!-- ======= Why Us Section ======= -->
+		<!-- 이용가이드 -->
 		<section id="why-us" class="why-us">
 			<div class="container" data-aos="fade-up">
 
@@ -167,7 +165,7 @@
 				</div>
 
 			</div>
-		</section><!-- End Why Us Section -->
+		</section>
 
 		<!-- ======= Specials Section ======= -->
 		<section id="specials" class="specials">
@@ -282,33 +280,33 @@
 		</section><!-- End Specials Section -->
 
 
-		<!-- ======= Events Section ======= -->
+		<!-- MD 추천 상품 목록 -->
 		<section id="events" class="events">
 			<div class="container" data-aos="fade-up">
 
 				<div class="section-title">
-					<h2>Event</h2>
-					<p>바리바리와 함께 하는 2023캠핑&피크닉</p>
+					<h2>SHOPPING</h2>
+					<p>MD추천 BEST</p>
 				</div>
 
 				<div class="events-slider swiper-container" data-aos="fade-up" data-aos-delay="100">
 					<div class="swiper-wrapper">
-
-						<div class="swiper-slide">
+						<!-- 상품 -->
+						<div th:each="md : ${mList}" class="swiper-slide">
 							<div class="row event-item">
 								<div class="col-lg-6">
-									<img src="assets/img/event-birthday.jpg" class="img-fluid" alt="">
+									<img th:src="${md.productPic1}" class="img-fluid" alt="상품사진">
 								</div>
 								<div class="col-lg-6 pt-4 pt-lg-0 content">
-									<h3>Birthday Parties</h3>
+									<h3 th:text="${md.productName}">상품명</h3>
 									<div class="price">
-										<p><span>$189</span></p>
+										<p>
+											<span th:if="${md.productDiscount == 0}" th:text="|${#numbers.formatInteger(md.productPrice, 0, 'COMMA')}원|">상품가격</span>
+											<span th:if="${md.productDiscount != 0}" th:text="|${#numbers.formatInteger(md.productPrice, 0, 'COMMA')}원|" class="text-muted text-decoration-line-through">상품가격 취소선</span>
+											<span th:if="${md.productDiscount != 0}" th:text="|${#numbers.formatInteger(md.productPrice - md.productDiscount * md.productPrice / 100, 0, 'COMMA')}원|">할인된 가격</span>
+										</p>
 									</div>
-									<p class="fst-italic">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-										et dolore
-										magna aliqua.
-									</p>
+									<p class="fst-italic">상품설명</p>
 									<ul>
 										<li><i class="bi bi-check-circled"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.
 										</li>
@@ -324,78 +322,15 @@
 									</p>
 								</div>
 							</div>
-						</div><!-- End testimonial item -->
-
-						<div class="swiper-slide">
-							<div class="row event-item">
-								<div class="col-lg-6">
-									<img src="assets/img/event-private.jpg" class="img-fluid" alt="">
-								</div>
-								<div class="col-lg-6 pt-4 pt-lg-0 content">
-									<h3>Private Parties</h3>
-									<div class="price">
-										<p><span>$290</span></p>
-									</div>
-									<p class="fst-italic">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-										et dolore
-										magna aliqua.
-									</p>
-									<ul>
-										<li><i class="bi bi-check-circled"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.
-										</li>
-										<li><i class="bi bi-check-circled"></i> Duis aute irure dolor in reprehenderit in voluptate velit.
-										</li>
-										<li><i class="bi bi-check-circled"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.
-										</li>
-									</ul>
-									<p>
-										Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-										voluptate
-										velit esse cillum dolore eu fugiat nulla pariatur
-									</p>
-								</div>
-							</div>
-						</div><!-- End testimonial item -->
-
-						<div class="swiper-slide">
-							<div class="row event-item">
-								<div class="col-lg-6">
-									<img src="assets/img/event-custom.jpg" class="img-fluid" alt="">
-								</div>
-								<div class="col-lg-6 pt-4 pt-lg-0 content">
-									<h3>Custom Parties</h3>
-									<div class="price">
-										<p><span>$99</span></p>
-									</div>
-									<p class="fst-italic">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-										et dolore
-										magna aliqua.
-									</p>
-									<ul>
-										<li><i class="bi bi-check-circled"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.
-										</li>
-										<li><i class="bi bi-check-circled"></i> Duis aute irure dolor in reprehenderit in voluptate velit.
-										</li>
-										<li><i class="bi bi-check-circled"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.
-										</li>
-									</ul>
-									<p>
-										Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-										voluptate
-										velit esse cillum dolore eu fugiat nulla pariatur
-									</p>
-								</div>
-							</div>
-						</div><!-- End testimonial item -->
+						</div>
 
 					</div>
+					<!-- 페이징 -->
 					<div class="swiper-pagination"></div>
 				</div>
 
 			</div>
-		</section><!-- End Events Section -->
+		</section>
 
 		<!-- 최신 후기 목록 -->
 		<section id="testimonials" class="testimonials section-bg">
@@ -408,7 +343,7 @@
 
 				<div class="testimonials-slider swiper-container" data-aos="fade-up" data-aos-delay="100">
 					<div class="swiper-wrapper">
-
+						<!-- 후기 -->
 						<div th:each="review : ${rList}" class="swiper-slide">
 							<div class="testimonial-item">
 								<p>
@@ -418,14 +353,13 @@
 									<img th:src="${review.reviewPic3}" style="width: 4em;">
 									<img th:src="${review.reviewPic4}" style="width: 4em;">
 									<img th:src="${review.reviewPic5}" style="width: 4em;">
-										<i th:text="${review.reviewContent}" class="bx bxs-quote-alt-left quote-icon-left"></i>
+										<i th:text="${#strings.length(review.reviewContent) &lt;= 30} ? ${review.reviewContent} : ${#strings.substring(review.reviewContent, 0, 30) + '...'}" class="bx bxs-quote-alt-left quote-icon-left"></i>
 										<i class="bx bxs-quote-alt-right quote-icon-right"></i>
 									</a>
 								</p>
 								<img th:src="@{'../../img/user.webp'}" class="testimonial-img" alt="">
 								<h3>
-									<span th:text="${#strings.substring(review.userName, 0, 3)}"></span>
-									<span th:if="${#strings.length(review.userName) > 3}">*</span>
+									<span th:text="${#strings.length(review.userName) &lt;= 3} ? ${review.userName + '님'} : ${review.userName.substring(0, 3) + '*'.repeat(#strings.length(review.userName) - 3) + '님'}"></span>
 								</h3>
 
 							</div>
@@ -436,7 +370,7 @@
 				</div>
 
 			</div>
-		</section><!-- End Testimonials Section -->
+		</section>
 
 		<!-- ======= Gallery Section ======= -->
 		<section id="gallery" class="gallery">

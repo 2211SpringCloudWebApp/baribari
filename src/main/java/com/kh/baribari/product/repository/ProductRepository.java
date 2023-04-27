@@ -73,4 +73,11 @@ public interface ProductRepository {
 	 * @return int
 	 */
 	public int registerProduct(SqlSession session, Product product);
+
+	/**
+	 * MD추천 상품 목록 가져오기
+	 * @param SqlSession
+	 * @return List<Product>
+	 */
+	public List<Product> getMdRecommendProductList(SqlSession session);
 }

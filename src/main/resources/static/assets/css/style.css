@@ -1230,6 +1230,7 @@ section {
   border-radius: 6px;
   position: relative;
   z-index: 1;
+  height: 20em;
 }
 
 .testimonials .swiper-pagination {
@@ -1252,6 +1253,7 @@ section {
 # Gallery
 --------------------------------------------------------------*/
 .gallery .gallery-item {
+  object-fit: cover;
   overflow: hidden;
   border-right: 3px solid #454035;
   border-bottom: 3px solid #454035;

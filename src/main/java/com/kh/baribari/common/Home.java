@@ -32,12 +32,15 @@ public class Home {
 		List<Notice> nList;
 		// 인기상품 가져오기
 		List<Product> pList = pService.getProductListBySales();
+		// MD추천상품 가져오기
+		List<Product> mList = pService.getMdRecommendProductList();
 		// 후기 가져오기
 		List<Review> rList = rService.getReviewList();
 		// 커뮤니티 가져오기
 		
-		mv.addObject("pList", pList);
-		mv.addObject("rList", rList);
+		mv.addObject("pList", pList); // 인기상품
+		mv.addObject("mList", mList); // MD추천상품
+		mv.addObject("rList", rList); // 후기
 		mv.setViewName("index");
 		return mv;
 	}

@@ -66,4 +66,29 @@ public class BoardServiceLogic implements BoardService {
 	public int registerPhoto(CommunityPIC pic) {
 		return brepository.registerPhoto(session, pic);
 	}
+
+	@Override
+	public int boardDelete(int boardNo) {
+		return brepository.boardDelete(session, boardNo);
+	}
+
+	@Override
+	public int deletePhoto(int boardNo) {
+		return brepository.deletePhoto(session, boardNo);
+	}
+
+	@Override
+	public int boardUpdate(Community commu) {
+		return brepository.boardUpdate(session, commu);
+	}
+
+	@Override
+	public Community getBoardOne(int boardNo) {
+		return brepository.getBoardOne(session, boardNo);
+	}
+
+	@Override
+	public CommunityPIC getPhoto(Integer boardNo) {
+		return brepository.getPhoto(session, boardNo);
+	}
 }

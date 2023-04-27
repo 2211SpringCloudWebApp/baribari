@@ -64,4 +64,9 @@ public interface ProductService {
 	 */
 	public int registerProduct(Product product);
 
+	/**
+	 * MD추천 상품 목록 가져오기
+	 * @return List<Product>
+	 */
+	public List<Product> getMdRecommendProductList();
 }

@@ -78,4 +78,44 @@ public interface BoardRepository {
 	 */
 	public int registerPhoto(SqlSession session, CommunityPIC pic);
 
+	/**
+	 * 게시글 삭제
+	 * @param session
+	 * @param boardNo
+	 * @return
+	 */
+	public int boardDelete(SqlSession session, int boardNo);
+
+	/**
+	 * 사진 삭제
+	 * @param session
+	 * @param boardNo
+	 * @return
+	 */
+	public int deletePhoto(SqlSession session, int boardNo);
+
+	/**
+	 * 게시글 수정
+	 * @param session
+	 * @param commu
+	 * @return
+	 */
+	public int boardUpdate(SqlSession session, Community commu);
+
+	/**
+	 * 게시글 하나 조회
+	 * @param session
+	 * @param boardNo
+	 * @return Community
+	 */
+	public Community getBoardOne(SqlSession session, int boardNo);
+
+	/**
+	 * 사진 가져오기
+	 * @param session
+	 * @param boardNo
+	 * @return CommunityPIC
+	 */
+	public CommunityPIC getPhoto(SqlSession session, Integer boardNo);
+
 }

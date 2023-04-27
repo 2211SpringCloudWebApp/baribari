@@ -1,106 +1,123 @@
-#container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* 화면 세로 중앙에 위치하도록 높이 설정 */
-	background-image: url('img/boardBackImg3.jpg');
-	background-repeat: no-repeat; /* 배경 이미지 반복 설정 */
-	background-size: cover; /* 이미지가 전체 화면에 꽉 차도록 설정 */
-	height: 1300px;
+.displayFlex /*정렬을 위한 display: flex*/ {
+	display: flex;
 }
 
-main {
-	background-color : rgb(255,255,255,0.8);
-	border: 1px solid black;
-	margin-top: 200px;
-	margin-bottom: 100px;
+/*세로 정렬*/
+.hCenter {
+	align-items: center;
+}
+
+.hTop {
+	align-items: flex-start;
+}
+
+.hBottom {
+	align-items: flex-end;
+}
+
+/*가로 정렬*/
+.wCenter {
+	justify-content: center;
+}
+
+.wRight {
+	justify-content: flex-end;
+}
+
+.wLeft {
+	justify-content: flex-start;
+}
+
+#listContainer {
 	width: 1000px;
-	height: 1000px;
+	height: 100%;
+	margin: auto;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+#listdiv1 {
+	width: 100%;
+	height: 50px;
+	font-size: 20px;
+	margin-left: 50px;
+	margin-right: 50px;
+}
+
+#listdiv1-1, #listdiv1-2, #listdiv1-3 {
+	height: 100%;
+	float: left;
 	color : black;
 }
-#flist-heard {
-	width: 1000px;
-	border-bottom: 1px solid black;
-}
 
-#flist-heard tr:nth-child(1) td:nth-child(1) {
-	height: 70px;
-	width: 100%;
-	font-size: 30px;
-	text-align: center;
-}
+	#listdiv1-1 {
+		width: 20%;
+	}
+	
+	#listdiv1-2 {
+		width: 50%;
+		text-align: right;
+	}
+	
+	#listdiv1-3 {
+		width: 30%;
+		text-align: right;
+	}
 
-#flist-heard tr:nth-child(2) td {
-	height: 50px;
-}
 
-#flist-heard tr:nth-child(2) td:nth-child(1) {
-	text-align: left;
-	width: 15%;
-}
 
-#flist-heard tr:nth-child(2) td:nth-child(2) {
-	text-align: right;
-	width: 60%;
-}
 
-#flist-heard tr:nth-child(2) td:nth-child(3) {
-	text-align: right;
-	width: 25%;
-}
 
 #searchbox {
 	border: 1px solid black;
 }
 
-#flist-main {
-	width: 1000px;
+#listdiv2 {
+	width: 100%;
 	height: 600px;
 	text-align: center;
 }
 
-#flist-main tr:nth-child(1) td {
+#listdiv2 tr:nth-child(1) td {
 	height: 50px;
 }
 
-#flist-main tr:nth-child(1) td:nth-child(1) {
+#listdiv2 tr:nth-child(1) td:nth-child(1) {
 	width: 8%;
 }
 
-#flist-main tr:nth-child(1) td:nth-child(2) {
+#listdiv2 tr:nth-child(1) td:nth-child(2) {
 	width: 8%;
 }
 
-#flist-main tr:nth-child(1) td:nth-child(3) {
+#listdiv2 tr:nth-child(1) td:nth-child(3) {
 	width: 34%;
 }
 
-#flist-main tr:nth-child(1) td:nth-child(4) {
+#listdiv2 tr:nth-child(1) td:nth-child(4) {
 	width: 16%;
 }
 
-#flist-main tr:nth-child(1) td:nth-child(5) {
+#listdiv2 tr:nth-child(1) td:nth-child(5) {
 	width: 8%;
 }
 
-#flist-main tr:nth-child(1) td:nth-child(6) {
+#listdiv2 tr:nth-child(1) td:nth-child(6) {
 	width: 8%;
 }
 
-#flist-main tr:nth-child(1) td:nth-child(7) {
+#listdiv2 tr:nth-child(1) td:nth-child(7) {
 	width: 8%;
 }
 
-#flist-main tr:nth-child(2) td {
+#listdiv2 tr:nth-child(2) td {
 	height: 500px;
 	text-align: right;
 }
 
-#flist-main tr:nth-child(3) td {
+#listdiv2 tr:nth-child(3) td {
 	height: 50px;
 }
-
-
 
 #flist-footer {
 	border-top: 1px solid black;

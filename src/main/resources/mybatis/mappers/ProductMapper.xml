@@ -96,4 +96,8 @@
     <delete id="deleteProduct" parameterType="_int">
     	DELETE FROM PRODUCT_TBL WHERE PRODUCT_NO = #{productNo}
     </delete>
+    
+    <select id="getMdRecommendProductList" resultMap="productResultMap">
+    	SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE PRODUCT_MD_YN = 'Y'
+    </select>
 </mapper>

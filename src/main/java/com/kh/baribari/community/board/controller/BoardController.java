@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.SystemPropertyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -206,8 +207,18 @@ public class BoardController {
 
 	//게시글 상세
 	@GetMapping("boardDetail")
-	public String boardDetail() {
-		return "community/board/detail";
+	public ModelAndView boardDetail(
+			ModelAndView mv
+			,@RequestParam(value="communityNo",required = false) Integer boardNo) throws Exception{
+		Community commu = bService.getBoardOne(boardNo);
+		CommunityPIC pic = bService.getPhoto(boardNo);
+		if(pic != null) {
+			mv.addObject("pic", pic);
+		}
+		mv.addObject("commu", commu);
+		mv.setViewName("community/board/detail");
+		
+		return mv;
 	}
 	
 	//게시글 수정

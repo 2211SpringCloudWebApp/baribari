@@ -15,5 +15,4 @@ public class CommunityPIC {
 	private String communityPic8;
 	private String communityPic9;
 	private String communityPic10;
-	
 }

@@ -141,38 +141,74 @@
 <!--        </div>-->
 <!--      </div>-->
 
-      <!--자유게시판 리스트 헤더-->
-      <table id="flist-heard">
-        <tr>
-          <td colspan="3">
-            자유게시판
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <a href="boardList?category=9">전체</a>
-            /
-            <a href="boardList?category=1">캠핑지</a>
-            /
-            <a href="boardList?category=0">잡담</a>
-          </td>
-          <td>
-            <input type="checkbox" id="checkbox1" name="checkbox1" value="value1" onchange="uncheckOthers('checkbox1')">
-            <label for="checkbox1">제목</label>
-            <input type="checkbox" id="checkbox2" name="checkbox2" value="value2" onchange="uncheckOthers('checkbox2')">
-            <label for="checkbox2">내용</label>
-            <input type="checkbox" id="checkbox3" name="checkbox3" value="value3" onchange="uncheckOthers('checkbox3')">
-            <label for="checkbox3">제목+내용</label>
-          </td>
-          <td>
-            <input type="text" id="searchbox">
-            <input type="submit" value="검색">
-          </td>
-        </tr>
-      </table>
-
-      <!-- 리스트가 출력되는 부분 -->
-      <table id="flist-main">
+<!-- -------------------자유게시판 리스트 부분---------------------- -->
+      <div id="listContainer">
+      	<div id="listdiv1" class="displayFlex yCenter xCenter">
+		    <div id="listdiv1-1" class="displayFlex hCenter">
+		        <a href="boardList?category=9">전체</a>
+		        /
+		        <a href="boardList?category=1">캠핑지</a>
+		        /
+		        <a href="boardList?category=0">잡담</a>
+		    </div>
+		    <div id="listdiv1-2" class="displayFlex hCenter wRight">
+		        <input type="checkbox" id="checkbox1" name="checkbox1" value="value1" onchange="uncheckOthers('checkbox1')">
+		        <label for="checkbox1">제목</label>
+		        <input type="checkbox" id="checkbox2" name="checkbox2" value="value2" onchange="uncheckOthers('checkbox2')">
+		        <label for="checkbox2">내용</label>
+		        <input type="checkbox" id="checkbox3" name="checkbox3" value="value3" onchange="uncheckOthers('checkbox3')">
+		        <label for="checkbox3">제목+내용</label>
+		    </div>
+		    <div id="listdiv1-3" class="displayFlex hCenter wRight">
+		        <input type="text" id="searchbox">
+		        <input type="submit" value="검색">
+		    </div>
+		</div>
+      </div>
+      
+      <div id="listdiv2" class="displayFlex yCenter xCenter">
+		<tr>
+			<td>번호</td>
+			<td>분류</td>
+			<td>제목</td>
+			<td>작성자</td>
+			<td>좋아요<button id="flist-suggestion">∨</button></td>
+			<td>작성일<button id="flist-date">∨</button></td>
+			<td>조회수<button id="flist-views">∨</button></td>
+		</tr>
+			<tr id="board-wrapper">
+		</tr>
+		<tr th:each="community, num : ${bList}">
+			<td th:text="${num.count}"></td>
+			<td>
+				<span th:switch="${community.communityCategory}">
+					<span th:case="0">잡담</span>
+					<span th:case="1">장소공유</span>
+				</span>
+			</td>
+			<td>
+				<span th:switch="${community.communityYn}">
+					<span th:case="0">
+						<a th:href="'#'" th:text="${community.communitySubject}"></a>
+					</span>
+					<span th:case="1">
+						블라인드 처리된 게시물입니다.
+					</span>
+				</span>
+			</td>
+			<td th:text="${community.userNo}"></td>
+			<td th:text="${community.mapX}"></td>
+			<td th:text="${community.communityDate}"></td>
+			<td th:text="${community.viewCount}"></td>
+		</tr>
+		<tr>
+			<td colspan="7">
+				<a href="board/register"></a>
+			</td>
+		</tr>
+      </div>
+      
+      <table id="listdiv2" class="displayFlex yCenter xCenter">
         <tr>
           <td>번호</td>
           <td>분류</td>
@@ -182,7 +218,6 @@
           <td>작성일<button id="flist-date">∨</button></td>
           <td>조회수<button id="flist-views">∨</button></td>
         </tr>
-        <!-- 게시글 목록 출력하는 부분 한 페이지당 10개 -->
         <tr id="board-wrapper">
         </tr>
         <tr th:each="community, num : ${bList}">
@@ -208,26 +243,16 @@
           <td th:text="${community.communityDate}"></td>
           <td th:text="${community.viewCount}"></td>
         </tr>
-        <!-- 게시글 목록 출력하는 부분 한 끝 -->
         <tr>
           <td colspan="7">
             <a href="board/register"></a>
           </td>
         </tr>
       </table>
-      <!-- 페이징처리가 들어가는 부분 -->
-      <table id="flist-footer">
-        <tr>
-          <td>
-            페이징이 들어갈 자리입니다.
-          </td>
-        </tr>
-      </table>
-
-
-
-
-
+      <div id="flist-footer">
+		페이징이 들어갈 부분
+      </div>
+<!-- --------------------자유게시판 리스트 부분---------------------- -->
     </div>
   </div>
 </section>

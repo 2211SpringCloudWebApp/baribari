@@ -58,8 +58,32 @@ public class BoardRepositoryLogic implements BoardRepository {
 
 	@Override
 	public int registerPhoto(SqlSession session, CommunityPIC pic) {
-		System.out.println(pic);
 		return session.insert("CommunityMapper.registerPhoto",pic);
+	}
+
+	@Override
+	public int boardDelete(SqlSession session, int boardNo) {
+		return session.delete("CommunityMapper.boardDelete",boardNo);
+	}
+
+	@Override
+	public int deletePhoto(SqlSession session, int boardNo) {
+		return session.delete("CommunityMapper.deletePhoto", boardNo);
+	}
+
+	@Override
+	public int boardUpdate(SqlSession session, Community commu) {
+		return session.update("CommunityMapper.boardUpdate",commu);
+	}
+
+	@Override
+	public Community getBoardOne(SqlSession session, int boardNo) {
+		return session.selectOne("CommunityMapper.getBoardOne",boardNo);
+	}
+
+	@Override
+	public CommunityPIC getPhoto(SqlSession session, Integer boardNo) {
+		return session.selectOne("CommunityMapper.getPhoto",boardNo);
 	}
 
 }

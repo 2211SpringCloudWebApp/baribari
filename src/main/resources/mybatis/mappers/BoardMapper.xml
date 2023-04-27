@@ -2,22 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="CommunityMapper">
-	
+	<!-- 게시글 시퀀스넘버 미리 받아오기 -->
 	<select id="getSEQ" resultType="_int">
 		SELECT COMMUNITY_SEQ.NEXTVAL FROM DUAL
 	</select>
-	
-	<select id="getHashTag" resultType="HashTag">
-		SELECT HASH_TAG_NAME FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{boardNo}
+	<!-- 게시글 수 가져오기 -->
+	<select id="getBoardCount" resultType="_int">
+		SELECT COUNT(*) FROM COMMUNITY_TBL WHERE COMMUNITY_CATEGORY IN (0,1)
 	</select>
 	
-	<insert id="registerHashTag">
-		INSERT INTO HASH_TAG_TBL VALUES(#{communityNo}, #{hashTagName})
-	</insert>
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*) FROM LIKE_TBL WHERE COMMUNITY_NO = #{boardNo}
+	</select>
+
+	<select id="getBoardListAll" resultType="community">
+		SELECT * FROM COMMUNITY_TBL WHERE 
+		<if test="category == 0">
+		COMMUNITY_CATEGORY = 0 AND
+		</if>
+		<if test="category == 1">
+		COMMUNITY_CATEGORY = 1 AND
+		</if>
+		COMMUNITY_CATEGORY IN (0, 1)
+	</select>
 	
-	<delete id="deleteHashTag">
-		DELETE FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{communityNo} AND HASH_TAG_NAME = #{hashTagName}
-	</delete>
+	<select id="getBoardOne" resultType="community">
+		SELECT * FROM COMMUNITY_TBL WHERE COMMUNITY_NO = #{boardNo}
+	</select>
+	
+	<select id="getPhoto" resultType="communityPIC">
+		SELECT * FROM COMMUNITY_PIC_TBL WHERE COMMUNITY_NO = #{boardNo}
+	</select>
 	
 	<insert id="boardRegister">
 		INSERT INTO COMMUNITY_TBL VALUES(
@@ -58,22 +73,34 @@
 		<if test="communityPic10 == null">NULL</if>
 		)
 	</insert>
-	<select id="getBoardCount" resultType="_int">
-		SELECT COUNT(*) FROM COMMUNITY_TBL WHERE COMMUNITY_CATEGORY IN (0,1)
+	
+	<delete id="deletePhoto">
+		DELETE FROM COMMUNITY_PIC_TBL WHERE COMMUNITY_NO = #{boardNo}
+	</delete>
+
+	<delete id="boardDelete">
+		DELETE FROM COMMUNITY_TBL WHERE COMMUNITY_NO = #{boardNo}
+	</delete>
+	
+	<update id="boardUpdate">
+		UPDATE COMMUNITY_TBL SET
+			COMMUNITY_SUBJECT = #{communitySubject}
+			,COMMUNITY_CONTENT = #{communityContent}
+			,COMMUNITY_CATEGORY = #{communityCategory}
+			,MAP_X = #{mapX}
+			,MAP_Y = #{mapY}
+		WHERE COMMUNITY_NO = #{boardNo}
+	</update>
+	
+	<select id="getHashTag" resultType="HashTag">
+		SELECT HASH_TAG_NAME FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{boardNo}
 	</select>
 	
-	<select id="getListCount" resultType="_int">
-		SELECT COUNT(*) FROM LIKE_TBL WHERE COMMUNITY_NO = #{boardNo}
-	</select>
-
-	<select id="getBoardListAll" resultType="community">
-		SELECT * FROM COMMUNITY_TBL WHERE 
-		<if test="category == 0">
-		COMMUNITY_CATEGORY = 0 AND
-		</if>
-		<if test="category == 1">
-		COMMUNITY_CATEGORY = 1 AND
-		</if>
-		COMMUNITY_CATEGORY IN (0, 1)
-	</select>
+	<insert id="registerHashTag">
+		INSERT INTO HASH_TAG_TBL VALUES(#{communityNo}, #{hashTagName})
+	</insert>
+	
+	<delete id="deleteHashTag">
+		DELETE FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{communityNo} AND HASH_TAG_NAME = #{hashTagName}
+	</delete>
 </mapper>

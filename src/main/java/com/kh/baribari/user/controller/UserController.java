@@ -2,11 +2,13 @@ package com.kh.baribari.user.controller;
 
 import com.google.gson.Gson;
 import com.kh.baribari.common.FileInfo;
+import com.kh.baribari.product.domain.Cart;
 import com.kh.baribari.user.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.model.IModel;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.PublicKey;
 import java.util.List;
 import java.util.Map;
 
@@ -131,9 +134,33 @@ public class UserController {
             Authentication authentication,
             Model model
     ) {
-        User user = returnUser(authentication);
+        User userData = returnUser(authentication);
+        User user = uService.selectModifyUser(userData.getUserNo());
         model.addAttribute("user", user);
         return "myPage/information/UserModify";
+    }
+//  유저-마이페이지 사진 수정 버튼
+    @PostMapping("/profilePicSave")
+    @ResponseBody
+    public String myPageProfilePic(
+            @RequestParam(name = "file1") MultipartFile qnaPic1,
+            HttpServletRequest request,
+            Authentication authentication
+    ) throws Exception {
+        User user = returnUser(authentication);
+        String path = "myPageUser\\profilePic";
+        String filePath1 = null;
+        if (!qnaPic1.isEmpty()) {
+            Map<String, String> file = fileUpload.saveFile(qnaPic1, request, path);
+            filePath1 = file.get("filePath");
+        }
+        user.setProfilePicPath(filePath1);
+        int result = uService.updateProfilePic(user);
+        if (result > 0) {
+            return "<script>alert('저장이 잘됐어요!'); location.href='/myPageUser/modify';</script>";
+        } else {
+            return "<script>alert('저장에 실패했어요ㅠㅠ'); location.href='/myPageUser/modify';</script>";
+        }
     }
 
     //  회원탈퇴 뷰
@@ -267,30 +294,30 @@ public class UserController {
             HttpServletRequest request,
             @RequestParam String qnaContent
     ) throws Exception {
-        String path = "myPageUser\\qna\\";
+        String path = "myPageUser\\qna";
         String filePath1 = null, filePath2 = null;
         if (!qnaPic1.isEmpty()) {
             Map<String, String> file = fileUpload.saveFile(qnaPic1, request, path);
-            filePath1 = file.get("dbSavePath");
+            filePath1 = file.get("filePath");
         }
         if (!qnaPic2.isEmpty()) {
             Map<String, String> file2 = fileUpload.saveFile(qnaPic2, request, path);
-            filePath2 = file2.get("dbSavePath");
+            filePath2 = file2.get("filePath");
         }
 
         MyPageQna myPageQna = new MyPageQna(qnaContent, userNo, filePath1, filePath2);
         int result = uService.qnaWrite(myPageQna);
         if (result > 0) {
             return "<script>alert('저장이 잘됐어요!'); location.href='/myPageUser/qna?qnaAnswerYn=all';</script>";
-        }else {
+        } else {
             return "<script>alert('저장에 실패했어요ㅠㅠ'); location.href='/myPageUser/qna?qnaAnswerYn=all';</script>";
         }
     }
 
 
-//    상품 문의 뷰
+    //    상품 문의 뷰
     @GetMapping("/myPageUser/productQna")
-    public String productQnaView(Authentication authentication, Model model){
+    public String productQnaView(Authentication authentication, Model model) {
         User user = returnUser(authentication);
         List<MyPageQna> myPageQnaList = uService.selectProductQna(user);
         model.addAttribute("qnaList", myPageQnaList);
@@ -302,19 +329,45 @@ public class UserController {
     @GetMapping("myPageUser/orderLogistic")
     public String orderLogisticView(Model model, Authentication authentication, @RequestParam String startDate, @RequestParam String endDate) {
         User user = returnUser(authentication);
-        MyPageOrderList myPageOrderListParam = new MyPageOrderList(user.getUserNo(), startDate,endDate);
+        MyPageOrderList myPageOrderListParam = new MyPageOrderList(user.getUserNo(), startDate, endDate);
         List<MyPageOrderList> myPageOrderList = uService.selectOrderList(myPageOrderListParam);
-        model.addAttribute("orderList",myPageOrderList);
+        model.addAttribute("orderList", myPageOrderList);
         return "myPage/order/order-logistic";
     }
 
 
-//  장바구니 뷰
+    //  장바구니 뷰
     @GetMapping("myPageUser/cart")
-    public String cartView(Authentication authentication, Model model){
+    public String cartView(Authentication authentication, Model model) {
         User user = returnUser(authentication);
         List<CartList> cartList = uService.selectCartList(user.getUserNo());
-        model.addAttribute("cartList",cartList);
+        model.addAttribute("cartList", cartList);
         return "myPage/order/cart";
+    }
+
+    //    장바구니 카운트 up / ajax
+    @GetMapping("ajaxEaUpDown")
+    @ResponseBody
+    public String cartCountUp(int userNo, int productNo, int productQuantity) {
+        CartList cartList = new CartList(productNo, productQuantity, userNo);
+        int result = uService.cartCountUpDown(cartList);
+        if (result > 0) {
+            return "성공";
+        } else {
+            return "실패";
+        }
+    }
+
+    //    장바구니 삭제
+    @PostMapping("cartRemove")
+    @ResponseBody
+    public String cartRemove(int userNo, int productNo) {
+        CartList cartList = new CartList(productNo, userNo);
+        int result = uService.cartRemove(cartList);
+        if (result > 0) {
+            return "성공";
+        } else {
+            return "실패";
+        }
     }
 }

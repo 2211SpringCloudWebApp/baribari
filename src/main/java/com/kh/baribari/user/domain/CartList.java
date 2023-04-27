@@ -13,4 +13,17 @@ public class CartList {
     private int userNo;
     private int productDeliveryCharge;
 
+    public CartList() {
+    }
+
+    public CartList(int productNo, int productQuantity, int userNo) {
+        this.productNo = productNo;
+        this.productQuantity = productQuantity;
+        this.userNo = userNo;
+    }
+
+    public CartList(int productNo, int userNo) {
+        this.productNo = productNo;
+        this.userNo = userNo;
+    }
 }

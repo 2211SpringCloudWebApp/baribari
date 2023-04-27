@@ -136,4 +136,24 @@ public class UserRepositoryLogic implements UserRepository {
     public List<CartList> selectCartList(int userNo) {
         return session.selectList("UserMapper.selectCartList", userNo);
     }
+
+    @Override
+    public int cartCountUpDown(CartList cartList) {
+        return session.update("UserMapper.updateCartCountUpDown",cartList);
+    }
+
+    @Override
+    public int cartRemove(CartList cartList) {
+        return session.delete("UserMapper.deleteCartRemove",cartList);
+    }
+
+    @Override
+    public User selectModifyUser(int userNo) {
+        return session.selectOne("UserMapper.selectModifyUser",userNo);
+    }
+
+    @Override
+    public int updateProfilePic(User user) {
+        return session.update("UserMapper.updateProfilePic",user);
+    }
 }

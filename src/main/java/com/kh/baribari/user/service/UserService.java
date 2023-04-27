@@ -53,4 +53,12 @@ public interface UserService {
     List<MyPageOrderList> selectOrderList(MyPageOrderList myPageOrderListParam);
 //  장바구니 리스트 뷰
     List<CartList> selectCartList(int userNo);
+//  장바구니 카운트 UP, Down
+    int cartCountUpDown(CartList cartList);
+//  장바구니 삭제
+    int cartRemove(CartList cartList);
+//  유저 수정 페이지 데이터
+    User selectModifyUser(int userNo);
+//  유저 프로필 사진 저장
+    int updateProfilePic(User user);
 }

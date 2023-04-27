@@ -12,6 +12,7 @@ public class UserMyPageData {
     private int ready;
     private int logistic;
     private int complete;
+    private String profilePicPath;
 
     public UserMyPageData(int levelNo, int levelMinPoint) {
         this.levelNo = levelNo;

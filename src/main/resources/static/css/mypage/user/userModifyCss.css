@@ -41,6 +41,11 @@ dl dd {
     flex-direction: column;
     align-items: center;
 }
+.profile-pic-container form{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
 .profile-pic-container label{
     height: 100px;
     border: 1px solid black;
@@ -53,7 +58,9 @@ dl dd {
     height: 100px;
     text-align: center;
 }
-
+.del-save-btn{
+    margin-top: 10px;
+}
 .del-save-btn a{
     text-decoration: underline;
     text-underline-position: under;
@@ -138,4 +145,23 @@ form fieldset{
 
 .display-none{
     display: none;
+}
+.profile-pic-miri{
+    border-radius: 50%;
+    cursor: pointer;
+}
+.save-btn{
+    height: 30px;
+    width: 90px;
+    border-radius: 10px;
+    background-color: white;
+    color: #25DBAE;
+    border: 1px solid #25DBAE;
+}
+.remove-btn{
+    height: 30px;
+    width: 90px;
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid #8E8E8E;
 }

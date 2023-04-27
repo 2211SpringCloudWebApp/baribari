@@ -111,6 +111,26 @@ public class UserServiceImpl implements UserService {
         return uRepository.selectCartList(userNo);
     }
 
+    @Override
+    public int cartCountUpDown(CartList cartList) {
+        return uRepository.cartCountUpDown(cartList);
+    }
+
+    @Override
+    public int cartRemove(CartList cartList) {
+        return uRepository.cartRemove(cartList);
+    }
+
+    @Override
+    public User selectModifyUser(int userNo) {
+        return uRepository.selectModifyUser(userNo);
+    }
+
+    @Override
+    public int updateProfilePic(User user) {
+        return uRepository.updateProfilePic(user);
+    }
+
     //  배송지 삭제
     @Override
     public int deleteAddress(int addressNo) {

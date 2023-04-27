@@ -35,7 +35,7 @@
             <div class="profile-container" >
                 <div class="profile-left">
                     <div style="width: 250px;">
-                        <div class="profile-pic"></div>
+                        <div class="profile-pic" ><img th:src="${userMyPageData.profilePicPath}" style="width: 100%; height: 100%"></div>
                     </div>
                         <div>
                             <div class="info" th:text="${#authentication.principal.user.userName}+님">
@@ -73,7 +73,7 @@
         </div>
         <div class="logistic-container">
             <div>
-            <a href="">
+            <a onclick="MonthSearch(1);">
                 <div class="payment-logistic">
                     <img src="img/payment.svg" class="order-img">
                 </div>
@@ -81,15 +81,15 @@
                 <span class="logistic-count" th:text="${userMyPageData.payment}"></span>
             </a>
                 <div class="dashed"></div>
-            <a href="">
-                <div class="ready-logistic">
+            <a onclick="MonthSearch(1);">
+                <div class="ready-logistic" >
                     <img src="img/box-time.svg" class="order-img">
                 </div>
                 <span>배송 준비중</span>
                 <span class="logistic-count" th:text="${userMyPageData.ready}"></span>
             </a>
                 <div class="dashed"></div>
-            <a>
+            <a onclick="MonthSearch(1);">
                 <div class="start-logistic">
                     <img src="img/logistic.svg" class="order-img">
                 </div>
@@ -97,7 +97,7 @@
                 <span class="logistic-count" th:text="${userMyPageData.logistic}"></span>
             </a>
                 <div class="dashed"></div>
-            <a>
+            <a onclick="MonthSearch(1);">
                 <div class="complete-logistic">
                     <img  src="img/box-comp.svg" class="order-img">
                 </div>

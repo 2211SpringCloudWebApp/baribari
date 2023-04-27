@@ -57,4 +57,12 @@ public interface UserRepository {
     List<MyPageOrderList> selectOrderList(MyPageOrderList myPageOrderListParam);
 //  장바구니 목록 조회
     List<CartList> selectCartList(int userNo);
+//  장바구니 카운트 up
+    int cartCountUpDown(CartList cartList);
+//  장바구니 삭제
+    int cartRemove(CartList cartList);
+//  유저 수정 페이지 정보
+    User selectModifyUser(int userNo);
+//  유저 프로필 사진 저장
+    int updateProfilePic(User user);
 }

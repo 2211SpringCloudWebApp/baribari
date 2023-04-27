@@ -150,3 +150,41 @@
     color: #3DB35E;
     border-radius: 10px;
 }
+.cart-check-price{
+    margin-top: 30px;
+}
+.cart-check-price span{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    font-size: 30px;
+}
+.cart-btn-box{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+.check-order-btn{
+    display: inline-block;
+    font-size: 14px;
+    padding: 20px 0;
+    border-radius: 10px;
+    width: 200px;
+    border: 1px solid #3DB35E;
+    background-color: #fff;
+    color: #3DB35E;
+    margin-right: 30px;
+}
+.all-order-btn{
+    display: inline-block;
+    font-size: 14px;
+    padding: 20px 0;
+    border-radius: 10px;
+    width: 200px;
+    border: 1px solid #3DB35E;
+    background-color: #3DB35E;
+    color: #fff;
+}
+.margin-p{
+    margin-left: 10px;
+}

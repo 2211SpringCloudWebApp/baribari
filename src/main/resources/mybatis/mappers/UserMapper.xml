@@ -23,7 +23,7 @@
     </select>
 <!-- 유저 마이페이지 데이터 -->
     <select id="selectUserLevel" resultType="UserMyPageData">
-        SELECT L.LEVEL_NO, L.LEVEL_MIN_POINT, L.LEVEL_MAX_POINT,
+        SELECT L.LEVEL_NO, L.LEVEL_MIN_POINT, L.LEVEL_MAX_POINT,O.PROFILE_PIC_PATH,
         COALESCE(O.PAYMENT, 0) AS PAYMENT,
         COALESCE(O.READY, 0) AS READY,
         COALESCE(O.LOGISTIC, 0) AS LOGISTIC,
@@ -38,24 +38,31 @@
         WHERE USER_NO = #{levelNo}
         )
         ORDER BY LEVEL_MIN_POINT DESC
-        ) L
+        )  L
         LEFT JOIN (
         SELECT
         SUM(CASE WHEN ORDER_STATUS = 0 THEN 1 ELSE 0 END) AS PAYMENT,
         SUM(CASE WHEN ORDER_STATUS = 1 THEN 1 ELSE 0 END) AS READY,
         SUM(CASE WHEN ORDER_STATUS = 2 THEN 1 ELSE 0 END) AS LOGISTIC,
         SUM(CASE WHEN ORDER_STATUS = 3 THEN 1 ELSE 0 END) AS COMPLETE,
-        P.POINT_VAL
+        P.POINT_VAL, PP.PROFILE_PIC_PATH
         FROM ORDER_DETAIL_TBL A
         FULL JOIN ORDER_TBL B ON A.ORDER_NO = B.ORDER_NO
         FULL JOIN POINT_TBL P ON P.USER_NO = B.USER_NO
+        FULL JOIN PROFILE_TBL PP ON PP.USER_NO = P.USER_NO
         WHERE P.USER_NO = #{levelNo}
-        GROUP BY P.POINT_VAL
+        GROUP BY P.POINT_VAL, PP.PROFILE_PIC_PATH
         ) O
         ON 1 = 1
         WHERE ROWNUM <![CDATA[<]]> = 1
     </select>
-
+<!-- 마이페이지 수정 데이터 로드 -->
+    <select id="selectModifyUser" resultType="User">
+        SELECT U.USER_NO, U.USER_ID , U.USER_NAME , U.USER_NICKNAME, P.PROFILE_PIC_PATH, U.USER_ID, U.USER_PHONE, U.USER_EMAIL
+        FROM USER_TBL U
+                 FULL JOIN PROFILE_TBL P ON U.USER_NO = P.USER_NO
+        WHERE U.USER_NO = #{userNo}
+    </select>
 <!--     마이페이지 > 1:1 문의    -->
     <select id="selectQnaByUserNo" resultType="MyPageQna">
         SELECT * FROM QNA_TBL WHERE USER_NO = #{userNo} AND QNA_CATEGORY = 1 ORDER BY QNA_DATE DESC
@@ -143,7 +150,10 @@
     <delete id="deleteUser" parameterType="_int">
         DELETE FROM USER_TBL WHERE USER_NO = #{userNo}
     </delete>
-
+<!--    장바구니 삭제 -->
+    <delete id="deleteCartRemove">
+        DELETE FROM CART_TBL WHERE USER_NO = #{userNo} AND PRODUCT_NO = #{productNo}
+    </delete>
 	<!-- 해당 상품을 구매해서 배송을 받은 회원인지 여부 -->
 	<select id="checkCustomer" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM USER_TBL
@@ -170,5 +180,20 @@
 <!--    qna 수정 저장 -->
     <update id="updateQna">
         UPDATE QNA_TBL SET QNA_CONTENT = #{qnaContent} WHERE QNA_NO = #{qnaNo}
+    </update>
+<!--    장바구니 카운트 업 앤 다운 -->
+    <update id="updateCartCountUpDown">
+        UPDATE CART_TBL SET
+                            <if test="productQuantity == 1">
+                                PRODUCT_QUANTITY = PRODUCT_QUANTITY+1
+                            </if>
+                            <if test="productQuantity == -1">
+                                PRODUCT_QUANTITY = PRODUCT_QUANTITY-1
+                            </if>
+                        WHERE USER_NO = #{userNo} AND PRODUCT_NO = ${productNo}
+    </update>
+<!--    프로필 사진 업데이트 -->
+    <update id="updateProfilePic">
+        UPDATE PROFILE_TBL SET PROFILE_PIC_PATH = #{profilePicPath} WHERE USER_NO = #{userNo}
     </update>
 </mapper>

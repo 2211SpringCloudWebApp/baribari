@@ -47,11 +47,14 @@
         </div>
     </div>
     <div class="profile-pic-container" style="margin-top: 25px;">
-        <label for="userImg">
-            <img src="../img/campfire.svg" alt="userImg">
-            <input style="display: none" type="file" name="" id="userImg">
+        <form action="/profilePicSave" method="post" enctype="multipart/form-data">
+        <label for="file1">
+            <img src="../img/campfire.svg" th:if="${user.profilePicPath == ''} " alt="userImg" class="profile-pic-miri">
+            <img th:src="${user.profilePicPath}" th:if="${user.profilePicPath != ''} " alt="userImg" class="profile-pic-miri">
+            <input style="display: none" type="file" name="file1" id="file1">
         </label>
-        <div class="del-save-btn"><a href="javaScript:" style=" color: #8E8E8E; margin-right: 15px;">삭제하기</a><a href="javaScript:" style="color: #0d9963">저장하기</a></div>
+            <div class="del-save-btn"><button type="button" href="javaScript:" style=" color: #8E8E8E; margin-right: 15px;" class="remove-btn">삭제하기</button><button type="submit" class="save-btn">저장하기</button></div>
+        </form>
     </div>
     <div class="modify-form-box">
         <form action="/myPageUser/modifySubmit" method="post">
@@ -116,7 +119,38 @@
 
 </div>
 <script src="../js/user/user-modify.js"></script>
+<script>
+    //이미지 미리보기
+    var sel_file;
 
+    $(document).ready(function () {
+        $("#file1").on("change", handleImgFileSelect);
+    });
+
+    function handleImgFileSelect(e) {
+        var files = e.target.files;
+        var filesArr = Array.prototype.slice.call(files);
+
+        var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+
+        filesArr.forEach(function (f) {
+            if (!f.type.match(reg)) {
+                alert("확장자는 이미지 확장자만 가능합니다.");
+                return;
+            }
+
+            sel_file = f;
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                console.log(e.target.result);
+                $(".profile-pic-miri").attr("src", e.target.result);
+            }
+            reader.readAsDataURL(f);
+        });
+    }
+
+</script>
 <!-- Vendor JS Files -->
 <script src="../assets/vendor/aos/aos.js"></script>
 <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

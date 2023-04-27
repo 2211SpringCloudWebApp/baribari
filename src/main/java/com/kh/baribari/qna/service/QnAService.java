@@ -20,4 +20,11 @@ public interface QnAService {
 	 */
 	public List<QnA> getQnAList(Integer productNo);
 
+	/**
+	 * qna 상세
+	 * @param productNo
+	 * @return
+	 */
+	public int selectByproductNo(int productNo);
+
 }

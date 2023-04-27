@@ -20,5 +20,10 @@
 	<insert id="registerQnA" parameterType="QnA">
 		INSERT INTO QNA_TBL VALUES (SEQ_QNA_NO.NEXTVAL, #{qnaContent}, 1, 1, #{productNo}, 1, '11') 
 	</insert>
+	
+	<!-- QNA 상세 --> 
+	<select id="selectByproductNo" parameterType="_int">
+    SELECT COUNT(*) FROM QNA WHERE PRODUCT_NO = #{productNo}
+  </select>
 
 </mapper>

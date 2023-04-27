@@ -24,4 +24,12 @@ public interface QnARepository {
 	 */
 	public List<QnA> getQnAList(SqlSession session, Integer productNo);
 
+	/**
+	 * qna 상세
+	 * @param session
+	 * @param productNo
+	 * @return
+	 */
+	public int selectByproductNo(SqlSession session, int productNo);
+
 }

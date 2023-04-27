@@ -23,4 +23,10 @@ public class QnARepositoryLogic implements QnARepository{
 		return qList;
 	}
 
+	@Override
+	public int selectByproductNo(SqlSession session, int productNo) {
+		int result = session.selectOne("QnAMapper.selectByproductNo", productNo);
+		return result;
+	}
+
 }

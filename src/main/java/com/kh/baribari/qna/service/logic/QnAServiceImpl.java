@@ -30,4 +30,10 @@ public class QnAServiceImpl implements QnAService {
 		return qList;
 	}
 
+	@Override
+	public int selectByproductNo(int productNo) {
+		int result = qRepository.selectByproductNo(session, productNo);
+		return result;
+	}
+
 }

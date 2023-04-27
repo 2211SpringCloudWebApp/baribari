@@ -1,10 +1,10 @@
-package com.kh.baribari.product.repository;
+package com.kh.baribari.qna.repository;
 
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.kh.baribari.product.domain.QnA;
+import com.kh.baribari.qna.domain.QnA;
 
 public interface QnARepository {
 

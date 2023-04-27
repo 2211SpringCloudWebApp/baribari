@@ -1,4 +1,4 @@
-package com.kh.baribari.product.repository;
+package com.kh.baribari.notice.repository;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.common.Search;
-import com.kh.baribari.product.domain.Notice;
+import com.kh.baribari.notice.domain.Notice;
 
 public interface NoticeRepository {
 

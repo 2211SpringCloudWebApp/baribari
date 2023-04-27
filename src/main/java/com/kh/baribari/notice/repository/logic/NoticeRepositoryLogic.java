@@ -1,4 +1,4 @@
-package com.kh.baribari.product.repository.logic;
+package com.kh.baribari.notice.repository.logic;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.common.Search;
-import com.kh.baribari.product.domain.Notice;
-import com.kh.baribari.product.repository.NoticeRepository;
+import com.kh.baribari.notice.domain.Notice;
+import com.kh.baribari.notice.repository.NoticeRepository;
 
 @Repository
 public class NoticeRepositoryLogic implements NoticeRepository{

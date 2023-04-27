@@ -1,4 +1,4 @@
-package com.kh.baribari.product.controller;
+package com.kh.baribari.qna.controller;
 
 import java.util.List;
 
@@ -10,20 +10,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
-import com.kh.baribari.product.domain.QnA;
-import com.kh.baribari.product.service.QnAService;
-import com.kh.baribari.user.domain.User;
+import com.kh.baribari.qna.domain.QnA;
+import com.kh.baribari.qna.service.QnAService;
 
 @Controller
+@RequestMapping("/qna")
 public class QnAController {
 	@Autowired
 	private QnAService qService;
 
 	// QnA 등록
-	@PostMapping("qna/register")
+	@PostMapping("/register")
 	@ResponseBody
 	public String writeQnAView(@ModelAttribute QnA qna, HttpServletRequest request, Model model) {
 		try {
@@ -42,7 +43,7 @@ public class QnAController {
 	}
 	
 	// QnA 목록 출력
-	@GetMapping("qna/list")
+	@GetMapping("/list")
 	@ResponseBody
 	public String getQnAList(Integer productNo) {
 		List<QnA> qList = qService.getQnAList(productNo);

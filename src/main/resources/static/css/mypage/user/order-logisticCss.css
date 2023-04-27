@@ -188,3 +188,19 @@ td {
     font-size: 14px;
     line-height: 22px;
 }
+.col{
+    text-align: center !important;
+}
+.td-center{
+    text-align: center;
+}
+.page-menu dl dd{
+    cursor: pointer;
+}
+.review-button{
+    border: 1px solid #3DB35E;
+    height: 40px;
+    border-radius: 10px;
+    background-color: white;
+    color: #3DB35E;
+}

@@ -128,7 +128,12 @@ public class UserRepositoryLogic implements UserRepository {
     }
 
     @Override
-    public List<MyPageOrderList> selectOrderList(int userNo) {
-        return session.selectList("UserMapper.selectOrderList",userNo);
+    public List<MyPageOrderList> selectOrderList(MyPageOrderList myPageOrderListParam) {
+        return session.selectList("UserMapper.selectOrderList",myPageOrderListParam);
+    }
+
+    @Override
+    public List<CartList> selectCartList(int userNo) {
+        return session.selectList("UserMapper.selectCartList", userNo);
     }
 }

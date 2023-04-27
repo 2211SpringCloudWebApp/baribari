@@ -50,5 +50,7 @@ public interface UserService {
     List<MyPageQna> selectProductQna(User user);
 
 //    주문내역 조회
-    List<MyPageOrderList> selectOrderList(int userNo);
+    List<MyPageOrderList> selectOrderList(MyPageOrderList myPageOrderListParam);
+//  장바구니 리스트 뷰
+    List<CartList> selectCartList(int userNo);
 }

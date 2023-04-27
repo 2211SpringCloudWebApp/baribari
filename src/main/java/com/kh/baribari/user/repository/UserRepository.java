@@ -54,5 +54,7 @@ public interface UserRepository {
 //  상품 문의사항 뷰
     List<MyPageQna> selectProductQna(User user);
 //  주문내역 조회
-    List<MyPageOrderList> selectOrderList(int userNo);
+    List<MyPageOrderList> selectOrderList(MyPageOrderList myPageOrderListParam);
+//  장바구니 목록 조회
+    List<CartList> selectCartList(int userNo);
 }

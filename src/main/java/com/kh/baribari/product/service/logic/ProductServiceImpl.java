@@ -59,4 +59,9 @@ public class ProductServiceImpl implements ProductService {
 		return pRepository.registerProduct(session, product);
 	}
 
+	@Override
+	public List<Product> getMdRecommendProductList() {
+		return pRepository.getMdRecommendProductList(session);
+	}
+
 }

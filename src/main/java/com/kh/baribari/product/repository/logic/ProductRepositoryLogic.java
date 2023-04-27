@@ -65,4 +65,8 @@ public class ProductRepositoryLogic implements ProductRepository {
 	    return result1 + result2;
 	}
 
+	@Override
+	public List<Product> getMdRecommendProductList(SqlSession session) {
+		return session.selectList("ProductMapper.getMdRecommendProductList");
+	}
 }

@@ -351,7 +351,7 @@
 			});
 		}
 
-		/* Fancybox: 사진 확대를 위한 라이브러리 */
+		/* Fancybox: 사진 확대를 위한 라이브러리 (jQuery Plugin) */
 		$(document).ready(function () {
 			$(".fancybox").fancybox({
 				buttons: ["zoom", "slideShow", "fullScreen", "close"],
@@ -434,21 +434,24 @@
 				}
 			});
 		});
-	    /* 사진 미리보기 */
-	    $("#photoInput").on("change", function() {
-			var fileList = this.files;
-			var imgPreview = $("#imgPreview");
-			imgPreview.empty();
-			for (var i = 0; i < fileList.length; i++) {
-				var file = fileList[i];
-				var reader = new FileReader();
-				reader.onload = function(event) {
-					var img = $("<img>").attr("src", event.target.result);
-					var imgPreviewItem = $("<div>").addClass("img-preview").append(img);
-					imgPreview.append(imgPreviewItem);
-				};
-				reader.readAsDataURL(file);
-			}
+		/* 사진 미리보기 */
+		document.querySelector("#photoInput").addEventListener("change", function() {
+		    var fileList = this.files;
+		    var imgPreview = document.querySelector("#imgPreview");
+		    imgPreview.innerHTML = "";
+		    for (var i = 0; i < fileList.length; i++) {
+		        var file = fileList[i];
+		        var reader = new FileReader();
+		        reader.onload = function(event) {
+		            var img = document.createElement("img");
+		            img.setAttribute("src", event.target.result);
+		            var imgPreviewItem = document.createElement("div");
+		            imgPreviewItem.classList.add("img-preview");
+		            imgPreviewItem.appendChild(img);
+		            imgPreview.appendChild(imgPreviewItem);
+		        };
+		        reader.readAsDataURL(file);
+		    }
 		});
 		/* 후기 삭제 */
 		function deleteReview(reviewNo, userNo) {

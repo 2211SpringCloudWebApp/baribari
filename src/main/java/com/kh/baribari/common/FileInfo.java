@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-@Component
+@Component("fileUpload")
 public class FileInfo {
 	// 파일 저장
 	public Map<String, String> saveFile(MultipartFile multi, HttpServletRequest request, String path) throws Exception {

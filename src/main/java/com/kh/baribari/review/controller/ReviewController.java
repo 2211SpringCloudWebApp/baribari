@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
-import com.kh.baribari.common.FileUpload;
+import com.kh.baribari.common.FileInfo;
 import com.kh.baribari.review.domain.Review;
 import com.kh.baribari.review.service.ReviewService;
 
@@ -29,7 +29,7 @@ public class ReviewController {
 	private ReviewService rService;
 	@Autowired
 	@Qualifier("fileUpload")
-	private FileUpload fileUpload;
+	private FileInfo fileUpload;
 	
 	// 상품 후기 등록
 	@PostMapping("/register")

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.baribari.common.FileUpload;
+import com.kh.baribari.common.FileInfo;
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.community.board.service.BoardService;
 import com.kh.baribari.community.domain.Community;
@@ -31,7 +31,7 @@ public class BoardController {
 	
 	@Autowired
 	@Qualifier("fileUpload")
-	private FileUpload fileUpload;
+	private FileInfo fileUpload;
 
 	//자유게시판 목록 출력
 	@GetMapping("boardList")

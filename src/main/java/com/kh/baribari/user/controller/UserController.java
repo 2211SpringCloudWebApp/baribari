@@ -1,7 +1,7 @@
 package com.kh.baribari.user.controller;
 
 import com.google.gson.Gson;
-import com.kh.baribari.common.FileUpload;
+import com.kh.baribari.common.FileInfo;
 import com.kh.baribari.user.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,7 +32,7 @@ public class UserController {
 
     @Autowired
     @Qualifier("fileUpload")
-    private FileUpload fileUpload;
+    private FileInfo fileUpload;
 
     //    로그인 뷰
     @GetMapping("login")

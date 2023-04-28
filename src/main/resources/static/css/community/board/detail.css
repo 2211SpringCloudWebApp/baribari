@@ -1,17 +1,76 @@
 /*정렬을 위한 display: flex*/
+.displayFlex {display: flex;}
+
+/*세로 정렬*/
+.hCenter {align-items: center;}
+.hTop {align-items: flex-start;}
+.hBottom {align-items: flex-end;}
+
+/*가로 정렬*/
+.wCenter {justify-content: center;}
+.wRight {justify-content: flex-end;}
+.wLeft {justify-content: flex-start;}
+
+/*정렬을 위한 display: flex*/
 #registerdiv1, #registerdiv2, #registerdiv2-1, #registerdiv2-2,
-	#showTage, #registerdiv7 div, #registerdiv8, #registerdiv9 {
+	#showTage, #registerdiv7 div, #registerdiv8, #registerdiv9, #registerdiv3{
 	display: flex;
 }
 /*수평 가운데정렬*/
 #registerdiv1, #registerdiv2, #registerdiv2-1, #registerdiv2-2,
-	#showTage, #registerdiv7 div, #registerdiv8, #registerdiv9 {
+	#showTage, #registerdiv7 div, #registerdiv8, #registerdiv9, #registerdiv3 {
 	align-items: center;
 }
 /*수직 가운데정렬*/
 #registerdiv1, #registerdiv2-1, #registerdiv2-2, #registerdiv7 div,
-	#registerdiv8, #registerdiv9 {
+	#registerdiv8, #registerdiv9, #registerdiv3 {
 	justify-content: center;
+}
+
+
+.div_style{
+	display:inline-block;
+	position:relative;
+	width:90px;
+	height:90px;
+	position: relative;
+	display: inline-block;
+	float: left;
+}
+.over_style{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 0, 0, 0.5);
+	display : none;
+	align-items: center;
+	justify-content: center;
+	font-size:30px;
+	color : rgb(255, 255, 255);
+}
+.img_style{
+	width:90px;
+	height:90px;
+	z-index:none;
+}
+
+.show_img_style{
+	width:80%;
+	height:80%;
+}
+
+.chk_style{
+	width:30px;
+	height:30px;
+	position:absolute;
+	font-size:24px;
+	right:0px;
+	bottom:0px;
+	z-index:999;
+	background-color:rgba(255,255,255,0.1);
+	color:#f00;
 }
 
 body {
@@ -35,6 +94,28 @@ body {
 	margin-right: 50px;
 	color: black;
 }
+#boardDetailNav {
+	height: 50px;
+	margin-left: 50px;
+	margin-right: 50px;
+}
+#boardDetailNav a{
+	margin-right: 10px;
+	font-weight: 900;
+	color : rgb(8, 19, 51);
+}
+
+
+#boardDetailNav a:hover{
+	color : rgb(255, 191, 31);
+}
+
+#showLike{
+	margin-right: 10px;
+	font-weight: 900;
+	color : rgb(8, 19, 51);
+}
+
 /* 말머리, 제목 부분 */
 #registerdiv2 {
 	width: 1000px;

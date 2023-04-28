@@ -91,16 +91,4 @@
 			,MAP_Y = #{mapY}
 		WHERE COMMUNITY_NO = #{boardNo}
 	</update>
-	
-	<select id="getHashTag" resultType="HashTag">
-		SELECT HASH_TAG_NAME FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{boardNo}
-	</select>
-	
-	<insert id="registerHashTag">
-		INSERT INTO HASH_TAG_TBL VALUES(#{communityNo}, #{hashTagName})
-	</insert>
-	
-	<delete id="deleteHashTag">
-		DELETE FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{communityNo} AND HASH_TAG_NAME = #{hashTagName}
-	</delete>
 </mapper>

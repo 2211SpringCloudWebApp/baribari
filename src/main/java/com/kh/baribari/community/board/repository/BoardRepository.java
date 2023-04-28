@@ -34,21 +34,6 @@ public interface BoardRepository {
 	public int getListCount(SqlSession session, int boardNo);
 
 	/**
-	 * 해시태그 가져오기
-	 * @param communityNo
-	 * @return List<HashTag>
-	 */
-	public List<HashTag> getHashTag(SqlSession session,int boardNo);
-
-	/**
-	 * 해시태그 등록
-	 * @param session
-	 * @param hTag
-	 * @return
-	 */
-	public int registerHashTag(SqlSession session, HashTag hTag);
-
-	/**
 	 * 시퀀스넘버 미리 가져오기
 	 * @return
 	 */
@@ -61,14 +46,6 @@ public interface BoardRepository {
 	 * @return
 	 */
 	public int boardRegister(SqlSession session, Community commu);
-
-	/**
-	 * 해시태그 삭제
-	 * @param session
-	 * @param hTag
-	 * @return
-	 */
-	public int deleteHashTag(SqlSession session, HashTag hTag);
 
 	/**
 	 * 사진등록

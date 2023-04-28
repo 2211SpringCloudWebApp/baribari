@@ -158,49 +158,6 @@ public class BoardController {
 		
 	}
 	
-	//해시태그 출력
-	@ResponseBody
-	@GetMapping("getHashTag")
-	public List<HashTag> getHashTag(
-			@RequestParam(value="communityNo",required = false) Integer boardNo) 
-			 {
-		try {
-			List<HashTag> hList = bService.getHashTag(boardNo);
-			return hList;
-		} catch (Exception e) {
-			return null;
-		}
-	}
-	//해시태그 등록(register) or 삭제(delete)
-	@ResponseBody
-	@GetMapping("registerHashTag")
-	public String registerHashTag(
-			@RequestParam(value="communityNo",required = false) Integer boardNo
-			, @RequestParam(value = "hasgTag", required = false) String hasgTag
-			, @RequestParam(value = "choice", required = false) String choice
-			) {
-		try {
-			HashTag hTag = new HashTag();
-			hTag.setCommunityNo(boardNo);
-			hTag.setHashTagName(hasgTag);
-			int result;
-			if(choice.equals("register")) {
-				result = bService.registerHashTag(hTag);
-				return "1";
-			}else if(choice.equals("delete")){
-				result = bService.deleteHashTag(hTag);
-				return "0";
-			}else {
-				return "0";
-			}
-			
-		} catch (Exception e) {
-			return e.getMessage();
-		}
-	}
-
-	
-
 	//게시글 상세
 	@GetMapping("boardDetail")
 	public ModelAndView boardDetail(

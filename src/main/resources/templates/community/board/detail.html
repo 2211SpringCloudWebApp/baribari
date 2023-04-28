@@ -36,7 +36,7 @@
         <form action="/boardRegister" method="post" onsubmit="return validateForm()">
             <div id="registerContainer">
                 <div id="registerdiv1">
-                    상세보기
+                    게시글 상세보기
                 </div>
 
                 <div id="registerdiv2">
@@ -52,7 +52,7 @@
                     </div>
                 </div>
 				<div id="boardDetailNav" class="displayFlex hCenter wRight">
-					<a id="aModify" href="#" >수정</a>
+					<a id="aModify" th:href="@{/boardModify(communityNo=${commu.communityNo})}" >수정</a>
 					<a id="aDelete" href="#" onclick="deleteboard()">삭제</a>
 					<a id="aReport" href="#">신고</a>
 					<a id="aScrap" href="#">팩다운</a>

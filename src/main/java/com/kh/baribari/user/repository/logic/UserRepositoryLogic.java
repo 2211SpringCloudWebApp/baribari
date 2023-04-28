@@ -34,7 +34,7 @@ public class UserRepositoryLogic implements UserRepository {
     @Override
     public int insertUserBySeller(User user) {
         session.insert("UserMapper.insertUserBySeller",user);
-        return session.insert("UserMapper.insertUserBySeller",user);
+        return session.insert("UserMapper.insertSellerByRole",user);
     }
 
     // 스프링시큐리티 user 로그인
@@ -155,5 +155,15 @@ public class UserRepositoryLogic implements UserRepository {
     @Override
     public int updateProfilePic(User user) {
         return session.update("UserMapper.updateProfilePic",user);
+    }
+
+    @Override
+    public List<Favorite> selectFavorite(int userNo) {
+        return session.selectList("UserMapper.selectFavoriteList",userNo);
+    }
+
+    @Override
+    public int deleteFavorite(Favorite favorite) {
+        return session.delete("UserMapper.deleteFavorite",favorite);
     }
 }

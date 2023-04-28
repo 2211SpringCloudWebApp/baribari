@@ -38,7 +38,7 @@
                         <div class="profile-pic" ><img th:src="${userMyPageData.profilePicPath}" style="width: 100%; height: 100%"></div>
                     </div>
                         <div>
-                            <div class="info" th:text="${#authentication.principal.user.userNickName}+님">
+                            <div class="info" th:text="${#authentication.principal.user.userName}+님">
                         </div>
                         <div class="userMyPageData">
                             <span  th:text="'Lv.' + ${userMyPageData.levelNo}" style="font-size: 25px; color:black; font-weight: bold"></span>

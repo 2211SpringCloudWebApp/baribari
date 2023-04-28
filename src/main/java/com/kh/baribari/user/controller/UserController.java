@@ -1,14 +1,11 @@
 package com.kh.baribari.user.controller;
 
-import com.google.gson.Gson;
 import com.kh.baribari.common.FileInfo;
-import com.kh.baribari.product.domain.Cart;
 import com.kh.baribari.user.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +15,8 @@ import com.kh.baribari.common.JsonParse;
 import com.kh.baribari.security.auth.PrincipalDetails;
 import com.kh.baribari.user.service.UserService;
 import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.model.IModel;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.PublicKey;
 import java.util.List;
 import java.util.Map;
 
@@ -370,4 +365,26 @@ public class UserController {
             return "실패";
         }
     }
+//    찜한 상품 뷰
+    @GetMapping("myPageUser/like")
+    public String likeView(Authentication authentication, Model model){
+        User user = returnUser(authentication);
+        List<Favorite> favoriteList = uService.selectFavorite(user.getUserNo());
+        model.addAttribute("favoriteList",favoriteList);
+        return "myPage/order/like";
+    }
+
+//    찜한 상품 삭제
+    @PostMapping("favoriteDel")
+    @ResponseBody
+    public String favoriteDelete(int userNo, int productNo){
+        Favorite favorite = new Favorite(productNo,userNo);
+        int result = uService.deleteFavorite(favorite);
+        if(result > 0){
+            return "성공";
+        }else {
+            return "실패";
+        }
+    }
+
 }

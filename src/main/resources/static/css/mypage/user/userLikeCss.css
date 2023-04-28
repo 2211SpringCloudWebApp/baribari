@@ -1,0 +1,74 @@
+.like-middle{
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 25px;
+}
+* {
+    list-style: none;
+}
+.like-li{
+    width: calc(20% - 10px);
+    padding-bottom: 60px;
+    margin: 0 5px;
+    text-align: center;
+    vertical-align: top;
+    float: left;
+}
+
+.img-container{
+    width: auto;
+    position: relative;
+    margin: 0 auto;
+}
+.img-box{
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+    text-align: center;
+    width: auto;
+    border-radius: 10px;
+    background-color: #fff;
+}
+.info-box{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding-left: 10px;
+}
+.before-price{
+    font-size: 16px;
+    color: #939393;
+    font-weight: 600;
+    text-decoration: line-through;
+    padding-top: 10px;
+}
+.after-price-box{
+    font-weight: 600;
+    font-size: 20px !important;
+}
+.discount{
+    font-size: 20px;
+    margin-left: 5px;
+    color: #FF9995;
+}
+.info-name{
+    color: #212121;
+    font-size: 18px;
+    letter-spacing: -0.5px;
+    padding-top: 1px;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+.del-btn{
+    margin-left: 85px;
+    margin-top: 5px;
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid #3DB35E;
+    color: #3DB35E;
+}

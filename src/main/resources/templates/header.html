@@ -98,11 +98,12 @@
                         <li><button class="dropdown-item" type="button" onclick="location.href='/myPageUser'">마이페이지</button></li>
                         <li><button class="dropdown-item" type="button">주문내역</button></li>
                         <li><button class="dropdown-item" type="button" onclick="location.href='/cart/list'">장바구니</button></li>
+						<li><button type="button" onclick="window.open('/message','','top=0, left=700, width=500, height=600')">메시지</button></li>
                         <li><button class="dropdown-item" type="button" onclick="location.href='/logout'">로그아웃</button></li>
                     </ul>
                     <!-- 판매자 -->
 	                <ul class="dropdown-menu" sec:authorize="hasRole('ROLE_MANAGER')">
-	                    <li><button class="dropdown-item" type="button" onclick="location.href='mypage'">상점페이지</button></li>
+	                    <li><button class="dropdown-item" type="button" onclick="location.href='/myPageSeller'">상점페이지</button></li>
 	                    <li><button class="dropdown-item" type="button" onclick="location.href='/logout'">로그아웃</button></li>
 	                </ul>
 	                <!-- 관리자 -->

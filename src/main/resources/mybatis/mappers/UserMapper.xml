@@ -123,7 +123,7 @@
 
 <!--   주문사항 조회 -->
     <select id="selectOrderList" resultType="MyPageOrderList">
-        SELECT P.PRODUCT_NO, P.PRODUCT_NAME,PP.PRODUCT_PIC_1 , O.ORDER_DATE, O.ORDER_NO, D.ORDER_DETAIL_COUNT, D.ORDER_LOGIS, D.ORDER_TRACKING_NO, D.ORDER_STATUS, D.ORDER_PRICE, U.USER_NICKNAME, O.USER_NO
+        SELECT P.PRODUCT_NO, P.PRODUCT_NAME,PP.PRODUCT_PIC_1 , O.ORDER_DATE, O.ORDER_NO, D.ORDER_DETAIL_COUNT, D.ORDER_LOGIS, D.ORDER_TRACKING_NO, D.ORDER_STATUS, D.ORDER_PRICE, U.USER_NICKNAME, O.USER_NO, P.PRODUCT_BRAND
         FROM ORDER_DETAIL_TBL D
                  JOIN ORDER_TBL O ON O.ORDER_NO = D.ORDER_NO
                  JOIN USER_TBL U ON U.USER_NO = D.SELLER_USER_NO
@@ -154,6 +154,12 @@
     <delete id="deleteCartRemove">
         DELETE FROM CART_TBL WHERE USER_NO = #{userNo} AND PRODUCT_NO = #{productNo}
     </delete>
+
+<!--    찜한 상품 삭제 -->
+    <delete id="deleteFavorite">
+        DELETE FROM FAVORITE_TBL WHERE USER_NO = #{userNo} AND PRODUCT_NO = #{productNo}
+    </delete>
+
 	<!-- 해당 상품을 구매해서 배송을 받은 회원인지 여부 -->
 	<select id="checkCustomer" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM USER_TBL
@@ -162,6 +168,14 @@
 		WHERE PRODUCT_NO = #{productNo} AND ORDER_STATUS = 3
 	</select>
 
+<!--    like 상품 뷰 -->
+    <select id="selectFavoriteList" resultType="Favorite">
+    SELECT PP.PRODUCT_PIC_1, P.PRODUCT_NAME, P.PRODUCT_PRICE, P.PRODUCT_NO, P.PRODUCT_SALES
+    FROM PRODUCT_TBL P
+    FULL JOIN PRODUCT_PIC_TBL PP ON P.PRODUCT_NO = PP.PRODUCT_NO
+    FULL JOIN FAVORITE_TBL F ON F.PRODUCT_NO = P.PRODUCT_NO
+    WHERE F.USER_NO = #{userNo}
+    </select>
 
 
 

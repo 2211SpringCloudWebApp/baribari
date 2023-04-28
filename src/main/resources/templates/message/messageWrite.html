@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BARIBARI-메세지</title>
+    <link rel="stylesheet" href="../css/message/Message.css">
+    <link rel="stylesheet" href="../css/message/MessageWrite.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+<body>
+<h3>쪽지쓰기</h3>
+<ul class="message-list-ul">
+    <li class="message-list-li"><a href="/message">받은쪽지</a></li>
+    <li class="message-list-li"><a href="/messageSend">보낸쪽지</a></li>
+    <li class="message-list-li"><a href="/messageWrite">쪽지쓰기</a></li>
+</ul>
+<form>
+<div class="msg-form">
+    <div class="receive-user-box">
+        <span class="receive-user">받는이 : </span><input type="text" class="search-input">
+    </div>
+    <div class="msg-form-content">
+        <textarea class="msg-form-textarea">
+        </textarea>
+    </div>
+    <div class="write-btn-box">
+    <button type="button" class="back-btn">취소</button><button type="submit" class="send-btn">전송</button>
+    </div>
+</div>
+</form>
+<script>
+
+    function msgOpen(messageNo) {
+            $('.msg-content').removeClass('msg-content-active');
+            $('#' + messageNo).addClass('msg-content-active');
+    }
+
+</script>
+</body>
+</html>

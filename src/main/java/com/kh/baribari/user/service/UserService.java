@@ -61,4 +61,8 @@ public interface UserService {
     User selectModifyUser(int userNo);
 //  유저 프로필 사진 저장
     int updateProfilePic(User user);
+//  찜한 상품 뷰
+    List<Favorite> selectFavorite(int userNo);
+//  찜한 상품 삭제
+    int deleteFavorite(Favorite favorite);
 }

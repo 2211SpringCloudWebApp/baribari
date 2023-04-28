@@ -44,7 +44,7 @@
                     <dl>
                         <dd onclick="MonthSearch(1);"><a class="page-active">주문/배송조회</a></dd>
                         <dd class="page-address"><a href="/myPageUser/cart">장바구니</a></dd>
-                        <dd class="page-withdraw"><a href="/myPageUser/withdraw">찜한 상품</a></dd>
+                        <dd class="page-withdraw"><a href="/myPageUser/like">찜한 상품</a></dd>
                     </dl>
                 </div>
             </div>
@@ -115,7 +115,7 @@
                     <td class="table-td">
                         <img src="../img/campfire.svg">
                         <div class="table-title">
-                        <span th:text="${order.userNickname}"></span>
+                        <span th:text="${order.productBrand}"></span>
                         <a th:href="'/shopping/detail?productNo='+${order.productNo}"><span th:text="${order.productName}" style="font-weight: bold"></span></a>
                         </div>
                     </td>

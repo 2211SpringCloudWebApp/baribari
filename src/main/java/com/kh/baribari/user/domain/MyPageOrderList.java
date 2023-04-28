@@ -20,6 +20,7 @@ public class MyPageOrderList {
     private int userNo;
     private String startDate;
     private String endDate;
+    private String productBrand;
 
     public MyPageOrderList() {
     }

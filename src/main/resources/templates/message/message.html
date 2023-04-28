@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BARIBARI-메세지</title>
+    <link rel="stylesheet" href="../css/message/Message.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+<body>
+<h3>받은쪽지</h3>
+<ul class="message-list-ul">
+    <li class="message-list-li"><a href="/message">받은쪽지</a></li>
+    <li class="message-list-li"><a href="/messageSend">보낸쪽지</a></li>
+    <li class="message-list-li"><a href="/messageWrite">쪽지쓰기</a></li>
+</ul>
+
+<ul th:if="${!messageList.isEmpty()}">
+    <li class="msg-box-li" th:each="msg : ${messageList}">
+        <div>
+            <div class="msg-box" th:onclick="'msgOpen('+${msg.messageNo}+')'">
+                <div>
+                    <span class="user-title">보낸사람</span><span class="user" th:text="${msg.userNickName}"></span>
+                    <span th:if="${msg.messageOpenYn == 0}" class="new-tag">new!!</span>
+                </div>
+                <div><span class="msg-date" th:text="${msg.messageDate}"></span></div>
+            </div>
+            <div class="msg-content" th:id="${msg.messageNo}">
+                <span th:text="${msg.messageContent}"></span>
+            </div>
+        </div>
+    </li>
+</ul>
+<div class="no-message" th:if="${messageList.isEmpty()}">
+    <span>받은 메시지가 없어요!</span>
+</div>
+<script>
+
+    function msgOpen(messageNo) {
+            $('.msg-content').removeClass('msg-content-active');
+            $('#' + messageNo).addClass('msg-content-active');
+            var newTag = event.target.querySelector('.new-tag');
+            console.log();
+            $.ajax({
+                url: '/msgOpen',
+                type: 'post',
+                data: {
+                    'messageNo': messageNo
+                },
+                success: function () {
+                    if (newTag != null) {
+                        newTag.remove();
+                    }
+                }
+            })
+
+    }
+
+</script>
+</body>
+</html>

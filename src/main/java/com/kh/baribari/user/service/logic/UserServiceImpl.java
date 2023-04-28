@@ -131,6 +131,16 @@ public class UserServiceImpl implements UserService {
         return uRepository.updateProfilePic(user);
     }
 
+    @Override
+    public List<Favorite> selectFavorite(int userNo) {
+        return uRepository.selectFavorite(userNo);
+    }
+
+    @Override
+    public int deleteFavorite(Favorite favorite) {
+        return uRepository.deleteFavorite(favorite);
+    }
+
     //  배송지 삭제
     @Override
     public int deleteAddress(int addressNo) {

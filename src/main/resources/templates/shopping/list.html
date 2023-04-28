@@ -51,8 +51,7 @@
 		</div>
 
 		<input sec:authorize="!isAuthenticated()" value="0" type="hidden" name="userNo">
-		<input sec:authorize="isAuthenticated()" th:value="${#authentication.principal.user.userNo}" type="hidden"
-			name="userNo">
+		<input sec:authorize="isAuthenticated()" th:value="${#authentication.principal.user.userNo}" type="hidden" name="userNo">
 
 		<!-- 상품 분류 -->
 		<form action="/shopping/list" method="get">

@@ -83,7 +83,6 @@
 .shopping-cart .summary{
 	border-top: 2px solid #5ea4f3;
     background-color: #f7fbff;
-    height: 100%;
     padding: 30px;
 }
 
@@ -139,4 +138,15 @@ input[type=number]::-webkit-inner-spin-button {
 		padding: 4px 10px;
 		text-align: center; 
 	}
+}
+
+.row {
+	display: flex;
+    justify-content: space-around;
+}
+
+.delivery-info, .payment-info {
+	border: 5px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
 }

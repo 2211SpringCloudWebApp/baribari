@@ -54,7 +54,7 @@ public class CartController {
 
 		mv.addObject("user", user);
 		mv.addObject("pList", cList);
-		mv.setViewName("shopping/cart/list");
+		mv.setViewName("shopping/cart");
 		return mv;
 	}
 

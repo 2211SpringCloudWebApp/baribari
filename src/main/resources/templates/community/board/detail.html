@@ -41,7 +41,7 @@
 
                 <div id="registerdiv2">
                     <div id="registerdiv2-1">
-                    	<input type="text" readonly th:value="${commu.communityCategory == 0 ? '잡담' : commu.communityCategory == 1 ? '캠핑지' : ''}">
+                    	<input type="text" readonly th:value="${commu.communityCategory == 0 ? '[잡담]' : commu.communityCategory == 1 ? '[캠핑지]' : ''}">
                     </div>
                     <div id="registerdiv2-2">
                         <input id="inputSubject" readonly name="subject" th:value="${commu.communitySubject}">
@@ -49,145 +49,35 @@
 	                    <input type="hidden" id="seq" name="seq" th:value="${commu.communityNo}" />
                     </div>
                 </div>
-
+				<div id="boardDetailNav" class="displayFlex hCenter wRight">
+					<a href="#">수정</a>
+					<a href="#" onclick="deleteboard()">삭제</a>
+					<a href="#">신고</a>
+					<a href="#">좋아요</a>
+					<span id="showLike"> 20 </span>
+					<a href="#">팩다운</a>
+				</div>
                 <div id="registerdiv6" >
                     <div id="map" ></div>
                     <input type="hidden" id="mapXval" name="mapX" th:value="${commu.mapX}">
 	                <input type="hidden" id="mapYval" name="mapY" th:value="${commu.mapY}">
                 </div>
      
-                <div id="registerdiv3"></div>
-                <div id="registerdiv7" data-placeholder='사진을 첨부 하려면 파일 선택 버튼을 클릭하거나 파일을 드래그앤드롭 하세요'>
-
+                <div id="registerdiv3">
+                
+                </div> 
+                <div id="registerdiv7">
+	                <div th:if="${pic.communityPic1} != null" class="div_style"><img id="img1" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic1}" alt="첨부사진1" /></div>
+	                <div th:if="${pic.communityPic2} != null" class="div_style"><img id="img2" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic2}" alt="첨부사진2" /></div>
+	                <div th:if="${pic.communityPic3} != null" class="div_style"><img id="img3" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic3}" alt="첨부사진3" /></div>
+	                <div th:if="${pic.communityPic4} != null" class="div_style"><img id="img4" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic4}" alt="첨부사진4" /></div>
+	                <div th:if="${pic.communityPic5} != null" class="div_style"><img id="img5" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic5}" alt="첨부사진5" /></div>
+	                <div th:if="${pic.communityPic6} != null" class="div_style"><img id="img6" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic6}" alt="첨부사진6" /></div>
+	                <div th:if="${pic.communityPic7} != null" class="div_style"><img id="img7" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic7}" alt="첨부사진7" /></div>
+	                <div th:if="${pic.communityPic8} != null" class="div_style"><img id="img8" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic8}" alt="첨부사진8" /></div>
+	                <div th:if="${pic.communityPic9} != null" class="div_style"><img id="img9" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic9}" alt="첨부사진9" /></div>
+	                <div th:if="${pic.communityPic10} != null" class="div_style"><img id="img10" onclick="showImg()" class = "img_style" th:src="${pic.communityPic10}" alt="첨부사진10" /></div>
                 </div>
-                
-                <script>
-                	
-                  
-                (// 이미지를 보여주는 영역 설정.
-                        imageView = function imageView(registerdiv7, btn){
-
-                            var attZone = document.getElementById(registerdiv7);
-                            var fileUpload = document.getElementById(btn)
-                            var sel_files = [];
-                            var showimg = document.getElementById(showimg); // 테스트로 이미지값 보여줄곳
-                            // 이미지와 체크 박스를 감싸고 있는 div 속성
-                            var div_style = 'display:inline-block;position:relative;'
-                                        + 'width:90px;height:90px;'
-                                        + 'position: relative; display: inline-block;';
-                            // 겹쳐지는 div 스타일 속성
-                            var over_style = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 0, 0, 0.5); display:none'
-                                        + 'align-items: center; justify-content: center; font-size:30px; color:rgb(255, 255, 255)';
-                            // 미리보기 이미지 속성
-                            var img_style = 'width:90px;height:90px;z-index:none';
-                            // 이미지안에 표시되는 체크박스의 속성
-                            var chk_style = 'width:30px;height:30px;position:absolute;font-size:24px;'
-                                        + 'right:0px;bottom:0px;z-index:999;background-color:rgba(255,255,255,0.1);color:#f00';
-
-                            fileUpload.onchange = function(e){ // 파일 선택이 변경되면 실행될 함수를 등록합니다.
-                                var files = e.target.files; // 선택한 파일 목록을 변수에 할당합니다.
-                                var fileArr = Array.prototype.slice.call(files) // 파일 목록을 배열로 변경하여 변수에 할당합니다.
-                                for(f of fileArr){ // 파일 목록을 순환하면서 imageLoader 함수를 실행합니다.
-                                    imageLoader(f);
-                                }
-                            }
-
-
-                            // 탐색기에서 드래그앤 드롭 사용
-                            // 드래그 앤 드롭 영역에 마우스가 진입하면 실행
-                            attZone.addEventListener('dragenter', function(e){ 
-                                e.preventDefault(); // 기본 이벤트 중지
-                                e.stopPropagation();    // 이벤트 실행 중지
-                            }, false)
-                        
-                            // 드래그한 파일을 영역 위에 놓을 때 실행
-                            attZone.addEventListener('dragover', function(e){
-                                e.preventDefault(); // 기본 이벤트 중지
-                                e.stopPropagation();    // 이벤트 실행 중지
-                            }, false)
-
-                            // 파일을 영역에 드롭했을 때 실행
-                            attZone.addEventListener('drop', function(e){
-                                var files = {}; // 이미지 저장할 객체 생성
-                                e.preventDefault(); // 기본 이벤트 중지
-                                e.stopPropagation();    // 이벤트 실행 중지
-                                var dt = e.dataTransfer;    //
-                                files = dt.files;   // 드롭한 이미지 변수 할당
-                                for(f of files){    // files 순회하면서 imageLoader 함수 실행
-                                    imageLoader(f);
-                                }
-                            }, false)
-
-                            /*첨부된 이미리즐을 배열에 넣고 미리보기 */
-                            imageLoader = function(file){
-                                sel_files.push(file);   // 배열에 이미지 저장
-                                var reader = new FileReader();  // 이미지 불러올 변수 생성
-                                reader.onload = function(ee){   // 이미지 로드될때 실행되는 함수 정의
-                                    let img = document.createElement('img') // img 태그 생성
-                                    img.setAttribute('style', img_style)    // 스타일 적용
-                                    img.src = ee.target.result; // 이미지 소스 설정
-                                    attZone.appendChild(makeDiv(img, file));    // 미리보기 div 생성 후 이미지 추가
-                                }
-                                reader.readAsDataURL(file); // 파일 읽어와서 이미지 소스로 설정
-                            }
-
-                            /*첨부된 파일이 있는 경우 checkbox와 함께 attZone에 추가할 div를 만들어 반환 */
-                            makeDiv = function(img, file){
-                                var div = document.createElement('div'); // div 태그 생성
-                                div.setAttribute('style', div_style); // div 태그에 스타일 설정
-
-                                var overlay = document.createElement('div'); // overlay div 태그 생성
-                                overlay.setAttribute('style', over_style); // div 태그에 스타일 설정
-                                overlay.innerHTML = '삭제';
-
-                                // 마우스를 영역에 올렸을때 실행
-                                div.onmouseover = function() { // div 태그에 마우스 오버 이벤트 핸들러 등록
-                                    overlay.style.display ='flex';
-                                    overlay.onclick = function(ev){
-                                    var ele = ev.srcElement;
-                                    var delFile = ele.getAttribute('delFile');
-                                    for(var i=0 ;i<sel_files.length; i++){
-                                        if(delFile== sel_files[i].name){
-                                            sel_files.splice(i, 1);      
-                                        }
-                                    }
-                                    
-                                    dt = new DataTransfer();
-                                    for(f in sel_files) {
-                                        var file = sel_files[f];
-                                        dt.items.add(file);
-                                    }
-                                    fileUpload.files = dt.files;
-                                    var p = ele.parentNode;
-                                    attZone.removeChild(p)
-                                }
-                                    div.appendChild(overlay); // div 태그에 overlay div 추가
-                                };
-                                // 마우스가 영역을 나갔을 때 실행
-                                div.onmouseout = function() {overlay.style.display ='none';}
-
-                                var imgDiv = document.createElement('div'); // imgDiv div 태그 생성
-                                imgDiv.appendChild(img); // imgDiv div 태그에 이미지 추가
-                                div.appendChild(imgDiv); // div 태그에 imgDiv div 추가
-                                return div; // 완성된 div 태그 반환
-                            }
-                        }
-                    )('registerdiv7', 'fileUpload')
-                  
-	              	//사진 추가하는 부분
-	              	$(document).ready(function() { // 문서 로딩이 완료되면 실행하는 함수
-	              		$('#fileUpload').on('change', function() { // 파일 선택이 변경되면 실행하는 함수
-	              			const fileList = document.querySelector("#fileUpload").files;	//파일 리스트 가져오기
-	              			if (fileList.length > 0) {// 파일이 선택되었는지 확인합니다.
-	              				const formData = new FormData(); // FormData 객체를 생성합니다.
-	              				for (let i = 0; i < fileList.length; i++) { //formData에 사진 리스트를 넣음
-	 	  	            			formData.append("fileList", fileList[i]);
-	 	  	            		}
-	              			}
-	              		});
-	              	});
-                
-                </script>
                 <div id="registerdiv4">
                     <textarea name="content" id="inputContent" readonly th:text=${commu.communityContent} ></textarea>
                 </div>
@@ -195,8 +85,7 @@
                     <div id="showTage" ></div>
                 </div>
                 <div id="registerdiv9">
-                    <input type="submit">
-                    <input type="reset">
+                    <input type="button" value="목록">
                 </div>
             </div>
         </form>
@@ -206,8 +95,49 @@
         <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ba03b0afa21d048313b9d7072d06edb9"></script>
         <script>
+        //좋아요 보여주기
+        function showLike(){
+        	$.ajax({
+        		url : "",
+        		data : {},
+        		type : "",
+        		success : function(){
+        			
+        		},
+        		error : function(){
+        			
+        		}
+        	});
+        }
         
-
+        // 게시글 삭제
+        function deleteboard() {
+			if (confirm('정말 삭제하시겠습니까?')) {
+				var boardNo = document.getElementById('seq').value;
+				const xhr = new XMLHttpRequest();
+				xhr.open('POST', `/boardDelete?communityNo=${boardNo}`);
+				xhr.onload = function() {
+					if (xhr.status === 200) {
+						window.location.href = "/boardList";
+					} else {
+					  // 요청이 실패했을 때 처리할 코드
+					}
+				};
+				xhr.send();	
+			}
+		}
+        
+        //이미지 보여주는 함수
+        function showImg(id) {
+			// 클릭한 이미지의 src 값을 가져옵니다.
+			var imgSrc = document.getElementById(id).src;
+			var showImdiv = document.getElementById("registerdiv3");
+			
+			// registerdiv3에 이미지를 추가합니다.
+			var imgTag = '<img src="' + imgSrc + '" class="show_img_style">';
+			showImdiv.style.height = "400px";
+			showImdiv.innerHTML = imgTag;
+        }
         
         // 지도를 출력하는 함수
         function createMap(x, y) {
@@ -246,7 +176,6 @@
         //지도 출력을 위해 값 받아오기
         var x = document.getElementById('mapXval').value
         var y = document.getElementById('mapYval').value
-        comsloe.log(x);
         
         // 지도 출력
         if (x !== 0 && y !== 0) {

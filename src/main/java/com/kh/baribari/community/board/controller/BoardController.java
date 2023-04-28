@@ -139,15 +139,11 @@ public class BoardController {
 					i++;
 				}
 			}
-			
-			System.out.println("commu : " + commu);
-			System.out.println("pic : " +pic);
 			int result = bService.boardRegister(commu);
 			
 			if(result > 0) {
 				int result2 = bService.registerPhoto(pic);
 				if(result2 > 0) {
-					System.err.println("성공이라 전해라");
 					return "redirect:/boardList";
 				}else {
 					return "사진 등록 실패";
@@ -161,7 +157,13 @@ public class BoardController {
 		}
 		
 	}
+	
+	@ResponseBody
+	@GetMapping("showLike")
+	public void showLike() {
 		
+	}
+	
 	//해시태그 출력
 	@ResponseBody
 	@GetMapping("getHashTag")
@@ -210,9 +212,9 @@ public class BoardController {
 	public ModelAndView boardDetail(
 			ModelAndView mv
 			,@RequestParam(value="communityNo",required = false) Integer boardNo) throws Exception{
-		Community commu = bService.getBoardOne(boardNo);
-		CommunityPIC pic = bService.getPhoto(boardNo);
-		if(pic != null) {
+		Community commu = bService.getBoardOne(boardNo);	// 게시글 불러오기
+		CommunityPIC pic = bService.getPhoto(boardNo);		// 이미지 불러오기
+		if(pic != null) {	// 이미지가 존재하면 mv에 추가해줌
 			mv.addObject("pic", pic);
 		}
 		mv.addObject("commu", commu);
@@ -228,9 +230,20 @@ public class BoardController {
 	}
 	
 	//게시글 삭제
-	@GetMapping("boardDelete")
-	public String boardDelete() {
-		return "";
+	@PostMapping("boardDelete")
+	public String boardDelete(
+			@RequestParam(value="communityNo",required = false) Integer boardNo
+			)throws Exception {
+		System.out.println(boardNo);
+		int result = bService.boardDelete(boardNo);
+		System.out.println(result);
+		if(result > 0) {
+			System.out.println("삭제성공입니다.");
+			return "redirect:/boardList";
+		}else {
+			System.out.println("삭제실패입니다.");
+			return "redirect:/boardList";
+		}
 	}
 	
 	//에러페이지 가자

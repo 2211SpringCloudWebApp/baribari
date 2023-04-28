@@ -13,6 +13,13 @@
         JOIN USER_TBL U ON M.MESSAGE_RECEIVE_NO = U.USER_NO
         WHERE M.MESSAGE_SEND_NO = #{userNo}
     </select>
+    <select id="selectSearchUser" resultType="User">
+        SELECT USER_NICKNAME,USER_NO FROM USER_TBL WHERE USER_NICKNAME = #{userNickname}
+    </select>
+
+    <insert id="insertMsgSend">
+        INSERT INTO MESSAGE_TBL VALUES(SEQ_MSG_NO.NEXTVAL, #{messageContent},SYSTIMESTAMP,)
+    </insert>
 
     <update id="updateMsgOpen">
         UPDATE MESSAGE_TBL SET MESSAGE_OPEN_YN = MESSAGE_OPEN_YN + 1 WHERE MESSAGE_NO = #{messageNo}

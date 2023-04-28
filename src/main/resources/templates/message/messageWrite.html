@@ -17,26 +17,67 @@
     <li class="message-list-li"><a href="/messageSend">보낸쪽지</a></li>
     <li class="message-list-li"><a href="/messageWrite">쪽지쓰기</a></li>
 </ul>
-<form>
-<div class="msg-form">
-    <div class="receive-user-box">
-        <span class="receive-user">받는이 : </span><input type="text" class="search-input">
+<form action="/msgSend" method="post">
+    <div class="msg-form">
+        <div class="receive-user-box">
+            <input type="hidden" value="" class="receive-user-no">
+            <span class="receive-user">받는이 : </span><input name="userNickname" type="text" class="search-input">
+            <button type="button" class="search-btn" onclick="searchUserFunc();">검색</button>
+            <button type="button" onclick="reSearch();" class="re-search-btn">재검색</button>
+        </div>
+        <div class="msg-form-content">
+            <textarea class="msg-form-textarea" name="messageContent"></textarea>
+        </div>
+        <div class="write-btn-box">
+            <button type="button" class="back-btn">취소</button>
+            <button type="submit" class="send-btn">전송</button>
+        </div>
     </div>
-    <div class="msg-form-content">
-        <textarea class="msg-form-textarea"></textarea>
-    </div>
-    <div class="write-btn-box">
-    <button type="button" class="back-btn">취소</button><button type="submit" class="send-btn">전송</button>
-    </div>
-</div>
 </form>
 <script>
-    function msgOpen(messageNo) {
-            $('.msg-content').removeClass('msg-content-active');
-            $('#' + messageNo).addClass('msg-content-active');
+    <!--    앤터키 막기 -->
+    document.addEventListener('keydown', function (event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+        }
+        ;
+    }, true);
+
+    // 검색창
+    var searchInput = $('.search-input');
+    var receiveUserNo = $('.receive-user-no');
+
+    // 유저 검색
+    function searchUserFunc() {
+        $.ajax({
+            url: '/searchUser',
+            type: 'get',
+            data: {
+                'userNickname': $('.search-input').val()
+            },
+            success: function (data) {
+                if (data != '실패') {
+                    receiveUserNo.val(data);
+                    searchInput.attr('readonly', true);
+                    searchInput.css('background-color', '#ccc');
+                    alert("존재하는 회원입니다.\n 내용을 적어주세요.");
+                    $('.re-search-btn').css('display', 'block');
+                } else {
+                    alert("존재하지 않는 회원입니다. 다시 확인해주세요.")
+                }
+            },
+            error: function () {
+                alert("에러가 발생했습니다. 재시도 해주세요.");
+            }
+        })
     }
 
-
+    // 재검색 버튼
+    function reSearch() {
+        searchInput.css('background-color', 'white');
+        searchInput.attr('readonly', false);
+        $('.re-search-btn').css('display', 'none');
+    }
 </script>
 </body>
 </html>

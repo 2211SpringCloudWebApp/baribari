@@ -2,6 +2,7 @@ package com.kh.baribari.message.repository.logic;
 
 import com.kh.baribari.message.domain.Message;
 import com.kh.baribari.message.repository.MessageRepository;
+import com.kh.baribari.user.domain.User;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -27,5 +28,15 @@ public class MessageRepositoryLogic implements MessageRepository {
     @Override
     public List<Message> selectSendMessageList(int userNo) {
         return session.selectList("MessageMapper.selectSendMessageList",userNo);
+    }
+
+    @Override
+    public User selectSearchUser(String userNickname) {
+        return session.selectOne("MessageMapper.selectSearchUser", userNickname);
+    }
+
+    @Override
+    public int insertMsgSend(Message message) {
+        return session.insert("MessageMapper.insertMsgSend",message);
     }
 }

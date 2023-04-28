@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,7 +19,8 @@ public class MessageController {
 
     @Autowired
     private ReturnUser returnUser;
-//  받은 메시지 로딩
+
+    //  받은 메시지 로딩
     @GetMapping("message")
     public String messageView(
             Authentication authentication,
@@ -33,7 +31,8 @@ public class MessageController {
         model.addAttribute("messageList", messageList);
         return "message/message";
     }
-//    보낸 메시지 로딩
+
+    //    보낸 메시지 로딩
     @GetMapping("messageSend")
     public String messageSendView(
             Authentication authentication,
@@ -41,15 +40,17 @@ public class MessageController {
     ) {
         User user = returnUser.returnUser(authentication);
         List<Message> messageList = mService.selectSendMessageList(user.getUserNo());
-        model.addAttribute("messageList",messageList);
+        model.addAttribute("messageList", messageList);
         return "message/messageSend";
     }
 
+//    쪽지 작성창 뷰
     @GetMapping("/messageWrite")
-    public String messageWrite(){
+    public String messageWrite() {
         return "message/messageWrite";
     }
 
+//    쪽지 오픈시 읽음 표시
     @PostMapping("/msgOpen")
     @ResponseBody
     public String ajaxMsgOpen(int messageNo) {
@@ -58,6 +59,31 @@ public class MessageController {
             return "성공";
         } else {
             return "실패";
+        }
+    }
+
+//    유저 검색 ajax
+    @GetMapping("/searchUser")
+    @ResponseBody
+    public String ajaxSearchUser(String userNickname) {
+        User user = mService.selectSearchUser(userNickname);
+        if (user != null) {
+            return String.valueOf(user.getUserNo());
+        }else {
+            return "실패";
+        }
+    }
+
+//    쪽지 보내기
+    @PostMapping("/msgSend")
+    public String messageSend(
+            @ModelAttribute Message message
+    ){
+        int result = mService.insertMsgSend(message);
+        if(result > 0){
+            return "";
+        }else {
+            return "";
         }
     }
 

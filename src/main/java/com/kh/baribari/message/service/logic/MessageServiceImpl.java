@@ -3,6 +3,7 @@ package com.kh.baribari.message.service.logic;
 import com.kh.baribari.message.domain.Message;
 import com.kh.baribari.message.repository.MessageRepository;
 import com.kh.baribari.message.service.MessageService;
+import com.kh.baribari.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +30,15 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public List<Message> selectSendMessageList(int userNo) {
         return mRepository.selectSendMessageList(userNo);
+    }
+
+    @Override
+    public User selectSearchUser(String userNickname) {
+        return mRepository.selectSearchUser(userNickname);
+    }
+
+    @Override
+    public int insertMsgSend(Message message) {
+        return mRepository.insertMsgSend(message);
     }
 }

@@ -10,6 +10,6 @@ public class Message {
     private int messageSendNo;
     private int messageReceiveNo;
     private int messageOpenYn;
-    private String userNickName;
+    private String userNickname;
 
 }

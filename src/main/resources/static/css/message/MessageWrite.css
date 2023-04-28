@@ -76,3 +76,24 @@ body{
     cursor: pointer;
     background-color: #3DB35E;
 }
+.search-btn{
+    background: #3DB35E;
+    width: 50px;
+    height: 35px;
+    border: 1px solid #3DB35E;
+    border-radius: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    color: white;
+    cursor: pointer;
+}
+.re-search-btn{
+    background: white;
+    width: 50px;
+    height: 35px;
+    border: 1px solid #3DB35E;
+    border-radius: 10px;
+    color: #3DB35E;
+    cursor: pointer;
+    display: none;
+}

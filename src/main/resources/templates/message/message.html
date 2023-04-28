@@ -21,7 +21,7 @@
         <div>
             <div class="msg-box" th:onclick="'msgOpen('+${msg.messageNo}+')'">
                 <div>
-                    <span class="user-title">보낸사람</span><span class="user" th:text="${msg.userNickName}"></span>
+                    <span class="user-title">보낸사람</span><span class="user" th:text="${msg.userNickname}"></span>
                     <span th:if="${msg.messageOpenYn == 0}" class="new-tag">new!!</span>
                 </div>
                 <div><span class="msg-date" th:text="${msg.messageDate}"></span></div>

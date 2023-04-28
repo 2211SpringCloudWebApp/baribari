@@ -158,12 +158,6 @@ public class BoardController {
 		
 	}
 	
-	@ResponseBody
-	@GetMapping("showLike")
-	public void showLike() {
-		
-	}
-	
 	//해시태그 출력
 	@ResponseBody
 	@GetMapping("getHashTag")

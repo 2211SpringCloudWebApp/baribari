@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>BARIBARI-메세지</title>
+    <link href="assets/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/message/Message.css">
     <link rel="stylesheet" href="../css/message/MessageWrite.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
@@ -22,8 +23,7 @@
         <span class="receive-user">받는이 : </span><input type="text" class="search-input">
     </div>
     <div class="msg-form-content">
-        <textarea class="msg-form-textarea">
-        </textarea>
+        <textarea class="msg-form-textarea"></textarea>
     </div>
     <div class="write-btn-box">
     <button type="button" class="back-btn">취소</button><button type="submit" class="send-btn">전송</button>
@@ -31,11 +31,11 @@
 </div>
 </form>
 <script>
-
     function msgOpen(messageNo) {
             $('.msg-content').removeClass('msg-content-active');
             $('#' + messageNo).addClass('msg-content-active');
     }
+
 
 </script>
 </body>

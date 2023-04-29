@@ -1,9 +1,6 @@
 package com.kh.baribari.admin.service.logic;
 
-import com.kh.baribari.admin.domain.CommunityList;
-import com.kh.baribari.admin.domain.ProductList;
-import com.kh.baribari.admin.domain.QnaList;
-import com.kh.baribari.admin.domain.ReportList;
+import com.kh.baribari.admin.domain.*;
 import com.kh.baribari.admin.repository.AdminRepository;
 import com.kh.baribari.admin.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +31,25 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<ProductList> selectProductList() {
         return aRepository.selectProductList();
+    }
+
+    @Override
+    public ReportList selectReportListByReportNo(int reportNo) {
+        return aRepository.selectReportListByReportNo(reportNo);
+    }
+
+    @Override
+    public List<UserList> selectUserList() {
+        return aRepository.selectUserList();
+    }
+
+    @Override
+    public int updateUserBlock(int userNo) {
+        return aRepository.updateUserBlock(userNo);
+    }
+
+    @Override
+    public int updateUserUnBlock(int userNo) {
+        return aRepository.updateUserUnBlock(userNo);
     }
 }

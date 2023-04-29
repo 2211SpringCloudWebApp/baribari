@@ -16,4 +16,5 @@ public class ReportList {
     private String userNickName;
     private String reportCategoryName;
     private Timestamp reportDate;
+    private int reportCount;
 }

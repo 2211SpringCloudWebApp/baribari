@@ -21,7 +21,7 @@ public class User {
     private int userLevelPoint;
     private int userConform;
     private int userCount;
-    private int userAble;
+    private String userAble;
     private List<Role> roles;
     private String profilePicPath;
 

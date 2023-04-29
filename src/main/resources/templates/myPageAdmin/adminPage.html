@@ -24,17 +24,45 @@
 
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="css/mypage/admin/admin.css" rel="stylesheet">
+    <link href="css/mypage/admin/adminMain.css" rel="stylesheet">
 
 </head>
 <body>
 <header th:replace="header :: #header"></header>
+
 <div class="mainContainer" style="padding-top: 170px">
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">신고내용</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul style="list-style: none">
+                        <li>분류 : <span id="reportCategory"></span></li>
+                        <li>신고자 : <span id="reportByUser"></span></li>
+                        <li>신고대상 : <span id="reportTarget"></span></li>
+                        <li>신고사유 : <span id="reportContent"></span></li>
+                    </ul>
+                    <input type="hidden" id="reportNo">
+                    <input type="hidden" id="targetNo">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="deleteReport();">
+                        무혐의
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="reportComplete();">경고처리</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="top">
         <ul>
-            <li><a href="/myPageAdmin/user">회원관리</a></li>
-            <li><a href="/myPageAdmin/community">커뮤니티관리</a></li>
-            <li><a href="/myPageAdmin/product">상품관리</a></li>
-            <li><a href="/myPageAdmin/report">신고관리</a></li>
+            <li><a href="/admin/user">회원관리</a></li>
+            <li><a href="/admin/qna">문의관리</a></li>
+            <li><a href="/admin/product">상품관리</a></li>
+            <li><a href="/admin/report">신고관리</a></li>
         </ul>
     </div>
     <div class="middle">
@@ -56,15 +84,18 @@
                         <th>신고일시</th>
                         <th>처리여부</th>
                     </tr>
-                    <tr class="content-tr" th:each="reportList : ${reportList}">
+                    <tr class="content-tr" th:onclick="'reportModal('+${reportList.reportNo}+')'"
+                        th:each="reportList : ${reportList}">
                         <td th:text="${reportList.reportCategoryName}"></td>
                         <td th:text="${reportList.reportTargetName}"></td>
                         <td th:text="${reportList.reportContent}"></td>
-                        <td style="font-size: 12px;" th:text="${#dates.format(reportList.reportDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td style="font-size: 12px;"
+                            th:text="${#dates.format(reportList.reportDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                         <td th:text="${reportList.reportProcessing}"></td>
                     </tr>
                 </table>
             </div>
+
             <div class="middle-content">
                 <div class="title">커뮤니티 인기글</div>
                 <table>
@@ -84,7 +115,8 @@
                     </tr>
                     <tr class="content-tr" th:each="communityList : ${communityList}">
                         <td th:text="${communityList.communityCategoryName}"></td>
-                        <td th:text="${communityList.communitySubject}"></td>
+                        <td><a th:href="'/boardDetail?communityNo='+${communityList.communityNo}"
+                               th:text="${communityList.communitySubject}"></a></td>
                         <td th:text="${communityList.userNickname}"></td>
                         <td style="font-size: 12px;" th:text="${communityList.communityDate}"></td>
                         <td th:text="${communityList.viewCount}"></td>
@@ -109,7 +141,8 @@
                         <th>판매량</th>
                     </tr>
                     <tr class="content-tr" th:each="productList : ${productLists}">
-                        <td th:text="${productList.productName}"></td>
+                        <td><a th:href="'/shopping/detail?productNo='+${productList.productNo}"
+                               th:text="${productList.productName}"></a></td>
                         <td th:text="${productList.productBrand}"></td>
                         <td th:text="${productList.userNickname}"></td>
                         <td style="font-size: 12px;" th:text="${productList.productSales}"></td>
@@ -143,6 +176,89 @@
     </div>
 
 </div>
+<script>
+    const myModal = document.getElementById('myModal')
+    const myInput = document.getElementById('myInput')
+
+    myModal.addEventListener('shown.bs.modal', () => {
+        myInput.focus()
+    })
+
+    function reportModal(reportNo) {
+        $.ajax({
+            url: '/reportModalLoading',
+            type: 'post',
+            data: {
+                'reportNo': reportNo
+            },
+            success: function (data) {
+                var report = JSON.parse(data);
+                $('#reportCategory').text(report.reportCategoryName);
+                $('#reportByUser').text(report.userNickName);
+                $('#reportTarget').text(report.reportTargetName);
+                $('#reportContent').text(report.reportContent);
+                $('#reportNo').val(report.reportNo);
+                $('#targetNo').val(report.reportTargetNo);
+            }
+        })
+        $('.modal').modal("show");
+    }
+
+    function deleteReport() {
+        var reportNo = $('#reportNo').val();
+        if (confirm("무혐의 처리 하겠습니까?")) {
+            $.ajax({
+                url:'/reportDelete',
+                type:'post',
+                data:{
+                    'reportNo':reportNo
+                },
+                success:function(data){
+                    if(data == '성공'){
+                        alert("처리가 완료되었습니다.");
+                        location.href = location.href;
+                    }else {
+                        alert("처리에 실패했습니다. 다시시도해주세요.");
+                        location.href = location.href;
+                    }
+                },
+                error:function(data){
+                    console.log(data)
+                }
+            })
+        }
+    }
+
+    function reportComplete() {
+        var reportNo = $('#reportNo').val();
+        if (confirm("경고처리 처리 하겠습니까?")) {
+            $.ajax({
+                url:'/reportComplete',
+                type:'post',
+                data:{
+                    'reportNo':reportNo
+                },
+                success:function(data){
+                    if(data == '성공'){
+                        alert("처리가 완료되었습니다.");
+                        location.href = location.href;
+                    }else {
+                        alert("처리에 실패했습니다. 다시시도해주세요.");
+                        location.href = location.href;
+                    }
+                },
+                error:function(data){
+                    console.log(data)
+                }
+            })
+        }
+    }
+
+    $('#myModal').click(function (e) {
+        e.preventDefault();
+        $('.modal').modal("show");
+    })
+</script>
 <!-- Vendor JS Files -->
 <script src="assets/vendor/aos/aos.js"></script>
 <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

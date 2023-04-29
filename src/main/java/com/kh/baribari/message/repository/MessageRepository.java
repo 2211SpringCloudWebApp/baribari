@@ -18,4 +18,6 @@ public interface MessageRepository {
     User selectSearchUser(String userNickname);
 //  메시지 전송
     int insertMsgSend(Message message);
+//  메시지 안읽은 갯수 가져오기
+    int selectMsgRead(int userNo);
 }

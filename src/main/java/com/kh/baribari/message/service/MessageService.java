@@ -16,4 +16,6 @@ public interface MessageService {
     User selectSearchUser(String userNickname);
 //  메시지 전송
     int insertMsgSend(Message message);
+//  안읽은 메시지 갯수 가져오기
+    int selectMsgRead(int userNo);
 }

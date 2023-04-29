@@ -6,19 +6,24 @@
         FROM MESSAGE_TBL M
         JOIN USER_TBL U ON M.MESSAGE_SEND_NO = U.USER_NO
         WHERE M.MESSAGE_RECEIVE_NO = #{userNo}
+        ORDER BY M.MESSAGE_DATE DESC
     </select>
     <select id="selectSendMessageList" resultType="Message">
         SELECT U.USER_NICKNAME, M.MESSAGE_NO, M.MESSAGE_CONTENT,M.MESSAGE_DATE, M.MESSAGE_OPEN_YN
         FROM MESSAGE_TBL M
         JOIN USER_TBL U ON M.MESSAGE_RECEIVE_NO = U.USER_NO
         WHERE M.MESSAGE_SEND_NO = #{userNo}
+        ORDER BY M.MESSAGE_DATE DESC
     </select>
     <select id="selectSearchUser" resultType="User">
         SELECT USER_NICKNAME,USER_NO FROM USER_TBL WHERE USER_NICKNAME = #{userNickname}
     </select>
+    <select id="selectMsgRead" resultType="_int">
+        SELECT COUNT(*) FROM MESSAGE_TBL WHERE MESSAGE_RECEIVE_NO = #{userNo} AND MESSAGE_OPEN_YN = 0
+    </select>
 
     <insert id="insertMsgSend">
-        INSERT INTO MESSAGE_TBL VALUES(SEQ_MSG_NO.NEXTVAL, #{messageContent},SYSTIMESTAMP,)
+        INSERT INTO MESSAGE_TBL VALUES(SEQ_MSG_NO.NEXTVAL, #{messageContent},SYSTIMESTAMP,#{messageSendNo},#{messageReceiveNo},0)
     </insert>
 
     <update id="updateMsgOpen">

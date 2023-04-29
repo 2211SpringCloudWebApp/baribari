@@ -20,7 +20,8 @@
 <form action="/msgSend" method="post">
     <div class="msg-form">
         <div class="receive-user-box">
-            <input type="hidden" value="" class="receive-user-no">
+            <input type="hidden" name="messageSendNo" th:value="${#authentication.principal.user.userNo}">
+            <input type="hidden" name="messageReceiveNo" value="" class="receive-user-no">
             <span class="receive-user">받는이 : </span><input name="userNickname" type="text" class="search-input">
             <button type="button" class="search-btn" onclick="searchUserFunc();">검색</button>
             <button type="button" onclick="reSearch();" class="re-search-btn">재검색</button>
@@ -30,7 +31,7 @@
         </div>
         <div class="write-btn-box">
             <button type="button" class="back-btn">취소</button>
-            <button type="submit" class="send-btn">전송</button>
+            <button type="submit" class="send-btn" onclick="return check();">전송</button>
         </div>
     </div>
 </form>
@@ -43,9 +44,17 @@
         ;
     }, true);
 
+    function check(){
+        if(searchOk === 0){
+            alert("아이디를 먼저 검색해주세요.");
+            return false;
+        }
+    }
+
     // 검색창
     var searchInput = $('.search-input');
     var receiveUserNo = $('.receive-user-no');
+    var searchOk = 0;
 
     // 유저 검색
     function searchUserFunc() {
@@ -62,6 +71,7 @@
                     searchInput.css('background-color', '#ccc');
                     alert("존재하는 회원입니다.\n 내용을 적어주세요.");
                     $('.re-search-btn').css('display', 'block');
+                    searchOk += 1;
                 } else {
                     alert("존재하지 않는 회원입니다. 다시 확인해주세요.")
                 }
@@ -77,6 +87,7 @@
         searchInput.css('background-color', 'white');
         searchInput.attr('readonly', false);
         $('.re-search-btn').css('display', 'none');
+        searchOk -= 1;
     }
 </script>
 </body>

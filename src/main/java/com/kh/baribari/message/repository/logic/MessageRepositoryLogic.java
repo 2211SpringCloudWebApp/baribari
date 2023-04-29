@@ -39,4 +39,9 @@ public class MessageRepositoryLogic implements MessageRepository {
     public int insertMsgSend(Message message) {
         return session.insert("MessageMapper.insertMsgSend",message);
     }
+
+    @Override
+    public int selectMsgRead(int userNo) {
+        return session.selectOne("MessageMapper.selectMsgRead",userNo);
+    }
 }

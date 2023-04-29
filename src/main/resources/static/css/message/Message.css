@@ -67,6 +67,7 @@ a{
     background-color: white;
     overflow: auto;
     display: none;
+    word-break: break-all;
 }
 .msg-content-active{
     display: block;

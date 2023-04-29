@@ -76,14 +76,15 @@ public class MessageController {
 
 //    쪽지 보내기
     @PostMapping("/msgSend")
+    @ResponseBody
     public String messageSend(
             @ModelAttribute Message message
     ){
         int result = mService.insertMsgSend(message);
         if(result > 0){
-            return "";
+            return "<script>alert('쪽지 전송이 잘되었어요!'); location.href='/message';</script>";
         }else {
-            return "";
+            return "<script>alert('쪽지 전송이 실패했어요 ㅠㅠ');</script>";
         }
     }
 

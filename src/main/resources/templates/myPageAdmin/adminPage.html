@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="css/mypage/admin/admin.css" rel="stylesheet">
+
+</head>
+<body>
+<header th:replace="header :: #header"></header>
+<div class="mainContainer" style="padding-top: 170px">
+    <div class="top">
+        <ul>
+            <li><a href="/myPageAdmin/user">회원관리</a></li>
+            <li><a href="/myPageAdmin/community">커뮤니티관리</a></li>
+            <li><a href="/myPageAdmin/product">상품관리</a></li>
+            <li><a href="/myPageAdmin/report">신고관리</a></li>
+        </ul>
+    </div>
+    <div class="middle">
+        <div class="middle-box">
+            <div class="middle-content" style="margin-right: 20px;">
+                <div class="title">신고 리스트</div>
+                <table>
+                    <colgroup>
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="40%">
+                        <col width="20%">
+                        <col width="10%">
+                    </colgroup>
+                    <tr>
+                        <th>분류</th>
+                        <th>대상</th>
+                        <th>사유</th>
+                        <th>신고일시</th>
+                        <th>처리여부</th>
+                    </tr>
+                    <tr class="content-tr" th:each="reportList : ${reportList}">
+                        <td th:text="${reportList.reportCategoryName}"></td>
+                        <td th:text="${reportList.reportTargetName}"></td>
+                        <td th:text="${reportList.reportContent}"></td>
+                        <td style="font-size: 12px;" th:text="${#dates.format(reportList.reportDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:text="${reportList.reportProcessing}"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="middle-content">
+                <div class="title">커뮤니티 인기글</div>
+                <table>
+                    <colgroup>
+                        <col width="10%">
+                        <col width="40%">
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="10%">
+                    </colgroup>
+                    <tr>
+                        <th>카테고리</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성일시</th>
+                        <th>조회수</th>
+                    </tr>
+                    <tr class="content-tr" th:each="communityList : ${communityList}">
+                        <td th:text="${communityList.communityCategoryName}"></td>
+                        <td th:text="${communityList.communitySubject}"></td>
+                        <td th:text="${communityList.userNickname}"></td>
+                        <td style="font-size: 12px;" th:text="${communityList.communityDate}"></td>
+                        <td th:text="${communityList.viewCount}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="middle-box">
+            <div class="middle-content" style="margin-right: 20px;">
+                <div class="title">MD 추천 상품 판매량</div>
+                <table>
+                    <colgroup>
+                        <col width="50%">
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="10%">
+                    </colgroup>
+                    <tr>
+                        <th>상품명</th>
+                        <th>브랜드</th>
+                        <th>판매자</th>
+                        <th>판매량</th>
+                    </tr>
+                    <tr class="content-tr" th:each="productList : ${productLists}">
+                        <td th:text="${productList.productName}"></td>
+                        <td th:text="${productList.productBrand}"></td>
+                        <td th:text="${productList.userNickname}"></td>
+                        <td style="font-size: 12px;" th:text="${productList.productSales}"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="middle-content">
+                <div class="title">문의사항</div>
+                <table>
+                    <colgroup>
+                        <col width="20%">
+                        <col width="50%">
+                        <col width="20%">
+                        <col width="10%">
+                    </colgroup>
+                    <tr>
+                        <th>문의자</th>
+                        <th>문의내용</th>
+                        <th>문의일시</th>
+                        <th>답변여부</th>
+                    </tr>
+                    <tr class="content-tr" th:each="qnaList : ${qnaList}">
+                        <td th:text="${qnaList.userNickname}"></td>
+                        <td th:text="${qnaList.qnaContent}"></td>
+                        <td style="font-size: 12px;" th:text="${qnaList.qnaDate}"></td>
+                        <td th:text="${qnaList.qnaAnswerYn}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- Vendor JS Files -->
+<script src="assets/vendor/aos/aos.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
+</body>
+</html>

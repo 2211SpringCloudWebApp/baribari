@@ -41,4 +41,9 @@ public class MessageServiceImpl implements MessageService {
     public int insertMsgSend(Message message) {
         return mRepository.insertMsgSend(message);
     }
+
+    @Override
+    public int selectMsgRead(int userNo) {
+        return mRepository.selectMsgRead(userNo);
+    }
 }

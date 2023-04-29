@@ -62,7 +62,7 @@ public class BoardController {
 			return mv;
 		}
 	}
-	//게시글 등록
+	//게시글 등록 접속
 	@GetMapping("boardRegister")
 	public ModelAndView showRegister(ModelAndView mv) {
 		try {
@@ -76,7 +76,7 @@ public class BoardController {
 		}
 	}
 	
-	//게시글 등록
+	//게시글 등록 완료
 	@PostMapping("boardRegister")
 	public String boardRegister(
 			@RequestParam(value = "subject", required = false) String subject
@@ -158,55 +158,6 @@ public class BoardController {
 		
 	}
 	
-	@ResponseBody
-	@GetMapping("showLike")
-	public void showLike() {
-		
-	}
-	
-	//해시태그 출력
-	@ResponseBody
-	@GetMapping("getHashTag")
-	public List<HashTag> getHashTag(
-			@RequestParam(value="communityNo",required = false) Integer boardNo) 
-			 {
-		try {
-			List<HashTag> hList = bService.getHashTag(boardNo);
-			return hList;
-		} catch (Exception e) {
-			return null;
-		}
-	}
-	//해시태그 등록(register) or 삭제(delete)
-	@ResponseBody
-	@GetMapping("registerHashTag")
-	public String registerHashTag(
-			@RequestParam(value="communityNo",required = false) Integer boardNo
-			, @RequestParam(value = "hasgTag", required = false) String hasgTag
-			, @RequestParam(value = "choice", required = false) String choice
-			) {
-		try {
-			HashTag hTag = new HashTag();
-			hTag.setCommunityNo(boardNo);
-			hTag.setHashTagName(hasgTag);
-			int result;
-			if(choice.equals("register")) {
-				result = bService.registerHashTag(hTag);
-				return "1";
-			}else if(choice.equals("delete")){
-				result = bService.deleteHashTag(hTag);
-				return "0";
-			}else {
-				return "0";
-			}
-			
-		} catch (Exception e) {
-			return e.getMessage();
-		}
-	}
-
-	
-
 	//게시글 상세
 	@GetMapping("boardDetail")
 	public ModelAndView boardDetail(
@@ -222,11 +173,37 @@ public class BoardController {
 		
 		return mv;
 	}
-	
-	//게시글 수정
+	//게시글 수정 보여주기
 	@GetMapping("boardModify")
-	public String boardModify() {
-		return "community/board/modify";
+	public ModelAndView showModify(
+			ModelAndView mv
+			,@RequestParam(value="communityNo",required = false) Integer boardNo) throws Exception{
+		Community commu = bService.getBoardOne(boardNo);	// 게시글 불러오기
+		CommunityPIC pic = bService.getPhoto(boardNo);		// 이미지 불러오기
+		if(pic != null) {	// 이미지가 존재하면 mv에 추가해줌
+			mv.addObject("pic", pic);
+		}
+		mv.addObject("commu", commu);
+		mv.setViewName("community/board/modify");
+		
+		return mv;
+	}
+	
+	//게시글 수정 완료
+	@PostMapping("boardModify")
+	public String boardModify(
+			@RequestParam(value = "subject", required = false) String subject
+			,@RequestParam(value = "content", required = false) String content
+			,@RequestParam(value = "category", required = false, defaultValue = "9") Integer category
+			,@RequestParam(value = "mapX", required = false, defaultValue = "0") String mapX
+			,@RequestParam(value = "mapY", required = false, defaultValue = "0") String mapY
+			,@RequestParam(value = "userNo", required = false, defaultValue = "0") Integer userNo
+			,@RequestParam(value = "seq", required = false) Integer seq
+			,@RequestParam(value = "fileList", required = false) List<MultipartFile> fList
+			, HttpServletRequest request
+			) {
+		
+		return "community/board/detail";
 	}
 	
 	//게시글 삭제
@@ -251,10 +228,4 @@ public class BoardController {
 	public String error() {
 		return "error"; // 에러 페이지의 뷰 이름
 	}
-	
-	// 좋아요 갯수 조회
-	public int getListCount(int boardNo) {
-		return bService.getListCount(boardNo);
-	}
-	
 }

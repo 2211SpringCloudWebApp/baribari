@@ -30,19 +30,6 @@ public interface BoardService {
 	public int getListCount(int boardNo);
 
 	/**
-	 * 헤시태그를 가져옴
-	 * @return List<HashTag>
-	 */
-	public List<HashTag> getHashTag(int boardNo);
-
-	/**
-	 * 해시태그 등록
-	 * @param hTag
-	 * @return int
-	 */
-	public int registerHashTag(HashTag hTag);
-
-	/**
 	 * 시퀀스넘버 미리 가져오기
 	 * @return int
 	 */
@@ -55,12 +42,6 @@ public interface BoardService {
 	 */
 	public int boardRegister(Community commu);
 
-	/**
-	 * 해시태그 삭제
-	 * @param hTag
-	 * @return int
-	 */
-	public int deleteHashTag(HashTag hTag);
 
 	/**
 	 * 사진등록

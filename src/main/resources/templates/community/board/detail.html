@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8">
-		<title>게시글 등록</title>
+		<title>게시글 상세보기</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
 		<link href="../../../css/community/board/detail.css" rel="stylesheet">
 		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
@@ -36,7 +36,7 @@
         <form action="/boardRegister" method="post" onsubmit="return validateForm()">
             <div id="registerContainer">
                 <div id="registerdiv1">
-                    상세보기
+                    게시글 상세보기
                 </div>
 
                 <div id="registerdiv2">
@@ -45,17 +45,20 @@
                     </div>
                     <div id="registerdiv2-2">
                         <input id="inputSubject" readonly name="subject" th:value="${commu.communitySubject}">
-                        <input type="hidden" name="userNo" value = "45"/>
+                        <input id="loginUserNo" sec:authorize="!isAuthenticated()" value="0" type="hidden" name="UserNo">
+						<input id="loginUserNo" sec:authorize="isAuthenticated()" th:value="${#authentication.principal.user.userNo}" type="hidden" name="UserNo">
 	                    <input type="hidden" id="seq" name="seq" th:value="${commu.communityNo}" />
+	                    <input type="hidden" id="boardUserNo" name="boardUserNo" th:value="${commu.userNo}" />
                     </div>
                 </div>
 				<div id="boardDetailNav" class="displayFlex hCenter wRight">
-					<a href="#">수정</a>
-					<a href="#" onclick="deleteboard()">삭제</a>
-					<a href="#">신고</a>
-					<a href="#">좋아요</a>
-					<span id="showLike"> 20 </span>
-					<a href="#">팩다운</a>
+					<a id="aModify" th:href="@{/boardModify(communityNo=${commu.communityNo})}" >수정</a>
+					<a id="aDelete" href="#" onclick="deleteboard()">삭제</a>
+					<a id="aReport" href="#">신고</a>
+					<a id="aScrap" href="#">팩다운</a>
+					<a id="aLoginLike" href="#" onclick="clickLike()">좋아요</a>
+					<a id="aLike" href="#">좋아요</a>
+					<span id="showLike"></span>
 				</div>
                 <div id="registerdiv6" >
                     <div id="map" ></div>
@@ -95,93 +98,180 @@
         <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ba03b0afa21d048313b9d7072d06edb9"></script>
         <script>
-        //좋아요 보여주기
-        function showLike(){
-        	$.ajax({
-        		url : "",
-        		data : {},
-        		type : "",
-        		success : function(){
-        			
-        		},
-        		error : function(){
-        			
+        	
+        	// 로그인 상태에 따로 네비를 다르게 보여줌
+        	function showNav(){
+        		var loginUserNo = $("#loginUserNo").val();
+        		var boardUserNo = $("#boardUserNo").val();
+        		
+        		var aModify = $("#aModify");	// 수정
+        		var aDelete = $("#aDelete");	// 삭제
+        		var aReport = $("#aReport");	// 신고
+        		var aScrap = $("#aScrap");	// 스크랩
+        		var aLoginLike = $("#aLoginLike");	// 좋아요 누르기(가능)
+        		var aLike = $("#aLike");	// 좋아요 누르기(불가)
+        		
+        		//로그인 상태
+        		if(loginUserNo != 0){
+        			// 글 작성자가 아닐때
+        			if(loginUserNo != boardUserNo){
+        				aModify.hide();
+        				aDelete.hide();
+        				aReport.show();
+        				aScrap.show();
+        				aLoginLike.show();
+        				aLike.hide();
+        			}
+        			// 글 작성자가 맞을때
+        			if(loginUserNo == boardUserNo){
+        				aModify.show();
+        				aDelete.show();
+        				aReport.hide();
+        				aScrap.hide();
+        				aLoginLike.hide();
+        				aLike.show();
+        			}
         		}
-        	});
-        }
-        
-        // 게시글 삭제
-        function deleteboard() {
-			if (confirm('정말 삭제하시겠습니까?')) {
-				var boardNo = document.getElementById('seq').value;
-				const xhr = new XMLHttpRequest();
-				xhr.open('POST', `/boardDelete?communityNo=${boardNo}`);
-				xhr.onload = function() {
-					if (xhr.status === 200) {
-						window.location.href = "/boardList";
-					} else {
-					  // 요청이 실패했을 때 처리할 코드
-					}
-				};
-				xhr.send();	
+        		
+        		//비로그인 상태
+        		if(loginUserNo == 0){
+        			aModify.hide();
+    				aDelete.hide();
+    				aReport.hide();
+    				aScrap.hide();
+    				aLoginLike.hide();
+    				aLike.show();
+        		}
+        	}
+        	
+        	showNav();
+        	
+	        // 게시글 삭제
+	        function deleteboard() {
+				if (confirm('정말 삭제하시겠습니까?')) {
+					var boardNo = document.getElementById('seq').value;
+					const xhr = new XMLHttpRequest();
+					xhr.open('POST', `/boardDelete?communityNo=${boardNo}`);
+					xhr.onload = function() {
+						if (xhr.status === 200) {
+							window.location.href = "/boardList";
+						} else {
+						  // 요청이 실패했을 때 처리할 코드
+						}
+					};
+					xhr.send();	
+				}
 			}
-		}
         
-        //이미지 보여주는 함수
-        function showImg(id) {
-			// 클릭한 이미지의 src 값을 가져옵니다.
-			var imgSrc = document.getElementById(id).src;
-			var showImdiv = document.getElementById("registerdiv3");
-			
-			// registerdiv3에 이미지를 추가합니다.
-			var imgTag = '<img src="' + imgSrc + '" class="show_img_style">';
-			showImdiv.style.height = "400px";
-			showImdiv.innerHTML = imgTag;
-        }
+	        //이미지 보여주는 함수
+	        function showImg(id) {
+				// 클릭한 이미지의 src 값을 가져옵니다.
+				var imgSrc = document.getElementById(id).src;
+				var showImdiv = document.getElementById("registerdiv3");
+				
+				// registerdiv3에 이미지를 추가합니다.
+				var imgTag = '<img src="' + imgSrc + '" class="show_img_style">';
+				showImdiv.style.height = "400px";
+				showImdiv.innerHTML = imgTag;
+	        }
         
-        // 지도를 출력하는 함수
-        function createMap(x, y) {
-            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-                mapOption = {
-                    center: new kakao.maps.LatLng(y, x), // 지도의 중심좌표
-                    level: 3 // 지도의 확대 레벨
-                };
-            var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-            // 마커를 표시할 위치입니다 
-            var position = new kakao.maps.LatLng(y, x);
-            // 마커를 생성합니다
-            var marker = new kakao.maps.Marker({
-                position: position
-            });
-            // 마커를 지도에 표시합니다.
-            marker.setMap(map);
-            // 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
-            var iwContent = '<div style="padding:5px;">'+'</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-            // 인포윈도우를 생성합니다
-            var infowindow = new kakao.maps.InfoWindow({
-                content: iwContent
-            });
-            // 마커에 마우스오버 이벤트를 등록합니다
-            kakao.maps.event.addListener(marker, 'mouseover', function () {
-                // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
-                infowindow.open(map, marker);
-            });
-            // 마커에 마우스아웃 이벤트를 등록합니다
-            kakao.maps.event.addListener(marker, 'mouseout', function () {
-                // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
-                infowindow.close();
-            });
-        }
-        
-        //지도 출력을 위해 값 받아오기
-        var x = document.getElementById('mapXval').value
-        var y = document.getElementById('mapYval').value
-        
-        // 지도 출력
-        if (x !== 0 && y !== 0) {
-        	document.getElementById('registerdiv6').style.display = 'block';
-        	createMap(x, y);
-        }
+	        // 지도를 출력하는 함수
+	        function createMap(x, y) {
+	            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	                mapOption = {
+	                    center: new kakao.maps.LatLng(y, x), // 지도의 중심좌표
+	                    level: 3 // 지도의 확대 레벨
+	                };
+	            var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+	            // 마커를 표시할 위치입니다 
+	            var position = new kakao.maps.LatLng(y, x);
+	            // 마커를 생성합니다
+	            var marker = new kakao.maps.Marker({
+	                position: position
+	            });
+	            // 마커를 지도에 표시합니다.
+	            marker.setMap(map);
+	            // 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
+	            var iwContent = '<div style="padding:5px;">'+'</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+	            // 인포윈도우를 생성합니다
+	            var infowindow = new kakao.maps.InfoWindow({
+	                content: iwContent
+	            });
+	            // 마커에 마우스오버 이벤트를 등록합니다
+	            kakao.maps.event.addListener(marker, 'mouseover', function () {
+	                // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
+	                infowindow.open(map, marker);
+	            });
+	            // 마커에 마우스아웃 이벤트를 등록합니다
+	            kakao.maps.event.addListener(marker, 'mouseout', function () {
+	                // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
+	                infowindow.close();
+	            });
+	        }
+	        
+	        //지도 출력을 위해 값 받아오기
+	        var x = document.getElementById('mapXval').value
+	        var y = document.getElementById('mapYval').value
+	        
+	        // 지도 출력
+	        if (x !== 0 && y !== 0) {
+	        	document.getElementById('registerdiv6').style.display = 'block';
+	        	createMap(x, y);
+	        }
+	        
+	        //좋아요 보여주기
+	        function showLike(){
+	        	var communityNo = $("#seq").val();
+	        	var userNo = $("#loginUserNo").val();
+	      		var showLike = $("#showLike");
+	      		var scrollTop = $(window).scrollTop(); // 스크롤위치 저장
+	      		
+	        	$.ajax({
+	        		url : "showLike",
+	        		data : {
+	        			"communityNo": communityNo,
+	        			"userNo": userNo
+	        		},
+	        		type : "GET",
+	        		success : function(data){
+	        			console.log(data);
+	        			showLike.empty();
+	        			showLike.html(data);
+	        			$(window).scrollTop(scrollTop);//스크롤위치 다시 불러오기
+	        		},
+	        		error : function(){
+	        			showTage.empty();
+	        		}
+	        	});
+	        }
+	        
+	        showLike();
+	        
+	      	//좋아요 클릭
+	        function clickLike(){
+	        	var communityNo = $("#seq").val();
+	        	var userNo = $("#loginUserNo").val();
+	      		var showLike = $("#showLike");
+	      		var scrollTop = $(window).scrollTop(); // 스크롤위치 저장
+	      		
+	        	$.ajax({
+	        		url : "clickLike",
+	        		data : {
+	        			"communityNo": communityNo,
+	        			"userNo": userNo
+	        		},
+	        		type : "GET",
+	        		success : function(data){
+	        			console.log(data);
+	        			showLike.empty();
+	        			showLike.html(data);
+	        			$(window).scrollTop(scrollTop);//스크롤위치 다시 불러오기
+	        		},
+	        		error : function(){
+	        			showTage.empty();
+	        		}
+	        	});
+	        }
         
         	getHashTag();
 	        // 헤시태그 출력 함수

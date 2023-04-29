@@ -1,111 +1,234 @@
-main {
-	margin-top: 50px;
+/*정렬을 위한 display: flex*/
+#registerdiv1, #registerdiv2, #registerdiv2-1, #registerdiv2-2,
+	#showTage, #registerdiv7 div, #registerdiv8, #registerdiv9 {
+	display: flex;
+}
+/*수평 가운데정렬*/
+#registerdiv1, #registerdiv2, #registerdiv2-1, #registerdiv2-2,
+	#showTage, #registerdiv7 div, #registerdiv8, #registerdiv9 {
+	align-items: center;
+}
+/*수직 가운데정렬*/
+#registerdiv1, #registerdiv2-1, #registerdiv2-2, #registerdiv7 div,
+	#registerdiv8, #registerdiv9 {
+	justify-content: center;
+}
+
+body {
+	width: 100%;
+	background-image: url("img/boardBackImg3.jpg");
+}
+
+#registerContainer {
 	width: 1000px;
 	height: 100%;
-}
-
-#fregister-header {
-	height: 70px;
-	width: 100%;
-	font-size: 30px;
-	text-align: center;
-}
-/* 메인부분 css  */
-#fregister-main {
-	border-top: 1px solid black;
-	width: 100%;
-}
-/* 말머리 */
-#fregister-main tr:nth-child(1) td:nth-child(1) {
-	width: 100px;
-	text-align: center;
-}
-
-#fregister-main tr:nth-child(1) td:nth-child(1) select {
-	width: 100px;
-}
-/* 제목 */
-#fregister-main tr:nth-child(1) td:nth-child(2) {
-	width: 900px;
-}
-
-#fregister-main tr:nth-child(1) td:nth-child(2) input {
-	width: 900px;
-}
-/* 게시글 지도 */
-#fregister-main tr:nth-child(2) td {
-	
-}
-/* 게시글 이미지 */
-#fregister-main tr:nth-child(3) image {
-	width: 1000px;
-	height: 500px;
-}
-
-.delete-button {
-	width: 100px;
-}
-/* 게시글 내용 */
-#fregister-main tr:nth-child(4) textarea {
-	width: 1000px;
-	min-height: 200px;
-}
-
-#fregister-main tr:nth-child(2) td:nth-child(1) {
-	
-}
-/*게시글 해시태그*/
-#fregister-main tr:nth-child(5) td {
-	border-bottom: 1px solid black;
-}
-
-#fregister-main tr:nth-child(5) td {
-	width: 100%;
-}
-
-#fregister-option {
-	margin-top: 30px;
-	margin-bottom: 30px;
-}
-
-#fregister-option td {
-	width: 1000px;
-}
-
-#fregister-photo {
-	
-}
-
-#fregister-photo td {
-	width: 100px;
-	height: 100px;
-	border: 1px solid black;
-}
-
-#fregister-photo image {
-	width: 100%;
-	height: 100%;
-}
-
-#fregister-footer {
-	text-align: center;
-	width: 1000px;
+	margin: auto;
+	margin-top: 250px;
 	margin-bottom: 50px;
+	background-color: rgb(255, 255, 255, 0.8);
+}
+/*헤더 부분*/
+#registerdiv1 {
+	height: 100px;
+	font-size: 50px;
+	margin-left: 50px;
+	margin-right: 50px;
+	color: black;
+}
+/* 말머리, 제목 부분 */
+#registerdiv2 {
+	width: 1000px;
+	height: 50px;
+	margin-left: 50px;
+	margin-right: 50px;
 }
 
-#fregister-footer input {
+#registerdiv2-1 {
+	float: left;
 	width: 100px;
+	height: 100%;
+}
+
+#registerdiv2-1 select {
+	width: 100%;
+	height: 80%;
+	text-align: center;
+}
+
+#registerdiv2-2 {
+	width: 800px;
 	height: 50px;
 }
 
-#fregister-footer td:nth-child(1) {
-	width: 50%;
-	text-align: right;
-	padding-right: 5px;
+#registerdiv2-2 input {
+	padding-left: 10px;
+	width: 100%;
+	height: 80%;
+}
+/*사진 보여주는 부분*/
+#registerdiv3 {
+	width: 900px;
+	height: 0px;
+	margin: auto;
+	margin-left: 50px;
+	margin-right: 50px;
+}
+/*게시글 내용 적는 부분*/
+#registerdiv4 {
+	width: 900px;
+	height: 300px;
+	margin: auto;
+	margin-left: 50px;
+	margin-right: 50px;
 }
 
-#fregister-footer td:nth-child(2) {
-	width: 50%;
-	text-align: left;
-	padding-left: 5px;
+#registerdiv4 textarea {
+	padding-left: 10px;
+	width: 98.7%;
+	height: 100%;
+}
+/*해시태그 부분*/
+#registerdiv5 {
+	width: 900px;
+	height: 100px;
+	margin: auto;
+	margin-left: 50px;
+	margin-right: 50px;
+}
+
+#showTage {
+	width: 100%;
+	height: 50%;
+	padding-left: 10px;
+}
+
+#showTage a {
+	text-decoration: none;
+	font-weight: 900;
+	color: rgb(63, 114, 155);
+	margin-left: 6px;
+	font-size: 14px;
+}
+
+#showTage a:hover {
+	color: brown;
+}
+
+#registerdiv5-2 {
+	width: 98.7%;
+	height: 50%;
+}
+
+#inputTage {
+	padding-left: 10px;
+	width: 100%;
+	height: 80%;
+}
+/*장소검색 오픈 버튼 부분*/
+#mapOpenDiv {
+	width: 900px;
+	height: 50px;
+	margin: auto;
+	margin-left: 50px;
+	margin-right: 50px;
+}
+
+#mapOpenbtn {
+	width: 100%;
+	height: 100%;
+}
+
+#mapRechoiceDiv {
+	width: 900px;
+	height: 50px;
+	margin: auto;
+	margin-left: 50px;
+	margin-right: 50px;
+	display: none;
+}
+
+#mapRechoicebtn {
+	width: 100%;
+	height: 100%;
+}
+
+/*장소추가 지도 부분*/
+#registerdiv6 {
+	width: 900px;
+	height: 100px;
+	margin: auto;
+	margin-left: 50px;
+	margin-right: 50px;
+}
+
+#inputSearch {
+	float: left;
+	width: 750px;
+	height: 45px;
+}
+
+#mapSearchbtn {
+	width: 140px;
+	height: 50px;
+}
+
+#mapChoicebtn {
+	display: none;
+	width: 900px;
+	height: 50px;
+}
+
+#list_ul {
+	color: black;
+}
+
+#registerdiv6-1 {
+	width: 900px;
+	height: 200px;
+}
+
+#registerdiv6-2 {
+	width: 900px;
+	height: 200px;
+}
+
+#map {
+	width: 900px;
+	height: 400px;
+}
+/*사진 리스트*/
+#registerdiv7 {
+	width: 900px;
+	height: 90px;
+	margin-left: 50px;
+	margin-right: 50px;
+	border: 1px dotted rgb(218, 214, 214);
+}
+
+/*사진 버튼*/
+#registerdiv8 {
+	width: 900px;
+	height: 90px;
+	margin-left: 50px;
+	margin-right: 50px;
+}
+
+#registerdiv8 input {
+	width: 200px;
+	height: 50px;
+}
+/*등록 취소 버튼*/
+#registerdiv9 {
+	width: 900px;
+	height: 120px;
+	margin-left: 50px;
+	margin-right: 50px;
+}
+
+#registerdiv9 input {
+	width: 250px;
+	height: 50px;
+	left: 10px;
+	margin-right: 10px;
+	margin-left: 10px;
 }

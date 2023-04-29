@@ -5,139 +5,483 @@
 		<title>게시글 수정</title>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
 		<link href="../../../css/community/board/modify.css" rel="stylesheet">
+		<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+		
+		<!-- Favicons -->
+		<link href="assets/img/favicon.png" rel="icon">
+		<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+		
+		  <!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="stylesheet">
+		
+		<!-- Vendor CSS Files -->
+		<link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+		<link href="assets/vendor/aos/aos.css" rel="stylesheet">
+		<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+		<link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+		<link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+		<link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+		
+		<!-- Template Main CSS File -->
+		<link href="assets/css/style.css" rel="stylesheet">
 	</head>
 	<body>
-        <div id="container">
-            <header>
-                <div th:replace="header.html :: header"></div>
-            </header>
-            <main>
-                <table id="fregister-header">
-                    <tr>
-                        <td colspan="2">
-                            자유게시판
-                        </td>
-                    </tr>
-                </table>
-                
-                <table id="fregister-main">
-                    <tr>
-                        <td>
-                            <select>
-                                <option value="">[말머리]</option>
-                                <option value="잡담">[잡담]</option>
-                                <option value="캠핑지">[캠핑지]</option>
-                            </select>
-                        </td>
-                        <td>
-                            <input type="text" required placeholder="제목을 입력하세요.">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            지도
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" id="fregister-image">
+        <header>
+        	<div th:replace="header.html :: header"></div>
+        </header>
+        
+        <form action="/boardRegister" method="post" onsubmit="return validateForm()">
+            <div id="registerContainer">
+                <div id="registerdiv1">
+                    게시글 수정
+                </div>
 
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <textarea name="" id="" required placeholder="내용을 입력하세요"></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <input type="text" placeholder="#해시태그">
-                        </td>
-                    </tr>
-                </table>
-                <table id="fregister-option">
-                    <tr>
-                        <td>
-                            지도첨부 <input type="button" value="장소선택">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            사진첨부 <input type="file">
-                        </td>
-                    </tr>
-                </table>
-                <table id="fregister-photo">
-                    <tr>
-                        <td>
-                            <img src="/img/1.PNG" alt="이미지1">
-                            <button class="delete-button">삭제</button>
-                        </td>
-                        <td>
-                            <img src="/img/2.PNG" alt="이미지2">
-                            <button class="delete-button">삭제</button>
-                        </td>
-                        <td>
-                            <img src="/img/3.PNG" alt="이미지3">
-                            <button class="delete-button">삭제</button>
-                        </td>
-                        <td>
-                            <img src="/img/4.PNG" alt="이미지4">
-                            <button class="delete-button">삭제</button>
-                        </td>
-                        <td>
-                            <img src="/img/5.PNG" alt="이미지5">
-                            <button class="delete-button">삭제</button>
-                        </td>
-                        <td>
-                            <img src="/img/6.PNG" alt="이미지6">
-                            <button class="delete-button">삭제</button>
-                        </td>
-                        <td>
-                            <img src="/img/7.PNG" alt="이미지7">
-                            <button class="delete-button">삭제</button>
-                        </td>
-                        <td>
-                            <img src="/img/8.PNG" alt="이미지8">
-                            <button class="delete-button">삭제</button>
-                        </td>
-                        <td>
-                            <img src="/img/9.PNG" alt="이미지9">
-                            <button class="delete-button">삭제</button>
-                        </td>
-                        <td>
-                            <img src="/img/10.PNG" alt="이미지10">
-                            <button class="delete-button">삭제</button>
-                        </td>
-                    </tr>
-                </table>
-                <table id="fregister-footer">
-                    <tr>
-                        <td>
-                            <input type="submit" value="등록">
-                        </td>
-                        <td>
-                            <input type="reset" value="취소">
-                        </td>
-                    </tr>
-                </table>
-            </main>
-            <script>
+                <div id="registerdiv2">
+                    <div id="registerdiv2-1">
+                        <select name="category" th:value="${commu.communityCategory}">
+                            <option value="0" th:selected="${commu.communityCategory == 0}">[잡담]</option>
+                            <option value="1" th:selected="${commu.communityCategory == 1}">[캠핑지]</option>
+                        </select>
+                    </div>
+                    <div id="registerdiv2-2">
+                        <input if="inputSubject" name="subject" type="text" th:value="${commu.communitySubject}">
+                        <input type="hidden" name="userNo" value = "45"/>
+	                    <input type="hidden" id="seq" name="seq" th:value="${seq}" />
+                    </div>
+                </div>
+                <div id="mapOpenDiv">
+                	<button id="mapOpenbtn" onclick="showElements(event)">장소추가</button>
+                </div>
+                <div id="registerdiv6" style="display: none;">
+                    <input 
+                        type="text"
+                        id="inputSearch" 
+                        onkeypress="if( event.keyCode == 13){search(event);}"
+                        placeholder="검색할 장소를 입력하세요."
+                    >
+                    <button id="mapSearchbtn" onclick="search(event)">검색</button>
+                    <div id ="registerdiv6-1" style="overflow: auto;">
+                        <ul id="list_ul" ></ul>
+                    </div>
+                    <div id="map" ></div>
+                    <div id ="registerdiv6-2">
+                        <button id="mapChoicebtn" onclick="mapChoice(event)">추가하기</button>
+                    </div>
+                    <input type="hidden" id="mapXval" name="mapX" value="0">
+	                <input type="hidden" id="mapYval" name="mapY" value="0">
+                </div>
+                <div id="mapRechoiceDiv">
+                	<button id="mapRechoicebtn" onclick="reChoiceMap(event)">다시선택하기</button>
+                </div>
                 
-                // 이미지 클릭 시 이미지 보여주기
-                var images = document.querySelectorAll("#fregister-photo img");
-                var fregisterImage = document.getElementById("fregister-image");
-            
-                for (var i = 0; i < images.length; i++) {
-                    images[i].addEventListener("click", function() {
-                        var src = this.getAttribute("src");
-                        var alt = this.getAttribute("alt");
-                        fregisterImage.innerHTML = "<img src='" + src + "' alt='" + alt + "'>";
-                    });
+                <div id="registerdiv3"></div>
+                <div id="registerdiv7" data-placeholder='사진을 첨부 하려면 파일 선택 버튼을 클릭하거나 파일을 드래그앤드롭 하세요'>
+
+                </div>
+                <div id="registerdiv8">
+                    <input type="file" id="fileUpload" name="fileUpload" multiple='multiple' accept='image/*'>
+                </div>
+                <script>
+                (// 이미지를 보여주는 영역 설정.
+                        imageView = function imageView(registerdiv7, btn){
+
+                            var attZone = document.getElementById(registerdiv7);
+                            var fileUpload = document.getElementById(btn)
+                            var sel_files = [];
+                            var showimg = document.getElementById(showimg); // 테스트로 이미지값 보여줄곳
+                            // 이미지와 체크 박스를 감싸고 있는 div 속성
+                            var div_style = 'display:inline-block;position:relative;'
+                                        + 'width:90px;height:90px;'
+                                        + 'position: relative; display: inline-block;';
+                            // 겹쳐지는 div 스타일 속성
+                            var over_style = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 0, 0, 0.5); display:none'
+                                        + 'align-items: center; justify-content: center; font-size:30px; color:rgb(255, 255, 255)';
+                            // 미리보기 이미지 속성
+                            var img_style = 'width:90px;height:90px;z-index:none';
+                            // 이미지안에 표시되는 체크박스의 속성
+                            var chk_style = 'width:30px;height:30px;position:absolute;font-size:24px;'
+                                        + 'right:0px;bottom:0px;z-index:999;background-color:rgba(255,255,255,0.1);color:#f00';
+
+                            fileUpload.onchange = function(e){ // 파일 선택이 변경되면 실행될 함수를 등록합니다.
+                                var files = e.target.files; // 선택한 파일 목록을 변수에 할당합니다.
+                                var fileArr = Array.prototype.slice.call(files) // 파일 목록을 배열로 변경하여 변수에 할당합니다.
+                                for(f of fileArr){ // 파일 목록을 순환하면서 imageLoader 함수를 실행합니다.
+                                    imageLoader(f);
+                                }
+                            }
+
+
+                            // 탐색기에서 드래그앤 드롭 사용
+                            // 드래그 앤 드롭 영역에 마우스가 진입하면 실행
+                            attZone.addEventListener('dragenter', function(e){ 
+                                e.preventDefault(); // 기본 이벤트 중지
+                                e.stopPropagation();    // 이벤트 실행 중지
+                            }, false)
+                        
+                            // 드래그한 파일을 영역 위에 놓을 때 실행
+                            attZone.addEventListener('dragover', function(e){
+                                e.preventDefault(); // 기본 이벤트 중지
+                                e.stopPropagation();    // 이벤트 실행 중지
+                            }, false)
+
+                            // 파일을 영역에 드롭했을 때 실행
+                            attZone.addEventListener('drop', function(e){
+                                var files = {}; // 이미지 저장할 객체 생성
+                                e.preventDefault(); // 기본 이벤트 중지
+                                e.stopPropagation();    // 이벤트 실행 중지
+                                var dt = e.dataTransfer;    //
+                                files = dt.files;   // 드롭한 이미지 변수 할당
+                                for(f of files){    // files 순회하면서 imageLoader 함수 실행
+                                    imageLoader(f);
+                                }
+                            }, false)
+
+                            /*첨부된 이미리즐을 배열에 넣고 미리보기 */
+                            imageLoader = function(file){
+                                sel_files.push(file);   // 배열에 이미지 저장
+                                var reader = new FileReader();  // 이미지 불러올 변수 생성
+                                reader.onload = function(ee){   // 이미지 로드될때 실행되는 함수 정의
+                                    let img = document.createElement('img') // img 태그 생성
+                                    img.setAttribute('style', img_style)    // 스타일 적용
+                                    img.src = ee.target.result; // 이미지 소스 설정
+                                    attZone.appendChild(makeDiv(img, file));    // 미리보기 div 생성 후 이미지 추가
+                                }
+                                reader.readAsDataURL(file); // 파일 읽어와서 이미지 소스로 설정
+                            }
+
+                            /*첨부된 파일이 있는 경우 checkbox와 함께 attZone에 추가할 div를 만들어 반환 */
+                            makeDiv = function(img, file){
+                                var div = document.createElement('div'); // div 태그 생성
+                                div.setAttribute('style', div_style); // div 태그에 스타일 설정
+
+                                var overlay = document.createElement('div'); // overlay div 태그 생성
+                                overlay.setAttribute('style', over_style); // div 태그에 스타일 설정
+                                overlay.innerHTML = '삭제';
+
+                                // 마우스를 영역에 올렸을때 실행
+                                div.onmouseover = function() { // div 태그에 마우스 오버 이벤트 핸들러 등록
+                                    overlay.style.display ='flex';
+                                    overlay.onclick = function(ev){
+                                    var ele = ev.srcElement;
+                                    var delFile = ele.getAttribute('delFile');
+                                    for(var i=0 ;i<sel_files.length; i++){
+                                        if(delFile== sel_files[i].name){
+                                            sel_files.splice(i, 1);      
+                                        }
+                                    }
+                                    
+                                    dt = new DataTransfer();
+                                    for(f in sel_files) {
+                                        var file = sel_files[f];
+                                        dt.items.add(file);
+                                    }
+                                    fileUpload.files = dt.files;
+                                    var p = ele.parentNode;
+                                    attZone.removeChild(p)
+                                }
+                                    div.appendChild(overlay); // div 태그에 overlay div 추가
+                                };
+                                // 마우스가 영역을 나갔을 때 실행
+                                div.onmouseout = function() {overlay.style.display ='none';}
+
+                                var imgDiv = document.createElement('div'); // imgDiv div 태그 생성
+                                imgDiv.appendChild(img); // imgDiv div 태그에 이미지 추가
+                                div.appendChild(imgDiv); // div 태그에 imgDiv div 추가
+                                return div; // 완성된 div 태그 반환
+                            }
+                        }
+                    )('registerdiv7', 'fileUpload')
+                  
+	              	//사진 추가하는 부분
+	              	$(document).ready(function() { // 문서 로딩이 완료되면 실행하는 함수
+	              		$('#fileUpload').on('change', function() { // 파일 선택이 변경되면 실행하는 함수
+	              			const fileList = document.querySelector("#fileUpload").files;	//파일 리스트 가져오기
+	              			if (fileList.length > 0) {// 파일이 선택되었는지 확인합니다.
+	              				const formData = new FormData(); // FormData 객체를 생성합니다.
+	              				for (let i = 0; i < fileList.length; i++) { //formData에 사진 리스트를 넣음
+	 	  	            			formData.append("fileList", fileList[i]);
+	 	  	            		}
+	              			}
+	              		});
+	              	});
+                
+                </script>
+                <div name = "content" id="registerdiv4">
+                    <textarea name="content" id="inputContent" th:text=${commu.communityContent}></textarea>
+                </div>
+                <div id="registerdiv5">
+                    <div id="showTage" ></div>
+                    <div id="registerdiv5-2">
+                        <input id="inputTage" type="text" placeholder="#해시태그, 입력" onmousedown="onmouseEvent()">
+                    </div>
+                </div>
+                <div id="registerdiv9">
+                    <input type="submit" value = "수정">
+                    <input type="reset" value = "취소">
+                </div>
+            </div>
+        </form>
+
+        <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ba03b0afa21d048313b9d7072d06edb9&libraries=services"></script>
+        <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ba03b0afa21d048313b9d7072d06edb9"></script>
+        <script>
+        $(document).ready(function() {
+            $('form').on('submit', function(event) {
+                event.preventDefault(); // 기본 동작인 form 데이터 전송을 막음
+                const formData = new FormData(this); // form 데이터를 담을 FormData 객체를 생성
+                const fileList = document.querySelector("#fileUpload").files; // 파일 리스트 가져오기
+                if (fileList.length > 0) { // 파일이 선택되었는지 확인합니다.
+                    for (let i = 0; i < fileList.length; i++) {
+                        formData.append("fileList", fileList[i]); // formData에 사진 리스트를 추가합니다.
+                    }
                 }
-            </script>
-            <footer>
-                <div th:replace="footer.html :: footer"></div>
-            </footer>
-        </div>
+                
+                $.ajax({
+                    url: $(this).attr('action'), // form의 action 속성에 해당하는 URL로 요청을 보냅니다.
+                    type: $(this).attr('method'), // form의 method 속성에 해당하는 HTTP 메소드를 지정합니다.
+                    data: formData, // FormData 객체를 전송합니다.
+                    contentType: false, // 데이터 타입을 설정하지 않습니다.
+                    processData: false, // 데이터를 자동으로 처리하지 않습니다.
+                    success: function(response) {
+                        // Ajax 요청이 성공한 경우
+                        window.location.href = '/boardList';
+                    },
+                    error: function(xhr, status, error) {
+                        // Ajax 요청이 실패한 경우
+                        console.log(xhr);
+                    }
+                })
+            });
+        });
+        
+      	//버튼 클릭시 요소들 보이게 하기.
+        function showElements(event) {
+            if (event) {event.preventDefault();} // 폼 제출을 막음
+            var registerdiv6 = document.getElementById("registerdiv6");		// 검색영역
+			var mapOpenDiv = document.getElementById("mapOpenbtn");	
+			var mapXval = document.getElementById("mapXval");
+			var mapYval = document.getElementById("mapYval");
+			
+            // 버튼 클릭시 요소 보이게 하기
+            if (registerdiv6.style.display === "none") {
+                registerdiv6.style.height = "750px";
+                registerdiv6.style.display = "block";
+                mapOpenDiv.innerHTML = '취소';
+            
+            // 다시 클릭시 요소 안보이게 하기.
+            } else {
+                registerdiv6.style.height = "50px";   
+                registerdiv6.style.display = "none";
+                mapOpenDiv.innerHTML = '장소추가';
+                mapXval.value = "0";
+                mapYval.value = "0";
+            }
+        }
+
+        // 검색하는 함수.
+        function search(event) {
+            if (event) {event.preventDefault();} // 폼 제출을 막음
+            var list_ul = document.getElementById('list_ul');  // 검색 결과를 표시할 리스트를 가져옴
+            var keyword = document.getElementById('inputSearch').value;  // 검색어 입력란에서 검색어를 가져옴
+            var places = new kakao.maps.services.Places();  // Kakao Maps API의 Places 서비스 객체를 생성
+            var str = "";  // 검색 결과를 문자열로 저장할 변수를 초기화
+            var callback = function(result, status) {  // 검색 결과를 처리할 콜백 함수를 정의
+                if (status === kakao.maps.services.Status.OK) {  // 검색 결과가 성공적으로 수신되었다면
+                    for (var i=0; i<result.length; i++) {  // 검색 결과 배열을 반복하며
+                        var placeName = result[i].place_name;  // 장소 이름을 가져옴
+                        var addressName = result[i].address_name;  // 주소를 가져옴
+                        var xCross = result[i].x;  // 경도를 가져옴
+                        var yCross = result[i].y;  // 위도를 가져옴
+                        str += '<li onclick="createMap('+xCross+','+yCross+',\''+placeName+'\');">'+placeName+'<br>'+addressName+'</li><br>';  // 검색 결과를 HTML 문자열로 저장
+                    }
+                    list_ul.innerHTML = str;  // 검색 결과 리스트에 HTML 문자열을 삽입하여 결과를 표시
+                }
+            };
+            places.keywordSearch(keyword, callback);  // Places 서비스 객체의 keywordSearch 메서드를 호출하여 검색을 실행
+        }
+
+        // 검색결과중 지도 한곳을 클릭했을 때 지도를 생성해주는 함수.
+        // 게시물 디테일 페이지에서도 사용하면 될듯함.
+        function createMap(x, y,a) {
+            var mapXval = document.getElementById('mapXval').value = x.toString();  // 지도 X좌표
+            var mapYval = document.getElementById('mapYval').value = y.toString();  // 지도 Y좌표
+            var mapChoicebtn = document.getElementById('mapChoicebtn');
+            mapChoicebtn.style.display = "block";
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                mapOption = {
+                    center: new kakao.maps.LatLng(y, x), // 지도의 중심좌표
+                    level: 3 // 지도의 확대 레벨
+                };
+            var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+            // 마커를 표시할 위치입니다 
+            var position = new kakao.maps.LatLng(y, x);
+            // 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                position: position
+            });
+            // 마커를 지도에 표시합니다.
+            marker.setMap(map);
+            // 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
+            var iwContent = '<div style="padding:5px;">'+a+'</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+            // 인포윈도우를 생성합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content: iwContent
+            });
+            // 마커에 마우스오버 이벤트를 등록합니다
+            kakao.maps.event.addListener(marker, 'mouseover', function () {
+                // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
+                infowindow.open(map, marker);
+            });
+            // 마커에 마우스아웃 이벤트를 등록합니다
+            kakao.maps.event.addListener(marker, 'mouseout', function () {
+                // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
+                infowindow.close();
+            });
+        }
+
+        // 장소 선택 완료버튼
+        function mapChoice(event){
+        	if (event) {event.preventDefault();} // 폼 제출을 막음
+        	document.getElementById("inputSearch").style.display = "none";
+            document.getElementById("list_ul").style.display = "none";
+            document.getElementById("mapSearchbtn").style.display = "none";
+            document.getElementById('mapChoicebtn').style.display = "none";
+            document.getElementById('mapOpenDiv').style.display = "none";
+            document.getElementById('registerdiv6-1').style.display = "none";
+            document.getElementById("mapRechoiceDiv").style.display = "block";
+            document.getElementById("registerdiv6").style.height = "400px";
+        }
+        
+        function reChoiceMap(event){
+        	if (event) {event.preventDefault();} // 폼 제출을 막음
+        	document.getElementById("inputSearch").style.display = "block";
+            document.getElementById("list_ul").style.display = "block";
+            document.getElementById("mapSearchbtn").style.display = "block";
+            document.getElementById('mapChoicebtn').style.display = "block";
+            document.getElementById('mapOpenDiv').style.display = "block";
+            document.getElementById('registerdiv6-1').style.display = "block";
+            document.getElementById("mapRechoiceDiv").style.display = "none";
+        	document.getElementById("registerdiv6").style.height = "750px";
+        }
+            
+            function onmouseEvent(){
+	            document.addEventListener('keydown', handleKeyDown);
+	        }
+	        
+			//해시태그 동작 부분
+	        function handleKeyDown(event) {
+	            if (event.key === ',' || event.key == ' ') {
+	                // ',' 키가 눌렸을 때 해시태그 유효성 검사
+	                var inputTage = document.getElementById('inputTage');
+	                var tags = inputTage.value; // 입력된 태그들 가져오기
+	                var tagArr = tags.split(','); // 태그들을 ','로 구분하여 배열로 변환
+	                for (var i = 0; i < tagArr.length; i++) {
+	                    var tag = tagArr[i].trim(); // 각 태그의 양 끝 공백 제거
+	
+	                    // 태그 유효성 검사 (예시: '#'으로 시작하고, 2자 이상, 5글자 이하)
+	                    if (tag.charAt(0) !== '#') {
+	                        alert('태그 앞에는 #을 붙여주세요.');
+	                        inputTage.value = "";
+	                        event.preventDefault(); // ,가 남아있지 않도록 기본 이벤트를 막음
+	                        return; // 유효하지 않은 태그일 경우 함수 종료
+	                    }
+	                    if (tag.length < 3) {
+	                        alert('태그는 두글자 이상이어야 합니다.');
+	                        inputTage.value = "";
+	                        event.preventDefault(); // ,가 남아있지 않도록 기본 이벤트를 막음
+	                        return; // 유효하지 않은 태그일 경우 함수 종료
+	                    }
+	                    if (tag.length > 6) {
+	                        alert('태그는 다섯글자 이하여야 합니다.');
+	                        inputTage.value = "";
+	                        event.preventDefault(); // ,가 남아있지 않도록 기본 이벤트를 막음
+	                        return; // 유효하지 않은 태그일 경우 함수 종료
+	                    }
+	                }
+	                registerHashTag(tags, getHashTag, 'register');
+	                inputTage.value = "";
+	                event.preventDefault(); // ,가 남아있지 않도록 기본 이벤트를 막음
+	            }
+	        }
+
+	        // 헤시태그 출력 함수
+	        function getHashTag(){
+	        	var communityNo = $("#seq").val();
+	        	var showTage = $("#showTage");
+	        	var inputTage = document.getElementById('inputTage');
+	        	var scrollTop = $(window).scrollTop(); // 스크롤위치 저장
+	        	$.ajax({
+	        		url : "getHashTag",
+	        		data : {
+	        			"communityNo": communityNo
+	        			},
+	        		type : "GET",
+	        		success : function(data){
+	        			showTage.empty(); // 기존 내용 삭제
+	        		    for (var i = 0; i < data.length; i++) {
+	        		    	var tag = $("<a>").attr({
+	        		    		href : "#",
+	        		    		onclick: "registerHashTag('" + data[i].hashTagName + "', " + getHashTag + ", 'delete')"
+	        		    	}).text(data[i].hashTagName); // 새로운 a 태그 생성
+	        		    	showTage.append(tag); // 새로운 a 태그를 요소에 추가
+	        			}
+	        		    if (data.length == 10){
+	        		        inputTage.readOnly = true; // inputTage를 읽기전용으로 설정
+	        		        inputTage.placeholder = "해시태그는 10개까지 등록이 가능합니다."; // placeholder를 "해시태그는 10개까지 등록이 가능합니다." 로 설정
+	        		    }else{
+	        		    	inputTage.readOnly = false;
+	        		    	inputTage.placeholder = "#해시태그, 입력";
+	        		    }
+	        		    $(window).scrollTop(scrollTop);//스크롤위치 다시 불러오기
+	        		},
+	        		error : function(){
+	        			showTage.empty();
+	        		}
+	        	});
+	        }
+	        
+	        // 해시태그 등록(register) or 삭제(delete) 함수
+	        function registerHashTag(tags, showHashTag, choice){
+	        	const hasgTag = tags;
+	        	var communityNo = $("#seq").val();
+	        	$.ajax({
+	        		url:"registerHashTag",
+	        		data:{
+	        			"communityNo" : communityNo,
+	        			"hasgTag" : hasgTag,
+	        			"choice" : choice
+	        		},
+	        		type:"GET",
+	        		success : function(){
+	        			showHashTag();
+	        		},
+	        		error : function(){
+	        			alert("태그등록 실패");
+	        		}
+	        	});
+	        }
+	        
+	      	//폼체크 비어있는지 
+	        function validateForm() {
+		       	// 필수 입력 필드 검사
+		    	var requiredFields = document.querySelectorAll('#inputSubject[required], #inputContent[required]');
+		       	for (var i = 0; i < requiredFields.length; i++) {
+			       	if (!requiredFields[i].value) {
+			       		alert('필수 입력 필드를 모두 입력해주세요.');
+			       	    return false; // 폼 제출 중지
+			       	}
+		       	}
+	       		return true; // 폼 제출
+	        }
+        </script>
+        
+        <footer>
+            <div th:replace="footer.html :: footer"></div>
+        </footer>
     </body>
 </html>

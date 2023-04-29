@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="community/fragments :: head-min">
+  <meta charset="utf-8">
+  <title>바리바리 커뮤니티</title>
+  <meta content="width=device-width, initial-scale=1.0" name="view">
+  <meta content="" name="keywords">
+  <meta content="" name="description">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+  <link href="../../../static/css/community/board/list.css" rel="stylesheet">
+
+  <!-- Favicons -->
+  <link href="../../../static/img/바리바리로고_낮_컬러.png" rel="icon">
+  <link href="../../../static/img/바리바리로고_낮_컬러.png" rel="apple-touch-icon">
+
+  <!-- Bootstrap CSS File -->
+  <link href="../../../static/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="../../../static/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="../../../static/lib/animate/animate.css" rel="stylesheet">
+  <link href="../../../static/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+  <link href="../../../static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="../../../static/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="../../../static/css/community/community.css" rel="stylesheet">
+
+
+  <!-- JavaScript Libraries -->
+  <script src="../../../static/lib/jquery/jquery.min.js"></script>
+  <script src="../../../static/lib/jquery/jquery-migrate.min.js"></script>
+  <script src="../../../static/lib/popper/popper.min.js"></script>
+  <script src="../../../static/lib/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../../../static/lib/easing/easing.min.js"></script>
+  <script src="../../../static/lib/counterup/jquery.waypoints.min.js"></script>
+  <script src="../../../static/lib/counterup/jquery.counterup.js"></script>
+  <script src="../../../static/lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="../../../static/lib/lightbox/js/lightbox.min.js"></script>
+  <script src="../../../static/lib/typed/typed.min.js"></script>
+
+
+  <!-- Template Main CSS File -->
+  <link href="../../../static/assets/css/style.css" rel="stylesheet">
+
+  <!-- Template Main Javascript File -->
+  <script src="../../../static/js/community/community.js" defer></script>
+  <style>
+    #home{
+      background-image: url("../../../static/img/camping/night-ged7e95dc0_1920.jpg");
+    }
+  </style>
+</head>
+<body id="page-top">
+
+
+<!--<nav th:replace="community/fragments :: nav"></nav>-->
+<header>
+  <div th:replace="header :: header"></div>
+</header>
+
+
+<!--/ Intro Skew Star /-->
+<div id="home" class="intro route bg-image" style="height: 300px">
+  <!--     style="background-image: url(../../../static/img/camping/night-ged7e95dc0_1920.jpg)"-->
+  >
+  <div class="overlay-itro"></div>
+  <div class="intro-content display-table">
+    <div class="table-cell">
+      <div class="container">
+        <!--<p class="display-6 color-d">Hello, world!</p>-->
+        <h1 class="intro-title mb-4">등록 페이지</h1>
+        <p class="intro-subtitle"><span class="text-slider-items">바리바리 '자유게시판'입니다</span><strong class="text-slider"></strong></p>
+        <!-- <p class="pt-3"><a class="btn btn-primary btn js-scroll px-4" href="#about" role="button">Learn More</a></p> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!--/ Intro Skew End /-->
+
+
+
+<!--/ Section folio Star /-->
+<section id="work" class="folio-mf sect-pt4 route">
+  <div class="container">
+
+
+
+
+    <div class="container-xxl py-5">
+      <div class="container">
+        <div class="row g-5">
+
+
+<!--  TODO : 여기만 교체 시작  ============================================================================================================       -->
+
+
+<!--   셀렉트 검색       -->
+
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">셀렉터 드롭다운</button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div role="separator" class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+              </div>
+            </div>
+            <input type="text" class="form-control" aria-label="Text input with dropdown button">
+          </div>
+
+
+
+          <!--  지도  -->
+
+          <button type="button" class="btn btn-primary btn-lg btn-block">장소추가</button>
+
+            <div
+                    class="col-lg-12 wow fadeIn mt-5"
+                    data-wow-delay="0.5s"
+                    style="min-height: 450px"
+            >
+              <div class="position-relative rounded overflow-hidden h-100">
+                <iframe
+                        class="position-relative w-100 h-100"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3001156.4288297426!2d-78.01371936852176!3d42.72876761954724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccc4bf0f123a5a9%3A0xddcfc6c1de189567!2sNew%20York%2C%20USA!5e0!3m2!1sen!2sbd!4v1603794290143!5m2!1sen!2sbd"
+                        frameborder="0"
+                        style="min-height: 450px; border: 0"
+                        allowfullscreen=""
+                        aria-hidden="false"
+                        tabindex="0"
+                ></iframe>
+              </div>
+            </div>
+
+<!--          파일 업로드 -->
+          <form>
+            <div class="form-group">
+              <label for="exampleFormControlFile1"></label>
+              <input type="file" class="form-control-file" id="exampleFormControlFile1">
+            </div>
+          </form>
+
+
+            <form>
+
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="name"
+                            placeholder="Your Name"
+                    />
+                    <label for="name">Your Name</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input
+                            type="email"
+                            class="form-control"
+                            id="email"
+                            placeholder="Your Email"
+                    />
+                    <label for="email">Your Email</label>
+                  </div>
+                </div>
+
+
+                <div class="col-12">
+                  <div class="form-floating">
+                    <textarea
+                            class="form-control"
+                            placeholder="내용을 입력하세요"
+                            id="message"
+                            style="height: 500px"
+                    ></textarea>
+                    <label for="message">내용을 입력하세</label>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-floating">
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="subject"
+                            placeholder="해시태그 입력"
+                    />
+                    <label for="subject">해시태그 입력</label>
+                  </div>
+                </div>
+
+
+
+                <div class="col-12 d-grid d-flex justify-content-around">
+
+                  <button type="submit" class="btn btn-primary btn-lg py-2 px-lg-5 ">제출</button>
+                  <button type="" class="btn btn-secondary btn-lg py-2 px-lg-5">초기화</button>
+<!--                  <button class="btn btn-primary py-3 px-5" type="submit">-->
+<!--                    저장하기-->
+<!--                  </button>-->
+                </div>
+              </div>
+            </form>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+
+
+          <!-- TODO : 여기만 교체 끝  ============================================================================================================       -->
+
+</section>
+
+
+<!--/ Section Testimonials Star /-->
+<div class="testimonials paralax-mf bg-image" style="background-image: url(img/overlay-bg.jpg)">
+  <div class="overlay-mf"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div id="testimonial-mf" class="owl-carousel owl-theme">
+          <div class="testimonial-box">
+            <div class="author-test">
+              <!-- <img src="../../../static/img/community/testimonial-2.jpg" alt="" class="rounded-circle b-shadow-a"> -->
+              <span class="author">[띠 형태의 캐러샐 색션] - 좋아요 많은  중고 물품  </span>
+            </div>
+            <div class="content-test">
+              <p class="description lead">
+                아무말
+              </p>
+              <span class="comit"><i class="fa fa-quote-right"></i></span>
+            </div>
+          </div>
+          <div class="testimonial-box">
+            <div class="author-test">
+              <!-- <img src="../../../static/img/community/testimonial-4.jpg" alt="" class="rounded-circle b-shadow-a"> -->
+              <span class="author">[띠 형태의 캐러샐 색션] - 좋아요 많은  중고 물품</span>
+            </div>
+            <div class="content-test">
+              <p class="description lead">
+                아무말
+              </p>
+              <span class="comit"><i class="fa fa-quote-right"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--/ Section Blog Star /-->
+<section id="blog" class="blog-mf sect-pt4 route">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="title-box text-center">
+          <h3 class="title-a">
+            바리바리 특가
+          </h3>
+          <p class="subtitle-a">
+            바리바리 특가 상품
+          </p>
+          <div class="line-mf"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card card-blog">
+          <div class="card-img">
+            <a href="blog-single.html"><img src="../../../static/img/community/article-1.jpg"
+                                            th:src="@{img/community/article-1.jpg}" alt="" class="img-fluid"></a>
+          </div>
+          <div class="card-body">
+            <div class="card-category-box">
+              <div class="card-category">
+                <h6 class="category">차박용 담요</h6>
+              </div>
+            </div>
+            <h3 class="card-title"><a href="blog-single.html">쇼핑몰 특가 상품</a></h3>
+            <p class="card-description">
+              바리바리 특가 상품 광고
+              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다
+            </p>
+          </div>
+          <div class="card-footer">
+            <div class="article-author">
+              <a href="#">
+                <img src="../../../static/img/community/testimonial-2.jpg"
+                     th:src="@{img/community/testimonial-2.jpg}" alt="" class="avatar rounded-circle">
+                <span class="author">캠핑 고래</span>
+              </a>
+            </div>
+            <div class="article-date">
+              <span class="ion-ios-clock-outline"></span> 10 min
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card card-blog">
+          <div class="card-img">
+            <a href="blog-single.html"><img src="../../../static/img/community/article-2.jpg"
+                                            th:src="@{img/community/article-2.jpg}" alt="" class="img-fluid"></a>
+          </div>
+          <div class="card-body">
+            <div class="card-category-box">
+              <div class="card-category">
+                <h6 class="category">캠핑용 재료</h6>
+              </div>
+            </div>
+            <h3 class="card-title"><a href="blog-single.html">쇼핑몰 특가 상품</a></h3>
+            <p class="card-description">
+              바리바리 특가 상품 광고
+              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다
+            </p>
+          </div>
+          <div class="card-footer">
+            <div class="article-author">
+              <a href="#">
+                <img src="../../../static/img/community/testimonial-2.jpg"
+                     th:src="@{img/community/testimonial-2.jpg}" alt="" class="avatar rounded-circle">
+                <span class="author">판매자</span>
+              </a>
+            </div>
+            <div class="article-date">
+              <span class="ion-ios-clock-outline"></span> 30 min
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card card-blog">
+          <div class="card-img">
+            <a href="blog-single.html"><img src="../../../static/img/community/article-3.jpg"
+                                            th:src="@{img/community/article-3.jpg}" alt="" class="img-fluid"></a>
+          </div>
+          <div class="card-body">
+            <div class="card-category-box">
+              <div class="card-category">
+                <h6 class="category">안식월을 위한 패키지 상품</h6>
+              </div>
+            </div>
+            <h3 class="card-title"><a href="blog-single.html">쇼핑몰 특가 상품</a></h3>
+            <p class="card-description">
+              바리바리 특가 상품 광고
+              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다
+
+            </p>
+          </div>
+          <div class="card-footer">
+            <div class="article-author">
+              <a href="#">
+                <img src="../../../static/img/community/testimonial-2.jpg"
+                     th:src="@{img/community/testimonial-2.jpg}" alt="" class="avatar rounded-circle">
+                <span class="author">자매판</span>
+              </a>
+            </div>
+            <div class="article-date">
+              <span class="ion-ios-clock-outline"></span> 50 min
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--/ Section Blog End /-->
+
+
+
+<!--/ Section Contact-Footer Star /-->
+<!--<section class="paralax-mf footer-paralax bg-image sect-mt4 route"-->
+<!--         style="background-image: url(../../../static/img/community/overlay-bg.jpg)">-->
+<!--  <div class="overlay-mf"></div>-->
+<!--  <footer th:replace="community/fragments :: footer"></footer>-->
+<!--</section>-->
+
+<!-- Footer -->
+<footer id="footer">
+  <div class="footer-top">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-info">
+            <h3>BARIBARI</h3>
+            <p>
+              (04540) 서울특별시 중구 남대문로 120 <br>
+              그레이츠 청계 3층 바리바리<br><br>
+              <strong>연락처 : </strong> 1544-9970<br>
+              <strong>업무시간 : </strong> 10:00 ~ 16:00<br>
+            </p>
+            <div class="social-links mt-3">
+              <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+              <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+              <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-6 footer-links">
+          <h4>바로 가기</h4>
+          <ul>
+            <li><i class="bx bx-chevron-right"></i> <a href="/">메인</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="/shopping/list">쇼핑몰</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="/boardList">커뮤니티</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="/resale">중고거래</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="/noticeList">이벤트 & 공지</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6 footer-links">
+          <h4>여긴 뭐하지</h4>
+          <ul>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">뭐적지1</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">뭐적지2</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">뭐적지3</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">뭐적지4</a></li>
+            <li><i class="bx bx-chevron-right"></i> <a href="#">뭐적지5</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-6 footer-newsletter">
+          <h4>비지니스 문의</h4>
+          <p>메일을 보내주시면 확인 후 연락드리겠습니다.</p>
+          <form action="" method="post">
+            <input type="email" name="email"><input type="submit" value="이메일 보내기">
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="copyright">
+      &copy; Copyright <strong><span>BARIBARI</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+      Designed by <a href="https://bootstrapmade.com/">바리바리</a>
+    </div>
+  </div>
+
+  <!--/ Section Contact-footer End /-->
+
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+  <div id="preloader"></div>
+  <script>
+
+    // 커뮤니티 카테고리에 따라 카테고리 이름을 반환하는 함수
+    function getCommunityCategoryName(category) {
+      switch (category) {
+        case 0:
+          return "잡담";
+        case 1:
+          return "장소공유";
+        default:
+          return "";
+      }
+    }
+
+    function uncheckOthers(checkboxId){
+      var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      for (var i = 0; i < checkboxes.length; i++){
+        if(checkboxes[i].id !== checkboxId){
+          checkboxes[i].checked = false;
+        }
+      }
+    }
+    // 버튼 클릭 시 화살표 반대로 변경
+    document.getElementById('flist-suggestion').addEventListener('click', function() {
+      var arrow = this.innerHTML;
+      if (arrow === '∨') {
+        this.innerHTML = '∧';
+      } else {
+        this.innerHTML = '∨';
+      }
+    });
+    document.getElementById('flist-date').addEventListener('click', function() {
+      var arrow = this.innerHTML;
+      if (arrow === '∨') {
+        this.innerHTML = '∧';
+      } else {
+        this.innerHTML = '∨';
+      }
+    });
+    document.getElementById('flist-views').addEventListener('click', function() {
+      var arrow = this.innerHTML;
+      if (arrow === '∨') {
+        this.innerHTML = '∧';
+      } else {
+        this.innerHTML = '∨';
+      }
+    });
+  </script>
+
+</body>
+
+</html>

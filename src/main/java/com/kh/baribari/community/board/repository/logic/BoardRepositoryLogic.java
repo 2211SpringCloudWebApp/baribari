@@ -32,16 +32,6 @@ public class BoardRepositoryLogic implements BoardRepository {
 	}
 
 	@Override
-	public List<HashTag> getHashTag(SqlSession session,int boardNo) {
-		return session.selectList("CommunityMapper.getHashTag", boardNo);
-	}
-
-	@Override
-	public int registerHashTag(SqlSession session, HashTag hTag) {
-		return session.insert("CommunityMapper.registerHashTag", hTag);
-	}
-
-	@Override
 	public int getSEQ(SqlSession session) {
 		return session.selectOne("CommunityMapper.getSEQ");
 	}
@@ -49,11 +39,6 @@ public class BoardRepositoryLogic implements BoardRepository {
 	@Override
 	public int boardRegister(SqlSession session, Community commu) {
 		return session.insert("CommunityMapper.boardRegister", commu);
-	}
-
-	@Override
-	public int deleteHashTag(SqlSession session, HashTag hTag) {
-		return session.delete("CommunityMapper.deleteHashTag",hTag);
 	}
 
 	@Override

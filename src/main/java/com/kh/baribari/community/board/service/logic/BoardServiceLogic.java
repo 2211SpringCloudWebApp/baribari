@@ -37,15 +37,9 @@ public class BoardServiceLogic implements BoardService {
 		return brepository.getListCount(session,boardNo);
 	}
 
-	@Override
-	public List<HashTag> getHashTag(int boardNo) {
-		return brepository.getHashTag(session, boardNo);
-	}
+	
 
-	@Override
-	public int registerHashTag(HashTag hTag) {
-		return brepository.registerHashTag(session, hTag);
-	}
+	
 
 	@Override
 	public int getSEQ() {
@@ -57,10 +51,7 @@ public class BoardServiceLogic implements BoardService {
 		return brepository.boardRegister(session, commu);
 	}
 
-	@Override
-	public int deleteHashTag(HashTag hTag) {
-		return brepository.deleteHashTag(session, hTag);
-	}
+	
 
 	@Override
 	public int registerPhoto(CommunityPIC pic) {

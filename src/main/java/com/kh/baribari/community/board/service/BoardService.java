@@ -84,4 +84,10 @@ public interface BoardService {
 	 * @return CommunityPIC
 	 */
 	public CommunityPIC getPhoto(Integer boardNo);
+
+	/**
+	 * 유저 경험치 올리기
+	 * @param userNo
+	 */
+	public int userPointUp(int userNo);
 }

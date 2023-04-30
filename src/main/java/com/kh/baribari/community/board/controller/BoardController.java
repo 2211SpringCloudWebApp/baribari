@@ -105,6 +105,8 @@ public class BoardController {
 			int i = 1;
 			// 첨부파일이 있을 경우 파일 저장
 			pic.setCommunityNo(seq);
+			System.out.println("pic : " + pic.getCommunityNo());
+			System.out.println("commu :" + commu.getCommunityNo());
 			if (fList != null) {
 				for (MultipartFile file : fList) {
 					Map<String, String> fileInfo = fileUpload.saveFile(file, request, path);
@@ -140,14 +142,11 @@ public class BoardController {
 				}
 			}
 			int result = bService.boardRegister(commu);
-			
+			System.out.println(result);
 			if(result > 0) {
-				int result2 = bService.registerPhoto(pic);
-				if(result2 > 0) {
-					return "redirect:/boardList";
-				}else {
-					return "사진 등록 실패";
-				}
+				bService.userPointUp(userNo);
+				bService.registerPhoto(pic);
+				return "redirect:/boardList";
 			}else {
 				return "게시글 등록 실패";
 			}
@@ -222,7 +221,7 @@ public class BoardController {
 			return "redirect:/boardList";
 		}
 	}
-	
+
 	//에러페이지 가자
 	@GetMapping("error")
 	public String error() {

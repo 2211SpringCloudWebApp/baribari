@@ -91,4 +91,10 @@
 			,MAP_Y = #{mapY}
 		WHERE COMMUNITY_NO = #{boardNo}
 	</update>
+	
+	<update id="userPointUp">
+		UPDATE USER_TBL SET
+			USER_LEVEL_POINT = USER_LEVEL_POINT+5
+		WHERE USER_NO = #{userNo}
+	</update>
 </mapper>

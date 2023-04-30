@@ -82,4 +82,9 @@ public class BoardServiceLogic implements BoardService {
 	public CommunityPIC getPhoto(Integer boardNo) {
 		return brepository.getPhoto(session, boardNo);
 	}
+
+	@Override
+	public int userPointUp(int userNo) {
+		return brepository.userPointUp(session, userNo);
+	}
 }

@@ -95,4 +95,12 @@ public interface BoardRepository {
 	 */
 	public CommunityPIC getPhoto(SqlSession session, Integer boardNo);
 
+	/**
+	 * 유저 포인트 올리기
+	 * @param session
+	 * @param userNo
+	 * @return
+	 */
+	public int userPointUp(SqlSession session, int userNo);
+
 }

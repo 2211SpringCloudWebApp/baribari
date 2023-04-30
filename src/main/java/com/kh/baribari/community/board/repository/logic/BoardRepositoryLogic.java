@@ -71,4 +71,9 @@ public class BoardRepositoryLogic implements BoardRepository {
 		return session.selectOne("CommunityMapper.getPhoto",boardNo);
 	}
 
+	@Override
+	public int userPointUp(SqlSession session, int userNo) {
+		return session.update("CommunityMapper.userPointUp", userNo);
+	}
+
 }

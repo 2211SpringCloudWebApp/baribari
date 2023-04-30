@@ -48,7 +48,7 @@
   </style>
 </head>
 <body id="page-top">
-  
+
 
 <nav th:replace="community/fragments :: nav"></nav>
 
@@ -76,29 +76,29 @@
     <div class="row">
 
       <div class="col-sm-12">
-      
+
         <div class="box-shadow-full">
-      
+
           <div class="row">
-      <!-- 좌 -->
+            <!-- 좌 -->
             <div class="col-md-6">
               <div class="about-me pt-4 pt-md-0">
                 <div class="title-box-2">
                   <h5 class="title-left">
-                   추천글
+                    추천글
                   </h5>
                 </div>
                 <p class="lead"> 추천글 목록 테이블 자리
                 </p>
               </div>
             </div>
-           
-           <!-- 우 -->
+
+            <!-- 우 -->
             <div class="col-md-6">
               <div class="about-me pt-4 pt-md-0">
                 <div class="title-box-2">
                   <h5 class="title-left">
-                   최신글
+                    최신글
                   </h5>
                 </div>
                 <p class="lead"> 최신글 목록 테이블 자리
@@ -124,7 +124,7 @@
           <p class="subtitle-a">
             생각
             1. 고인물 사용자의 프로필을 보여줌
-            2. 고인물 사용자의 추천 여행지를 보여줌 
+            2. 고인물 사용자의 추천 여행지를 보여줌
           </p>
           <div class="line-mf"></div>
         </div>
@@ -288,7 +288,7 @@
             중고게시판
           </h3>
           <p class="subtitle-a">
-            최근에 올라온 따끈따끈한 캠핑 용품이에요 
+            최근에 올라온 따끈따끈한 캠핑 용품이에요
           </p>
           <div class="line-mf"></div>
         </div>
@@ -296,25 +296,33 @@
     </div>
 
 
-    <div class="row">
-      <div class="col-md-4">
+    <div class="row" th:remove="all-but-first">
+      <div class="col-md-4" th:each="article : ${article}">
+
         <div class="work-box">
+          <!--이미지 부 -->
           <a href="../../static/img/community/work-1.jpg" data-lightbox="gallery-mf">
             <div class="work-img">
               <img src="../../static/img/community/work-1.jpg"
                    th:src="@{img/community/work-1.jpg}" alt="" class="img-fluid">
             </div>
+           <!-- 정보부 -->
             <div class="work-content">
               <div class="row">
                 <div class="col-sm-8">
-                  <h2 class="w-title">상품</h2>
+                  <h2 class="w-title" th:text="${article.title}" th:href="@{'/article/' + ${article.id}}">상품</h2>
                   <div class="w-more">
-                    <span class="w-ctegory">Web Design</span> / <span class="w-date">18 Sep. 2018</span>
+                    <span class="w-ctegory" th:text="${article.userNo.userNickName}">Web Design</span> /
+
+<!-- TODO :  작성일시 찍어주는것 둘중 무엇이 적정한지 확인하기
+                    <span class="w-date" th:datetime="${article.communityDate}" th:text="${#temporals.format(article.communityDate, 'yyyy-MM-dd')}">18 Sep. 2018</span>-->
+                    <span class="w-date" th:text="${article.communityDate}">18 Sep. 2018</span>
+
                   </div>
                 </div>
                 <div class="col-sm-4">
                   <div class="w-like">
-                    <span class="ion-ios-plus-outline"></span>
+                    <span class="ion-ios-heart-outline" >좋아요</span>
                   </div>
                 </div>
               </div>
@@ -322,7 +330,9 @@
           </a>
         </div>
       </div>
+
       <div class="col-md-4">
+
         <div class="work-box">
           <a href="../../static/img/community/work-2.jpg" data-lightbox="gallery-mf">
             <div class="work-img">
@@ -347,7 +357,9 @@
           </a>
         </div>
       </div>
+
       <div class="col-md-4">
+
         <div class="work-box">
           <a href="../../static/img/community/work-3.jpg" data-lightbox="gallery-mf">
             <div class="work-img">
@@ -467,7 +479,7 @@
             </div>
             <div class="content-test">
               <p class="description lead">
-               아무말
+                아무말
               </p>
               <span class="comit"><i class="fa fa-quote-right"></i></span>
             </div>
@@ -500,7 +512,7 @@
             바리바리 특가
           </h3>
           <p class="subtitle-a">
-            바리바리 특가 상품 
+            바리바리 특가 상품
           </p>
           <div class="line-mf"></div>
         </div>
@@ -510,8 +522,8 @@
       <div class="col-md-4">
         <div class="card card-blog">
           <div class="card-img">
-            <a href="blog-single.html"><img src="../../static/img/community/post-1.jpg"
-                                            th:src="@{img/community/post-1.jpg}" alt="" class="img-fluid"></a>
+            <a href="blog-single.html"><img src="../../static/img/community/article-1.jpg"
+                                            th:src="@{img/community/article-1.jpg}" alt="" class="img-fluid"></a>
           </div>
           <div class="card-body">
             <div class="card-category-box">
@@ -521,19 +533,19 @@
             </div>
             <h3 class="card-title"><a href="blog-single.html">쇼핑몰 특가 상품</a></h3>
             <p class="card-description">
-              바리바리 특가 상품 광고 
-              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다 
+              바리바리 특가 상품 광고
+              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다
             </p>
           </div>
           <div class="card-footer">
-            <div class="post-author">
+            <div class="article-author">
               <a href="#">
                 <img src="../../static/img/community/testimonial-2.jpg"
                      th:src="@{img/community/testimonial-2.jpg}" alt="" class="avatar rounded-circle">
                 <span class="author">캠핑 고래</span>
               </a>
             </div>
-            <div class="post-date">
+            <div class="article-date">
               <span class="ion-ios-clock-outline"></span> 10 min
             </div>
           </div>
@@ -542,8 +554,8 @@
       <div class="col-md-4">
         <div class="card card-blog">
           <div class="card-img">
-            <a href="blog-single.html"><img src="../../static/img/community/post-2.jpg"
-                                            th:src="@{img/community/post-2.jpg}" alt="" class="img-fluid"></a>
+            <a href="blog-single.html"><img src="../../static/img/community/article-2.jpg"
+                                            th:src="@{img/community/article-2.jpg}" alt="" class="img-fluid"></a>
           </div>
           <div class="card-body">
             <div class="card-category-box">
@@ -553,19 +565,19 @@
             </div>
             <h3 class="card-title"><a href="blog-single.html">쇼핑몰 특가 상품</a></h3>
             <p class="card-description">
-              바리바리 특가 상품 광고 
-              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다 
+              바리바리 특가 상품 광고
+              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다
             </p>
           </div>
           <div class="card-footer">
-            <div class="post-author">
+            <div class="article-author">
               <a href="#">
                 <img src="../../static/img/community/testimonial-2.jpg"
                      th:src="@{img/community/testimonial-2.jpg}" alt="" class="avatar rounded-circle">
                 <span class="author">판매자</span>
               </a>
             </div>
-            <div class="post-date">
+            <div class="article-date">
               <span class="ion-ios-clock-outline"></span> 30 min
             </div>
           </div>
@@ -574,8 +586,8 @@
       <div class="col-md-4">
         <div class="card card-blog">
           <div class="card-img">
-            <a href="blog-single.html"><img src="../../static/img/community/post-3.jpg"
-                                            th:src="@{img/community/post-3.jpg}" alt="" class="img-fluid"></a>
+            <a href="blog-single.html"><img src="../../static/img/community/article-3.jpg"
+                                            th:src="@{img/community/article-3.jpg}" alt="" class="img-fluid"></a>
           </div>
           <div class="card-body">
             <div class="card-category-box">
@@ -585,20 +597,20 @@
             </div>
             <h3 class="card-title"><a href="blog-single.html">쇼핑몰 특가 상품</a></h3>
             <p class="card-description">
-              바리바리 특가 상품 광고 
-              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다 
+              바리바리 특가 상품 광고
+              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다
 
             </p>
           </div>
           <div class="card-footer">
-            <div class="post-author">
+            <div class="article-author">
               <a href="#">
                 <img src="../../static/img/community/testimonial-2.jpg"
                      th:src="@{img/community/testimonial-2.jpg}" alt="" class="avatar rounded-circle">
                 <span class="author">자매판</span>
               </a>
             </div>
-            <div class="post-date">
+            <div class="article-date">
               <span class="ion-ios-clock-outline"></span> 50 min
             </div>
           </div>

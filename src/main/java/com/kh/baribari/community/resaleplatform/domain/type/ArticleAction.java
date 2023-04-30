@@ -4,18 +4,21 @@ import lombok.Getter;
 
 public enum ArticleAction
 {
-    CREATE("글쓰기", false),
-    UPDATE("수정하기", true);
+    CREATE("새글쓰기", false),
+    UPDATE("수정하기", true),
+    READ_ONLY("읽기전용", false);
+
 
 
     @Getter
     private final String action;
     @Getter
-    private final Boolean update;
+    private final boolean isUpdate;
+//    private final Boolean update;
 
-    ArticleAction(String action, Boolean update)
+    ArticleAction(String action, boolean isUpdate)
     {
         this.action = action;
-        this.update = update;
+        this.isUpdate = isUpdate;
     }
 }

@@ -13,7 +13,7 @@ public interface BoardService {
 	 * 자유게시판 전체 게시글 수 조회
 	 * @return int
 	 */
-	public int getBoardCount();
+	public int getBoardCount(int category);
 
 	/**
 	 * 자유게시판 전체 게시글 목록 조회
@@ -90,4 +90,10 @@ public interface BoardService {
 	 * @param userNo
 	 */
 	public int userPointUp(int userNo);
+
+	/**
+	 * 조회수 증가
+	 * @param boardNo
+	 */
+	public void plusViewCount(Integer boardNo);
 }

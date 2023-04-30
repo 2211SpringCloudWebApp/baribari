@@ -16,7 +16,7 @@ public interface BoardRepository {
 	 * @param session
 	 * @return int
 	 */
-	public int getBoardCount(SqlSession session);
+	public int getBoardCount(SqlSession session, int category);
 
 	/**
 	 * 자유게시판 게시글 전체 목록 조회
@@ -102,5 +102,12 @@ public interface BoardRepository {
 	 * @return
 	 */
 	public int userPointUp(SqlSession session, int userNo);
+
+	/**
+	 * 조회수 증가
+	 * @param session
+	 * @param boardNo
+	 */
+	public void plusViewCount(SqlSession session, Integer boardNo);
 
 }

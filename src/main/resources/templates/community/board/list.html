@@ -5,7 +5,6 @@
 		<title>게시글 목록</title>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-		<link href="css/community/board/list.css" rel="stylesheet">
 		
 		<!-- Favicons -->
 		<link href="assets/img/favicon.png" rel="icon">
@@ -27,144 +26,200 @@
 
 		<!-- Template Main CSS File -->
 		<link href="assets/css/style.css" rel="stylesheet">
+		
+		<!-- board List CSS File -->
+		<link href="css/community/board/list.css" rel="stylesheet">
 	</head>
 	<body>
         <header>
             <div th:replace="header :: header"></div>
         </header>
-        <div id="container">
-            <main>
-                <!--자유게시판 리스트 헤더-->
-                <table id="flist-heard">
-                    <tr>
-                        <td colspan="3">
-                            자유게시판
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                        	<a href="boardList?category=9">전체</a>
-                        	/
-                            <a href="boardList?category=1">캠핑지</a>
-                            /
-                            <a href="boardList?category=0">잡담</a>
-                        </td>
-                        <td>
-                            <input type="checkbox" id="checkbox1" name="checkbox1" value="value1" onchange="uncheckOthers('checkbox1')">
-                            <label for="checkbox1">제목</label>
-                            <input type="checkbox" id="checkbox2" name="checkbox2" value="value2" onchange="uncheckOthers('checkbox2')">
-                            <label for="checkbox2">내용</label>
-                            <input type="checkbox" id="checkbox3" name="checkbox3" value="value3" onchange="uncheckOthers('checkbox3')">
-                            <label for="checkbox3">제목+내용</label>
-                        </td>
-                        <td>
-                            <input type="text" id="searchbox">
-                            <input type="submit" value="검색">
-                        </td>
-                    </tr>
-                </table>
-                <!-- 리스트가 출력되는 부분 -->
-                <table id="flist-main">
-                    <tr>
-                        <td>번호</td>
-                        <td>분류</td>
-                        <td>제목</td>
-                        <td>작성자</td>
-                        <td>좋아요<button id="flist-suggestion">∨</button></td>
-                        <td>작성일<button id="flist-date">∨</button></td>
-                        <td>조회수<button id="flist-views">∨</button></td>
-                    </tr>
-                    <!-- 게시글 목록 출력하는 부분 한 페이지당 10개 -->
-                    <tr id="board-wrapper">
-                    </tr>
-                    <tr th:each="community, num : ${bList}">
-                        <td th:text="${num.count}"></td>
-                        <td>
-							<span th:switch="${community.communityCategory}">
-						    	<span th:case="0">잡담</span>
-						    	<span th:case="1">장소공유</span>
-						    </span>
-						</td>
-                        <td>
-                        	<span th:switch="${community.communityYn}">
-                        		<span th:case="0">
-                        			<a th:href="@{/boardDetail(communityNo=${community.communityNo})}" th:text="${community.communitySubject}"></a>
-                        		</span>
-                        		<span th:case="1">
-									블라인드 처리된 게시물입니다.
-                        		</span>
-                        	</span>
-                        </td>
-                        <td th:text="${community.userNo}"></td>
-                        <td th:text="${community.mapX}"></td>
-                        <td th:text="${community.communityDate}"></td>
-                        <td th:text="${community.viewCount}"></td>
-                    </tr>
-                    <!-- 게시글 목록 출력하는 부분 한 끝 -->
-                    <tr>
-                        <td colspan="7">
-                            <a href="board/register"></a>
-                        </td>
-                    </tr>
-                </table>
-                <!-- 페이징처리가 들어가는 부분 -->
-                <table id="flist-footer">
-                    <tr>
-                        <td>
-                            페이징이 들어갈 자리입니다.
-                        </td>
-                    </tr>
-                </table>
-            </main>
+        <input id="loginUserNo" sec:authorize="!isAuthenticated()" value="0" type="hidden" name="UserNo">
+		<input id="loginUserNo" sec:authorize="isAuthenticated()" th:value="${#authentication.principal.user.userNo}" type="hidden" name="UserNo">
+        <div id="listContainer">
+        	<!--자유게시판 리스트 헤더-->
+        	<div id="fList-head" class="displayFlex hCenter wCenter">
+        		자유게시판
+        	</div>
+            <div id="flist-Nav">
+	            <div id="flistNav1">
+	            	<a href="boardList?category=9">전체</a>
+	            	/
+	                <a href="boardList?category=1">캠핑지</a>
+	                /
+	                <a href="boardList?category=0">잡담</a>
+	            </div>
+	            <div id="flistNav2">
+	                <input type="checkbox" id="checkbox1" name="checkbox1" value="value1"  checked onchange="uncheckOthers('checkbox1')">
+	                <label for="checkbox1">제목</label>
+	                <input type="checkbox" id="checkbox2" name="checkbox2" value="value2" onchange="uncheckOthers('checkbox2')">
+	                <label for="checkbox2">내용</label>
+	                <input type="checkbox" id="checkbox3" name="checkbox3" value="value3" onchange="uncheckOthers('checkbox3')">
+	                <label for="checkbox3">제목+내용</label>
+	            </div>
+	            <div id="flistNav3">
+	                <input type="text" id="searchbox">
+	                <input type="submit" value="검색">
+	            </div>
+            </div>
+            <div id="show-list-head">
+            	<div style = "width:10%">번호</div>
+				<div style = "width:10%">말머리</div>
+				<div style = "width:40%">제목</div>
+				<div style = "width:10%">작성자</div>
+				<div style = "width:10%">좋아요<button id="flist-suggestion">∨</button></div>
+				<div style = "width:10%">작성일<button id="flist-date">∨</button></div>
+				<div style = "width:10%">조회수<button id="flist-views">∨</button></div>
+            </div>
+            <!-- 게시글 목록 출력하는 부분 한 페이지당 10개 -->
+            <div id="show-list" th:each="community, num : ${bList}">
+            	<div style = "width:10%" th:text="${num.count}" class="wCenter"></div>
+            	<div style = "width:10%" class="wCenter">
+            		<span th:switch="${community.communityCategory}">
+		                <span th:case="0">[잡담]</span>
+		                <span th:case="1">[캠핑지]</span>
+		            </span>
+            	</div>
+            	<div style = "width:40%">
+            		<span th:switch="${community.communityYn}">
+	               		<span th:case="0">
+	               			<a th:href="@{/boardDetail(communityNo=${community.communityNo})}" th:text="${community.communitySubject}"></a>
+	               		</span>
+	               		<span th:case="1">
+						블라인드 처리된 게시물입니다.
+	               		</span>
+                    </span>
+            	</div>
+            	<div style = "width:10%" th:text="${community.userNo}" class="wCenter"></div>
+            	<div style = "width:10%" class="wCenter"></div>
+            	<div style = "width:10%" th:text="${community.communityDate}" class="wCenter"></div>
+            	<div style = "width:10%" th:text="${community.viewCount}" class="wCenter"></div>
+            </div>
+            <div id="show-register-btn">
+            	<div style = "width:85%"></div>
+    			<div style = "width:15%;">
+    				<a id="register-btn" href="#" th:text="글쓰기"></a>
+    			</div>
+            </div>
+    		<!-- 페이징 네비게이션 -->
+			<div id="fboard-paging" class="container px-4 px-lg-5 mt-5">
+					<ul th:if="${pi.totalCount > 0}" class="pagination">
+						<!-- 첫 페이지 버튼 -->
+						<li th:if="${pi.currentPage > 1}" class="page-item">
+							<a th:href="@{/boardList?(page=1)}" class="page-link">
+								<i class="fas fa-angle-double-left"></i>
+							</a>
+						</li>
+						<!-- 이전 페이지 버튼 -->
+						<li th:if="${pi.currentPage > 1}" class="page-item">
+							<a th:href="@{/boardList?(page=${pi.currentPage} - 1)}" class="page-link">
+								<i class="fas fa-angle-left"></i>
+							</a>
+						</li>
+						<!-- 페이지 번호 버튼 -->
+						<li th:each="page : ${#numbers.sequence(pi.startNav, pi.endNav)}"
+							th:class="${page == pi.currentPage} ? 'active' : ''">
+							<a th:href="@{/boardList?(page=${page})}" th:text="${page}" class="page-link"></a>
+						</li>
+						<!-- 다음 페이지 버튼 -->
+						<li th:if="${pi.currentPage < pi.navTotalCount}" class="page-item">
+							<a th:href="@{/boardList?(page=${pi.currentPage} + 1)}" class="page-link">
+								<i class="fas fa-angle-right"></i>
+							</a>
+						</li>
+						<!-- 마지막 페이지 버튼 -->
+						<li th:if="${pi.currentPage < pi.navTotalCount}" class="page-item">
+							<a th:href="@{/boardList?(page=${pi.navTotalCount})}" class="page-link">
+								<i class="fas fa-angle-double-right"></i>
+							</a>
+						</li>
+					</ul>
+			</div>
+    	</div>
+   		<footer>
+           	<div th:replace="footer :: footer"></div>
+   		</footer>
+        <script>
+        	
+        	//글쓰기 버튼 클릭 
+        	function registerButtonClick() {
+        		var userNo = document.getElementById("loginUserNo").value;
+        		if (userNo === "0") {
+        			// 로그인하지 않은 경우
+        			alert("로그인 후에 이용 가능합니다.");
+        			location.href = "/login";
+        		} else {
+        			// 로그인한 경우
+        			location.href = "/boardRegister";
+        		}
+        	}
+        	//글쓰기 버튼 클릭 a태그에 등록
+        	document.getElementById("register-btn").addEventListener("click", registerButtonClick);
+        	
+        	function showList(){
+        		var checkbox; // 제목 or 내용
+				var search; // 검색어 저장
+				
+				
+        		$.ajax({
+        			url : "/boardList",
+        			data : {},
+        			type : "GET",
+        			success : function(){
+        				
+        			},
+        			error : function(){
+        				
+        			}
+        		});
+        	} 
+        
+         // 커뮤니티 카테고리에 따라 카테고리 이름을 반환하는 함수
+         function getCommunityCategoryName(category) {
+             switch (category) {
+                 case 0:
+                     return "잡담";
+                 case 1:
+                     return "장소공유";
+                 default:
+                     return "";
+             }
+         }
 
-            <script>
-            
-	            // 커뮤니티 카테고리에 따라 카테고리 이름을 반환하는 함수
-	            function getCommunityCategoryName(category) {
-	                switch (category) {
-	                    case 0:
-	                        return "잡담";
-	                    case 1:
-	                        return "장소공유";
-	                    default:
-	                        return "";
-	                }
-	            }
-
-                function uncheckOthers(checkboxId){
-                    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-                    for (var i = 0; i < checkboxes.length; i++){
-                        if(checkboxes[i].id !== checkboxId){
-                            checkboxes[i].checked = false;
-                        }
+            function uncheckOthers(checkboxId){
+                var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                for (var i = 0; i < checkboxes.length; i++){
+                    if(checkboxes[i].id !== checkboxId){
+                        checkboxes[i].checked = false;
                     }
                 }
-                // 버튼 클릭 시 화살표 반대로 변경
-                document.getElementById('flist-suggestion').addEventListener('click', function() {
-                    var arrow = this.innerHTML;
-                    if (arrow === '∨') {
-                        this.innerHTML = '∧';
-                    } else {
-                        this.innerHTML = '∨';
-                    }
-                });
-                document.getElementById('flist-date').addEventListener('click', function() {
-                    var arrow = this.innerHTML;
-                    if (arrow === '∨') {
-                        this.innerHTML = '∧';
-                    } else {
-                        this.innerHTML = '∨';
-                    }
-                });
-                document.getElementById('flist-views').addEventListener('click', function() {
-                    var arrow = this.innerHTML;
-                    if (arrow === '∨') {
-                        this.innerHTML = '∧';
-                    } else {
-                        this.innerHTML = '∨';
-                    }
-                });
-            </script>
-        </div>
+            }
+            // 버튼 클릭 시 화살표 반대로 변경
+            document.getElementById('flist-suggestion').addEventListener('click', function() {
+                var arrow = this.innerHTML;
+                if (arrow === '∨') {
+                    this.innerHTML = '∧';
+                } else {
+                    this.innerHTML = '∨';
+                }
+            });
+            document.getElementById('flist-date').addEventListener('click', function() {
+                var arrow = this.innerHTML;
+                if (arrow === '∨') {
+                    this.innerHTML = '∧';
+                } else {
+                    this.innerHTML = '∨';
+                }
+            });
+            document.getElementById('flist-views').addEventListener('click', function() {
+                var arrow = this.innerHTML;
+                if (arrow === '∨') {
+                    this.innerHTML = '∧';
+                } else {
+                    this.innerHTML = '∨';
+                }
+            });
+        </script>
+        
     </body>
 </html>

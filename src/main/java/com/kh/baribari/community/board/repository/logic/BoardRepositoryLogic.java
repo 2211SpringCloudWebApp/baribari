@@ -16,8 +16,8 @@ import com.kh.baribari.community.domain.HashTag;
 public class BoardRepositoryLogic implements BoardRepository {
 
 	@Override
-	public int getBoardCount(SqlSession session) {
-		return session.selectOne("CommunityMapper.getBoardCount");
+	public int getBoardCount(SqlSession session, int category) {
+		return session.selectOne("CommunityMapper.getBoardCount", category);
 	}
 
 	@Override
@@ -74,6 +74,11 @@ public class BoardRepositoryLogic implements BoardRepository {
 	@Override
 	public int userPointUp(SqlSession session, int userNo) {
 		return session.update("CommunityMapper.userPointUp", userNo);
+	}
+
+	@Override
+	public void plusViewCount(SqlSession session, Integer boardNo) {
+		session.update("CommunityMapper.plusViewCount",boardNo);
 	}
 
 }

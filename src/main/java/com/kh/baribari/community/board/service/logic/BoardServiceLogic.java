@@ -23,8 +23,8 @@ public class BoardServiceLogic implements BoardService {
 	private SqlSession session;
 	
 	@Override
-	public int getBoardCount() {
-		return brepository.getBoardCount(session);
+	public int getBoardCount(int category) {
+		return brepository.getBoardCount(session, category);
 	}
 
 	@Override
@@ -86,5 +86,10 @@ public class BoardServiceLogic implements BoardService {
 	@Override
 	public int userPointUp(int userNo) {
 		return brepository.userPointUp(session, userNo);
+	}
+
+	@Override
+	public void plusViewCount(Integer boardNo) {
+		brepository.plusViewCount(session, boardNo);
 	}
 }

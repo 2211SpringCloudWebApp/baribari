@@ -27,6 +27,7 @@
     <link href="../css/mypage/admin/adminDetail.css" rel="stylesheet">
     <link href="../css/mypage/admin/adminQna.css" rel="stylesheet">
     <link href="../css/mypage/admin/adminQnaDetail.css" rel="stylesheet">
+    <link href="../css/mypage/admin/adminQnaModify.css" rel="stylesheet">
 
 
 </head>
@@ -57,18 +58,17 @@
             <div class="btn-box">
                 <button class="qna-detail-btn" type="button" onclick="history.back()">상세페이지로</button>
                 <div>
-                    <button type="submit" class="qna-detail-btn" th:if="${qna.answerContent != null}"
-                            th:onclick="'qnaModify('+${qna.qnaNo}+')'">저장
+                    <button type="submit" class="qna-detail-btn"
+                            th:onclick="'qnaModify('+${qnaList.qnaNo}+')'">저장
                     </button>
                 </div>
             </div>
-
             <div>
                 <div class="qna-detail-content">
                     <div class="title">문의내용</div>
-                    <div class="content" th:text="${qna.qnaContent}"></div>
-                    <img th:if="${qna.qnaPic1 != null}" th:src="${qna.qnaPic1}">
-                    <img th:if="${qna.qnaPic2 != null}" th:src="${qna.qnaPic2}">
+                    <div class="content" th:text="${qnaList.qnaContent}"></div>
+                    <img th:if="${qnaList.qnaPic1 != null}" th:src="${qnaList.qnaPic1}">
+                    <img th:if="${qnaList.qnaPic2 != null}" th:src="${qnaList.qnaPic2}">
                 </div>
             </div>
 
@@ -76,9 +76,13 @@
                 <div class="qna-detail-content">
                     <div class="title">답변내용</div>
                     <div class="content">
+                        <input type="hidden" th:value="${qnaList.qnaNo}" name="qnaNo">
                         <input type="hidden" th:value="${#authentication.principal.user.userNo}" name="answerUserNo">
-                        <input type="hidden" th:value="${qna.answerNo}" name="answerNo">
-                        <textarea th:text="${qna.answerContent}" name="answerContent"></textarea>
+                        <input type="hidden" th:value="${qnaList.answerNo}" name="answerNo">
+                        <textarea th:if="${qnaList.answerContent != null}" th:text="${qnaList.answerContent}"
+                                  name="answerContent" class="modify-textarea"></textarea>
+                        <textarea th:if="${qnaList.answerContent == null}" name="answerContent"
+                                  class="modify-textarea"></textarea>
                     </div>
                 </div>
             </div>
@@ -88,7 +92,6 @@
 
 </div>
 <script>
-
 </script>
 
 <!-- Vendor JS Files -->

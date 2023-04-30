@@ -75,7 +75,7 @@
         <div>
             <div class="qna-detail-content">
                 <div class="title">답변내용</div>
-                <div class="content" th:text="${qna.answerContent}"></div>
+                <div class="content" th:if="${qna.answerContent != null}" th:text="${qna.answerContent}"></div>
             </div>
         </div>
     </div>
@@ -83,7 +83,7 @@
 </div>
 <script>
     function qnaModify(qnaNo){
-        location.href='/admin/qna=admin/qnaModify?qnaNo='+qnaNo;
+        location.href='/admin/qnaModify?qnaNo='+qnaNo;
     }
 </script>
 

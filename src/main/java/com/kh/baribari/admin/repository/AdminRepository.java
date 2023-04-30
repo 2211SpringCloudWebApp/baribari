@@ -36,4 +36,10 @@ public interface AdminRepository {
 //  문의관리 > 문의답변작성
 
     int updateAnswerByAdmin(QnaList qnalist);
+//  문의관리 > 상품관리 로딩
+    List<ProductList> selectProductListByAdmin();
+//  MD 추천 Y로 변경
+    int updateMdY(int productNo);
+//  MD 추천 N로 변경
+    int updateMdN(int productNo);
 }

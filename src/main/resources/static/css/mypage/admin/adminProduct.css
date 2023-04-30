@@ -1,0 +1,12 @@
+.md-off-btn{
+    border: 1px solid #3DB35E;
+    background-color: white;
+    border-radius: 10px;
+    color: #3DB35E;
+}
+.md-on-btn{
+    border: none;
+    background-color: #3DB35E;
+    color: white;
+    border-radius: 10px;
+}

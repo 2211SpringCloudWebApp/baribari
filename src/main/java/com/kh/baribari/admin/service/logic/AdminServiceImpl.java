@@ -67,4 +67,18 @@ public class AdminServiceImpl implements AdminService {
     public int updateAnswerByAdmin(QnaList qnalist) {
         return aRepository.updateAnswerByAdmin(qnalist);
     }
+
+    @Override
+    public List<ProductList> selectProductListByAdmin() {
+        return aRepository.selectProductListByAdmin();
+    }
+
+    @Override
+    public int updateMdYn(int productNo, int mdYn) {
+        if (mdYn > 0) {
+            return aRepository.updateMdY(productNo);
+        }else {
+            return aRepository.updateMdN(productNo);
+        }
+    }
 }

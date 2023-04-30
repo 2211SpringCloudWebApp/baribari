@@ -118,7 +118,7 @@
 
 <!--    문의사항 작성 -->
     <insert id="qnaWrite">
-        INSERT INTO QNA_TBL VALUES(SEQ_QNA_NO.nextval, #{qnaContent}, 1, #{userNo},NULL,default,default,null,#{qnaPic1, jdbcType=VARCHAR},#{qnaPic2, jdbcType=VARCHAR } )
+        INSERT INTO QNA_TBL VALUES(SEQ_QNA_NO.nextval, #{qnaContent}, 1, #{userNo},NULL,default,default,SEQ_ANSWER_NO.NEXTVAL,#{qnaPic1, jdbcType=VARCHAR},#{qnaPic2, jdbcType=VARCHAR } )
     </insert>
 
 <!-- 배송지 리스트 가져오기 -->

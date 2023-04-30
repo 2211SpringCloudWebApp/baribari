@@ -66,6 +66,23 @@ public class AdminRepositoryLogic implements AdminRepository {
 
     @Override
     public int updateAnswerByAdmin(QnaList qnalist) {
+        session.update("AdminMapper.updateAnswerYn",qnalist);
         return session.update("AdminMapper.updateAnswerByAdmin",qnalist);
+
+    }
+
+    @Override
+    public List<ProductList> selectProductListByAdmin() {
+        return session.selectList("AdminMapper.selectProductListByAdmin");
+    }
+
+    @Override
+    public int updateMdY(int productNo) {
+        return session.update("AdminMapper.updateMdY",productNo);
+    }
+
+    @Override
+    public int updateMdN(int productNo) {
+        return session.update("AdminMapper.updateMdN",productNo);
     }
 }

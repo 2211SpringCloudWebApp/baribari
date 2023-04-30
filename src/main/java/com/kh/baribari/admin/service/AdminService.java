@@ -27,4 +27,8 @@ public interface AdminService {
     QnaList selectQnaDetailByQnaNo(int qnaNo);
 //  문의관리 > 문의답변작성
     int updateAnswerByAdmin(QnaList qnalist);
+//  상품관리 > 상품관리 로딩
+    List<ProductList> selectProductListByAdmin();
+//  상품관리 > mdYn 체크
+    int updateMdYn(int productNo, int mdYn);
 }

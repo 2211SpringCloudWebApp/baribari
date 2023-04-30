@@ -1,0 +1,9 @@
+.modify-textarea{
+    width: 100%;
+    height: 300px;
+    resize: none;
+    border:none;
+}
+.modify-textarea:focus{
+    outline: none;
+}

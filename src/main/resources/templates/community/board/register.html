@@ -85,9 +85,8 @@
                     <input type="file" id="fileUpload" name="fileUpload" multiple='multiple' accept='image/*'>
                 </div>
                 <script>
-                (// 이미지를 보여주는 영역 설정.
+                	(// 이미지를 보여주는 영역 설정.
                         imageView = function imageView(registerdiv7, btn){
-
                             var attZone = document.getElementById(registerdiv7);
                             var fileUpload = document.getElementById(btn)
                             var sel_files = [];
@@ -106,12 +105,13 @@
                                         + 'right:0px;bottom:0px;z-index:999;background-color:rgba(255,255,255,0.1);color:#f00';
 
                             fileUpload.onchange = function(e){ // 파일 선택이 변경되면 실행될 함수를 등록합니다.
-                                var files = e.target.files; // 선택한 파일 목록을 변수에 할당합니다.
-                                var fileArr = Array.prototype.slice.call(files) // 파일 목록을 배열로 변경하여 변수에 할당합니다.
-                                for(f of fileArr){ // 파일 목록을 순환하면서 imageLoader 함수를 실행합니다.
-                                    imageLoader(f);
-                                }
-                            }
+							    var files = e.target.files; // 선택한 파일 목록을 변수에 할당합니다.
+							    var fileArr = Array.prototype.slice.call(files) // 파일 목록을 배열로 변경하여 변수에 할당합니다.
+							    for(f of fileArr){ // 파일 목록을 순환하면서 imageLoader 함수를 실행합니다.
+							        imageLoader(f);
+							    }
+							}
+                            
 
 
                             // 탐색기에서 드래그앤 드롭 사용
@@ -136,6 +136,7 @@
                                 files = dt.files;   // 드롭한 이미지 변수 할당
                                 for(f of files){    // files 순회하면서 imageLoader 함수 실행
                                     imageLoader(f);
+                                    impCount++;
                                 }
                             }, false)
 
@@ -219,8 +220,8 @@
                     </div>
                 </div>
                 <div id="registerdiv9">
-                    <input type="submit">
-                    <input type="reset">
+                    <input type="submit" value="등록">
+                    <input type="reset" value="취소">
                 </div>
             </div>
         </form>
@@ -271,7 +272,7 @@
             if (registerdiv6.style.display === "none") {
                 registerdiv6.style.height = "750px";
                 registerdiv6.style.display = "block";
-                mapOpenDiv.innerHTML = '취소';
+                mapOpenDiv.innerHTML = '장소삭제';
             
             // 다시 클릭시 요소 안보이게 하기.
             } else {

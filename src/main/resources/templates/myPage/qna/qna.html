@@ -78,7 +78,7 @@
                 <tbody>
                     <tr class="table-qna-tr" th:each="qna : ${qnaList}">
                         <td th:text="${qna.qnaDate}"></td>
-                        <td th:text="${qna.qnaCategory}">구분</td>
+                        <td th:if="${qna.qnaCategory == 1}">유저</td>
                         <td><a th:href="'/myPageUser/qnaDetail?qnaNo='+${qna.qnaNo}"><span th:text="${qna.qnaContent}" class="table-content"></span></a></td>
                         <td th:class="${qna.qnaAnswerYn}" th:text="${qna.qnaAnswerYn}"></td>
                     </tr>

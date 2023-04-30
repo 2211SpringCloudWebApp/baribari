@@ -9,4 +9,7 @@ public class ProductList {
     private String userNickname;
     private String productBrand;
     private int productSales;
+    private int productPrice;
+    private String productMdYn;
+
 }

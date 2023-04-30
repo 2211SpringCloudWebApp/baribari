@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 public class Message {
     private int messageNo;
     private String messageContent;
-    private Timestamp messageDate;
+    private String messageDate;
     private int messageSendNo;
     private int messageReceiveNo;
     private int messageOpenYn;

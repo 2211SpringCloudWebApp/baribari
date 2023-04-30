@@ -8,7 +8,13 @@
 	</select>
 	<!-- 게시글 수 가져오기 -->
 	<select id="getBoardCount" resultType="_int">
-		SELECT COUNT(*) FROM COMMUNITY_TBL WHERE COMMUNITY_CATEGORY IN (0,1)
+		SELECT COUNT(*) FROM COMMUNITY_TBL 
+		<if test="category == 0">
+		WHERE COMMUNITY_CATEGORY = 0
+		</if>
+		<if test="category == 1">
+		WHERE COMMUNITY_CATEGORY = 1
+		</if>
 	</select>
 	
 	<select id="getListCount" resultType="_int">
@@ -89,6 +95,18 @@
 			,COMMUNITY_CATEGORY = #{communityCategory}
 			,MAP_X = #{mapX}
 			,MAP_Y = #{mapY}
+		WHERE COMMUNITY_NO = #{boardNo}
+	</update>
+	
+	<update id="userPointUp">
+		UPDATE USER_TBL SET
+			USER_LEVEL_POINT = USER_LEVEL_POINT+5
+		WHERE USER_NO = #{userNo}
+	</update>
+	
+	<update id="plusViewCount">
+		UPDATE COMMUNITY_TBL SET
+			VIEW_COUNT = VIEW_COUNT+1
 		WHERE COMMUNITY_NO = #{boardNo}
 	</update>
 </mapper>

@@ -21,4 +21,14 @@ public interface AdminService {
     int updateUserBlock(int userNo);
 //  유저 비활성화 / ajax, userNo
     int updateUserUnBlock(int userNo);
+//  문의관리 > 문의리스트 로딩
+    List<QnaList> selectQnaListByUser();
+//  문의관리 > 문의상세페이지
+    QnaList selectQnaDetailByQnaNo(int qnaNo);
+//  문의관리 > 문의답변작성
+    int updateAnswerByAdmin(QnaList qnalist);
+//  상품관리 > 상품관리 로딩
+    List<ProductList> selectProductListByAdmin();
+//  상품관리 > mdYn 체크
+    int updateMdYn(int productNo, int mdYn);
 }

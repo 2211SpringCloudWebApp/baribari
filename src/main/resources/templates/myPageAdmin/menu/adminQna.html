@@ -22,12 +22,12 @@
     <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
-    <link href="../assets/css/style.css" rel="stylesheet">
-    <link href="../css/mypage/admin/admin.css" rel="stylesheet">
     <script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
     <link href="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.css" rel="stylesheet"/>
-    <link href="../css/mypage/admin/adminUser.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../css/mypage/admin/admin.css" rel="stylesheet">
     <link href="../css/mypage/admin/adminDetail.css" rel="stylesheet">
+    <link href="../css/mypage/admin/adminQna.css" rel="stylesheet">
 
 </head>
 <body>
@@ -45,65 +45,61 @@
     <div class="middle">
         <div class="middle-content">
             <div class="page-root"><a style="color:black" href="/admin">관리자페이지</a> > <a style="color:black"
-                                                                                        href="/admin/user">회원관리</a>
+                                                                                        href="/admin/qna">문의관리</a>
             </div>
             <div>
-                <div class="page-title">회원관리</div>
+                <div class="page-title">문의관리</div>
             </div>
         </div>
     </div>
     <div class="bottom">
-        <div class="user-list">
+        <div class="qna-list">
             <table id="myTable">
                 <colgroup>
                     <col style="width:7%">
-                    <col style="width:5%">
+                    <col style="width:*">
                     <col style="width:10%">
-                    <col style="width:10%">
-                    <col style="width:13%">
-                    <col style="width:20%">
-                    <col style="width:10%">
-                    <col style="width:7%">
-                    <col style="width:10%">
+                    <col style="width:15%">
                     <col style="width:10%">
                 </colgroup>
                 <thead>
                 <tr style="text-align: center">
-                    <th class="sorting_disabled col">회원번호</th>
-                    <th class="sorting_disabled col">ID</th>
-                    <th class="sorting_disabled col">이름</th>
+                    <th class="sorting_disabled col">문의번호</th>
+                    <th class="sorting_disabled col">문의내용</th>
                     <th class="sorting_disabled col">닉네임</th>
-                    <th class="sorting_disabled col">휴대폰</th>
-                    <th class="sorting_disabled col">가입일</th>
-                    <th class="sorting_disabled col">타입</th>
-                    <th class="sorting_disabled col">누적경고</th>
-                    <th class="sorting_disabled col">활성화상태</th>
-                    <th class="sorting_disabled col">차단</th>
+                    <th class="sorting_disabled col">문의시간</th>
+                    <th class="sorting_disabled col">답변여부</th>
                 </tr>
                 </thead>
-                <tr class="table-tr" th:each="userList : ${userList}">
-                    <td class="table-td" th:text="${userList.userNo}"></td>
-                    <td class=" td-center" th:text="${userList.userId}"></td>
-                    <td class=" td-center" th:text="${userList.userName}"></td>
-                    <td class="td-center" th:text="${userList.userNickname}"></td>
-                    <td class="td-center" th:text="${userList.userPhone}"></td>
-                    <td class="td-center" th:text="${#dates.format(userList.userDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                    <td class="td-center" th:if="${userList.userType == 1}">일반유저</td>
-                    <td class="td-center" th:if="${userList.userType == 2}">판매자</td>
-                    <td class="td-center" th:text="${userList.reportCount} + '회'"></td>
-                    <td class="td-center"><span th:text="${userList.userAble}"></span></td>
-                    <td class="td-center">
-                        <button class="able-btn" th:if="${userList.userAble == 'Y'}" th:onclick="'userLock('+${userList.userNo}+')'">비활성화</button>
-                        <button class="able-btn" th:if="${userList.userAble == 'N'}" th:onclick="'userUnLock('+${userList.userNo}+')'">활성화</button>
+                <tr class="table-tr" th:each="qnaList : ${qnaList}">
+                    <td class="table-td" th:text="${qnaList.qnaNo}"></td>
+                    <td class="table-td">
+                        <a th:href="'/admin/qnaDetail?qnaNo='+${qnaList.qnaNo}" th:text="${qnaList.qnaContent}"></a>
                     </td>
+                    <td class=" td-center" th:text="${qnaList.userNickname}"></td>
+                    <td class=" td-center" th:text="${qnaList.qnaDate}"></td>
+                    <td class="td-center" th:text="${qnaList.qnaAnswerYn}"></td>
                 </tr>
             </table>
         </div>
     </div>
 </div>
-
 <script src="../js/datatables-simple-demo.js"></script>
-<script src="../js/admin/adminUser.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+                "info": false,
+                "ordering": false,
+                "autoWidth": false,
+                "language": {
+                    "emptyTable": "문의가 없습니다.",
+                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/ko.json'
+                }
+            }
+        );
+    })
+
+</script>
 
 <!-- Vendor JS Files -->
 <script src="../assets/vendor/aos/aos.js"></script>

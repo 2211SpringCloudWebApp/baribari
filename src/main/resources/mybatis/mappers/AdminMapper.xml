@@ -21,6 +21,22 @@
         WHERE Q.QNA_CATEGORY = 1 AND Q.QNA_ANSWER_YN = 'N'
         ORDER BY QNA_DATE ASC
     </select>
+    <select id="selectQnaListByAdmin" resultType="QnaList">
+        SELECT Q.QNA_NO, SUBSTR(Q.QNA_CONTENT, 82) AS QNA_CONTENT, Q.QNA_ANSWER_YN, Q.QNA_DATE, U.USER_NICKNAME
+        FROM QNA_TBL Q
+                 JOIN USER_TBL U ON U.USER_NO = Q.USER_NO
+        WHERE Q.QNA_CATEGORY = 1
+        ORDER BY QNA_DATE DESC
+    </select>
+
+    <select id="selectQnaDetailByQnaNo" resultType="QnaList">
+        SELECT Q.QNA_NO, Q.QNA_CONTENT, Q.QNA_ANSWER_YN, Q.QNA_DATE, U.USER_NICKNAME, A.ANSWER_CONTENT, A.ANSWER_NO, Q.QNA_PIC_1, Q.QNA_PIC_2
+        FROM QNA_TBL Q
+                 JOIN USER_TBL U ON U.USER_NO = Q.USER_NO
+                 FULL JOIN ANSWER_TBL A ON Q.QNA_ANSWER_NO = A.ANSWER_NO
+        WHERE Q.QNA_NO = #{qnaNo}
+    </select>
+
     <select id="selectProductList" resultType="ProductList">
         SELECT SUBSTR(P.PRODUCT_NAME,0,30) AS PRODUCT_NAME, P.PRODUCT_NO, P.PRODUCT_BRAND, U.USER_NICKNAME, P.PRODUCT_SALES
         FROM PRODUCT_TBL P
@@ -40,11 +56,32 @@
         WHERE USER_TYPE != 0
         ORDER BY USER_NO ASC
     </select>
+    <select id="selectProductListByAdmin" resultType="ProductList">
+        SELECT P.*, U.USER_NICKNAME
+        FROM PRODUCT_TBL P
+        JOIN USER_TBL U ON P.SELLER_USER_NO = U.USER_NO
+        ORDER BY PRODUCT_NO ASC
+    </select>
+
 
     <update id="updateUserBlock">
         UPDATE USER_TBL SET USER_ABLE = 'N' WHERE USER_NO = ${userNo}
     </update>
     <update id="updateUserUnBlock">
         UPDATE USER_TBL SET USER_ABLE = 'Y' WHERE USER_NO = ${userNo}
+    </update>
+    <update id="updateAnswerByAdmin" parameterType="QnaList">
+        UPDATE ANSWER_TBL SET ANSWER_CONTENT = #{answerContent}, ANSWER_USER_NO = #{answerUserNo} WHERE ANSWER_NO = #{answerNo}
+    </update>
+    <update id="updateAnswerYn">
+        UPDATE QNA_TBL SET QNA_ANSWER_YN = 'Y' WHERE QNA_ANSWER_NO = #{answerNo}
+    </update>
+
+    <update id="updateMdY">
+        UPDATE PRODUCT_TBL SET PRODUCT_MD_YN = 'Y' WHERE PRODUCT_NO = #{productNo}
+    </update>
+
+    <update id="updateMdN">
+        UPDATE PRODUCT_TBL SET PRODUCT_MD_YN = 'N' WHERE PRODUCT_NO = #{productNo}
     </update>
 </mapper>

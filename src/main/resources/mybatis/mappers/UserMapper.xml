@@ -56,6 +56,7 @@
         ON 1 = 1
         WHERE ROWNUM <![CDATA[<]]> = 1
     </select>
+
 <!-- 마이페이지 수정 데이터 로드 -->
     <select id="selectModifyUser" resultType="User">
         SELECT U.USER_NO, U.USER_ID , U.USER_NAME , U.USER_NICKNAME, P.PROFILE_PIC_PATH, U.USER_ID, U.USER_PHONE, U.USER_EMAIL
@@ -63,14 +64,17 @@
                  FULL JOIN PROFILE_TBL P ON U.USER_NO = P.USER_NO
         WHERE U.USER_NO = #{userNo}
     </select>
+
 <!--     마이페이지 > 1:1 문의    -->
     <select id="selectQnaByUserNo" resultType="MyPageQna">
         SELECT * FROM QNA_TBL WHERE USER_NO = #{userNo} AND QNA_CATEGORY = 1 ORDER BY QNA_DATE DESC
     </select>
+
 <!--    마이페이지 상품 문의 뷰  -->
     <select id="selectProductQna" resultType="MyPageQna">
         SELECT * FROM QNA_TBL WHERE USER_NO = #{userNo} AND QNA_CATEGORY = 2 ORDER BY QNA_DATE DESC
     </select>
+
 <!--    마이페이지 문의 상세페이지 -->
     <select id="selectQnaDetail" resultType="MyPageQna">
         SELECT * FROM QNA_TBL FULL JOIN ANSWER_TBL ON QNA_ANSWER_NO = ANSWER_NO WHERE QNA_NO = #{qnaNo}
@@ -86,6 +90,7 @@
         VALUES (SEQ_USER_NO.NEXTVAL, #{userId}, #{userPw}, #{userName}, #{userNickName}, #{userEmail}, #{userPhone},
                 SYSTIMESTAMP, 1, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
     </insert>
+
     <insert id="insertUserByRole" parameterType="User">
         INSERT INTO ROLE_TBL (USER_NO, USER_ROLE)
         SELECT USER_NO, 'ROLE_USER'
@@ -113,7 +118,7 @@
 
 <!--    문의사항 작성 -->
     <insert id="qnaWrite">
-        INSERT INTO QNA_TBL VALUES(SEQ_QNA_NO.nextval, #{qnaContent}, 1, #{userNo},1,1,default,default,null,#{qnaPic1, jdbcType=VARCHAR},#{qnaPic2, jdbcType=VARCHAR } )
+        INSERT INTO QNA_TBL VALUES(SEQ_QNA_NO.nextval, #{qnaContent}, 1, #{userNo},NULL,default,default,SEQ_ANSWER_NO.NEXTVAL,#{qnaPic1, jdbcType=VARCHAR},#{qnaPic2, jdbcType=VARCHAR } )
     </insert>
 
 <!-- 배송지 리스트 가져오기 -->
@@ -132,6 +137,7 @@
         WHERE O.USER_NO = #{userNo} AND
               ORDER_DATE BETWEEN #{startDate} and #{endDate}
     </select>
+
 <!--    장바구니 뷰 -->
     <select id="selectCartList" resultType="CartList">
         SELECT P.PRODUCT_NAME, U2.USER_NICKNAME,PP.PRODUCT_PIC_1, P.PRODUCT_NO, C.PRODUCT_QUANTITY, U.USER_NO, P.PRODUCT_PRICE,P.PRODUCT_DELIVERY_CHARGE
@@ -142,6 +148,7 @@
                  FULL JOIN PRODUCT_PIC_TBL PP ON P.PRODUCT_NO = PP.PRODUCT_NO
         WHERE C.USER_NO = #{userNo}
     </select>
+
     <!--    배송지 삭제 -->
     <delete id="deleteAddress" parameterType="_int">
         DELETE FROM ADDRESS_TBL WHERE ADDRESS_NO = #{addressNo}

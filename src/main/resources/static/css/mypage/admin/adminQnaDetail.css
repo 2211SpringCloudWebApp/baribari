@@ -1,0 +1,56 @@
+.qna-middle{
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.btn-box{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.qna-detail-btn{
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    border-radius: 8px;
+    font-size: 15px !important;
+    background: #fff;
+    color: #333 !important;
+    height: 50px;
+    padding: 0;
+    line-height: 48px;
+    width: 135px;
+    border: 1px solid #333;
+    outline: none;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.qna-detail-content{
+    border-radius: 20px;
+    border: 1px solid #fefefe;
+    padding: 0 15px 10px 15px;
+    background-color: #fff;
+    margin-bottom: 20px;
+}
+.table-content{
+    width: 640px;
+    overflow: hidden;
+}
+
+.title{
+    border-bottom: 1px solid #c1c1c1;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 20px 15px;
+}
+.content{
+    color: #848484;
+    font-size: 14px;
+    padding: 20px 15px;
+}
+.qna-detail-content img{
+    width: 300px;
+    height: 300px;
+}

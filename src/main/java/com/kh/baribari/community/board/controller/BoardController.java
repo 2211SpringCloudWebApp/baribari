@@ -1,5 +1,7 @@
 package com.kh.baribari.community.board.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,10 +44,18 @@ public class BoardController {
 			,@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage) {
 		try {
 			// 게시글 총 갯수
-			int bCount = bService.getBoardCount();
+			int bCount = bService.getBoardCount(category);
 			// 페이지 정보 불러오기
 			PageInfo pi = new PageInfo(currentPage, bCount, 10);
 			List<Community> bList = bService.getBoardListAll(pi, category); // 전체 목록 조회
+			
+			//날짜 변경하는 부분
+			for (Community commu : bList) {
+				String data = commu.getCommunityDate();
+				LocalDateTime dateTime = LocalDateTime.parse(data, DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+				String formattedDateTime = dateTime.format(DateTimeFormatter.ofPattern("yy/MM/dd"));
+				commu.setCommunityDate(formattedDateTime);
+			}
 			
 			if(bList != null) {
 				mv.addObject("bList", bList);
@@ -62,6 +72,7 @@ public class BoardController {
 			return mv;
 		}
 	}
+	
 	//게시글 등록 접속
 	@GetMapping("boardRegister")
 	public ModelAndView showRegister(ModelAndView mv) {
@@ -105,6 +116,8 @@ public class BoardController {
 			int i = 1;
 			// 첨부파일이 있을 경우 파일 저장
 			pic.setCommunityNo(seq);
+			System.out.println("pic : " + pic.getCommunityNo());
+			System.out.println("commu :" + commu.getCommunityNo());
 			if (fList != null) {
 				for (MultipartFile file : fList) {
 					Map<String, String> fileInfo = fileUpload.saveFile(file, request, path);
@@ -140,14 +153,11 @@ public class BoardController {
 				}
 			}
 			int result = bService.boardRegister(commu);
-			
+			System.out.println(result);
 			if(result > 0) {
-				int result2 = bService.registerPhoto(pic);
-				if(result2 > 0) {
-					return "redirect:/boardList";
-				}else {
-					return "사진 등록 실패";
-				}
+				bService.userPointUp(userNo);
+				bService.registerPhoto(pic);
+				return "redirect:/boardList";
 			}else {
 				return "게시글 등록 실패";
 			}
@@ -165,9 +175,11 @@ public class BoardController {
 			,@RequestParam(value="communityNo",required = false) Integer boardNo) throws Exception{
 		Community commu = bService.getBoardOne(boardNo);	// 게시글 불러오기
 		CommunityPIC pic = bService.getPhoto(boardNo);		// 이미지 불러오기
+		
 		if(pic != null) {	// 이미지가 존재하면 mv에 추가해줌
 			mv.addObject("pic", pic);
 		}
+		bService.plusViewCount(boardNo); //조회수 증가
 		mv.addObject("commu", commu);
 		mv.setViewName("community/board/detail");
 		
@@ -222,7 +234,7 @@ public class BoardController {
 			return "redirect:/boardList";
 		}
 	}
-	
+
 	//에러페이지 가자
 	@GetMapping("error")
 	public String error() {

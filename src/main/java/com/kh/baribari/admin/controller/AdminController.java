@@ -6,9 +6,7 @@ import com.kh.baribari.admin.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -46,6 +44,35 @@ public class AdminController {
         mv.setViewName("/myPageAdmin/menu/adminUser");
         return mv;
     }
+
+    @GetMapping("admin/qna")
+    public ModelAndView adminQna(
+            ModelAndView mv
+    ){
+        List<QnaList> qnaList = aService.selectQnaListByUser();
+        mv.addObject("qnaList",qnaList);
+        mv.setViewName("/myPageAdmin/menu/adminQna");
+        return mv;
+    }
+    @GetMapping("admin/qnaDetail")
+    public ModelAndView adminQnaDetail(
+            @RequestParam int qnaNo,
+            ModelAndView mv
+    ){
+        QnaList qna = aService.selectQnaDetailByQnaNo(qnaNo);
+        mv.addObject("qna",qna);
+        mv.setViewName("myPageAdmin/menu/adminQnaDetail");
+        return mv;
+    }
+    @PostMapping("qnaModifySave")
+    @ResponseBody
+    public String qnaModifySave(
+            @ModelAttribute QnaList qnalist
+    ){
+        int result = aService.updateAnswerByAdmin(qnalist);
+        return "";
+    }
+
 
     @PostMapping("/reportModalLoading")
     @ResponseBody

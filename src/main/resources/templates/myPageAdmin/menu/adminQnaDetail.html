@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+    <!-- Favicons -->
+    <link href="../assets/img/favicon.png" rel="icon">
+    <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../css/mypage/admin/admin.css" rel="stylesheet">
+    <link href="../css/mypage/admin/adminDetail.css" rel="stylesheet">
+    <link href="../css/mypage/admin/adminQna.css" rel="stylesheet">
+    <link href="../css/mypage/admin/adminQnaDetail.css" rel="stylesheet">
+
+
+</head>
+<body>
+<header th:replace="header :: #header"></header>
+<div class="mainContainer" style="padding-top: 170px">
+
+    <div class="top">
+        <ul>
+            <li><a href="/admin/user">회원관리</a></li>
+            <li><a href="/admin/qna">문의관리</a></li>
+            <li><a href="/admin/product">상품관리</a></li>
+            <li><a href="/admin/report">신고관리</a></li>
+        </ul>
+    </div>
+    <div class="middle">
+        <div class="middle-content">
+            <div class="page-root"><a style="color:black" href="/admin">관리자페이지</a> > <a style="color:black"
+                                                                                        href="/admin/qna">문의관리</a>
+            </div>
+            <div>
+                <div class="page-title">문의관리</div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+
+        <div class="btn-box">
+            <button class="qna-detail-btn" onclick="location.href='/admin/qna'">목록으로</button>
+            <div>
+                <button class="qna-detail-btn" th:if="${qna.answerContent != null}" th:onclick="'qnaModify('+${qna.qnaNo}+')'">수정</button>
+                <button class="qna-detail-btn" th:if="${qna.answerContent == null}" th:onclick="'qnaModify('+${qna.qnaNo}+')'">답변작성</button>
+                <button class="qna-detail-btn"  th:onclick="'qnaRemove('+${qna.qnaNo}+')'">삭제</button>
+            </div>
+        </div>
+
+        <div>
+            <div class="qna-detail-content">
+                <div class="title">문의내용</div>
+                <div class="content" th:text="${qna.qnaContent}"></div>
+                <img th:if="${qna.qnaPic1 != null}" th:src="${qna.qnaPic1}">
+                <img th:if="${qna.qnaPic2 != null}" th:src="${qna.qnaPic2}">
+            </div>
+        </div>
+
+        <div>
+            <div class="qna-detail-content">
+                <div class="title">답변내용</div>
+                <div class="content" th:text="${qna.answerContent}"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    function qnaModify(qnaNo){
+        location.href='/admin/qna=admin/qnaModify?qnaNo='+qnaNo;
+    }
+</script>
+
+<!-- Vendor JS Files -->
+<script src="../assets/vendor/aos/aos.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="../assets/vendor/php-email-form/validate.js"></script>
+<script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Template Main JS File -->
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

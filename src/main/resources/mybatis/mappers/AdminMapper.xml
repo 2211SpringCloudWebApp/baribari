@@ -21,6 +21,22 @@
         WHERE Q.QNA_CATEGORY = 1 AND Q.QNA_ANSWER_YN = 'N'
         ORDER BY QNA_DATE ASC
     </select>
+    <select id="selectQnaListByAdmin" resultType="QnaList">
+        SELECT Q.QNA_NO, SUBSTR(Q.QNA_CONTENT, 82) AS QNA_CONTENT, Q.QNA_ANSWER_YN, Q.QNA_DATE, U.USER_NICKNAME
+        FROM QNA_TBL Q
+                 JOIN USER_TBL U ON U.USER_NO = Q.USER_NO
+        WHERE Q.QNA_CATEGORY = 1
+        ORDER BY QNA_DATE DESC
+    </select>
+
+    <select id="selectQnaDetailByQnaNo" resultType="QnaList">
+        SELECT Q.QNA_NO, Q.QNA_CONTENT, Q.QNA_ANSWER_YN, Q.QNA_DATE, U.USER_NICKNAME, A.ANSWER_CONTENT, A.ANSWER_NO, Q.QNA_PIC_1, Q.QNA_PIC_2
+        FROM QNA_TBL Q
+                 JOIN USER_TBL U ON U.USER_NO = Q.USER_NO
+                 FULL JOIN ANSWER_TBL A ON Q.QNA_ANSWER_NO = A.ANSWER_NO
+        WHERE Q.QNA_NO = #{qnaNo}
+    </select>
+
     <select id="selectProductList" resultType="ProductList">
         SELECT SUBSTR(P.PRODUCT_NAME,0,30) AS PRODUCT_NAME, P.PRODUCT_NO, P.PRODUCT_BRAND, U.USER_NICKNAME, P.PRODUCT_SALES
         FROM PRODUCT_TBL P

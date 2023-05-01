@@ -10,11 +10,13 @@
 		<result	property="noticeContent"	column="NOTICE_CONTENT"/>
 		<result	property="noticeDate"		column="NOTICE_DATE"/>
 		<result	property="noticeUpdate"		column="NOTICE_UPDATE"/>
+		<result property="viewCount"		column="VIEW_COUNT"/>
+		<result property="noticePic"		column="NOTICE_PIC"/>
 	</resultMap>
 	
 	<!-- notice 글 등록 -->
 	<insert id="writeNotice">
-		INSERT INTO NOTICE_TBL(SEQ_NOTICENO.NEXTVAL, #{noticeCategory}, #{noticeTitle}, #{userId}, #{noticeContent}, DEFAULT, DEFAULT)
+		INSERT INTO NOTICE_TBL VALUES(SEQ_NOTICENO.NEXTVAL, #{noticeCategory}, #{noticeTitle}, 'admin', #{noticeContent}, DEFAULT, DEFAULT, 1, <if test="noticePic != null">#{noticePic}</if><if test="noticePic == null">NULL</if>)
 	</insert>
 	
 	<!-- notice 수정 -->
@@ -28,12 +30,12 @@
 	</delete>
 	
 	<!-- notice 목록 -->
-	<select id="selectNoticeList" parameterType="_int">
+	<select id="selectNoticeList" parameterType="_int" resultMap="NoticeResultMap">
 		SELECT * FROM NOTICE_TBL ORDER BY NOTICE_NO DESC
 	</select>
 	
 	<!-- notice 게시물 전체 개수 -->
-	<select id="noticeListCount" parameterType="_int">
+	<select id="noticeListCount" resultType="_int">
 		SELECT COUNT(*) FROM NOTICE_TBL
 	</select>
 	

@@ -13,4 +13,6 @@ public class Notice {
 	private String noticeContent;
 	private Date noticeDate;
 	private Date noticeUpdate;
+	private int viewCount;
+	private String noticePic;
 }

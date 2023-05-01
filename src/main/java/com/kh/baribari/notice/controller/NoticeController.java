@@ -29,25 +29,25 @@ public class NoticeController {
 	// 게시판 글쓰기 화면
 	@GetMapping("/write")
 	public ModelAndView noticeWriteView(ModelAndView mv) {
-		mv.setViewName("notice/noticeWrite");
+		mv.setViewName("shopping/noticewrite");
 		return mv;
 	}
 
 	// 게시판 글쓰기 등록
 	@PostMapping("/write")
 	public ModelAndView noticeWrite(ModelAndView mv, Notice notice) {
+		System.out.println(notice);
 		try {
 			int result = nService.writeNotice(notice);
 			if (result > 0) {
-				mv.addObject("msg", "글쓰기가 완료되었습니다."); // 성공 메시지 설정
-				mv.setViewName("redirect:/shopping/noticeList"); // 글쓰기 완료 후 게시판 목록 페이지로 리다이렉트
+				mv.setViewName("redirect:/notice/list"); // 글쓰기 완료 후 게시판 목록 페이지로 리다이렉트
 			} else {
 				mv.addObject("msg", "글쓰기에 실패하였습니다. 다시 시도해주세요."); // 실패 메시지 설정
-				mv.setViewName("/shopping/noticeWrite"); // 글쓰기 페이지로 이동
+				mv.setViewName("/shopping/noticewrite"); // 글쓰기 페이지로 이동
 			}
 		} catch (Exception e) {
 			mv.addObject("msg", "글쓰기 중 오류가 발생하였습니다. 다시 시도해주세요."); // 오류 메시지 설정
-			mv.setViewName("/shopping/noticeWrite"); // 글쓰기 페이지로 이동
+			mv.setViewName("/shopping/noticewrite"); // 글쓰기 페이지로 이동
 			e.printStackTrace();
 		}
 		return mv;
@@ -80,7 +80,7 @@ public class NoticeController {
 			int result = nService.modifyNotice(notice);
 			if (result > 0) {
 				mv.addObject("msg", "게시글이 수정되었습니다.");
-				mv.setViewName("redirect:/shopping/noticeDetail?noticeNo=" + notice.getNoticeNo());
+				mv.setViewName("redirect:/shopping/noticedetail?noticeNo=" + notice.getNoticeNo());
 			} else {
 				mv.addObject("msg", "게시글 수정에 실패하였습니다.");
 				mv.setViewName("/common/error");
@@ -101,7 +101,7 @@ public class NoticeController {
 			int result = nService.deleteNotice(noticeNo);
 			if (result > 0) {
 				mv.addObject("msg", "게시글이 삭제되었습니다.");
-				mv.setViewName("redirect:/shopping/noticeList");
+				mv.setViewName("redirect:/shopping/noticelist");
 			} else {
 				mv.addObject("msg", "게시글 삭제에 실패하였습니다.");
 				mv.setViewName("/common/error");
@@ -125,7 +125,7 @@ public class NoticeController {
 //			if(nList != null) {
 			mv.addObject("nList", nList);
 			mv.addObject("pi", pi);
-			mv.setViewName("notice/noticelist");
+			mv.setViewName("shopping/noticeist");
 			return mv;
 //			}else {
 //				mv.addObject("msg", "오류").setViewName("error");
@@ -153,7 +153,7 @@ public class NoticeController {
 					mv.addObject("viewCount", viewCount);
 					mv.addObject("userId", userId);
 					mv.addObject("writer", writer);
-					mv.setViewName("notice/noticeDetail");
+					mv.setViewName("shopping/noticedetail");
 					return mv;
 				}
 			}

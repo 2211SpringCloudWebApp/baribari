@@ -1,0 +1,48 @@
+#noticewriteContainer {
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    width: 1000px;
+    height: 1000px;
+    margin-top: 110px;
+}
+
+#noticewriteContainer h1 {
+    text-align: center;
+    color: black;
+}
+
+label {
+    font-weight: bold;
+}
+
+.form-group{
+    width: 1000px;
+}
+
+form input[type="text"],
+form textarea {
+    border-radius: 4px;
+}
+
+form input[type="text"] {
+    height: 48px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+}
+
+form textarea {
+    padding: 10px;
+    border: 1px solid #ced4da;
+}
+
+form input[type="submit"] {
+    height: 48px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: white;
+    border: 0.5px solid #081333;
+}
+
+form input[type="submit"]:hover {
+    background-color: #081333;
+    color: white;
+}

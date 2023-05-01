@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,7 +20,7 @@ import com.kh.baribari.security.auth.PrincipalDetails;
 import com.kh.baribari.user.domain.User;
 
 @Controller
-@RequestMapping("/cart")
+@RequestMapping("cart")
 public class CartController {
 	@Autowired
 	private CartService cService;
@@ -31,7 +30,7 @@ public class CartController {
 	// 장바구니에 상품 추가
 	@PostMapping("/add")
 	@ResponseBody
-	public String addToCart(@ModelAttribute Cart cart) {
+	public String addToCart(Cart cart) {
 		int result = cService.addToCart(cart);
 		if (result > 0) {
 			return "1";

@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.baribari.product.domain.Cart;
@@ -21,6 +22,7 @@ import com.kh.baribari.user.domain.User;
 import com.kh.baribari.user.service.UserService;
 
 @Controller
+@RequestMapping("order")
 public class OrderController {
 	@Autowired
 	private OrderService oService;
@@ -31,12 +33,12 @@ public class OrderController {
 	@Autowired
 	private ProductService pService;
 	
-	@PostMapping("/order/save")
+	@PostMapping("/save")
 	public void setOrder(Order order) {
 		int result = oService.setOrder(order);
 	}
 	
-	@GetMapping("/order")
+	@GetMapping("/")
 	public ModelAndView getOrder(Authentication authentication, ModelAndView mv) {
 		// 사용자 정보
 		User user = returnUser(authentication);
@@ -56,7 +58,6 @@ public class OrderController {
 		mv.setViewName("shopping/order");
 		return mv;
 	}
-	
 
 	// 세션에서 사용자 불러오기
 	private User returnUser(Authentication authentication) {

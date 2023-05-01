@@ -1,13 +1,12 @@
 package com.kh.baribari.user.domain;
 
+import lombok.Builder;
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.List;
 
-@Data
+@Data @Builder
 public class User {
     private int userNo;
     private String userId;

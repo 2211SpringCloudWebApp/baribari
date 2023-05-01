@@ -31,12 +31,12 @@ public class OrderController {
 	@Autowired
 	private ProductService pService;
 	
-	@PostMapping("/order")
+	@PostMapping("/order/save")
 	public void setOrder(Order order) {
 		int result = oService.setOrder(order);
 	}
 	
-	@GetMapping("/orderList")
+	@GetMapping("/order")
 	public ModelAndView getOrder(Authentication authentication, ModelAndView mv) {
 		// 사용자 정보
 		User user = returnUser(authentication);

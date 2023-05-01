@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,6 +21,7 @@ import com.kh.baribari.security.auth.PrincipalDetails;
 import com.kh.baribari.user.domain.User;
 
 @Controller
+@RequestMapping("/cart")
 public class CartController {
 	@Autowired
 	private CartService cService;
@@ -27,7 +29,7 @@ public class CartController {
 	private ProductService pService;
 
 	// 장바구니에 상품 추가
-	@PostMapping("/cart/add")
+	@PostMapping("/add")
 	@ResponseBody
 	public String addToCart(@ModelAttribute Cart cart) {
 		int result = cService.addToCart(cart);
@@ -39,7 +41,7 @@ public class CartController {
 	}
 
 	// 장바구니 목록
-	@GetMapping("/cart/list")
+	@GetMapping("/list")
 	public ModelAndView getCartList(Authentication authentication, ModelAndView mv) throws IOException {
 		// 사용자 정보
 		User user = returnUser(authentication);
@@ -59,13 +61,22 @@ public class CartController {
 	}
 
 	// 장바구니에서 상품 제거
-	@PostMapping("/cart/remove")
+	@PostMapping("/remove")
 	@ResponseBody
-	public String removeFromCart(Integer userNo, Integer productNo) {
-		Cart cart = new Cart();
-		cart.setUserNo(userNo);
-		cart.setProductNo(productNo);
+	public String removeFromCart(Cart cart) {
 		int result = cService.removeFromCart(cart);
+		if (result > 0) {
+			return "1";
+		} else {
+			return "0";
+		}
+	}
+	
+	// 상품 수량 변경
+	@PostMapping("/update")
+	@ResponseBody
+	public String updateQuantity(Cart cart) {
+		int result = cService.updateQuantity(cart);
 		if (result > 0) {
 			return "1";
 		} else {

@@ -31,4 +31,9 @@ public class CartServiceImpl implements CartService {
 	public int removeFromCart(Cart cart) {
 		return cRepository.removeFromCart(session, cart);
 	}
+
+	@Override
+	public int updateQuantity(Cart cart) {
+		return cRepository.updateQuantity(session, cart);
+	}
 }

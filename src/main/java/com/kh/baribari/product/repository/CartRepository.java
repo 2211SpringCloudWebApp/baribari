@@ -31,4 +31,12 @@ public interface CartRepository {
 	 * @return int
 	 */
 	int removeFromCart(SqlSession session, Cart cart);
+
+	/**
+	 * 상품 수량 변경
+	 * @param SqlSession
+	 * @param Cart
+	 * @return int
+	 */
+	int updateQuantity(SqlSession session, Cart cart);
 }

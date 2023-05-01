@@ -106,7 +106,7 @@
 					 						<!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
 					 						<div class="col-md-12">
 					 							<span th:if="${cart.productDiscount == 0}" th:text="|${#numbers.formatInteger(cart.productPrice * cart.productQuantity, 0, 'COMMA')}원|" id="price">상품가격</span>
-												<span th:if="${cart.productDiscount != 0}" th:text="|${#numbers.formatInteger(cart.productQuantity * cart.productPrice - cart.productDiscount * cart.productPrice / 100, 0, 'COMMA')}원|" id="price">할인된 가격</span>
+												<span th:if="${cart.productDiscount != 0}" th:text="|${#numbers.formatInteger(cart.productQuantity * cart.productPrice - cart.productQuantity * cart.productDiscount * cart.productPrice / 100, 0, 'COMMA')}원|" id="price">할인된 가격</span>
 												/ <span th:text="${cart.productQuantity}" id="quantity" class="quantity-input"></span>개
 					 						</div>
 					 						<div class="col-md-12">
@@ -120,7 +120,7 @@
 		 				<div class="summary">
 		 					<h3>가격</h3>
 		 					<div class="summary-item"><span class="text">상품 가격</span><span id="total-price" class="price">상품 가격</span></div>
-		 					<div class="summary-item"><span class="text">총 할인</span><span class="price">할인</span></div>
+		 					<div class="summary-item"><span class="text">총 할인</span><span id="total-discount" class="price">할인</span></div>
 		 					<div class="summary-item"><span class="text">배송비</span><span id="total-delivery-charge" class="price">총 배송비</span></div>
 		 					<div class="summary-item"><span class="text">총 가격</span><span id="total-payment-price" class="price">결제 금액</span></div>
 		 					<button type="button" class="btn btn-primary btn-lg btn-block">결제하기</button>
@@ -180,12 +180,12 @@
 		// 버튼에 이벤트 핸들러 등록
 		button.addEventListener("click", handleButtonClick);
 		
+		// 각 상품 결제 가격
 		const prices = document.querySelectorAll('#price');
 		const deliveryCharges = document.querySelectorAll('#delivery-charge');
 		let totalPrice = 0;
 		let totalDiscount = 0;
 		let totalDeliveryCharge = 0;
-
 		prices.forEach(price => {
 		    totalPrice += parseInt(price.innerText.replace(/[^0-9]/g, ''));
 		});

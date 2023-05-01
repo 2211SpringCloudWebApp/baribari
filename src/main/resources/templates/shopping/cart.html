@@ -76,6 +76,9 @@
 					 						<div class="col-md-3 quantity">
 											    <label for="quantity">수량</label>
 											    <input th:value="${product.productQuantity}" th:id="|quantity-${i.index}|" class="form-control quantity-input" type="number" th:oninput="|updateTotalPrice(${product.productPrice}, ${i.index})|">
+											    <div class="col-md-1">
+					 							<span id="btn-updateQuantity" class="btn btn-outline-dark mt-auto" href="#" th:onclick="|updateQuantity(${product.productNo}, ${i.index})|">수정</span>
+					 						</div>
 											</div>
 					 						<!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
 					 						<div class="col-md-3">
@@ -99,7 +102,7 @@
 	 							상품가격 <span th:text="|${#numbers.formatInteger(product.productPrice * product.productQuantity, 0, 'COMMA')}|" th:id="|product-price-${i.index}|"></span>원
 	 							- 할인가격 <span th:text="|${#numbers.formatInteger((product.productPrice * product.productDiscount / 100) * product.productQuantity, 0, 'COMMA')}|" th:id="|product-discount-${i.index}|"></span>원
 	 							+ 배송비 <span th:text="|${#numbers.formatInteger(product.productDeliveryCharge, 0, 'COMMA')}|" th:id="|delivery-charge-${i.index}|"></span>원
-	 							= <span id="total-price-by-product">총 가격</span>원
+	 							= <span th:id="|total-price-by-product-${i.index}|">총 가격</span>원
 	 						</div>
 		 				</div>
 			 				
@@ -129,13 +132,24 @@
 
 	var userNo = [[${user.userNo}]];
 	
+	// 페이지가 로드될 때 실행되는 함수
+	window.onload = function() {
+	  // 모든 수량 입력 필드의 값을 1로 초기화
+	  const quantity = document.querySelectorAll('#quantity-input-');
+	  for (let i = 0; i < quantityInputs.length; i++) {
+	    quantityInputs[i].value = 1;
+	    // 초기화된 수량으로 총 결제금액 등을 계산
+	    updateTotalPrice(parseInt(document.querySelector('#price-' + i).textContent.replace(/[^0-9]/g,'')), i);
+	  }
+	};
+	
 	// 해당 상품 가격 정보
 	function updateTotalPrice(price, index) { // 해당 상품의 원래 가격, index
 		const quantity = parseInt(document.querySelector('#quantity-' + index).value); // 해당 상품의 선택 수량
-		const productPrice = parseInt(document.querySelector('#price-' + index).textContent.replace(/[^0-9]/g,'')); // 할인 적용된 가격, 가격 - ','와 '원' 제거
+		const productPrice = parseInt(document.querySelector('#price-' + index).textContent.replace(/[^0-9]/g,'')) * quantity; // 할인 적용된 가격, 가격 - ','와 '원' 제거
 		const discountPrice = parseInt(document.querySelector('#discount-' + index).value) * quantity; // 해당 상품 총 할인금액
 		const deliveryCharge = parseInt(document.querySelector('#delivery-charge-' + index).textContent.replace(/[^0-9]/g,''));
-		const totalPrice = productPrice - discountPrice + deliveryCharge;
+		const totalPrice = parseInt(productPrice + deliveryCharge);
 		document.querySelector('#product-price-' + index).textContent = numberWithCommas(price * quantity);
 		document.querySelector('#product-discount-' + index).textContent = numberWithCommas(discountPrice);
   		document.querySelector('#total-price-by-product-' + index).textContent = numberWithCommas(totalPrice);
@@ -146,17 +160,51 @@
 	}
 	
 	// 전체 가격 계산
-	function totalPrice() { 
-		const price;
-		const discountPrice;
-		const deliveryCharge;
-		const totalPrice = price + discountPrice + deliveryCharge;
-		document.querySelector('#total-price').textContent = numberWithCommas();
-		document.querySelector('#total-discount').textContent = numberWithCommas();
-		document.querySelector('#total-delivery-charge').textContent = numberWithCommas();
-		document.querySelector('#payment-price').textContent = numberWithCommas();
+	var productList = document.querySelectorAll('.product');
+	var price = 0;
+	var discountPrice = 0;
+	var deliveryCharge = 0;
+	var totalPrice = 0;
+	var quantity = 0;
+	for(var i = 0; i < productList.length; i++) {
+		quantity = parseInt(document.querySelector('#quantity-' + i).value);
+		price += parseInt(document.querySelector('#price-' + i).textContent.replace(/[^0-9]/g,'')) * quantity;
+		discountPrice += parseInt(document.querySelector('#discount-' + i).value.replace(/[^0-9]/g,''));
+		deliveryCharge += parseInt(document.querySelector('#delivery-charge-' + i).textContent.replace(/[^0-9]/g,''));
+		totalPrice = price + deliveryCharge;
 	}
+	document.querySelector('#total-price').textContent = numberWithCommas(price);
+	document.querySelector('#total-discount').textContent = numberWithCommas(discountPrice);
+	document.querySelector('#total-delivery-charge').textContent = numberWithCommas(deliveryCharge);
+	document.querySelector('#payment-price').textContent = numberWithCommas(totalPrice);
 
+	/* 상품 수량 변경 */
+	function updateQuantity(productNo, index) {
+		const quantity = parseInt(document.querySelector('#quantity-' + index).value); // 해당 상품의 선택 수량
+		console.log(userNo + ", " + productNo + ", " + quantity + ", ");
+		$.ajax({
+			type: "POST",
+			url: "/cart/update",
+			data: {
+				"userNo": userNo,
+				"productNo": productNo,
+				"productQuantity": quantity
+			},
+			success: function(result) {
+				if (result == "1") {
+					alert("수정 완료");
+					location.reload();
+				} else {
+					alert("수정 실패");
+					console.log(result);
+				}
+			},
+			error: function() {
+				alert("처리 실패");
+			}			
+		});
+	}
+	
 	/* 상품을 장바구니에서 제거 */
 	function removeFromCart(productNo) {
 		var confirmed = confirm("정말로 삭제하시겠습니까?");

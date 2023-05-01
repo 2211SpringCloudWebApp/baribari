@@ -25,4 +25,11 @@ public interface CartService {
 	 * @return int
 	 */
 	int removeFromCart(Cart cart);
+
+	/**
+	 * 상품 수량 변경
+	 * @param Cart
+	 * @return int
+	 */
+	int updateQuantity(Cart cart);
 }

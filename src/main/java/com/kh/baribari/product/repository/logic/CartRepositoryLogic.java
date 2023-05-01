@@ -26,4 +26,9 @@ public class CartRepositoryLogic implements CartRepository {
 		return session.delete("CartMapper.removeFromCart", cart);
 	}
 
+	@Override
+	public int updateQuantity(SqlSession session, Cart cart) {
+		return session.update("CartMapper.updateQuantity", cart);
+	}
+
 }

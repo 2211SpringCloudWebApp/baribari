@@ -27,4 +27,9 @@
 	<delete id="removeFromCart" parameterType="_int">
 		DELETE FROM CART_TBL WHERE USER_NO = #{userNo} AND PRODUCT_NO = #{productNo}
 	</delete>
+	
+	<!-- 상품 수량 변경 -->
+	<update id="updateQuantity">
+		UPDATE CART_TBL SET PRODUCT_QUANTITY = #{productQuantity} WHERE USER_NO = #{userNo} AND PRODUCT_NO = #{productNo} 
+	</update>
 </mapper>

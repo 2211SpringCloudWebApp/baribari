@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ArticleMapper">
+
+
+
+    <select id="searchArticles" resultType="ArticleDto">
+        SELECT * FROM BARIBARI.COMMUNITY_TBL
+        WHERE
+        <if test="searchType == 'SUBJECT'">
+            COMMUNITY_SUBJECT LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+        <if test="searchType == 'CONTENT'">
+            COMMUNITY_CONTENT LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+        <if test="searchType == 'BOTH'">
+            COMMUNITY_SUBJECT LIKE CONCAT('%', #{searchWord}, '%') OR COMMUNITY_CONTENT LIKE CONCAT('%', #{searchWord}, '%')
+        </if>
+        <!-- Add a default condition to avoid generating an incomplete query -->
+        <if test="searchType != 'SUBJECT' and searchType != 'CONTENT' and searchType != 'BOTH'">
+            1=1
+        </if>
+    </select>
+
+    <select id="countArticles" resultType="int">
+        SELECT COUNT(*) FROM BARIBARI.COMMUNITY_TBL
+        WHERE 1=1
+        <if test="params.searchWord != null">
+            AND (COMMUNITY_SUBJECT LIKE CONCAT('%', #{params.searchWord}, '%') OR COMMUNITY_CONTENT LIKE CONCAT('%', #{params.searchWord}, '%'))
+        </if>
+    </select>
+
+    <insert id="saveArticle" parameterType="Article">
+        INSERT INTO BARIBARI.COMMUNITY_TBL (COMMUNITY_NO, USER_NO, COMMUNITY_SUBJECT, COMMUNITY_CONTENT, COMMUNITY_DATE)
+        VALUES (#{communityNo}, #{user.userNo}, #{communitySubject}, #{communityContent}, #{communityDate})
+    </insert>
+
+    <select id="findById" resultType="Article" parameterType="int">
+        SELECT * FROM BARIBARI.COMMUNITY_TBL WHERE COMMUNITY_NO = #{communityNo}
+    </select>
+
+    <update id="updateArticle" parameterType="Article">
+        UPDATE BARIBARI.COMMUNITY_TBL
+        SET COMMUNITY_SUBJECT = #{communitySubject},
+            COMMUNITY_CONTENT = #{communityContent},
+            COMMUNITY_DATE = #{communityDate}
+        WHERE COMMUNITY_NO = #{communityNo}
+    </update>
+
+    <delete id="deleteByIdAndUserAccount_UserId" parameterType="map">
+        DELETE FROM BARIBARI.COMMUNITY_TBL
+        WHERE COMMUNITY_NO = #{communityNo}
+          AND USER_NO = #{userNo}
+    </delete>
+</mapper>

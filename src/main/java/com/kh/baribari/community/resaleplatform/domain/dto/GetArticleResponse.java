@@ -67,14 +67,9 @@ public class GetArticleResponse
         {
             if (comment.getParentCommentNo() != null)
             {
-                ArticleCommentResponse parentComment = sortedComments.stream()
+                sortedComments.stream()
                         .filter(c -> c.getCommentNo().equals(comment.getParentCommentNo()))
-                        .findFirst()
-                        .orElse(null);
-                if (parentComment != null)
-                {
-                    parentComment.getChildComments().add(comment);
-                }
+                        .findFirst().ifPresent(parentComment -> parentComment.getChildComments().add(comment));
             }
         }
 

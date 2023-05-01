@@ -28,6 +28,7 @@ public class LoginUserDto implements UserDetails, OAuth2User
     {
         return LoginUserDto.of(userNo, userId, userPw, userEmail, userNickName, Map.of());
     }
+//    TODO : 예외
     public static LoginUserDto of(int userNo,String userId, String userNickName)
     {
         return LoginUserDto.of(userNo, userId, userNickName);

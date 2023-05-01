@@ -6,6 +6,6 @@ import com.kh.baribari.product.domain.Order;
 
 public interface OrderRepository {
 
-	public int setOrder(SqlSession session, Order order);
+	int setOrder(SqlSession session, Order order);
 
 }

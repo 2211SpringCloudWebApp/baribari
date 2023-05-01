@@ -10,19 +10,19 @@ public interface CartService {
 	 * @param Cart
 	 * @return int
 	 */
-	public int addToCart(Cart cart);
+	int addToCart(Cart cart);
 
 	/**
 	 * 장바구니 목록
 	 * @param int
 	 * @return List<Cart>
 	 */
-	public List<Cart> getCartList(int userNo);
+	List<Cart> getCartList(int userNo);
 
 	/**
 	 * 장바구니에서 상품 제거
 	 * @param Cart
 	 * @return int
 	 */
-	public int removeFromCart(Cart cart);
+	int removeFromCart(Cart cart);
 }

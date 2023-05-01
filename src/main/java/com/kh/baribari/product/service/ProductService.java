@@ -12,7 +12,7 @@ public interface ProductService {
 	 * @param String
 	 * @return int
 	 */
-	public int getProductCount(String productCategory);
+	int getProductCount(String productCategory);
 
 	/**
 	 * 상품 목록 가져오기
@@ -20,28 +20,28 @@ public interface ProductService {
 	 * @param PageInfo
 	 * @return List<Product>
 	 */
-	public List<Product> getProductList(String productCategory, PageInfo pi);
+	List<Product> getProductList(String productCategory, PageInfo pi);
 
 	/**
 	 * 상품 정보 가져오기
 	 * @param int
 	 * @return Product
 	 */
-	public Product getProductDetail(int productNo);
+	Product getProductDetail(int productNo);
 
 	/**
 	 * 상품 분류에 따른 추천 상품 목록 가져오기
 	 * @param String
 	 * @return List<Product>
 	 */
-	public List<Product> getProductRecommendList(String productCategory);
+	List<Product> getProductRecommendList(String productCategory);
 
 	/**
 	 * 헤더에서 검색한 상품 갯수 가져오기
 	 * @param Search
 	 * #return int
 	 */
-	public int getProductCountByKeyword(Search search);
+	int getProductCountByKeyword(Search search);
 
 	/**
 	 * 헤더에서 검색한 상품 목록 가져오기
@@ -49,24 +49,24 @@ public interface ProductService {
 	 * @param Search
 	 * #return int
 	 */
-	public List<Product> getProductList(PageInfo pi, Search search);
+	List<Product> getProductList(PageInfo pi, Search search);
 
 	/**
 	 * 인기 상품 목록 가져오기
 	 * @return List<Product>
 	 */
-	public List<Product> getProductListBySales();
+	List<Product> getProductListBySales();
 
 	/**
 	 * 상품 등록
 	 * @param Product
 	 * @return int
 	 */
-	public int registerProduct(Product product);
+	int registerProduct(Product product);
 
 	/**
 	 * MD추천 상품 목록 가져오기
 	 * @return List<Product>
 	 */
-	public List<Product> getMdRecommendProductList();
+	List<Product> getMdRecommendProductList();
 }

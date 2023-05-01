@@ -14,7 +14,7 @@ public interface CartRepository {
 	 * @param Cart
 	 * @return int
 	 */
-	public int addToCart(SqlSession session, Cart cart);
+	int addToCart(SqlSession session, Cart cart);
 
 	/**
 	 * 장바구니 목록
@@ -22,7 +22,7 @@ public interface CartRepository {
 	 * @param int
 	 * @return int
 	 */
-	public List<Cart> getCartList(SqlSession session, int userNo);
+	List<Cart> getCartList(SqlSession session, int userNo);
 
 	/**
 	 * 장바구니에서 상품 제거
@@ -30,5 +30,5 @@ public interface CartRepository {
 	 * @param Cart
 	 * @return int
 	 */
-	public int removeFromCart(SqlSession session, Cart cart);
+	int removeFromCart(SqlSession session, Cart cart);
 }

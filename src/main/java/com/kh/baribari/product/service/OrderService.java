@@ -4,6 +4,6 @@ import com.kh.baribari.product.domain.Order;
 
 public interface OrderService {
 
-	public int setOrder(Order order);
+	int setOrder(Order order);
 
 }

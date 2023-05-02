@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+    <!-- Favicons -->
+    <link href="../assets/img/favicon.png" rel="icon">
+    <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
+    <link href="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.css" rel="stylesheet"/>
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../css/mypage/admin/admin.css" rel="stylesheet">
+    <link href="../css/mypage/admin/adminDetail.css" rel="stylesheet">
+    <link href="../css/mypage/admin/adminProduct.css" rel="stylesheet">
+
+
+</head>
+<body>
+<header th:replace="header :: #header"></header>
+<div class="mainContainer" style="padding-top: 170px">
+
+    <div class="top">
+        <ul>
+            <li><a href="/admin/user">회원관리</a></li>
+            <li><a href="/admin/qna">문의관리</a></li>
+            <li><a href="/admin/product">상품관리</a></li>
+            <li><a href="/admin/report">신고관리</a></li>
+        </ul>
+    </div>
+    <div class="middle">
+        <div class="middle-content">
+            <div class="page-root"><a style="color:black" href="/admin">관리자페이지</a> > <a style="color:black"
+                                                                                        href="/admin/report">신고관리</a>
+            </div>
+            <div>
+                <div class="page-title">신고관리</div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="report-list">
+            <table id="myTable">
+                <colgroup>
+                    <col style="width:7%">
+                    <col style="width:7%">
+                    <col style="width:10%">
+                    <col style="width:*%">
+                    <col style="width:15%">
+                    <col style="width:10%">
+                </colgroup>
+                <thead>
+                <tr style="text-align: center">
+                    <th class="sorting_disabled col">신고번호</th>
+                    <th class="sorting_disabled col">분류</th>
+                    <th class="sorting_disabled col">신고자</th>
+                    <th class="sorting_disabled col">신고대상</th>
+                    <th class="sorting_disabled col">신고일</th>
+                    <th class="sorting_disabled col">처리여부</th>
+                </tr>
+                </thead>
+                <tr class="table-tr" th:each="reportList : ${reportList }">
+                    <td class="table-td" th:text="${reportList.reportNo}"></td>
+                    <td class="table-td" th:text="${reportList.reportCategoryName}"></td>
+                    <td class=" td-center" th:text="${reportList.userNickName}"></td>
+                    <td class=" td-center" th:text="${reportList.reportTargetName}"></td>
+                    <td class="td-center" th:text="${reportList.reportDate}"></td>
+                    <td class="td-center" th:text="${reportList.reportProcessing}">N</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="../js/datatables-simple-demo.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+                "info": false,
+                "ordering": false,
+                "autoWidth": false,
+                "language": {
+                    "emptyTable": "신고가 없습니다.",
+                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/ko.json'
+                }
+            }
+        );
+    })
+
+</script>
+
+<!-- Vendor JS Files -->
+<script src="../assets/vendor/aos/aos.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="../assets/vendor/php-email-form/validate.js"></script>
+<script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Template Main JS File -->
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

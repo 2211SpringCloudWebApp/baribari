@@ -65,4 +65,10 @@ public interface UserService {
     List<Favorite> selectFavorite(int userNo);
 //  찜한 상품 삭제
     int deleteFavorite(Favorite favorite);
+//  유저 아이디 찾기
+    String findUserId(User user);
+//  유저 비밀번호 찾기 / 체크
+    int findUserPw(User user);
+//  유저 비밀번호 번경
+    int pwChange(User user);
 }

@@ -13,7 +13,7 @@ public interface MessageService {
 //  보낸 메시지 리스트 로딩
     List<Message> selectSendMessageList(int userNo);
 //  유저 검색, ajax
-    User selectSearchUser(String userNickname);
+    List<User> selectSearchUser(String userNickname);
 //  메시지 전송
     int insertMsgSend(Message message);
 //  안읽은 메시지 갯수 가져오기

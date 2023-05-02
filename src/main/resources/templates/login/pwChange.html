@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>찾기 결과</title>
+    <link href="css/styles.css" rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/registerCss.css">
+    <link rel="stylesheet" href="css/find.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="js/login.js"></script>
+</head>
+<body class="bg-primary">
+<div class="materialContainer">
+
+    <div class="box">
+        <div class="box-content">
+            <div class="result-box">
+                <div class="find-title">비밀번호 변경</div>
+                <div class="result-content">
+                    <form action="changePw" method="post">
+                        <div>
+                            <input type="hidden" th:value="${user.userId}" name="userId">
+                            <input class="find-input" type="password" name="userPw" id="pw" required>
+                            <input class="find-input" type="password" name="userPwRe" id="rePw" required>
+                            <span class="same">비밀번호가 일치하지 않습니다.</span>
+                            <span class="valid">6자 이상 16자 이하, 영어와 숫자의 조합으로 입력해주세요!</span>
+                        </div>
+                        <button type="submit" onclick="return checkPw();" class="find-btn">비밀번호 변경</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+
+
+    const regex = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%^&*()._-]{6,16}$/;
+
+    function checkPw() {
+        var pw = $('#pw').val();
+        var rePw = $('#rePw').val();
+        if (pw != rePw) {
+            $('.same').addClass("active");
+            $('.valid').removeClass("active");
+            return false;
+        } else if (pw === rePw && !regex.test($('#pw').val())) {
+            $('.same').removeClass("active");
+            $('.valid').addClass("active");
+            return false;
+        }
+        return true;
+    }
+
+
+</script>
+<script th:inline="javascript" th:if="${error != null}">
+    /*<![CDATA[*/
+    window.onload = function () {
+        var error = [[${error}]];
+        if (error != null) {
+            alert(error);
+        }
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

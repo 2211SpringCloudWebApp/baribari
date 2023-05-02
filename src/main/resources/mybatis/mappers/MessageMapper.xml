@@ -16,7 +16,7 @@
         ORDER BY M.MESSAGE_DATE DESC
     </select>
     <select id="selectSearchUser" resultType="User">
-        SELECT USER_NICKNAME,USER_NO FROM USER_TBL WHERE USER_NICKNAME = #{userNickname}
+        SELECT USER_NICKNAME,USER_NO FROM USER_TBL WHERE USER_NICKNAME LIKE '%' || #{userNickname} ||'%'
     </select>
     <select id="selectMsgRead" resultType="_int">
         SELECT COUNT(*) FROM MESSAGE_TBL WHERE MESSAGE_RECEIVE_NO = #{userNo} AND MESSAGE_OPEN_YN = 0

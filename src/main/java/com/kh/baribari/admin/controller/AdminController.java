@@ -86,6 +86,17 @@ public class AdminController {
         return mv;
     }
 
+    @GetMapping("admin/report")
+    public ModelAndView reportAdminView(
+            ModelAndView mv
+    ){
+        List<ReportList> reportList = aService.selectReportList();
+        mv.addObject("reportList",reportList);
+        mv.setViewName("myPageAdmin/menu/adminReport");
+        return mv;
+    }
+
+
 
     @PostMapping("qnaModifySave")
     @ResponseBody

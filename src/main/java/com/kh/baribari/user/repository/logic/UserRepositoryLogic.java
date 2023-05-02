@@ -166,4 +166,19 @@ public class UserRepositoryLogic implements UserRepository {
     public int deleteFavorite(Favorite favorite) {
         return session.delete("UserMapper.deleteFavorite",favorite);
     }
+
+    @Override
+    public String findUserId(User user) {
+        return session.selectOne("UserMapper.findUserId",user);
+    }
+
+    @Override
+    public int findUserPw(User user) {
+        return session.selectOne("UserMapper.findUserPw",user);
+    }
+
+    @Override
+    public int changePw(User user) {
+        return session.update("UserMapper.changePw",user);
+    }
 }

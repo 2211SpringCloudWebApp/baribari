@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>아이디 및 비밀번호 찾기</title>
+    <link href="css/styles.css" rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/registerCss.css">
+    <link rel="stylesheet" href="css/find.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="js/login.js"></script>
+</head>
+<body class="bg-primary">
+<div class="materialContainer">
+
+    <div class="box">
+        <div class="box-content">
+            <form action="/findId" method="post">
+                <fieldset>
+                    <legend class="find-title">아이디 찾기</legend>
+                    <div class="find-content">
+                        <div class="input-box">
+                            <input type="text" placeholder="이름" class="find-input" name="userName" required>
+                            <input type="text" placeholder="이메일" class="find-input" name="userEmail" required>
+                        </div>
+                        <button type="submit" class="find-btn">아이디 찾기</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="box-content">
+            <form action="/findPw" method="post">
+                <fieldset>
+                    <legend class="find-title">비밀번호 찾기</legend>
+                    <div class="find-content">
+                        <div class="input-box">
+                            <input type="text" placeholder="아이디" class="find-input" name="userId" required>
+                            <input type="text" placeholder="이메일" class="find-input" name="userEmail" required>
+                        </div>
+                        <button type="submit" class="find-btn-pw" onclick="return pwCheck();">비밀번호 찾기</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+</div>
+<script>
+    var findInput = document.querySelectorAll('.find-input');
+    [].forEach.call(findInput, function (input) {
+        input.addEventListener('focusin', function () {
+            $('.find-input').css("border", "1px solid #ccc");
+            this.style.border = "1px solid #3DB35E";
+        });
+    })
+
+
+</script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function () {
+        var error = [[${error}]];
+        if (error != null) {
+            alert(error);
+        }
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

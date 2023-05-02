@@ -110,6 +110,62 @@ public class UserController {
         }
     }
 
+    // 아이디 및 비밀번호 찾기 뷰
+    @GetMapping("/find")
+    public String findIdPwView() {
+        return "login/find";
+    }
+
+    // 아이디 찾기
+    @PostMapping("/findId")
+    public String findId(
+            @ModelAttribute User user,
+            Model model
+    ) {
+        String userId = uService.findUserId(user);
+        if (userId != null) {
+            model.addAttribute("userId", userId);
+            return "login/resultId";
+        } else {
+            model.addAttribute("error", "일치하는 아이디가 없습니다.");
+            return "login/find";
+        }
+    }
+
+    // 비밀번호 찾기
+    @PostMapping("/findPw")
+    public String findPw(
+            @ModelAttribute User user,
+            Model model
+    ) {
+        int result = uService.findUserPw(user);
+        if (result > 0) {
+            model.addAttribute("user", user);
+            return "login/pwChange";
+        } else {
+            model.addAttribute("error", "일치하는 정보가 없습니다.");
+            return "login/find";
+        }
+    }
+
+    @PostMapping("/changePw")
+    public String pwChange(
+            @ModelAttribute User user,
+            Model model
+    ) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        user.setUserPw(bCryptPasswordEncoder.encode(user.getUserPw()));
+        int result = uService.pwChange(user);
+        if (result > 0) {
+            model.addAttribute("error", "변경완료! 로그인 해주세요.");
+            return "login/login";
+        }else {
+            model.addAttribute("user",user);
+            model.addAttribute("error", "변경실패 다시 시도해주세요.");
+            return "login/pwChange";
+        }
+    }
+
     //    유저-마이페이지 뷰
     @GetMapping("myPageUser")
     public String myPageUserView(
@@ -134,7 +190,8 @@ public class UserController {
         model.addAttribute("user", user);
         return "myPage/information/UserModify";
     }
-//  유저-마이페이지 사진 수정 버튼
+
+    //  유저-마이페이지 사진 수정 버튼
     @PostMapping("/profilePicSave")
     @ResponseBody
     public String myPageProfilePic(
@@ -365,24 +422,25 @@ public class UserController {
             return "실패";
         }
     }
-//    찜한 상품 뷰
+
+    //    찜한 상품 뷰
     @GetMapping("myPageUser/like")
-    public String likeView(Authentication authentication, Model model){
+    public String likeView(Authentication authentication, Model model) {
         User user = returnUser(authentication);
         List<Favorite> favoriteList = uService.selectFavorite(user.getUserNo());
-        model.addAttribute("favoriteList",favoriteList);
+        model.addAttribute("favoriteList", favoriteList);
         return "myPage/order/like";
     }
 
-//    찜한 상품 삭제
+    //    찜한 상품 삭제
     @PostMapping("favoriteDel")
     @ResponseBody
-    public String favoriteDelete(int userNo, int productNo){
-        Favorite favorite = new Favorite(productNo,userNo);
+    public String favoriteDelete(int userNo, int productNo) {
+        Favorite favorite = new Favorite(productNo, userNo);
         int result = uService.deleteFavorite(favorite);
-        if(result > 0){
+        if (result > 0) {
             return "성공";
-        }else {
+        } else {
             return "실패";
         }
     }

@@ -31,8 +31,8 @@ public class MessageRepositoryLogic implements MessageRepository {
     }
 
     @Override
-    public User selectSearchUser(String userNickname) {
-        return session.selectOne("MessageMapper.selectSearchUser", userNickname);
+    public List<User> selectSearchUser(String userNickname) {
+        return session.selectList("MessageMapper.selectSearchUser", userNickname);
     }
 
     @Override

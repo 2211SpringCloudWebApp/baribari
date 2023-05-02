@@ -26,7 +26,7 @@ body{
     margin-left: 30px;
 }
 .search-input{
-    width: 40%;
+    width: 100%;
     height: 35px;
     border-radius: 10px;
     padding-left: 10px;
@@ -96,4 +96,25 @@ body{
     color: #3DB35E;
     cursor: pointer;
     display: none;
+}
+.search-box{
+    width: 40%;
+    margin-right: 10px;
+}
+.search-ul{
+    border: 1px solid #ccc;
+    position: fixed;
+    background-color: white;
+    width: 38%;
+    font-size: 20px;
+    margin-top: 3px;
+    overflow: auto;
+    max-height: 300px;
+}
+.search-li{
+    background-color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    padding-left: 20px;
+    cursor: pointer;
 }

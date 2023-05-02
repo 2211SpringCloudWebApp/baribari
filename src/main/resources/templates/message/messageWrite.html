@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>BARIBARI-메세지</title>
@@ -22,7 +21,17 @@
         <div class="receive-user-box">
             <input type="hidden" name="messageSendNo" th:value="${#authentication.principal.user.userNo}">
             <input type="hidden" name="messageReceiveNo" value="" class="receive-user-no">
-            <span class="receive-user">받는이 : </span><input name="userNickname" type="text" class="search-input">
+            <span class="receive-user">받는이 : </span>
+            <div class="search-box">
+                <input name="userNickname" type="text" class="search-input" onkeyup="searchUserFunc();"
+                       onfocusout="ulNone()">
+                <ul class="search-ul">
+                    <!--                    <li class="search-li">정미니</li>-->
+                    <!--                    <li class="search-li">까망이</li>-->
+                    <!--                    <li class="search-li">상은이</li>-->
+                    <!--                    <li class="search-li">세원이</li>-->
+                </ul>
+            </div>
             <button type="button" class="search-btn" onclick="searchUserFunc();">검색</button>
             <button type="button" onclick="reSearch();" class="re-search-btn">재검색</button>
         </div>
@@ -44,12 +53,6 @@
         ;
     }, true);
 
-    function check(){
-        if(searchOk === 0){
-            alert("아이디를 먼저 검색해주세요.");
-            return false;
-        }
-    }
 
     // 검색창
     var searchInput = $('.search-input');
@@ -65,15 +68,22 @@
                 'userNickname': $('.search-input').val()
             },
             success: function (data) {
-                if (data != '실패') {
-                    receiveUserNo.val(data);
-                    searchInput.attr('readonly', true);
-                    searchInput.css('background-color', '#ccc');
-                    alert("존재하는 회원입니다.\n 내용을 적어주세요.");
-                    $('.re-search-btn').css('display', 'block');
-                    searchOk += 1;
+                $('.search-ul').css("display", "block");
+                var str = "";
+                var dataParse = JSON.parse(data);
+                if (dataParse != null) {
+                    if (dataParse.length > 0) {
+                        for (var i = 0; i < dataParse.length; i++) {
+                            let userNo = dataParse[i].userNo;
+                            let userNickName = dataParse[i].userNickName;
+                            str += "<li class='search-li' onclick='selectUser(" + userNo + ",\"" + userNickName + "\")'>" + userNickName + "</li>";
+                            $('.receive-user-no').val(userNo);
+                        }
+                        $('.search-ul').html(str);
+                    }
                 } else {
-                    alert("존재하지 않는 회원입니다. 다시 확인해주세요.")
+                    $('.search-ul').html(str);
+                    $('.search-ul').css("display", "none");
                 }
             },
             error: function () {
@@ -82,13 +92,19 @@
         })
     }
 
-    // 재검색 버튼
-    function reSearch() {
-        searchInput.css('background-color', 'white');
-        searchInput.attr('readonly', false);
-        $('.re-search-btn').css('display', 'none');
-        searchOk -= 1;
+    //  유저 리스트에서 유저 선택시 값 넣어줌
+    function selectUser(userNo, userNickName) {
+        $('.receive-user-no').val(userNo);
+        $('.search-input').val(userNickName);
+        $('.search-ul').css("display", "none");
     }
+
+    // 포커스 아웃 시간 딜레이
+    setTimeout(function ulNone() {
+        $('.search-ul').css("display", "none");
+    }, 500);
+
+
 </script>
 </body>
 </html>

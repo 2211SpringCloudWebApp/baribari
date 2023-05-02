@@ -1,0 +1,88 @@
+.box-content{
+    width: 45%;
+    height: 95%;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+fieldset{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0 40px 0;
+}
+.find-title{
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+.find-input{
+    width: 90%;
+    height: 50px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    padding-left: 20px;
+}
+.find-btn{
+    width: 90%;
+    height: 60px;
+    border: 1px solid #3DB35E;
+    border-radius: 20px;
+    margin-top: 10px;
+    background-color: white;
+    color: #3DB35E;
+}
+.find-btn-pw{
+    width: 90%;
+    height: 60px;
+    border: 1px solid #3DB35E;
+    border-radius: 20px;
+    margin-top: 10px;
+    background-color: #3DB35E;
+    color: white;
+}
+.find-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.input-box{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+.result-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    height: 100%;
+    padding:30px 0 0 20px;
+}
+.result-box span {
+    font-weight: bold;
+    font-size: 13px;
+}
+.result-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100%;
+    align-items: center;
+}
+
+.same{
+    color:red;
+    display: none;
+}
+.valid{
+    color:red;
+    display: none;
+}
+.active{
+     display: block;
+ }

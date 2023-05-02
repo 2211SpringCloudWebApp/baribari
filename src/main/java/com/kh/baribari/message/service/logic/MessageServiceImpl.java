@@ -33,7 +33,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public User selectSearchUser(String userNickname) {
+    public List<User> selectSearchUser(String userNickname) {
         return mRepository.selectSearchUser(userNickname);
     }
 

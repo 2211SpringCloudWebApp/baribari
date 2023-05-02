@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>찾기 결과</title>
+    <link href="css/styles.css" rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/registerCss.css">
+    <link rel="stylesheet" href="css/find.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="js/login.js"></script>
+</head>
+<body class="bg-primary">
+<div class="materialContainer">
+
+    <div class="box">
+        <div class="box-content">
+            <div class="result-box">
+                <div class="find-title">아이디 찾기</div>
+                <div class="result-content">
+                    <div>
+                        <span>검색 결과 : </span><span th:text="${userId }"></span>
+                    </div>
+                    <button type="button" onclick="location.href='/login'" class="find-btn">로그인하러 가기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    var findInput = document.querySelectorAll('.find-input');
+    [].forEach.call(findInput, function (input) {
+        input.addEventListener('focusin', function () {
+            $('.find-input').css("border", "1px solid #ccc");
+            this.style.border = "1px solid #3DB35E";
+        });
+    })
+
+
+</script>
+</body>
+</html>

@@ -141,6 +141,21 @@ public class UserServiceImpl implements UserService {
         return uRepository.deleteFavorite(favorite);
     }
 
+    @Override
+    public String findUserId(User user) {
+        return uRepository.findUserId(user);
+    }
+
+    @Override
+    public int findUserPw(User user) {
+        return uRepository.findUserPw(user);
+    }
+
+    @Override
+    public int pwChange(User user) {
+        return uRepository.changePw(user);
+    }
+
     //  배송지 삭제
     @Override
     public int deleteAddress(int addressNo) {

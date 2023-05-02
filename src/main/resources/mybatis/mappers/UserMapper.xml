@@ -126,6 +126,16 @@
         SELECT * FROM ADDRESS_TBL WHERE USER_NO = #{userNo}
     </select>
 
+<!--    유저 아이디 찾기 -->
+    <select id="findUserId" resultType="string">
+        SELECT USER_ID FROM USER_TBL WHERE USER_NAME = #{userName} AND USER_EMAIL = #{userEmail}
+    </select>
+
+<!--    유저 비밀번호 찾기 -->
+    <select id="findUserPw" resultType="_int">
+        SELECT COUNT(*) FROM USER_TBL WHERE USER_ID = #{userId} AND USER_EMAIL = #{userEmail}
+    </select>
+
 <!--   주문사항 조회 -->
     <select id="selectOrderList" resultType="MyPageOrderList">
         SELECT P.PRODUCT_NO, P.PRODUCT_NAME,PP.PRODUCT_PIC_1 , O.ORDER_DATE, O.ORDER_NO, D.ORDER_DETAIL_COUNT, D.ORDER_LOGIS, D.ORDER_TRACKING_NO, D.ORDER_STATUS, D.ORDER_PRICE, U.USER_NICKNAME, O.USER_NO, P.PRODUCT_BRAND
@@ -216,5 +226,10 @@
 <!--    프로필 사진 업데이트 -->
     <update id="updateProfilePic">
         UPDATE PROFILE_TBL SET PROFILE_PIC_PATH = #{profilePicPath} WHERE USER_NO = #{userNo}
+    </update>
+
+<!--   비밀번호 변경 -->
+    <update id="changePw">
+        UPDATE USER_TBL SET USER_PW = #{userPw} WHERE USER_ID = #{userId}
     </update>
 </mapper>

@@ -6,7 +6,7 @@ import lombok.Data;
 import java.sql.Timestamp;
 import java.util.List;
 
-@Data @Builder
+@Data
 public class User {
     private int userNo;
     private String userId;

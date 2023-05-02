@@ -1,5 +1,6 @@
 package com.kh.baribari.message.controller;
 
+import com.google.gson.Gson;
 import com.kh.baribari.common.ReturnUser;
 import com.kh.baribari.message.domain.Message;
 import com.kh.baribari.message.service.MessageService;
@@ -19,6 +20,9 @@ public class MessageController {
 
     @Autowired
     private ReturnUser returnUser;
+
+    @Autowired
+    private Gson gson;
 
     //  받은 메시지 로딩
     @GetMapping("message")
@@ -44,13 +48,13 @@ public class MessageController {
         return "message/messageSend";
     }
 
-//    쪽지 작성창 뷰
+    //    쪽지 작성창 뷰
     @GetMapping("/messageWrite")
     public String messageWrite() {
         return "message/messageWrite";
     }
 
-//    쪽지 오픈시 읽음 표시
+    //    쪽지 오픈시 읽음 표시
     @PostMapping("/msgOpen")
     @ResponseBody
     public String ajaxMsgOpen(int messageNo) {
@@ -62,28 +66,24 @@ public class MessageController {
         }
     }
 
-//    유저 검색 ajax
+    //    유저 검색 ajax
     @GetMapping("/searchUser")
     @ResponseBody
     public String ajaxSearchUser(String userNickname) {
-        User user = mService.selectSearchUser(userNickname);
-        if (user != null) {
-            return String.valueOf(user.getUserNo());
-        }else {
-            return "실패";
-        }
+        List<User> user = mService.selectSearchUser(userNickname);
+        return gson.toJson(user);
     }
 
-//    쪽지 보내기
+    //    쪽지 보내기
     @PostMapping("/msgSend")
     @ResponseBody
     public String messageSend(
             @ModelAttribute Message message
-    ){
+    ) {
         int result = mService.insertMsgSend(message);
-        if(result > 0){
+        if (result > 0) {
             return "<script>alert('쪽지 전송이 잘되었어요!'); location.href='/message';</script>";
-        }else {
+        } else {
             return "<script>alert('쪽지 전송이 실패했어요 ㅠㅠ');</script>";
         }
     }

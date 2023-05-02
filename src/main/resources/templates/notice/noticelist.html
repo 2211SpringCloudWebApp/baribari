@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8" />
@@ -76,20 +76,20 @@
                     <th>HITS</th>
                 </tr>
             </thead>
-            <tbody id="noticeList">
+            <tbody id="noticeList" th:each="notice : ${nList}">
                 <tr>
-                    <td>${notice.noticeNo}</td>
-                    <td>${notice.noticeCategory}</td>
-                    <td><a href="#">${notice.noticeTitle}</a></td>
-                    <td>${notice.userId}</td>
-                    <td>${notice.noticeDate}</td>
-                    <td>${notice.viewCount}</td>
+                    <td th:text="${notice.noticeNo }"></td>
+                    <td th:text="${notice.noticeCategory }"></td>
+                    <td><a th:href="@{'/notice/detail?noticeNo=' + ${notice.noticeNo}}"  th:text="${notice.noticeTitle }"></a></td>
+                    <td th:text="${notice.userId }"></td>
+                    <td th:text="${notice.noticeDate }"></td>
+                    <td th:text="${notice.viewCount }"></td>
                 </tr>
             </tbody>
         </table>
         <!-- 글 쓰기 -->
         <div class="write-button-container">
-            <button class="write-button">글쓰기</button>
+        	<a button class="write-button" href="/notice/write" th:text="글쓰기"></a>
         </div>
 
         <!-- 페이징 네비게이션 -->

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OrderMapper">
+	<resultMap type="Order" id="orderResultMap">
+		<id		property="orderNo" column="ORDER_NO"/>
+		<result	property="userNo" column="USER_NO"/>
+		<result	property="orderDate" column="ORDER_DATE"/>
+		<result	property="productNo" column="PRODUCT_NO"/>
+		<result	property="orderDetailNo" column="ORDER_DETAIL_NO"/>
+		<result	property="orderDetailCount" column="ORDER_DETAIL_COUNT"/>
+		<result	property="orderLogistics" column="ORDER_LOGISTICS"/>
+		<result	property="orderTrackingNo" column="ORDER_TRACKING_NO"/>
+		<result	property="orderStatus" column="ORDER_STATUS"/>
+		<result	property="sellerUserNo" column="SELLER_USER_NO"/>
+	</resultMap>
+	
+	<insert id="setOrderInfo" parameterType="Order">
+		INSERT INTO ORDER_TBL VALUES(SEQ_ORDER_NO.NEXTVAL, #{userNo}, SYSDATE)
+	</insert>
+	<insert id="setOrderDetailInfo" parameterType="Order">
+		INSERT INTO ORDER_DETAIL_TBL VALUES(SEQ_ORDER_DETAIL_NO.NEXTVAL, #{productNo}, SEQ_ORDER_NO.CURRVAL, #{orderDetailCount}, #{orderLogis}, #{orderTrackingNo}, #{orderStatus}, #{orderPrice}, #{sellerUserNo})
+	</insert>
+</mapper>

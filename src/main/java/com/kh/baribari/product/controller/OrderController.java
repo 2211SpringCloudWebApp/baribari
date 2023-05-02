@@ -60,4 +60,8 @@ public class OrderController {
 		mv.setViewName("shopping/order");
 		return mv;
 	}
+	
+	public ModelAndView sendOrderInfo(ModelAndView mv) {
+		return mv;
+	}
 }

@@ -17,4 +17,12 @@ public class ReportList {
     private String reportCategoryName;
     private Timestamp reportDate;
     private int reportCount;
+
+    public ReportList() {
+    }
+
+    public ReportList(int reportNo, int reportTargetNo) {
+        this.reportNo = reportNo;
+        this.reportTargetNo = reportTargetNo;
+    }
 }

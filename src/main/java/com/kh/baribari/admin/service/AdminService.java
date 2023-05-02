@@ -31,4 +31,8 @@ public interface AdminService {
     List<ProductList> selectProductListByAdmin();
 //  상품관리 > mdYn 체크
     int updateMdYn(int productNo, int mdYn);
+//  신고리스트 > 신고 업데이트 / 무혐의
+    int updateReportInno(ReportList reportList);
+//  신고리스트 > 신고 업데이트 / 경고처리
+    int updateReportComplete(ReportList reportList);
 }

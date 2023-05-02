@@ -85,4 +85,19 @@ public class AdminRepositoryLogic implements AdminRepository {
     public int updateMdN(int productNo) {
         return session.update("AdminMapper.updateMdN",productNo);
     }
+
+    @Override
+    public int updateReportInno(ReportList reportList) {
+        return session.update("AdminMapper.updateReportInno",reportList);
+    }
+
+    @Override
+    public int updateReportComplete(ReportList reportList) {
+        return session.update("AdminMapper.updateReportComplete",reportList);
+    }
+
+    @Override
+    public int updateUserBlockByReport(ReportList reportList) {
+        return session.update("AdminMapper.updateUserBlockByReport",reportList);
+    }
 }

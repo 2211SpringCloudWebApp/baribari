@@ -42,4 +42,10 @@ public interface AdminRepository {
     int updateMdY(int productNo);
 //  MD 추천 N로 변경
     int updateMdN(int productNo);
+//  신고 업데이트 / 무혐의
+    int updateReportInno(ReportList reportList);
+//  신고 업데이트 / 경고처리
+    int updateReportComplete(ReportList reportList);
+//  신고 누적 3회 이상 자동 비활성화
+    int updateUserBlockByReport(ReportList reportList);
 }

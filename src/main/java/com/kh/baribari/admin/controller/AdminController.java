@@ -89,13 +89,12 @@ public class AdminController {
     @GetMapping("admin/report")
     public ModelAndView reportAdminView(
             ModelAndView mv
-    ){
+    ) {
         List<ReportList> reportList = aService.selectReportList();
-        mv.addObject("reportList",reportList);
+        mv.addObject("reportList", reportList);
         mv.setViewName("myPageAdmin/menu/adminReport");
         return mv;
     }
-
 
 
     @PostMapping("qnaModifySave")
@@ -155,6 +154,32 @@ public class AdminController {
         int result = aService.updateMdYn(productNo, mdYn);
 
         return "";
+    }
+
+    @PostMapping("reportInnocence")
+    @ResponseBody
+    public String reportInnocence(
+            @ModelAttribute ReportList reportList
+    ) {
+        int result = aService.updateReportInno(reportList);
+        if (result > 0) {
+            return "성공";
+        }else {
+            return "실패";
+        }
+    }
+
+    @PostMapping("reportComplete")
+    @ResponseBody
+    public String reportComplete(
+            @ModelAttribute ReportList reportList
+    ){
+        int result = aService.updateReportComplete(reportList);
+        if (result > 0) {
+            return "성공";
+        }else {
+            return "실패";
+        }
     }
 
 }

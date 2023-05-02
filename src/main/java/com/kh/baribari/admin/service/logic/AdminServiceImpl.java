@@ -77,8 +77,22 @@ public class AdminServiceImpl implements AdminService {
     public int updateMdYn(int productNo, int mdYn) {
         if (mdYn > 0) {
             return aRepository.updateMdY(productNo);
-        }else {
+        } else {
             return aRepository.updateMdN(productNo);
         }
     }
+
+    @Override
+    public int updateReportInno(ReportList reportList) {
+        return aRepository.updateReportInno(reportList);
+    }
+
+    @Override
+    public int updateReportComplete(ReportList reportList) {
+        if (reportList.getReportCount() == 2) {
+            return aRepository.updateUserBlockByReport(reportList);
+        }
+        return aRepository.updateReportComplete(reportList);
+    }
+
 }

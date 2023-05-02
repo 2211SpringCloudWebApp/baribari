@@ -27,7 +27,7 @@
     <link href="../assets/css/style.css" rel="stylesheet">
     <link href="../css/mypage/admin/admin.css" rel="stylesheet">
     <link href="../css/mypage/admin/adminDetail.css" rel="stylesheet">
-    <link href="../css/mypage/admin/adminProduct.css" rel="stylesheet">
+    <link href="../css/mypage/admin/adminReport.css" rel="stylesheet">
 
 
 </head>
@@ -57,11 +57,11 @@
         <div class="report-list">
             <table id="myTable">
                 <colgroup>
-                    <col style="width:7%">
-                    <col style="width:7%">
+                    <col style="width:10%">
+                    <col style="width:10%">
                     <col style="width:10%">
                     <col style="width:*%">
-                    <col style="width:15%">
+                    <col style="width:20%">
                     <col style="width:10%">
                 </colgroup>
                 <thead>
@@ -74,15 +74,41 @@
                     <th class="sorting_disabled col">처리여부</th>
                 </tr>
                 </thead>
-                <tr class="table-tr" th:each="reportList : ${reportList }">
+                <tr class="table-tr" th:each="reportList : ${reportList }" th:onclick="'reportDetail('+${reportList.reportNo}+');'">
                     <td class="table-td" th:text="${reportList.reportNo}"></td>
                     <td class="table-td" th:text="${reportList.reportCategoryName}"></td>
                     <td class=" td-center" th:text="${reportList.userNickName}"></td>
                     <td class=" td-center" th:text="${reportList.reportTargetName}"></td>
-                    <td class="td-center" th:text="${reportList.reportDate}"></td>
+                    <td class="td-center" th:text="${#dates.format(reportList.reportDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                     <td class="td-center" th:text="${reportList.reportProcessing}">N</td>
                 </tr>
             </table>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">신고내용</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul style="list-style: none">
+                        <li>분류 : <span id="reportCategory"></span></li>
+                        <li>신고자 : <span id="reportByUser"></span></li>
+                        <li>신고대상 : <span id="reportTarget"></span></li>
+                        <li>신고사유 : <span id="reportContent"></span></li>
+                        <li>경고횟수 : <span id="reportCount"></span></li>
+                        <li><input type="hidden" id="reportCategoryNo"></li>
+                    </ul>
+                    <input type="hidden" id="reportNo">
+                    <input type="hidden" id="targetNo">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="deleteReport();">무혐의</button>
+                    <button type="button" class="btn btn-primary" onclick="reportComplete();">경고처리</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -101,6 +127,85 @@
         );
     })
 
+    $('#myModal').click(function (e) {
+        e.preventDefault();
+        $('.modal').modal("show");
+    })
+
+    function reportDetail(reportNo) {
+        $.ajax({
+            url: '/reportModalLoading',
+            type: 'post',
+            data: {
+                'reportNo': reportNo
+            },
+            success: function (data) {
+                var report = JSON.parse(data);
+                $('#reportCategory').text(report.reportCategoryName);
+                $('#reportByUser').text(report.userNickName);
+                $('#reportTarget').text(report.reportTargetName);
+                $('#reportContent').text(report.reportContent);
+                $('#reportNo').val(report.reportNo);
+                $('#targetNo').val(report.reportTargetNo);
+                $('#reportCategoryNo').val(report.reportCategoryNo)
+                $('#reportCount').text(report.reportCount + '회');
+            }
+        })
+        $('.modal').modal("show");
+    }
+
+    function deleteReport() {
+        var reportNo = $('#reportNo').val();
+        if (confirm("무혐의 처리 하겠습니까?")) {
+            $.ajax({
+                url:'/reportInnocence',
+                type:'post',
+                data:{
+                    'reportNo':reportNo
+                },
+                success:function(data){
+                    if(data == '성공'){
+                        alert("처리가 완료되었습니다.");
+                        location.href = location.href;
+                    }else {
+                        alert("처리에 실패했습니다. 다시시도해주세요.");
+                        location.href = location.href;
+                    }
+                },
+                error:function(data){
+                    console.log(data)
+                }
+            })
+        }
+    }
+
+    function reportComplete() {
+        var reportNo = $('#reportNo').val();
+        if (confirm("경고처리 처리 하겠습니까?")) {
+            $.ajax({
+                url:'/reportComplete',
+                type:'post',
+                data:{
+                    'reportNo':reportNo,
+                    'reportTargetNo':$('#targetNo').val(),
+                    'reportCategoryNo' : $('#reportCategoryNo').val(),
+                    'reportCount' : $('#reportCount').text()
+                },
+                success:function(data){
+                    if(data == '성공'){
+                        alert("처리가 완료되었습니다.");
+                        location.href = location.href;
+                    }else {
+                        alert("처리에 실패했습니다. 다시시도해주세요.");
+                        location.href = location.href;
+                    }
+                },
+                error:function(data){
+                    console.log(data)
+                }
+            })
+        }
+    }
 </script>
 
 <!-- Vendor JS Files -->

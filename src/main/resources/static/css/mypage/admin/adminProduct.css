@@ -10,3 +10,9 @@
     color: white;
     border-radius: 10px;
 }
+table.dataTable tbody tr{
+    text-align: center;
+}
+table.dataTable thead th{
+    text-align: center;
+}

@@ -84,4 +84,23 @@
     <update id="updateMdN">
         UPDATE PRODUCT_TBL SET PRODUCT_MD_YN = 'N' WHERE PRODUCT_NO = #{productNo}
     </update>
+
+    <update id="updateReportInno">
+        UPDATE REPORT_TBL SET REPORT_PROCESSING = 'Y' WHERE REPORT_NO = #{reportNo}
+    </update>
+
+    <update id="updateReportComplete">
+        <if test="reportCategoryNo == 1">
+            UPDATE USER_TBL SET REPORT_COUNT = REPORT_COUNT + 1 WHERE USER_NO = #{reportTargetNo}
+        </if>
+        <if test="reportCategoryNo == 2">
+            UPDATE COMMUNITY_TBL SET COMMUNITY_YN = 1 WHERE COMMUNITY_NO = #{reportTargetNo}
+        </if>
+        <if test="reportCategoryNo == 3">
+            UPDATE REVIEW_TBL SET REVIEW_YN = 1 WHERE REVIEW_NO = #{reportTargetNo}
+        </if>
+    </update>
+    <update id="updateUserBlockByReport">
+        UPDATE USER_TBL SET USER_ABLE = 'N', REPORT_COUNT = REPORT_COUNT + 1 WHERE USER_NO = #{reportTargetNo}
+    </update>
 </mapper>

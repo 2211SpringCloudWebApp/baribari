@@ -57,10 +57,11 @@ public class NoticeController {
 	@GetMapping("/modify")
 	public ModelAndView noticeModifyView(@RequestParam("noticeNo") int noticeNo, ModelAndView mv) {
 		try {
-			Notice notice = nService.noticeModifyView(noticeNo);
+			Notice notice = nService.selectOneByNo(noticeNo);
 			if (notice != null) {
 				mv.addObject("notice", notice);
-				mv.setViewName("/notice/noticeModify");
+				mv.addObject("noticeNo", noticeNo);
+				mv.setViewName("/notice/noticemodify");
 			} else {
 				mv.addObject("msg", "데이터 조회에 실패하였습니다.");
 				mv.setViewName("/common/error");
@@ -125,7 +126,7 @@ public class NoticeController {
 //			if(nList != null) {
 			mv.addObject("nList", nList);
 			mv.addObject("pi", pi);
-			mv.setViewName("notice/noticeist");
+			mv.setViewName("notice/noticelist");
 			return mv;
 //			}else {
 //				mv.addObject("msg", "오류").setViewName("error");
@@ -147,12 +148,12 @@ public class NoticeController {
 				Notice notice = nService.selectOneByNo(noticeNo);
 				int viewCount = nService.updateViewCount(noticeNo);
 				String userId = notice.getUserId();
-				User writer = uService.selectUserByuserId(userId);
+//				User writer = uService.selectUserByuserId(userId);
 				if (userId != null && !userId.equals("")) {
 					mv.addObject("notice", notice);
 					mv.addObject("viewCount", viewCount);
 					mv.addObject("userId", userId);
-					mv.addObject("writer", writer);
+//					mv.addObject("writer", writer);
 					mv.setViewName("notice/noticedetail");
 					return mv;
 				}

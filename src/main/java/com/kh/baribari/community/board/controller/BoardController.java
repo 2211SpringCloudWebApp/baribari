@@ -191,7 +191,12 @@ public class BoardController {
 	@GetMapping("boardDetail")
 	public ModelAndView boardDetail(
 			ModelAndView mv
-			,@RequestParam(value="communityNo",required = false) Integer boardNo) throws Exception{
+			,@RequestParam(value="communityNo",required = false) Integer boardNo
+			,@RequestParam(value="page",required = false) Integer page
+			,@RequestParam(value="category",required = false) Integer category
+			,@RequestParam(value="sort",required = false) Integer sort
+			
+			) throws Exception{
 		Community commu = bService.getBoardOne(boardNo);	// 게시글 불러오기
 		CommunityPIC pic = bService.getPhoto(boardNo);		// 이미지 불러오기
 		
@@ -200,6 +205,7 @@ public class BoardController {
 		}
 		bService.plusViewCount(boardNo); //조회수 증가
 		mv.addObject("commu", commu);
+		mv.addObject("page", page).addObject("category", category).addObject("sort", sort);
 		mv.setViewName("community/board/detail");
 		
 		return mv;

@@ -8,20 +8,22 @@ import org.springframework.stereotype.Repository;
 import com.kh.baribari.community.domain.HashTag;
 import com.kh.baribari.community.hashtag.repository.HashTagRepository;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Repository
 public class HashTagRepositoryLogic implements HashTagRepository{
 	@Override
 	public List<HashTag> getHashTag(SqlSession session,int boardNo) {
-		return session.selectList("HashTagMapper.getHashTag", boardNo);
+		return session.selectList("HashtagMapper.getHashTag", boardNo);
 	}
 
 	@Override
 	public int registerHashTag(SqlSession session, HashTag hTag) {
-		return session.insert("HashTagMapper.registerHashTag", hTag);
+		return session.insert("HashtagMapper.registerHashTag", hTag);
 	}
 	
 	@Override
 	public int deleteHashTag(SqlSession session, HashTag hTag) {
-		return session.delete("HashTagMapper.deleteHashTag",hTag);
+		return session.delete("HashtagMapper.deleteHashTag",hTag);
 	}
 }

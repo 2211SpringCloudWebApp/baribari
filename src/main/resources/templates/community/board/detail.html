@@ -88,7 +88,10 @@
                     <div id="showTage" ></div>
                 </div>
                 <div id="registerdiv9">
-                    <input type="button" value="목록">
+                    <input type="button" value="목록" onclick="goList()">
+                	<input id="page" type="hidden" th:value=${page}>
+                	<input id="category" type="hidden" th:value=${category}>
+                	<input id="sort" type="hidden" th:value=${sort}>
                 </div>
             </div>
         </form>
@@ -98,6 +101,14 @@
         <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ba03b0afa21d048313b9d7072d06edb9"></script>
         <script>
+        	function goList(){
+        		console.log('클릭');
+        		var page = document.getElementById("page").value;
+        		var category = document.getElementById("category").value;
+        		var sort = document.getElementById("sort").value;
+				var url = "/boardList?page=" + page + "&category=" + category + "&sort=" + sort;
+				location.href=url;
+        	}
         	
         	// 로그인 상태에 따로 네비를 다르게 보여줌
         	function showNav(){

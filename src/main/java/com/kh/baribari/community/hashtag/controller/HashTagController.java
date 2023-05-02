@@ -24,6 +24,7 @@ public class HashTagController {
 			@RequestParam(value="communityNo",required = false) Integer boardNo) 
 			 {
 		try {
+			System.out.println("해시태그 출력 접근");
 			List<HashTag> hList = hService.getHashTag(boardNo);
 			return hList;
 		} catch (Exception e) {
@@ -39,6 +40,7 @@ public class HashTagController {
 			, @RequestParam(value = "choice", required = false) String choice
 			) {
 		try {
+			System.out.println("해시태그 등록 접근");
 			HashTag hTag = new HashTag();
 			hTag.setCommunityNo(boardNo);
 			hTag.setHashTagName(hasgTag);

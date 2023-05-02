@@ -56,18 +56,10 @@ public class BoardController {
 			comm.setSort(sort);	
 			comm.setCheck(check);
 			if(check != 9) {//check값이 있으면 검색어 추가해줌.
-				System.out.println("킨워드 집어넣음");
 				comm.setKeyword(keyword);
 			}
 			// 게시글 총 갯수
-			System.out.println("----------------------");
-			System.out.println("keyword : " + keyword);
-			System.out.println("sort : " + sort);
-			System.out.println("check : " +check);
-			System.out.println("category : "+category);
 			int bCount = bService.getBoardCount(comm);
-			System.out.println("bCount : " + bCount);
-			System.out.println("----------------------");
 			
 			// 페이지 정보 불러오기
 			PageInfo pi = new PageInfo(currentPage, bCount, 10);

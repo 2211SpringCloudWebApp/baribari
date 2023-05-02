@@ -232,6 +232,7 @@
         <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ba03b0afa21d048313b9d7072d06edb9"></script>
         <script>
+        
         $(document).ready(function() {
             $('form').on('submit', function(event) {
                 event.preventDefault(); // 기본 동작인 form 데이터 전송을 막음
@@ -372,11 +373,13 @@
         }
             
             function onmouseEvent(){
+            	console.log('마우스 클릭!');
 	            document.addEventListener('keydown', handleKeyDown);
 	        }
 	        
 			//해시태그 동작 부분
 	        function handleKeyDown(event) {
+				console.log(event.key)
 	            if (event.key === ',' || event.key == ' ') {
 	                // ',' 키가 눌렸을 때 해시태그 유효성 검사
 	                var inputTage = document.getElementById('inputTage');

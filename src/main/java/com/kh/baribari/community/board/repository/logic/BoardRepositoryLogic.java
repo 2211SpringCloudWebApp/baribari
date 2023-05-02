@@ -17,7 +17,6 @@ public class BoardRepositoryLogic implements BoardRepository {
 
 	@Override
 	public int getBoardCount(SqlSession session, Community comm) {
-		System.out.println("DB접근 가자");
 		return session.selectOne("CommunityMapper.getBoardCount", comm);
 	}
 

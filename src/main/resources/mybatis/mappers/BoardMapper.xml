@@ -61,10 +61,13 @@
 		ORDER BY LIKE_COUNT DESC
 		</if>
 		<if test="sort == 1">
-		ORDER BY COMMUNITY_DATE DESC
+		ORDER BY C.COMMUNITY_DATE DESC
 		</if>
 		<if test="sort == 2">
-		ORDER BY VIEW_COUNT DESC
+		ORDER BY C.VIEW_COUNT DESC
+		</if>
+		<if test="sort == 9">
+		ORDER BY C.COMMUNITY_NO DESC
 		</if>
 	</select>
 	

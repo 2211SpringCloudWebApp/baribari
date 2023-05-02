@@ -11,6 +11,7 @@
 --------------------------------------------------------------*/
 *{
   font-family: 'IBM Plex Sans KR', sans-serif;
+  text-decoration-line: none;
 }
 
 body {
@@ -1277,9 +1278,10 @@ section {
 .chefs .member {
   text-align: center;
   margin-bottom: 20px;
-  background: #343a40;
+  background: #081333;
   position: relative;
   overflow: hidden;
+  text-decoration-line: none;
 }
 
 .chefs .member .member-info {
@@ -1329,10 +1331,12 @@ section {
   color: #fff;
   margin: 0 10px;
   display: inline-block;
+  text-decoration: none;
 }
 
 .chefs .member .social a:hover {
   color: #FFBF1F;
+  text-decoration-line: none;
 }
 
 .chefs .member .social i {

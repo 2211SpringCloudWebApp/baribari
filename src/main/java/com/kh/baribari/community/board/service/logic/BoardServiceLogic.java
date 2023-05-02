@@ -23,13 +23,13 @@ public class BoardServiceLogic implements BoardService {
 	private SqlSession session;
 	
 	@Override
-	public int getBoardCount(int category) {
-		return brepository.getBoardCount(session, category);
+	public int getBoardCount(Community comm) {
+		return brepository.getBoardCount(session, comm);
 	}
 
 	@Override
-	public List<Community> getBoardListAll(PageInfo pi, int category) {
-		return brepository.getBoardListAll(session, pi, category);
+	public List<Community> getBoardListAll(PageInfo pi, Community comm) {
+		return brepository.getBoardListAll(session, pi, comm);
 	}
 
 	@Override

@@ -15,5 +15,9 @@ public class Community {
 	private String communityYn;			// 블라인드 여부 0=정상, 1=블라인드
 	private int userNo;					// 작성자 유저넘버
 	private int viewCount;				// 조회수
-	private int likeCount;				// 좋아요수
+	private String userNickname;		// 유저닉네임
+	private int likeCount;				// 좋아요 수
+	private int sort;					// 정렬을 위한 변수
+	private int check;					// 검색 체크박스(제목 = 0 / 내용 = 1 / 닉네임 = 2)
+	private String keyword;				// 검색어를 저장할 변수
 }

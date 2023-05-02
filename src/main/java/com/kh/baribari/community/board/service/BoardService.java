@@ -13,14 +13,14 @@ public interface BoardService {
 	 * 자유게시판 전체 게시글 수 조회
 	 * @return int
 	 */
-	public int getBoardCount(int category);
+	public int getBoardCount(Community comm);
 
 	/**
 	 * 자유게시판 전체 게시글 목록 조회
 	 * @param pi
 	 * @return List<Community>
 	 */
-	public List<Community> getBoardListAll(PageInfo pi, int category);
+	public List<Community> getBoardListAll(PageInfo pi, Community comm);
 
 	/**
 	 * 게시글 좋아요 수 조회

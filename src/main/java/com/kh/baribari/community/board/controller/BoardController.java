@@ -46,23 +46,29 @@ public class BoardController {
 			,@RequestParam(value = "category", required = false, defaultValue = "9") Integer category
 			,@RequestParam(value = "sort", required = false, defaultValue = "9") Integer sort
 			,@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage
-			,@RequestParam(value = "keyword", required = false, defaultValue = "키워드") String keyword
+			,@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword
 			,@RequestParam(value = "check", required = false, defaultValue = "9") Integer check
 			) {
 		try {
 			Community comm = new Community();
 			comm.setCommunityCategory(category);
+			
 			comm.setSort(sort);	
 			comm.setCheck(check);
 			if(check != 9) {//check값이 있으면 검색어 추가해줌.
+				System.out.println("킨워드 집어넣음");
 				comm.setKeyword(keyword);
 			}
 			// 게시글 총 갯수
-			System.out.println(keyword);
-			System.out.println(sort);
-			System.out.println(check);
+			System.out.println("----------------------");
+			System.out.println("keyword : " + keyword);
+			System.out.println("sort : " + sort);
+			System.out.println("check : " +check);
+			System.out.println("category : "+category);
 			int bCount = bService.getBoardCount(comm);
-			System.out.println(bCount);
+			System.out.println("bCount : " + bCount);
+			System.out.println("----------------------");
+			
 			// 페이지 정보 불러오기
 			PageInfo pi = new PageInfo(currentPage, bCount, 10);
 			

@@ -11,22 +11,25 @@
 		SELECT COUNT(*) FROM COMMUNITY_TBL C
 		LEFT OUTER JOIN USER_TBL U ON C.USER_NO = U.USER_NO
 		<if test="communityCategory == 0">
-		WHERE COMMUNITY_CATEGORY = 0
+		WHERE C.COMMUNITY_CATEGORY = 0
 		</if>
 		<if test="communityCategory == 1">
-		WHERE COMMUNITY_CATEGORY = 1
+		WHERE C.COMMUNITY_CATEGORY = 1
 		</if>
-		<if test="check == 0">
-		AND C.COMMUNITY_SUBJECT LIKE '%' || #{keyword} || '%'
-		</if>
-		<if test="check == 1">
-		AND C.COMMUNITY_CONTENT LIKE '%' || #{keyword} || '%'
-		</if>
-		<if test="check == 2">
-		AND U.USER_NICKNAME LIKE '%' || #{keyword} || '%'
+		<if test="check == 0 or check == 1 or check == 2 ">
+			<if test="communityCategory == 0 or communityCategory == 1">AND</if>
+			<if test="communityCategory != 0 and  communityCategory != 1">WHERE</if>
+			<if test="check == 0">
+			C.COMMUNITY_SUBJECT LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="check == 1">
+			C.COMMUNITY_CONTENT LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="check == 2">
+			U.USER_NICKNAME LIKE '%' || #{keyword} || '%'
+			</if>
 		</if>
 	</select>
-	
 	<select id="getListCount" resultType="_int">
 		SELECT COUNT(*) FROM LIKE_TBL WHERE COMMUNITY_NO = #{boardNo}
 	</select>

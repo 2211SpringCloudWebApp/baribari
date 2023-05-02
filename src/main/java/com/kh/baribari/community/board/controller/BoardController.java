@@ -25,6 +25,8 @@ import com.kh.baribari.community.board.service.BoardService;
 import com.kh.baribari.community.domain.Community;
 import com.kh.baribari.community.domain.CommunityPIC;
 import com.kh.baribari.community.domain.HashTag;
+import com.kh.baribari.community.domain.Like;
+import com.kh.baribari.community.like.service.LikeService;
 
 @Controller
 public class BoardController {
@@ -36,20 +38,35 @@ public class BoardController {
 	@Qualifier("fileUpload")
 	private FileInfo fileUpload;
 
+	
 	//자유게시판 목록 출력
 	@GetMapping("boardList")
 	public ModelAndView getBoardList(
 			ModelAndView mv
 			,@RequestParam(value = "category", required = false, defaultValue = "9") Integer category
-			,@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage) {
+			,@RequestParam(value = "sort", required = false, defaultValue = "9") Integer sort
+			,@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage
+			,@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword
+			,@RequestParam(value = "check", required = false, defaultValue = "9") Integer check
+			) {
 		try {
+			Community comm = new Community();
+			comm.setCommunityCategory(category);
+			
+			comm.setSort(sort);	
+			comm.setCheck(check);
+			if(check != 9) {//check값이 있으면 검색어 추가해줌.
+				comm.setKeyword(keyword);
+			}
 			// 게시글 총 갯수
-			int bCount = bService.getBoardCount(category);
+			int bCount = bService.getBoardCount(comm);
+			
 			// 페이지 정보 불러오기
 			PageInfo pi = new PageInfo(currentPage, bCount, 10);
-			List<Community> bList = bService.getBoardListAll(pi, category); // 전체 목록 조회
 			
-			//날짜 변경하는 부분
+			List<Community> bList = bService.getBoardListAll(pi, comm); // 전체 목록 조회
+			
+			//날짜 변경, 좋아요 가져오는 부분
 			for (Community commu : bList) {
 				String data = commu.getCommunityDate();
 				LocalDateTime dateTime = LocalDateTime.parse(data, DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
@@ -61,6 +78,8 @@ public class BoardController {
 				mv.addObject("bList", bList);
 				mv.addObject("bCount", bCount);
 				mv.addObject("pi",pi);
+				mv.addObject("category",category);
+				mv.addObject("sort",sort);
 				mv.setViewName("community/board/list");
 				return mv;
 			} else {
@@ -95,7 +114,7 @@ public class BoardController {
 			,@RequestParam(value = "category", required = false, defaultValue = "9") Integer category
 			,@RequestParam(value = "mapX", required = false, defaultValue = "0") String mapX
 			,@RequestParam(value = "mapY", required = false, defaultValue = "0") String mapY
-			,@RequestParam(value = "userNo", required = false, defaultValue = "0") Integer userNo
+			,@RequestParam(value = "userNo", required = false) Integer userNo
 			,@RequestParam(value = "seq", required = false) Integer seq
 			,@RequestParam(value = "fileList", required = false) List<MultipartFile> fList
 			, HttpServletRequest request) {
@@ -172,7 +191,12 @@ public class BoardController {
 	@GetMapping("boardDetail")
 	public ModelAndView boardDetail(
 			ModelAndView mv
-			,@RequestParam(value="communityNo",required = false) Integer boardNo) throws Exception{
+			,@RequestParam(value="communityNo",required = false) Integer boardNo
+			,@RequestParam(value="page",required = false) Integer page
+			,@RequestParam(value="category",required = false) Integer category
+			,@RequestParam(value="sort",required = false) Integer sort
+			
+			) throws Exception{
 		Community commu = bService.getBoardOne(boardNo);	// 게시글 불러오기
 		CommunityPIC pic = bService.getPhoto(boardNo);		// 이미지 불러오기
 		
@@ -181,6 +205,7 @@ public class BoardController {
 		}
 		bService.plusViewCount(boardNo); //조회수 증가
 		mv.addObject("commu", commu);
+		mv.addObject("page", page).addObject("category", category).addObject("sort", sort);
 		mv.setViewName("community/board/detail");
 		
 		return mv;

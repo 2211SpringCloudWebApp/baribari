@@ -1,39 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ArticleHashtagMapper">
-    <select id="findByHashtagName" parameterType="string" resultType="ArticleHashtag">
-        SELECT * FROM HASH_TAG_TBL WHERE HASH_TAG_NAME = #{hashtagName}
-    </select>
 
-    <select id="findByHashtagNameIn" parameterType="java.util.Set" resultType="ArticleHashtag">
-        SELECT * FROM HASH_TAG_TBL WHERE HASH_TAG_NAME IN
-        <foreach item="hashtagName" collection="list" open="(" separator="," close=")">
-            #{hashtagName}
-        </foreach>
-    </select>
-    <select id="findById" parameterType="Integer" resultType="ArticleHashtag">
-        SELECT * FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{communityNo}
-    </select>
+<mapper namespace="HashtagMapper">
+	<select id="getHashTag" resultType="HashTag">
+		SELECT HASH_TAG_NAME FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{boardNo}
+	</select>
 
-    <delete id="delete" parameterType="Integer">
-        DELETE FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{communityNo}
-    </delete>
+	<insert id="registerHashTag">
+		INSERT INTO HASH_TAG_TBL VALUES(#{communityNo}, #{hashTagName})
+	</insert>
 
-<!--    <select id="findAllHashtagNames" resultType="string">-->
-<!--        SELECT hashtag_name FROM hashtag-->
-<!--    </select>-->
-
-<!--    <insert id="insert" parameterType="com.fastcampus.projectboard.domain.Hashtag" useGeneratedKeys="true" keyProperty="id">-->
-<!--        INSERT INTO hashtag (hashtag_name) VALUES (#{hashtagName})-->
-<!--    </insert>-->
-<!--    <update id="update" parameterType="com.fastcampus.projectboard.domain.Hashtag">-->
-<!--        UPDATE hashtag-->
-<!--        SET hashtag_name = #{hashtagName}-->
-<!--        WHERE id = #{id}-->
-<!--    </update>-->
+	<delete id="deleteHashTag">
+		DELETE FROM HASH_TAG_TBL WHERE COMMUNITY_NO = #{communityNo} AND HASH_TAG_NAME = #{hashTagName}
+	</delete>
 </mapper>
-
-
-
-
-

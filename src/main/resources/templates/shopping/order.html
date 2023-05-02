@@ -75,7 +75,9 @@
 								<div id="inputField">
 									<input type="text" placeholder="받는 사람"><br>
 									<input type="text" placeholder="우편번호"><br>
-									<input type="text" placeholder="기본 주소"><br>
+									<input type="text" class="address-zip" name="addressZipCode" readonly><button type="button" class="address-post-btn" onclick="findAddress();">우편번호 찾기</button><br>
+									<input type="text" class="address-input address-jibun" name="addressJibun" readonly><br>
+									<input type="text" class="address-input" name="addressJibunDetail"><br>
 									<input type="text" placeholder="상세 주소"><br>
 									<input type="text" placeholder="전화 번호"><br>
 								</div>
@@ -159,7 +161,7 @@
 			deliveryOptionRadio[i].addEventListener("click", handleDeliveryOptionChange);
 		}
 		
-		// 버튼 클릭 이벤트 핸들러
+		// 버튼 클릭 이벤트
 		function handleButtonClick() {
 			// user와 aList를 URL 매개변수로 전달할 문자열 생성
 			const params = new URLSearchParams();
@@ -198,6 +200,53 @@
 		document.querySelector('#total-delivery-charge').innerText = totalDeliveryCharge.toLocaleString() + ' 원';
 		document.querySelector('#total-payment-price').innerText = totalPaymentPrice.toLocaleString() + ' 원';
 
+		
+		function removeAddress(addressNo){
+		    console.log(addressNo);
+		    $.ajax({
+		        url:'/ajaxRemoveAddress',
+		        type:'post',
+		        data:{
+		            'addressNo' : addressNo
+		        },
+		        success:function(){
+		            alert("삭제했어요!");
+		            location.replace(location.href);
+		        },
+		        error:function(data){
+		            console.log(data);
+		        }
+		    })
+		}
+		function stringJoin(){
+		    var phone = $('#phone1-address').val() + '-' + $('#phone2-address').val() + '-' + $('#phone3-address').val();
+		    $('#address-phone').val(phone);
+		}
+		function findAddress(){
+		    new daum.Postcode({
+		        oncomplete: function(data) {
+		            console.log(data);
+		            $('.address-zip').val(data.zonecode);
+		            if(data.jibunAddress == ""){
+		                $('.address-jibun').val(data.autoJibunAddress + " " + data.buildingName);
+		            }else {
+		                $('.address-jibun').val(data.jibunAddress + " " + data.buildingName);
+		            }
+		        }
+		    }).open();
+		}
+
+		function modalActive(){
+		    $('.address-add-modal').addClass('modal-active');
+		    $('.modal-back').addClass('modal-back-active');
+		    $('.modal-close-btn').addClass('modal-close-btn-active');
+		}
+
+		function modalRemove(){
+		    $('.address-add-modal').removeClass('modal-active');
+		    $('.modal-back').removeClass('modal-back-active')
+		    $('.modal-close-btn').removeClass('modal-close-btn-active');
+		}
 	</script>
 
 </body>

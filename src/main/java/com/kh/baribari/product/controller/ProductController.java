@@ -23,6 +23,7 @@ import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
 import com.kh.baribari.product.service.ProductService;
 import com.kh.baribari.review.service.ReviewService;
+import com.kh.baribari.user.domain.Favorite;
 import com.kh.baribari.user.service.UserService;
 
 @Controller
@@ -49,11 +50,14 @@ public class ProductController {
 		PageInfo pi = new PageInfo(currentPage, pCount, 20);
 		// 상품 목록
 		List<Product> pList = pService.getProductList(productCategory, pi);
-
+		// 찜하기 목록
+		List<Favorite> fList = pService.getFavoriteList();
+		
 		if (pList != null) {
 			mv.addObject("pList", pList);
 			mv.addObject("pCount", pCount);
 			mv.addObject("pi", pi);
+			mv.addObject("fList", fList);
 			mv.setViewName("shopping/list");
 			return mv;
 		} else {
@@ -155,6 +159,39 @@ public class ProductController {
 	// 상품 삭제
 	@PostMapping("/delete")
 	public void deleteProduct(int productNo) {
-		
+		pService.deleteProduct(productNo);
+	}
+
+	// MD 추천/제거
+	@PostMapping("/mdRecommend")
+	public String mdRecommend(Product product) {
+		int result = pService.mdRecommend(product);
+		if (result > 0) {
+			return "1";
+		} else {
+			return "0";
+		}
+	}
+	
+	// 찜하기 추가
+	@PostMapping("/scrap/add")
+	public String addScrap(Favorite favorite) {
+		int result = pService.addScrap(favorite);
+		if (result > 0) {
+			return "1";
+		} else {
+			return "0";
+		}
+	}
+	
+	// 찜하기 제거
+	@PostMapping("/scrap/remove")
+	public String removeScrap(Favorite favorite) {
+		int result = pService.removeScrap(favorite);
+		if (result > 0) {
+			return "1";
+		} else {
+			return "0";
+		}
 	}
 }

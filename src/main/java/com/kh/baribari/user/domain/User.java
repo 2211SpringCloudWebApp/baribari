@@ -1,10 +1,10 @@
 package com.kh.baribari.user.domain;
 
-import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.List;
+
 
 @Data
 public class User {

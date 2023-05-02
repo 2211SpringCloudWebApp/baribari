@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="LikeMapper">
+
+	<!-- 좋아요 조회 -->
+	<select id="showLike" resultType="_int">
+		SELECT COUNT(*) FROM LIKE_TBL WHERE COMMUNITY_NO = #{communityNo}
+	</select>
+	<!-- 좋아요 검사 -->
+	<select id="testLike" resultType="_int">
+		SELECT COUNT(*) FROM LIKE_TBL WHERE COMMUNITY_NO = #{communityNo} AND USER_NO = #{userNo}
+	</select>
+	
+	<!-- 좋아요 등록 -->
+	<insert id="registerLike">
+		INSERT INTO LIKE_TBL VALUES(#{communityNo}, #{userNo})
+	</insert>
+	
+	<!-- 좋아요 삭제 -->
+	<delete id="deleteLike">
+		DELETE FROM LIKE_TBL WHERE COMMUNITY_NO = #{communityNo} AND USER_NO = #{userNo}
+	</delete>
+</mapper>

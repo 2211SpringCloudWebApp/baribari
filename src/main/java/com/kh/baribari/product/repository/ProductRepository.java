@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
+import com.kh.baribari.user.domain.Favorite;
 
 public interface ProductRepository {
 	/**
@@ -80,4 +81,44 @@ public interface ProductRepository {
 	 * @return List<Product>
 	 */
 	List<Product> getMdRecommendProductList(SqlSession session);
+
+	/**
+	 * MD추천 상품 추가/제거하기
+	 * @param SqlSession
+	 * @param Product
+	 * @return int
+	 */
+	int mdRecommend(SqlSession session, Product product);
+
+	/**
+	 * 상품 삭제하기
+	 * @param SqlSession
+	 * @param int
+	 * @return int
+	 */
+	int deleteProduct(SqlSession session, int productNo);
+
+	/**
+	 * 찜하기 추가하기
+	 * @param SqlSession
+	 * @param Favorite
+	 * @return int
+	 */
+	int addScrap(SqlSession session, Favorite favorite);
+	
+	/**
+	 * 찜하기 제거하기
+	 * @param SqlSession
+	 * @param Favorite
+	 * @return int
+	 */
+	int removeScrap(SqlSession session, Favorite favorite);
+
+	/**
+	 * 찜하기 목록 가져오기
+	 * @param SqlSession
+	 * @return int
+	 */
+	List<Favorite> getFavoriteList(SqlSession session);
 }
+	

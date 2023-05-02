@@ -75,10 +75,12 @@
 		<!-- 상품 목록 -->
 		<div class="container px-4 px-lg-5 mt-5">
 			<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-4 row-cols-xl-5 justify-content-center">
+			
 				<!-- 상품이 없을 경우 -->
 				<div th:if="${pCount == 0}" class="col full-width text-center">
 					<h1>상품을 찾을 수 없습니다.</h1>
 				</div>
+				
 				<!-- 상품이 있을 경우 -->
 				<div th:each="product : ${pList}" class="col mt-5">
 					<!-- 상품 카드 -->
@@ -100,18 +102,36 @@
 								</div>
 							</div>
 						</a>
+
+						</th:block>
 						<!-- 찜하기/장바구니 버튼 -->
 						<div sec:authorize="hasRole('ROLE_USER')" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+							<!-- fList에서 해당 Product의 productNo와 일치하는 값 찾기 -->
+							<div th:each="favorite : ${fList}">
+								<div th:if="${favorite.productNo == product.productNo AND favorite.userNo == #authentication.principal.user.userNo}">
+									<span th:with="favoriteProduct=${true}"></span>
+								</div>
+							</div>
+						
 							<div class="text-center">
 								<a class="btn btn-outline-dark mt-auto" href="#">
-									<i class="fas fa-heart"></i>
+									<i th:if="${favoriteProduct}" class="fas fa-heart" style="color: red;"></i>
+									<i th:unless="${favoriteProduct}" class="fas fa-heart"></i>
 								</a>
 								<a class="btn btn-outline-dark mt-auto" href="#">
 									<i class="fas fa-shopping-cart"></i>
 								</a>
 							</div>
 						</div>
+
+						<!-- 체크박스 -->
+						<div sec:authorize="hasRole('ROLE_ADMIN')" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+							<a class="btn btn-outline-dark mt-auto" href="#">
+								<i class="fas md-recommend">MD추천</i>
+							</a>
+						</div>
 					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -155,6 +175,8 @@
 
 	</section>
 
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="../js/user/user-address.js"></script>
 	<script>
 		var userNo = document.querySelector('input[name="userNo"]').value;
 
@@ -163,6 +185,7 @@
 			$('body').on('click', '.fa-heart', function (event) {
 				event.preventDefault();
 				var productNo = $(this).closest('.card').find('a').attr('href').split("=")[1];
+				console.log(productNo + ", " + userNo);
 				$.ajax({
 					url: "/shopping/scrap/add",
 					data: {
@@ -200,6 +223,24 @@
 						alert('장바구니에 추가되었습니다.');
 					} else {
 						alert('장바구니 등록 실패');
+					}
+				});
+			});
+		});
+		
+		/* MD 추천상품 추가/삭제 (AJAX) */
+		$(document).ready(function (){
+			$('body').on('click', '.md-recommend', function (event) {
+				event.preventDefault();
+				var productNo = $(this).closest('.card').find('a').attr('href').split("=")[1];
+				confirm('해당 상품을 MD추천 상품으로 추가하시겠습니까?');
+				$.post("/shopping/addMdRecommend", {
+					productNo: productNo
+				}, function (result) {
+					if (result == "1") {
+						alert('MD 추천이 완료 되었습니다.');
+					} else {
+						alert('MD 추천 실패');
 					}
 				});
 			});

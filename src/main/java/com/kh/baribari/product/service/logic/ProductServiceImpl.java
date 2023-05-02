@@ -11,6 +11,7 @@ import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
 import com.kh.baribari.product.repository.ProductRepository;
 import com.kh.baribari.product.service.ProductService;
+import com.kh.baribari.user.domain.Favorite;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -64,4 +65,28 @@ public class ProductServiceImpl implements ProductService {
 		return pRepository.getMdRecommendProductList(session);
 	}
 
+	@Override
+	public int mdRecommend(Product product) {
+		return pRepository.mdRecommend(session, product);
+	}
+
+	@Override
+	public int deleteProduct(int productNo) {
+		return pRepository.deleteProduct(session, productNo);
+	}
+
+	@Override
+	public int addScrap(Favorite favorite) {
+		return pRepository.addScrap(session, favorite);
+	}
+	
+	@Override
+	public int removeScrap(Favorite favorite) {
+		return pRepository.removeScrap(session, favorite);
+	}
+
+	@Override
+	public List<Favorite> getFavoriteList() {
+		return pRepository.getFavoriteList(session);
+	}
 }

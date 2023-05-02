@@ -16,14 +16,14 @@ import com.kh.baribari.community.domain.HashTag;
 public class BoardRepositoryLogic implements BoardRepository {
 
 	@Override
-	public int getBoardCount(SqlSession session, int category) {
-		return session.selectOne("CommunityMapper.getBoardCount", category);
+	public int getBoardCount(SqlSession session, Community comm) {
+		return session.selectOne("CommunityMapper.getBoardCount", comm);
 	}
 
 	@Override
-	public List<Community> getBoardListAll(SqlSession session, PageInfo pi, int category) {
+	public List<Community> getBoardListAll(SqlSession session, PageInfo pi, Community comm) {
 		RowBounds rowBounds = new RowBounds(pi.getOffset(), pi.getBoardLimit());
-		return session.selectList("CommunityMapper.getBoardListAll",category , rowBounds);
+		return session.selectList("CommunityMapper.getBoardListAll",comm , rowBounds);
 	}
 
 	@Override

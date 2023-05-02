@@ -29,7 +29,7 @@ public class NoticeController {
 	// 게시판 글쓰기 화면
 	@GetMapping("/write")
 	public ModelAndView noticeWriteView(ModelAndView mv) {
-		mv.setViewName("shopping/noticewrite");
+		mv.setViewName("notice/noticewrite");
 		return mv;
 	}
 
@@ -43,11 +43,11 @@ public class NoticeController {
 				mv.setViewName("redirect:/notice/list"); // 글쓰기 완료 후 게시판 목록 페이지로 리다이렉트
 			} else {
 				mv.addObject("msg", "글쓰기에 실패하였습니다. 다시 시도해주세요."); // 실패 메시지 설정
-				mv.setViewName("/shopping/noticewrite"); // 글쓰기 페이지로 이동
+				mv.setViewName("/notice/noticewrite"); // 글쓰기 페이지로 이동
 			}
 		} catch (Exception e) {
 			mv.addObject("msg", "글쓰기 중 오류가 발생하였습니다. 다시 시도해주세요."); // 오류 메시지 설정
-			mv.setViewName("/shopping/noticewrite"); // 글쓰기 페이지로 이동
+			mv.setViewName("/notice/noticewrite"); // 글쓰기 페이지로 이동
 			e.printStackTrace();
 		}
 		return mv;
@@ -60,7 +60,7 @@ public class NoticeController {
 			Notice notice = nService.noticeModifyView(noticeNo);
 			if (notice != null) {
 				mv.addObject("notice", notice);
-				mv.setViewName("/shopping/noticeModify");
+				mv.setViewName("/notice/noticeModify");
 			} else {
 				mv.addObject("msg", "데이터 조회에 실패하였습니다.");
 				mv.setViewName("/common/error");
@@ -80,7 +80,7 @@ public class NoticeController {
 			int result = nService.modifyNotice(notice);
 			if (result > 0) {
 				mv.addObject("msg", "게시글이 수정되었습니다.");
-				mv.setViewName("redirect:/shopping/noticedetail?noticeNo=" + notice.getNoticeNo());
+				mv.setViewName("redirect:/notice/noticedetail?noticeNo=" + notice.getNoticeNo());
 			} else {
 				mv.addObject("msg", "게시글 수정에 실패하였습니다.");
 				mv.setViewName("/common/error");
@@ -101,7 +101,7 @@ public class NoticeController {
 			int result = nService.deleteNotice(noticeNo);
 			if (result > 0) {
 				mv.addObject("msg", "게시글이 삭제되었습니다.");
-				mv.setViewName("redirect:/shopping/noticelist");
+				mv.setViewName("redirect:/notice/noticelist");
 			} else {
 				mv.addObject("msg", "게시글 삭제에 실패하였습니다.");
 				mv.setViewName("/common/error");
@@ -125,7 +125,7 @@ public class NoticeController {
 //			if(nList != null) {
 			mv.addObject("nList", nList);
 			mv.addObject("pi", pi);
-			mv.setViewName("shopping/noticeist");
+			mv.setViewName("notice/noticeist");
 			return mv;
 //			}else {
 //				mv.addObject("msg", "오류").setViewName("error");
@@ -153,7 +153,7 @@ public class NoticeController {
 					mv.addObject("viewCount", viewCount);
 					mv.addObject("userId", userId);
 					mv.addObject("writer", writer);
-					mv.setViewName("shopping/noticedetail");
+					mv.setViewName("notice/noticedetail");
 					return mv;
 				}
 			}
@@ -176,7 +176,7 @@ public class NoticeController {
 			if (!searchList.isEmpty()) {
 				mv.addObject("searchList", searchList);
 				mv.addObject("pi", pi);
-				mv.setViewName("shopping/noticesearch");
+				mv.setViewName("notice/noticesearch");
 				return mv;
 			}
 		} catch (Exception e) {

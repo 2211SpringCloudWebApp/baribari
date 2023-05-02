@@ -8,28 +8,67 @@
 	</select>
 	<!-- 게시글 수 가져오기 -->
 	<select id="getBoardCount" resultType="_int">
-		SELECT COUNT(*) FROM COMMUNITY_TBL 
-		<if test="category == 0">
-		WHERE COMMUNITY_CATEGORY = 0
+		SELECT COUNT(*) FROM COMMUNITY_TBL C
+		LEFT OUTER JOIN USER_TBL U ON C.USER_NO = U.USER_NO
+		<if test="communityCategory == 0">
+		WHERE C.COMMUNITY_CATEGORY = 0
 		</if>
-		<if test="category == 1">
-		WHERE COMMUNITY_CATEGORY = 1
+		<if test="communityCategory == 1">
+		WHERE C.COMMUNITY_CATEGORY = 1
+		</if>
+		<if test="check == 0 or check == 1 or check == 2 ">
+			<if test="communityCategory == 0 or communityCategory == 1">AND</if>
+			<if test="communityCategory != 0 and  communityCategory != 1">WHERE</if>
+			<if test="check == 0">
+			C.COMMUNITY_SUBJECT LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="check == 1">
+			C.COMMUNITY_CONTENT LIKE '%' || #{keyword} || '%'
+			</if>
+			<if test="check == 2">
+			U.USER_NICKNAME LIKE '%' || #{keyword} || '%'
+			</if>
 		</if>
 	</select>
-	
 	<select id="getListCount" resultType="_int">
 		SELECT COUNT(*) FROM LIKE_TBL WHERE COMMUNITY_NO = #{boardNo}
 	</select>
 
 	<select id="getBoardListAll" resultType="community">
-		SELECT * FROM COMMUNITY_TBL WHERE 
-		<if test="category == 0">
+		SELECT C.*, U.USER_NICKNAME, COUNT(L.USER_NO) AS LIKE_COUNT
+		FROM COMMUNITY_TBL C
+		LEFT OUTER JOIN USER_TBL U ON C.USER_NO = U.USER_NO
+    	LEFT OUTER JOIN LIKE_TBL L ON C.COMMUNITY_NO = L.COMMUNITY_NO
+		WHERE
+		<if test="communityCategory == 0">
 		COMMUNITY_CATEGORY = 0 AND
 		</if>
-		<if test="category == 1">
+		<if test="communityCategory == 1">
 		COMMUNITY_CATEGORY = 1 AND
 		</if>
 		COMMUNITY_CATEGORY IN (0, 1)
+		<if test="check == 0">
+		AND C.COMMUNITY_SUBJECT LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="check == 1">
+		AND C.COMMUNITY_CONTENT LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="check == 2">
+		AND U.USER_NICKNAME LIKE '%' || #{keyword} || '%'
+		</if>
+		GROUP BY C.COMMUNITY_NO, C.USER_NO, C.COMMUNITY_SUBJECT, C.COMMUNITY_CONTENT, C.COMMUNITY_CATEGORY, C.COMMUNITY_DATE, C.MAP_X, C.MAP_Y, C.COMMUNITY_YN, C.VIEW_COUNT, U.USER_NICKNAME
+		<if test="sort == 0">
+		ORDER BY LIKE_COUNT DESC
+		</if>
+		<if test="sort == 1">
+		ORDER BY C.COMMUNITY_DATE DESC
+		</if>
+		<if test="sort == 2">
+		ORDER BY C.VIEW_COUNT DESC
+		</if>
+		<if test="sort == 9">
+		ORDER BY C.COMMUNITY_NO DESC
+		</if>
 	</select>
 	
 	<select id="getBoardOne" resultType="community">

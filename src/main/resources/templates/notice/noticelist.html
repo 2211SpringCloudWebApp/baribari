@@ -78,28 +78,12 @@
             </thead>
             <tbody id="noticeList">
                 <tr>
-                    <td>1</td>
-                    <td>공지</td>
-                    <td><a href="#">test1</a></td>
-                    <td>관리자</td>
-                    <td>2023-04-17</td>
-                    <td>20</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>이벤트</td>
-                    <td><a href="#">test2</a></td>
-                    <td>관리자</td>
-                    <td>2023-04-16</td>
-                    <td>30</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>공지</td>
-                    <td><a href="#">test3</a></td>
-                    <td>관리자</td>
-                    <td>2023-04-16</td>
-                    <td>50</td>
+                    <td>${notice.noticeNo}</td>
+                    <td>${notice.noticeCategory}</td>
+                    <td><a href="#">${notice.noticeTitle}</a></td>
+                    <td>${notice.userId}</td>
+                    <td>${notice.noticeDate}</td>
+                    <td>${notice.viewCount}</td>
                 </tr>
             </tbody>
         </table>

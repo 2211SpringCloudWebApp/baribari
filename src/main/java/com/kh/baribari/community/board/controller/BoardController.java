@@ -50,10 +50,6 @@ public class BoardController {
 			,@RequestParam(value = "check", required = false, defaultValue = "9") Integer check
 			) {
 		try {
-			// 게시글 총 갯수
-			int bCount = bService.getBoardCount(category);
-			// 페이지 정보 불러오기
-			PageInfo pi = new PageInfo(currentPage, bCount, 10);
 			Community comm = new Community();
 			comm.setCommunityCategory(category);
 			comm.setSort(sort);	
@@ -61,6 +57,14 @@ public class BoardController {
 			if(check != 9) {//check값이 있으면 검색어 추가해줌.
 				comm.setKeyword(keyword);
 			}
+			// 게시글 총 갯수
+			System.out.println(keyword);
+			System.out.println(sort);
+			System.out.println(check);
+			int bCount = bService.getBoardCount(comm);
+			System.out.println(bCount);
+			// 페이지 정보 불러오기
+			PageInfo pi = new PageInfo(currentPage, bCount, 10);
 			
 			List<Community> bList = bService.getBoardListAll(pi, comm); // 전체 목록 조회
 			

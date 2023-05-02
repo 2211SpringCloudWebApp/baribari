@@ -13,7 +13,7 @@ public interface BoardService {
 	 * 자유게시판 전체 게시글 수 조회
 	 * @return int
 	 */
-	public int getBoardCount(int category);
+	public int getBoardCount(Community comm);
 
 	/**
 	 * 자유게시판 전체 게시글 목록 조회

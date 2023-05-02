@@ -16,7 +16,7 @@ public interface BoardRepository {
 	 * @param session
 	 * @return int
 	 */
-	public int getBoardCount(SqlSession session, int category);
+	public int getBoardCount(SqlSession session, Community comm);
 
 	/**
 	 * 자유게시판 게시글 전체 목록 조회

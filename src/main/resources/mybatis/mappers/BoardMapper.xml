@@ -8,12 +8,22 @@
 	</select>
 	<!-- 게시글 수 가져오기 -->
 	<select id="getBoardCount" resultType="_int">
-		SELECT COUNT(*) FROM COMMUNITY_TBL 
-		<if test="category == 0">
+		SELECT COUNT(*) FROM COMMUNITY_TBL C
+		LEFT OUTER JOIN USER_TBL U ON C.USER_NO = U.USER_NO
+		<if test="communityCategory == 0">
 		WHERE COMMUNITY_CATEGORY = 0
 		</if>
-		<if test="category == 1">
+		<if test="communityCategory == 1">
 		WHERE COMMUNITY_CATEGORY = 1
+		</if>
+		<if test="check == 0">
+		AND C.COMMUNITY_SUBJECT LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="check == 1">
+		AND C.COMMUNITY_CONTENT LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="check == 2">
+		AND U.USER_NICKNAME LIKE '%' || #{keyword} || '%'
 		</if>
 	</select>
 	

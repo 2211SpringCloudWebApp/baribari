@@ -20,7 +20,7 @@ public interface BoardService {
 	 * @param pi
 	 * @return List<Community>
 	 */
-	public List<Community> getBoardListAll(PageInfo pi, int category);
+	public List<Community> getBoardListAll(PageInfo pi, Community comm);
 
 	/**
 	 * 게시글 좋아요 수 조회

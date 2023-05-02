@@ -21,9 +21,9 @@ public class BoardRepositoryLogic implements BoardRepository {
 	}
 
 	@Override
-	public List<Community> getBoardListAll(SqlSession session, PageInfo pi, int category) {
+	public List<Community> getBoardListAll(SqlSession session, PageInfo pi, Community comm) {
 		RowBounds rowBounds = new RowBounds(pi.getOffset(), pi.getBoardLimit());
-		return session.selectList("CommunityMapper.getBoardListAll",category , rowBounds);
+		return session.selectList("CommunityMapper.getBoardListAll",comm , rowBounds);
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
 import com.kh.baribari.product.repository.ProductRepository;
+import com.kh.baribari.user.domain.Favorite;
 
 @Repository
 public class ProductRepositoryLogic implements ProductRepository {
@@ -68,5 +69,30 @@ public class ProductRepositoryLogic implements ProductRepository {
 	@Override
 	public List<Product> getMdRecommendProductList(SqlSession session) {
 		return session.selectList("ProductMapper.getMdRecommendProductList");
+	}
+
+	@Override
+	public int mdRecommend(SqlSession session, Product product) {
+		return session.update("ProductMapper.mdRecommend", product);
+	}
+
+	@Override
+	public int deleteProduct(SqlSession session, int productNo) {
+		return session.delete("ProductMapper.deleteProduct", productNo);
+	}
+
+	@Override
+	public int addScrap(SqlSession session, Favorite favorite) {
+		return session.insert("ProductMapper.addScrap", favorite);
+	}
+	
+	@Override
+	public int removeScrap(SqlSession session, Favorite favorite) {
+		return session.delete("ProductMapper.removeScrap", favorite);
+	}
+
+	@Override
+	public List<Favorite> getFavoriteList(SqlSession session) {
+		return session.selectList("ProductMapper.getFavoriteList");
 	}
 }

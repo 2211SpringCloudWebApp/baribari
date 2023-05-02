@@ -97,7 +97,34 @@
     	DELETE FROM PRODUCT_TBL WHERE PRODUCT_NO = #{productNo}
     </delete>
     
+    <!-- MD 추천상품 목록 -->
     <select id="getMdRecommendProductList" resultMap="productResultMap">
     	SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE PRODUCT_MD_YN = 'Y'
     </select>
+    
+    <!-- MD 상품 추천 -->
+    <update id="mdRecommend" parameterType="Product">
+    	UPDATE PRODUCT_TBL SET PRODUCT_MD_YN = 
+		    CASE PRODUCT_MD_YN 
+		        WHEN 'Y' THEN 'N'
+		        WHEN 'N' THEN 'Y'
+		        ELSE PRODUCT_MD_YN
+		    END
+		WHERE PRODUCT_NO = #{productNo}
+    </update>
+    
+    <!-- 찜하기 추가 -->
+    <insert id="addScrap" parameterType="Product">
+    	INSERT INTO FAVORITE_TBL VALUES (#{productNo}, #{userNo})
+    </insert>
+    
+    <!-- 찜하기 제거 -->
+    <delete id="removeScrap" parameterType="Product">
+    	DELETE FROM FAVORITE_TBL WHERE PRODUCT_NO = #{productNo} AND USER_NO = #{userNo}
+    </delete>
+    
+   	<!-- 찜하기 목록 -->
+   	<select id="getFavoriteList" resultType="Favorite">
+   		SELECT * FROM FAVORITE_TBL
+   	</select>
 </mapper>

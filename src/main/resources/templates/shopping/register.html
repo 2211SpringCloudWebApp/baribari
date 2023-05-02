@@ -43,7 +43,22 @@
 	
 	<section>
 	<form action="/shopping/registerProduct" method="post" enctype="multipart/form-data">
-		상품분류: <input name="productCategory"><br>
+		상품분류:
+		<select name="productCategory" required>
+			<option>선택하세요</option>
+			<option value="텐트">텐트</option>
+			<option value="타프">타프</option>
+			<option value="가구">가구</option>
+			<option value="침구">침구</option>
+			<option value="주방">주방</option>
+			<option value="BBQ">BBQ</option>
+			<option value="조명">조명</option>
+			<option value="수납">수납</option>
+			<option value="공구">공구</option>
+			<option value="소품">소품</option>
+			<option value="기타">기타</option>
+		</select>
+		<br>
 		브랜드: <input name="productBrand"><br>
 		상품명: <input name="productName"><br>
 		상품가격: <input name="productPrice"><br>

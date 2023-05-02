@@ -5,6 +5,7 @@ import java.util.List;
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
+import com.kh.baribari.user.domain.Favorite;
 
 public interface ProductService {
 	/**
@@ -69,4 +70,38 @@ public interface ProductService {
 	 * @return List<Product>
 	 */
 	List<Product> getMdRecommendProductList();
+
+	/**
+	 * MD추천 상품 추가/제거하기
+	 * @param Product
+	 * @return int
+	 */
+	int mdRecommend(Product product);
+
+	/**
+	 * 상품 삭제하기
+	 * @param int
+	 * @return int
+	 */
+	int deleteProduct(int productNo);
+
+	/**
+	 * 찜하기 추가/제거하기
+	 * @param Favorite
+	 * @return int
+	 */
+	int addScrap(Favorite favorite);
+	
+	/**
+	 * 찜하기 추가/제거하기
+	 * @param Favorite
+	 * @return int
+	 */
+	int removeScrap(Favorite favorite);
+
+	/**
+	 * 찜하기 목록
+	 * @return List<Favorite>
+	 */
+	List<Favorite> getFavoriteList();
 }

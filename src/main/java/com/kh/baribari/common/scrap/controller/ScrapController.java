@@ -2,7 +2,6 @@ package com.kh.baribari.common.scrap.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,7 +14,6 @@ public class ScrapController {
 	private ScrapService sService;
 	
 	// 찜하기: communityNo가 99999로 시작
-	@PostMapping("shopping/scrap/add")
 	@ResponseBody
 	public int addScrap(ModelAndView mv, int productNo, int userNo) {
 		System.out.println(productNo + ", " + userNo);

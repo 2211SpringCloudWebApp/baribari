@@ -59,7 +59,7 @@
 		 				<div class="product" th:each="product, i : ${pList}">
 		 					<div class="row">
 		 						<div class="col-md-1">
-		 							<input type="checkbox" id="product-${i.index}">
+		 							<input type="checkbox" id="product-${i.index}" onclick="calculateTotalPrice()">
 		 						</div>
 		 						<!-- 상품 사진 -->
 			 					<div class="col-md-3">
@@ -117,7 +117,7 @@
 	 					<div class="summary-item"><span class="text">총 할인</span><span id="total-discount" class="price"></span></div>
 	 					<div class="summary-item"><span class="text">배송비</span><span id="total-delivery-charge" class="price"></span></div>
 	 					<div class="summary-item"><span class="text">총 가격</span><span id="payment-price" class="price"></span></div>
-	 					<button type="button" class="btn btn-primary btn-lg btn-block">결제하기</button>
+	 					<button type="button" class="btn btn-primary btn-lg btn-block" onclick="payment()">결제하기</button>
 		 			</div>
 	 			</div>
 	 			
@@ -154,30 +154,12 @@
 		document.querySelector('#product-discount-' + index).textContent = numberWithCommas(discountPrice);
   		document.querySelector('#total-price-by-product-' + index).textContent = numberWithCommas(totalPrice);
 	}
-	// 자릿수 콤마
+	// 자릿수 콤마z
 	function numberWithCommas(number) {
 		return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}
 	
-	// 전체 가격 계산
-	var productList = document.querySelectorAll('.product');
-	var price = 0;
-	var discountPrice = 0;
-	var deliveryCharge = 0;
-	var totalPrice = 0;
-	var quantity = 0;
-	for(var i = 0; i < productList.length; i++) {
-		quantity = parseInt(document.querySelector('#quantity-' + i).value);
-		price += parseInt(document.querySelector('#price-' + i).textContent.replace(/[^0-9]/g,'')) * quantity;
-		discountPrice += parseInt(document.querySelector('#discount-' + i).value.replace(/[^0-9]/g,''));
-		deliveryCharge += parseInt(document.querySelector('#delivery-charge-' + i).textContent.replace(/[^0-9]/g,''));
-		totalPrice = price + deliveryCharge;
-	}
-	document.querySelector('#total-price').textContent = numberWithCommas(price);
-	document.querySelector('#total-discount').textContent = numberWithCommas(discountPrice);
-	document.querySelector('#total-delivery-charge').textContent = numberWithCommas(deliveryCharge);
-	document.querySelector('#payment-price').textContent = numberWithCommas(totalPrice);
-
+	
 	/* 상품 수량 변경 */
 	function updateQuantity(productNo, index) {
 		const quantity = parseInt(document.querySelector('#quantity-' + index).value); // 해당 상품의 선택 수량
@@ -205,6 +187,23 @@
 		});
 	}
 	
+	function calculateTotalPrice() {
+		  let totalPrice = 0;
+		  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+		  checkboxes.forEach(function (checkbox) {
+		    const index = checkbox.id.split('-')[1];
+		    const productPrice = parseInt(document.getElementById(`product-price-${index}`).textContent.replace(/,/g, ''));
+		    totalPrice += productPrice;
+		  });
+		  console.log(totalPrice);
+		}
+
+		const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+		checkboxes.forEach(function (checkbox) {
+		  checkbox.addEventListener('click', calculateTotalPrice);
+		});
+
+		
 	/* 상품을 장바구니에서 제거 */
 	function removeFromCart(productNo) {
 		var confirmed = confirm("정말로 삭제하시겠습니까?");

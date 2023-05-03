@@ -77,11 +77,11 @@
                 <div id="mapRechoiceDiv">
                 	<button id="mapRechoicebtn" onclick="reChoiceMap(event)">다시선택하기</button>
                 </div>
-                
+                <span style="display: block; text-align: center; color: rgb(128, 128, 128); margin-top:20px;">
+                사진을 첨부 하려면 아래 영역에 파일 선택 버튼을 클릭하거나 파일을 드래그앤드롭 하세요
+                </span>
                 <div id="registerdiv3"></div>
-                <div id="registerdiv7" data-placeholder='사진을 첨부 하려면 파일 선택 버튼을 클릭하거나 파일을 드래그앤드롭 하세요'>
-
-                </div>
+                <div id="registerdiv7"></div>
                 <div id="registerdiv8">
                     <input type="file" id="fileUpload" name="fileUpload" multiple='multiple' accept='image/*'>
                 </div>
@@ -108,13 +108,18 @@
                             fileUpload.onchange = function(e){ // 파일 선택이 변경되면 실행될 함수를 등록합니다.
 							    var files = e.target.files; // 선택한 파일 목록을 변수에 할당합니다.
 							    var fileArr = Array.prototype.slice.call(files) // 파일 목록을 배열로 변경하여 변수에 할당합니다.
+							    var addedFiles = sel_files.length + fileArr.length; // 추가된 파일 개수를 저장합니다.
+							    console.log(addedFiles);
+							    alert(addedFiles);
+							    if (addedFiles > 10) { // 추가된 파일 개수가 10개를 초과한 경우 이미지 추가가 불가능합니다.
+							    	alert("이미지는 최대 10개까지만 추가할 수 있습니다.");
+							    	return false;
+							    }
 							    for(f of fileArr){ // 파일 목록을 순환하면서 imageLoader 함수를 실행합니다.
 							        imageLoader(f);
 							    }
 							}
                             
-
-
                             // 탐색기에서 드래그앤 드롭 사용
                             // 드래그 앤 드롭 영역에 마우스가 진입하면 실행
                             attZone.addEventListener('dragenter', function(e){ 
@@ -135,9 +140,13 @@
                                 e.stopPropagation();    // 이벤트 실행 중지
                                 var dt = e.dataTransfer;    //
                                 files = dt.files;   // 드롭한 이미지 변수 할당
+                                var addedFiles = sel_files.length + files.length; // 추가된 파일 개수를 저장합니다.
+                                if (addedFiles > 10) { // 추가된 파일 개수가 10개를 초과한 경우 이미지 추가가 불가능합니다.
+                                  alert("이미지는 최대 10개까지만 추가할 수 있습니다.");
+                                  return false;
+                                }
                                 for(f of files){    // files 순회하면서 imageLoader 함수 실행
                                     imageLoader(f);
-                                    impCount++;
                                 }
                             }, false)
 
@@ -217,7 +226,7 @@
                 <div id="registerdiv5">
                     <div id="showTage" ></div>
                     <div id="registerdiv5-2">
-                        <input id="inputTage" type="text" placeholder="#해시태그, 입력" onmousedown="onmouseEvent()">
+                        <input id="inputTage" type="text" placeholder="#해시태그, 입력" onclick="onMouseEvent()" onblur="onMouseLeaveEvent()">
                     </div>
                 </div>
                 <div id="registerdiv9">
@@ -226,13 +235,12 @@
                 </div>
             </div>
         </form>
-
         <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ba03b0afa21d048313b9d7072d06edb9&libraries=services"></script>
         <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ba03b0afa21d048313b9d7072d06edb9"></script>
         <script>
-        
+        // 게시글 작성 버튼
         $(document).ready(function() {
             $('form').on('submit', function(event) {
                 event.preventDefault(); // 기본 동작인 form 데이터 전송을 막음
@@ -272,7 +280,7 @@
 			
             // 버튼 클릭시 요소 보이게 하기
             if (registerdiv6.style.display === "none") {
-                registerdiv6.style.height = "750px";
+                registerdiv6.style.height = "800px";
                 registerdiv6.style.display = "block";
                 mapOpenDiv.innerHTML = '장소삭제';
             
@@ -372,10 +380,13 @@
         	document.getElementById("registerdiv6").style.height = "750px";
         }
             
-            function onmouseEvent(){
-            	console.log('마우스 클릭!');
+            function onMouseEvent(){
 	            document.addEventListener('keydown', handleKeyDown);
 	        }
+            
+            function onMouseLeaveEvent() {
+                document.removeEventListener('keydown', handleKeyDown);
+            }
 	        
 			//해시태그 동작 부분
 	        function handleKeyDown(event) {

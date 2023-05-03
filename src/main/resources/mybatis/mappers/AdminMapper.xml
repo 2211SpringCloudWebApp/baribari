@@ -62,6 +62,9 @@
         JOIN USER_TBL U ON P.SELLER_USER_NO = U.USER_NO
         ORDER BY PRODUCT_NO ASC
     </select>
+    <select id="selectReportCountByUser" resultType="_int">
+        SELECT COUNT(*) FROM USER_TBL WHERE USER_NO = #{reportTargetNo}
+    </select>
 
 
     <update id="updateUserBlock">

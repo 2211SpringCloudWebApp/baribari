@@ -100,4 +100,9 @@ public class AdminRepositoryLogic implements AdminRepository {
     public int updateUserBlockByReport(ReportList reportList) {
         return session.update("AdminMapper.updateUserBlockByReport",reportList);
     }
+
+    @Override
+    public int selectReportCountByUser(ReportList reportList) {
+        return session.selectOne("AdminMapper.selectReportCountByUser",reportList);
+    }
 }

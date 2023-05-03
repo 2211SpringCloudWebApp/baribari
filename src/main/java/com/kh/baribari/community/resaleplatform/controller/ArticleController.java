@@ -3,13 +3,9 @@ package com.kh.baribari.community.resaleplatform.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.kh.baribari.common.annotation.LoginUser;
+import com.kh.baribari.community.resaleplatform.domain.dto.*;
 import com.kh.baribari.community.resaleplatform.domain.type.ArticleAction;
 import com.kh.baribari.community.resaleplatform.domain.type.SearchType;
-import com.kh.baribari.community.resaleplatform.domain.dto.ArticleDto;
-import com.kh.baribari.community.resaleplatform.domain.dto.WriteRequest;
-import com.kh.baribari.community.resaleplatform.domain.dto.GetArticleResponse;
-import com.kh.baribari.community.resaleplatform.domain.dto.ReadingListResponse;
-import com.kh.baribari.community.resaleplatform.domain.dto.LoginUserDto;
 import com.kh.baribari.community.resaleplatform.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

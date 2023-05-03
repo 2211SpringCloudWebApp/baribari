@@ -48,4 +48,6 @@ public interface AdminRepository {
     int updateReportComplete(ReportList reportList);
 //  신고 누적 3회 이상 자동 비활성화
     int updateUserBlockByReport(ReportList reportList);
+//  신고대상이 유저라면 count를 가져옴
+    int selectReportCountByUser(ReportList reportList);
 }

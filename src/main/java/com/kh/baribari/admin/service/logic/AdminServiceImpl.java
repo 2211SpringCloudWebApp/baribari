@@ -89,10 +89,17 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public int updateReportComplete(ReportList reportList) {
-        if (reportList.getReportCount() == 2) {
-            return aRepository.updateUserBlockByReport(reportList);
+        int result = 0;
+        if (reportList.getReportTargetNo() == 1) {
+            int reportCount = aRepository.selectReportCountByUser(reportList);
+            if (reportCount == 2) {
+                result = aRepository.updateUserBlockByReport(reportList);
+            } else {
+                result = aRepository.updateReportComplete(reportList);
+            }
         }
-        return aRepository.updateReportComplete(reportList);
+        return result;
     }
+
 
 }

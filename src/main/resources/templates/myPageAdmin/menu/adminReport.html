@@ -98,8 +98,7 @@
                         <li>신고자 : <span id="reportByUser"></span></li>
                         <li>신고대상 : <span id="reportTarget"></span></li>
                         <li>신고사유 : <span id="reportContent"></span></li>
-                        <li>경고횟수 : <span id="reportCount"></span></li>
-                        <li><input type="hidden" id="reportCategoryNo"></li>
+                        <li><input type="hidden" id="reportCategoryNo"><input type="hidden" id="reportCount"></li>
                     </ul>
                     <input type="hidden" id="reportNo">
                     <input type="hidden" id="targetNo">
@@ -148,7 +147,8 @@
                 $('#reportNo').val(report.reportNo);
                 $('#targetNo').val(report.reportTargetNo);
                 $('#reportCategoryNo').val(report.reportCategoryNo)
-                $('#reportCount').text(report.reportCount + '회');
+                $('#reportCount').val(report.reportCount);
+
             }
         })
         $('.modal').modal("show");
@@ -189,7 +189,7 @@
                     'reportNo':reportNo,
                     'reportTargetNo':$('#targetNo').val(),
                     'reportCategoryNo' : $('#reportCategoryNo').val(),
-                    'reportCount' : $('#reportCount').text()
+                    'reportCount' : $('#reportCount').val()
                 },
                 success:function(data){
                     if(data == '성공'){

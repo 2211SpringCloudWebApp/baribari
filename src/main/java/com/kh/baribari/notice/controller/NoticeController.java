@@ -1,16 +1,23 @@
 package com.kh.baribari.notice.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.baribari.common.FileInfo;
 import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.common.Search;
 import com.kh.baribari.notice.domain.Notice;
@@ -25,7 +32,9 @@ public class NoticeController {
 	private NoticeService nService;
 	@Autowired
 	private UserService uService;
-
+	@Autowired
+	@Qualifier("fileUpload")
+	private FileInfo fileInfo;
 	// 게시판 글쓰기 화면
 	@GetMapping("/write")
 	public ModelAndView noticeWriteView(ModelAndView mv) {
@@ -35,9 +44,26 @@ public class NoticeController {
 
 	// 게시판 글쓰기 등록
 	@PostMapping("/write")
-	public ModelAndView noticeWrite(ModelAndView mv, Notice notice) {
-		System.out.println(notice);
+	public ModelAndView noticeWrite(ModelAndView mv, Notice notice, HttpServletRequest request, @RequestParam(value = "noticePic", required = false) List<MultipartFile> noticePic) {
 		try {
+			Map<String, String> fMap = new HashMap<String, String>();
+	    	// 파일 경로
+	        String path = "notice";
+	        int i = 1;
+	        // 첨부파일이 있을 경우 파일 저장
+	        if (noticePic != null) {
+	        	for (MultipartFile file : noticePic) {
+	        		Map<String, String> files = fileInfo.saveFile(file, request, path);
+	        		for (String k : files.keySet()) {
+	        			String key = "file" + i;
+	        			String value = files.get(k);
+	        			fMap.put(key, value);
+	        			if (i == 1) {
+	        				notice.setNoticePic(value);
+	        			}
+	        		}
+	        	}
+			}
 			int result = nService.writeNotice(notice);
 			if (result > 0) {
 				mv.setViewName("redirect:/notice/list"); // 글쓰기 완료 후 게시판 목록 페이지로 리다이렉트
@@ -80,7 +106,6 @@ public class NoticeController {
 		try {
 			int result = nService.modifyNotice(notice);
 			if (result > 0) {
-				mv.addObject("msg", "게시글이 수정되었습니다.");
 				mv.setViewName("redirect:/notice/noticedetail?noticeNo=" + notice.getNoticeNo());
 			} else {
 				mv.addObject("msg", "게시글 수정에 실패하였습니다.");
@@ -101,7 +126,6 @@ public class NoticeController {
 		try {
 			int result = nService.deleteNotice(noticeNo);
 			if (result > 0) {
-				mv.addObject("msg", "게시글이 삭제되었습니다.");
 				mv.setViewName("redirect:/notice/noticelist");
 			} else {
 				mv.addObject("msg", "게시글 삭제에 실패하였습니다.");

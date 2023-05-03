@@ -1,9 +1,9 @@
 #noticewriteContainer {
     font-family: 'IBM Plex Sans KR', sans-serif;
-    width: 1000px;
-    height: 1000px;
-    margin-top: 110px;
+    width: 100%;
+    margin: 0 auto;
 }
+
 
 #noticewriteContainer h1 {
     text-align: center;
@@ -14,8 +14,14 @@ label {
     font-weight: bold;
 }
 
+form {
+    margin-bottom: 100px;
+}
+
+
 .form-group{
-    width: 1000px;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
 form input[type="text"],
@@ -46,3 +52,5 @@ form input[type="submit"]:hover {
     background-color: #081333;
     color: white;
 }
+
+/*사진 첨부*/

@@ -37,12 +37,12 @@
     <div id="noticedetailW">
 	<div class="container1">
 		<div class="header">
-			<h3 th:text="${notice.noticeTitle }"></h3>
+			<h3 th:text="${notice.noticeTitle }"></h3><br>
 			<p class="author" th:text="${notice.userId }"></p>
 			<p class="date" th:text="${notice.noticeDate }"></p>
 		</div>
 		<div class="content">
-			<p>내용</p>
+			<p th:text="${notice.noticeContent }"></p>
 		</div>
 		<div class="btns">
 			<a href="/notice/list" class="btn">목록</a>
@@ -55,11 +55,12 @@
 			<div class="prev-next">
 				<div class="prev">
 					▲이전글 : 
-					<span class="title"><a href="#">제목</a></span>
+					
+					<span class="title"><a th:href="@{#}"></a></span>
 				</div>
 				<div class="next">
 					▼다음글 : 
-					<span class="title"><a href="#">제목</a></span>
+					<span class="title"><a th:href="@{#}"></a></span>
 				</div>
 			</div>
 		</div>

@@ -165,7 +165,7 @@
     background-color: white;
     border: 0.5px solid #081333;
     border-radius: 3px;
-    padding: 5px;
+    padding: 4px;
     font-size: 15px;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -186,7 +186,7 @@
 .write-button {
     background-color: white;
     border: 0.5px solid #081333;
-    padding: 5px 10px;
+    padding: 2px 5px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;

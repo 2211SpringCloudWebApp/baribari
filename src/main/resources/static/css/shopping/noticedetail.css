@@ -1,6 +1,6 @@
 #noticedetailW {
     margin-top : 250px;
-    background-color: #f8f9fa;
+    background-color: white;
     font-family: 'IBM Plex Sans KR', sans-serif;
     color: #495057;
 }
@@ -73,6 +73,7 @@ h3 {
     justify-content: flex-start;
     align-items: center;
     margin-top: 20px;
+    margin-bottom: 100px;
   }
   
   .prev-next {

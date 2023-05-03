@@ -28,7 +28,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
     <!--css-->
-    <link rel="stylesheet" href="../../static/css/shopping/noticewrite.css">
+    <link href="../../css/shopping/noticewrite.css" rel="stylesheet" />
     <title>BARIBARI</title>
 </head>
 
@@ -37,7 +37,7 @@
     <header th:replace="header :: header"></header>
 
 <div id="noticewriteContainer" class="container mt-5">
-    <div class="row justify-content-center" style="margin-top: 250px; margin-bottom: 250px;">
+    <div class="row justify-content-center" style="margin-top: 250px; margin-bottom: 250x;">
         <h1 id="writeTitle">공지&이벤트 작성</h1>
         <div class="col-md-8 col-lg-6">
             <form action="/notice/write" method="post">
@@ -54,11 +54,15 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="content">내용: </label>
+                    <label for="content">내용 </label>
                     <textarea class="form-control" id="content" name="noticeContent" rows="10" required></textarea>
                 </div>
                 <div class="form-group">
                     <label for="author">작성자: 관리자</label>
+                </div>
+                <div class="form-group">
+                    <label for="image">사진 첨부:</label>
+                    <input type="file" id="image" name="noticePic" accept="image/*">
                 </div>
                 <button type="submit" class="btn btn-primary">글쓰기</button>
             </form>

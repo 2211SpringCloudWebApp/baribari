@@ -47,6 +47,25 @@
   
   #ntcModify button[type="submit"]:hover {
     background-color: #fff;
-    color: #081333;
+    border: 1px solid #081333;
+    color : black;
   }
+  
+    #ntcModify button[type="reset"] {
+    background-color: #081333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  #ntcModify button[type="reset"]:hover {
+    background-color: #fff;
+    border: 1px solid #081333;
+    color : black;
+  }
+  
   

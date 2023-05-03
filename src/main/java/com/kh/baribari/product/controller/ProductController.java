@@ -43,6 +43,7 @@ public class ProductController {
 	@Qualifier("fileUpload")
 	private FileInfo fileInfo;
 
+	/* ---------------------------------------------------- 모든 사용자 ---------------------------------------------------- */
 	// 상품 목록 및 갯수 출력
 	@GetMapping("/list")
 	public ModelAndView getProductList(ModelAndView mv,
@@ -112,24 +113,47 @@ public class ProductController {
 		mv.setViewName("shopping/detail");
 		return mv;
 	}
-
+	
+	// 찜하기 추가
+	@PostMapping("/scrap/add")
+	public String addScrap(Favorite favorite) {
+		int result = pService.addScrap(favorite);
+		if (result > 0) {
+			return "1";
+		} else {
+			return "0";
+		}
+	}
+	
+	// 찜하기 제거
+	@PostMapping("/scrap/remove")
+	public String removeScrap(Favorite favorite) {
+		int result = pService.removeScrap(favorite);
+		if (result > 0) {
+			return "1";
+		} else {
+			return "0";
+		}
+	}
+	
+	/* ---------------------------------------------------- 판매자 ---------------------------------------------------- */
 	// 상품 등록 페이지 뷰
 	@GetMapping("/register")
 	public ModelAndView registerProduct(ModelAndView mv, Authentication authentication) {
-	    // 사용자 정보
-	    User user = returnUser.returnUser(authentication);
-	    if (user != null) {
-	        if (user.getUserType() == 2) {
-	            mv.setViewName("shopping/register");
-	        } else if (user.getUserType() == 1) {
-	            mv.addObject("msg", "판매자만 이용이 가능합니다").setViewName("error");
-	        } else {
-	            mv.addObject("msg", "사용자 정보를 찾을 수 없습니다").setViewName("error");
-	        }
-	    } else {
-	        mv.addObject("msg", "사용자 정보를 찾을 수 없습니다").setViewName("error");
-	    }
-	    return mv;
+		// 사용자 정보
+		User user = returnUser.returnUser(authentication);
+		if (user != null) {
+			if (user.getUserType() == 2) {
+				mv.setViewName("shopping/register");
+			} else if (user.getUserType() == 1) {
+				mv.addObject("msg", "판매자만 이용이 가능합니다").setViewName("error");
+			} else {
+				mv.addObject("msg", "사용자 정보를 찾을 수 없습니다").setViewName("error");
+			}
+		} else {
+			mv.addObject("msg", "사용자 정보를 찾을 수 없습니다").setViewName("error");
+		}
+		return mv;
 	}
 	
 	// 상품 등록
@@ -174,12 +198,24 @@ public class ProductController {
 		return mv;
 	}
 	
+	// 상품 수정
+	@PostMapping("/modify")
+	public void modifyProduct() {
+		
+	}
+	
 	// 상품 삭제
 	@PostMapping("/delete")
-	public void deleteProduct(int productNo) {
-		pService.deleteProduct(productNo);
+	public String deleteProduct(int productNo) {
+		int result = pService.deleteProduct(productNo);
+		if (result > 0) {
+			return "1";
+		} else {
+			return "0";
+		}
 	}
 
+	/* ---------------------------------------------------- 관리자 ---------------------------------------------------- */
 	// MD 추천/제거
 	@PostMapping("/mdRecommend")
 	public String mdRecommend(Product product) {
@@ -191,25 +227,5 @@ public class ProductController {
 		}
 	}
 	
-	// 찜하기 추가
-	@PostMapping("/scrap/add")
-	public String addScrap(Favorite favorite) {
-		int result = pService.addScrap(favorite);
-		if (result > 0) {
-			return "1";
-		} else {
-			return "0";
-		}
-	}
-	
-	// 찜하기 제거
-	@PostMapping("/scrap/remove")
-	public String removeScrap(Favorite favorite) {
-		int result = pService.removeScrap(favorite);
-		if (result > 0) {
-			return "1";
-		} else {
-			return "0";
-		}
-	}
+
 }

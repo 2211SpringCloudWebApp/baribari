@@ -120,5 +120,13 @@ public interface ProductRepository {
 	 * @return int
 	 */
 	List<Favorite> getFavoriteList(SqlSession session);
+	
+	/**
+	 * 판매자가 판매하고 있는 상품 목록
+	 * @param SqlSession
+	 * @param int
+	 * @return List<Product>
+	 */
+	List<Product> getProductListBySeller(SqlSession session, int userNo);
 }
 	

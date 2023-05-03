@@ -104,4 +104,11 @@ public interface ProductService {
 	 * @return List<Favorite>
 	 */
 	List<Favorite> getFavoriteList();
+	
+	/**
+	 * 판매자가 판매하고 있는 상품 목록
+	 * @param int
+	 * @return List<Product>
+	 */
+	List<Product> getProductListBySeller(int userNo);
 }

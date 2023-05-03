@@ -127,4 +127,9 @@
    	<select id="getFavoriteList" resultType="Favorite">
    		SELECT * FROM FAVORITE_TBL
    	</select>
+   	
+   	<!-- 판매자가 판매하고 있는 상품 목록 -->
+    <select id="getProductListBySeller" parameterType="_int" resultMap="productResultMap">
+        SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE SELLER_USER_NO = #{userNo} ORDER BY PRODUCT_NO DESC
+    </select>
 </mapper>

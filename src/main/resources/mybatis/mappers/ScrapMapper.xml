@@ -13,7 +13,7 @@
 	</delete>
 	
 	<!-- 스크랩 확인 -->
-	<select id="" resultType="_int">
+	<select id="scrapSerch" resultType="_int">
 		SELECT COUNT(*) FROM SCRAP_TBL WHERE COMMUNITY_NO = #{communityNo} AND USER_NO = #{userNo}
 	</select>
 </mapper>

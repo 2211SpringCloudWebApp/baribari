@@ -55,7 +55,7 @@
 					<a id="aModify" th:href="@{/boardModify(communityNo=${commu.communityNo})}" >수정</a>
 					<a id="aDelete" href="#" onclick="deleteboard()">삭제</a>
 					<a id="aReport" href="#">신고</a>
-					<a id="aScrap" href="#" onclick="clickScrap()"">팩다운</a>
+					<a id="aScrap" href="#" onclick="clickScrap()">팩다운</a>
 					<a id="aLoginLike" href="#" onclick="clickLike()">좋아요</a>
 					<a id="aLike" href="#">좋아요</a>
 					<span id="showLike"></span>
@@ -300,9 +300,9 @@
 	        		success : function(data){
 	        			alert(data);
 	        			if(data == 1){
-	        				scrap.style.color = black;
+	        				scrap.style.color = "black";
 	        			}else if(data == 0){
-	        				scrap.style.color = red;
+	        				scrap.style.color = "red";
 	        			}
 	        		},
 	        		error : function(){

@@ -55,7 +55,7 @@
 					<a id="aModify" th:href="@{/boardModify(communityNo=${commu.communityNo})}" >수정</a>
 					<a id="aDelete" href="#" onclick="deleteboard()">삭제</a>
 					<a id="aReport" href="#">신고</a>
-					<a id="aScrap" href="#">팩다운</a>
+					<a id="aScrap" href="#" onclick="clickScrap()"">팩다운</a>
 					<a id="aLoginLike" href="#" onclick="clickLike()">좋아요</a>
 					<a id="aLike" href="#">좋아요</a>
 					<span id="showLike"></span>
@@ -69,7 +69,7 @@
                 <div id="registerdiv3">
                 
                 </div> 
-                <div id="registerdiv7">
+                <div th:if="${pic.communityPic1} != null" id="registerdiv7">
 	                <div th:if="${pic.communityPic1} != null" class="div_style"><img id="img1" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic1}" alt="첨부사진1" /></div>
 	                <div th:if="${pic.communityPic2} != null" class="div_style"><img id="img2" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic2}" alt="첨부사진2" /></div>
 	                <div th:if="${pic.communityPic3} != null" class="div_style"><img id="img3" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic3}" alt="첨부사진3" /></div>
@@ -174,12 +174,11 @@
 				}
 			}
         
-	        //이미지 보여주는 함수
+	        //사진 보여주는 함수
 	        function showImg(id) {
 				// 클릭한 이미지의 src 값을 가져옵니다.
 				var imgSrc = document.getElementById(id).src;
 				var showImdiv = document.getElementById("registerdiv3");
-				
 				// registerdiv3에 이미지를 추가합니다.
 				var imgTag = '<img src="' + imgSrc + '" class="show_img_style">';
 				showImdiv.style.height = "400px";
@@ -225,7 +224,7 @@
 	        var y = document.getElementById('mapYval').value
 	        
 	        // 지도 출력
-	        if (x !== 0 && y !== 0) {
+	        if (x != 0 && y != 0) {
 	        	document.getElementById('registerdiv6').style.display = 'block';
 	        	createMap(x, y);
 	        }
@@ -284,6 +283,35 @@
 	        	});
 	        }
         
+	      	// 스크랩 클릭
+	      	function clickScrap(){
+	      		var communityNo = $("#seq").val();
+	        	var userNo = $("#loginUserNo").val();
+	      		var scrap = document.getElementById('aScrap');
+	      		var scrollTop = $(window).scrollTop(); // 스크롤위치 저장
+	      		
+	      		$.ajax({
+	      			url : "scrapClick",
+	        		data : {
+	        			"communityNo": communityNo,
+	        			"userNo": userNo
+	        		},
+	        		type : "GET",
+	        		success : function(data){
+	        			alert(data);
+	        			if(data == 1){
+	        				scrap.style.color = black;
+	        			}else if(data == 0){
+	        				scrap.style.color = red;
+	        			}
+	        		},
+	        		error : function(){
+	        			showTage.empty();
+	        		}
+	      		});
+	      		
+	      	}
+	      	
         	getHashTag();
 	        // 헤시태그 출력 함수
 	        function getHashTag(){

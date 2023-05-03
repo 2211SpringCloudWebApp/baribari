@@ -51,9 +51,14 @@ public class NoticeController {
 	        String path = "notice";
 	        int i = 1;
 	        // 첨부파일이 있을 경우 파일 저장
+	        System.out.println("noticePic : " + noticePic);
+	        
 	        if (noticePic != null) {
 	        	for (MultipartFile file : noticePic) {
 	        		Map<String, String> files = fileInfo.saveFile(file, request, path);
+	        		
+	        		System.out.println("files : " + files);
+	        		
 	        		for (String k : files.keySet()) {
 	        			String key = "file" + i;
 	        			String value = files.get(k);

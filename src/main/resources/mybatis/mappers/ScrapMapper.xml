@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ScrapMapper">
-	<!-- 찜하기 -->
-	<insert id="addScrap">
+	
+	<!-- 스크랩 등록 -->
+	<insert id="scrapRegister">
 		INSERT INTO SCRAP_TBL VALUES (#{communityNo}, #{userNo}, DEFAULT)
 	</insert>	
-	<!-- 찜하기 취소 -->
-	<delete id="removeScrap" parameterType="Scrap">
+	
+	<!-- 스크랩 취소 -->
+	<delete id="scrapDelete">
 		DELETE FROM SCRAP_TBL WHERE COMMUNITY_NO = #{communityNo} AND USER_NO = #{userNo}
 	</delete>
+	
+	<!-- 스크랩 확인 -->
+	<select id="" resultType="_int">
+		SELECT COUNT(*) FROM SCRAP_TBL WHERE COMMUNITY_NO = #{communityNo} AND USER_NO = #{userNo}
+	</select>
 </mapper>

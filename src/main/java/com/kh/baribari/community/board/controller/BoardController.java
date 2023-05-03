@@ -135,15 +135,12 @@ public class BoardController {
 			int i = 1;
 			// 첨부파일이 있을 경우 파일 저장
 			pic.setCommunityNo(seq);
-			System.out.println("pic : " + pic.getCommunityNo());
-			System.out.println("commu :" + commu.getCommunityNo());
 			if (fList != null) {
 				for (MultipartFile file : fList) {
 					Map<String, String> fileInfo = fileUpload.saveFile(file, request, path);
 					for (String k : fileInfo.keySet()) {// fileInfo 맵의 keySet() 메서드로 모든 키를 가져와서 변수 k에 하나씩 저장하는 반복문 시작
 						String key = "file" + i; // 문자열 "file"과 i를 합쳐서 변수 key에 저장
 						String value = fileInfo.get(k);// fileInfo 맵에서 키 k에 해당하는 값을 가져와서 변수 value에 저장
-						System.out.println("value값 출력한다잉 : " + value);
 						
 						fMap.put(key, value);
 						if (i == 1) {
@@ -172,7 +169,6 @@ public class BoardController {
 				}
 			}
 			int result = bService.boardRegister(commu);
-			System.out.println(result);
 			if(result > 0) {
 				bService.userPointUp(userNo);
 				bService.registerPhoto(pic);
@@ -214,7 +210,9 @@ public class BoardController {
 	@GetMapping("boardModify")
 	public ModelAndView showModify(
 			ModelAndView mv
-			,@RequestParam(value="communityNo",required = false) Integer boardNo) throws Exception{
+			,@RequestParam(value="communityNo",required = false) Integer boardNo
+			) throws Exception{
+		
 		Community commu = bService.getBoardOne(boardNo);	// 게시글 불러오기
 		CommunityPIC pic = bService.getPhoto(boardNo);		// 이미지 불러오기
 		if(pic != null) {	// 이미지가 존재하면 mv에 추가해줌
@@ -248,14 +246,10 @@ public class BoardController {
 	public String boardDelete(
 			@RequestParam(value="communityNo",required = false) Integer boardNo
 			)throws Exception {
-		System.out.println(boardNo);
 		int result = bService.boardDelete(boardNo);
-		System.out.println(result);
 		if(result > 0) {
-			System.out.println("삭제성공입니다.");
 			return "redirect:/boardList";
 		}else {
-			System.out.println("삭제실패입니다.");
 			return "redirect:/boardList";
 		}
 	}

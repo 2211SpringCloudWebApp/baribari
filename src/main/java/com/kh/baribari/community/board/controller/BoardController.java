@@ -211,6 +211,7 @@ public class BoardController {
 	public ModelAndView showModify(
 			ModelAndView mv
 			,@RequestParam(value="communityNo",required = false) Integer boardNo
+			,@RequestParam(value="page",required = false) Integer page
 			) throws Exception{
 		
 		Community commu = bService.getBoardOne(boardNo);	// 게시글 불러오기
@@ -219,6 +220,7 @@ public class BoardController {
 			mv.addObject("pic", pic);
 		}
 		mv.addObject("commu", commu);
+		mv.addObject("page", page);
 		mv.setViewName("community/board/modify");
 		
 		return mv;

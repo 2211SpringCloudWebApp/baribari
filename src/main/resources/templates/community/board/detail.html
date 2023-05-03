@@ -52,7 +52,7 @@
                     </div>
                 </div>
 				<div id="boardDetailNav" class="displayFlex hCenter wRight">
-					<a id="aModify" th:href="@{/boardModify(communityNo=${commu.communityNo})}" >수정</a>
+					<a id="aModify" th:href="@{/boardModify(communityNo=${commu.communityNo}, page=${page})}" >수정</a>
 					<a id="aDelete" href="#" onclick="deleteboard()">삭제</a>
 					<a id="aReport" href="#">신고</a>
 					<a id="aScrap" href="#" onclick="clickScrap()">팩다운</a>
@@ -88,7 +88,7 @@
                     <div id="showTage" ></div>
                 </div>
                 <div id="registerdiv9">
-                    <input type="button" value="목록" onclick="goList()">
+                    <input type="button" value="뒤로가기" onclick="goList()">
                 	<input id="page" type="hidden" th:value=${page}>
                 	<input id="category" type="hidden" th:value=${category}>
                 	<input id="sort" type="hidden" th:value=${sort}>
@@ -282,7 +282,8 @@
 	        		}
 	        	});
 	        }
-        
+	      	
+	        var check = 0; // 스크랩 체크를 위한 변수
 	      	// 스크랩 클릭
 	      	function clickScrap(){
 	      		var communityNo = $("#seq").val();
@@ -294,16 +295,26 @@
 	      			url : "scrapClick",
 	        		data : {
 	        			"communityNo": communityNo,
-	        			"userNo": userNo
+	        			"userNo": userNo,
+	        			"check" : check
 	        		},
 	        		type : "GET",
 	        		success : function(data){
-	        			alert(data);
-	        			if(data == 1){
-	        				scrap.style.color = "black";
-	        			}else if(data == 0){
-	        				scrap.style.color = "red";
+	        			if(check == 0){
+	        				if(data == 0){
+		        				scrap.style.color = "black";
+		        			}else if(data == 1){
+		        				scrap.style.color = "red";
+		        			}
+	        				check++;
+	        			}else{
+	        				if(data == 0){
+		        				scrap.style.color = "red";
+		        			}else if(data == 1){
+		        				scrap.style.color = "black";
+		        			}
 	        			}
+	        			console.log(check);
 	        		},
 	        		error : function(){
 	        			showTage.empty();
@@ -311,6 +322,7 @@
 	      		});
 	      		
 	      	}
+	      	clickScrap();
 	      	
         	getHashTag();
 	        // 헤시태그 출력 함수

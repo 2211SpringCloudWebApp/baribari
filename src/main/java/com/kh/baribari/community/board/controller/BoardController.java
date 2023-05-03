@@ -48,8 +48,18 @@ public class BoardController {
 			,@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage
 			,@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword
 			,@RequestParam(value = "check", required = false, defaultValue = "9") Integer check
+			,@RequestParam(value="hashTagName",required = false, defaultValue = "") String hashTagName
 			) {
 		try {
+			
+			
+			
+			if(hashTagName != null) { // 태그를 클릭한 경우 실행
+				
+			}else {
+				
+			}
+			
 			Community comm = new Community();
 			comm.setCommunityCategory(category);
 			

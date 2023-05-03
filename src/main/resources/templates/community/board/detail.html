@@ -329,8 +329,6 @@
 	        function getHashTag(){
 	        	var communityNo = $("#seq").val();
 	        	var showTage = $("#showTage");
-	        	var inputTage = document.getElementById('inputTage');
-	        	var scrollTop = $(window).scrollTop(); // 스크롤위치 저장
 	        	$.ajax({
 	        		url : "getHashTag",
 	        		data : {
@@ -341,19 +339,10 @@
 	        			showTage.empty(); // 기존 내용 삭제
 	        		    for (var i = 0; i < data.length; i++) {
 	        		    	var tag = $("<a>").attr({
-	        		    		href : "#",
-	        		    		onclick: "registerHashTag('" + data[i].hashTagName + "', " + getHashTag + ", 'delete')"
+	        		    		href : "/searchHashTag?'"+ data[i].hashTagName +"'"
 	        		    	}).text(data[i].hashTagName); // 새로운 a 태그 생성
 	        		    	showTage.append(tag); // 새로운 a 태그를 요소에 추가
 	        			}
-	        		    if (data.length == 10){
-	        		        inputTage.readOnly = true; // inputTage를 읽기전용으로 설정
-	        		        inputTage.placeholder = "해시태그는 10개까지 등록이 가능합니다."; // placeholder를 "해시태그는 10개까지 등록이 가능합니다." 로 설정
-	        		    }else{
-	        		    	inputTage.readOnly = false;
-	        		    	inputTage.placeholder = "#해시태그, 입력";
-	        		    }
-	        		    $(window).scrollTop(scrollTop);//스크롤위치 다시 불러오기
 	        		},
 	        		error : function(){
 	        			showTage.empty();

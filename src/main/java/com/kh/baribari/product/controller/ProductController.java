@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +19,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.baribari.common.FileInfo;
 import com.kh.baribari.common.PageInfo;
+import com.kh.baribari.common.ReturnUser;
 import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
 import com.kh.baribari.product.service.ProductService;
 import com.kh.baribari.review.service.ReviewService;
 import com.kh.baribari.user.domain.Favorite;
+import com.kh.baribari.user.domain.User;
 import com.kh.baribari.user.service.UserService;
 
 @Controller
@@ -35,6 +37,8 @@ public class ProductController {
 	private ReviewService rService;
 	@Autowired
 	private UserService uService;
+	@Autowired
+	private ReturnUser returnUser;
 	@Autowired
 	@Qualifier("fileUpload")
 	private FileInfo fileInfo;
@@ -111,20 +115,35 @@ public class ProductController {
 
 	// 상품 등록 페이지 뷰
 	@GetMapping("/register")
-	public String registerProduct(Model model) {
-		return "shopping/register";
+	public ModelAndView registerProduct(ModelAndView mv, Authentication authentication) {
+	    // 사용자 정보
+	    User user = returnUser.returnUser(authentication);
+	    if (user != null) {
+	        if (user.getUserType() == 2) {
+	            mv.setViewName("shopping/register");
+	        } else if (user.getUserType() == 1) {
+	            mv.addObject("msg", "판매자만 이용이 가능합니다").setViewName("error");
+	        } else {
+	            mv.addObject("msg", "사용자 정보를 찾을 수 없습니다").setViewName("error");
+	        }
+	    } else {
+	        mv.addObject("msg", "사용자 정보를 찾을 수 없습니다").setViewName("error");
+	    }
+	    return mv;
 	}
 	
 	// 상품 등록
 	@PostMapping("/registerProduct")
 	public ModelAndView registerProduct(
-			@RequestParam(value = "fileList", required = false) List<MultipartFile> fList
+			@RequestParam(value = "mainImg", required = false) List<MultipartFile> fList 
+			, @RequestParam(value = "descriptionImgs", required = false) List<MultipartFile> fList2
 			, Product product
 			, HttpServletRequest request
 			, ModelAndView mv
 			) throws Exception {
 		Map<String, String> fMap = new HashMap<String, String>();
 		String path = "product";
+		fList.addAll(fList2);
 		int i = 1;
 		if (fList != null) {
         	for (MultipartFile file : fList) {
@@ -149,11 +168,10 @@ public class ProductController {
 		int result = pService.registerProduct(product);
 		if (result > 0) {
 			mv.setViewName("redirect:/shopping/list?category=All&page=1");
-			return mv;
 		} else {
 			mv.addObject("msg", "오류").setViewName("error");
-			return mv;
 		}
+		return mv;
 	}
 	
 	// 상품 삭제

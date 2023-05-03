@@ -7,6 +7,12 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>BARIBARI</title>
+    
+   	<!-- JQuery JS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<!-- Fancybox JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+	
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Fontawesome -->
@@ -39,10 +45,15 @@
 
 <body>
 	<!-- Header -->
-	<!-- <header th:replace="header :: header"></header> -->
+	<header th:replace="header :: header"></header>
 	
-	<section>
+	<section style="margin-top: 110px;">
+	
+	<input sec:authorize="!isAuthenticated()" value="0" type="hidden" name="userNo">
+	<input sec:authorize="isAuthenticated()" th:value="${#authentication.principal.user.userNo}" type="hidden" name="userNo">
+
 	<form action="/shopping/registerProduct" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="sellerUserNo" th:value="${#authentication.principal.user.userNo}">
 		상품분류:
 		<select name="productCategory" required>
 			<option>선택하세요</option>
@@ -65,9 +76,11 @@
 		할인율: <input name="productDiscount">%<br>
 		배송비: <input name="productDeliveryCharge"><br>
 		해시태그: <input name="productHashTag"><br>
-		상품내용: <textarea name="productContent"></textarea>
-		판매자: <input name="sellerUserNo" value="44">
-		사진등록: <input type="file" id="photoInput" accept="image/*" name="fileList" multiple>
+		상품내용: <textarea name="productContent"></textarea><Br>
+		메인사진 등록: <input type="file" id="photoInput1" accept="image/*" name="mainImg"><br>
+		<div id="mainImgPreview"></div>
+		상품설명사진 등록: <input type="file" id="photoInput2" accept="image/*" name="descriptionImgs" multiple>
+		<div id="imgPreview"></div>
 		<button>등록</button> 
 	</form>
 	</section>
@@ -76,7 +89,53 @@
 	<footer th:replace="footer :: footer"></footer>
 	
 	<script>
-		
+		/* Fancybox: 사진 확대를 위한 라이브러리 (jQuery Plugin) */
+		$(document).ready(function () {
+			$(".fancybox").fancybox({
+				buttons: ["zoom", "slideShow", "fullScreen", "close"],
+				transitionEffect: "slide",
+				transitionDuration: 500,
+				loop: true,
+				margin: [50, 50]
+			});
+		});	
+		/* 사진 미리보기 */
+		document.querySelector("#photoInput1").addEventListener("change", function() {
+		    var fileList = this.files;
+		    var imgPreview = document.querySelector("#mainImgPreview");
+		    imgPreview.innerHTML = "";
+		    for (var i = 0; i < fileList.length; i++) {
+		        var file = fileList[i];
+		        var reader = new FileReader();
+		        reader.onload = function(event) {
+		            var img = document.createElement("img");
+		            img.setAttribute("src", event.target.result);
+		            var imgPreviewItem = document.createElement("div");
+		            imgPreviewItem.classList.add("img-preview");
+		            imgPreviewItem.appendChild(img);
+		            imgPreview.appendChild(imgPreviewItem);
+		        };
+		        reader.readAsDataURL(file);
+		    }
+		});
+		document.querySelector("#photoInput2").addEventListener("change", function() {
+		    var fileList = this.files;
+		    var imgPreview = document.querySelector("#imgPreview");
+		    imgPreview.innerHTML = "";
+		    for (var i = 0; i < fileList.length; i++) {
+		        var file = fileList[i];
+		        var reader = new FileReader();
+		        reader.onload = function(event) {
+		            var img = document.createElement("img");
+		            img.setAttribute("src", event.target.result);
+		            var imgPreviewItem = document.createElement("div");
+		            imgPreviewItem.classList.add("img-preview");
+		            imgPreviewItem.appendChild(img);
+		            imgPreview.appendChild(imgPreviewItem);
+		        };
+		        reader.readAsDataURL(file);
+		    }
+		});
 	</script>
 </body>
 

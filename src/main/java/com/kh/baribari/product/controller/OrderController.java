@@ -37,7 +37,8 @@ public class OrderController {
 	
 	@PostMapping("/save")
 	public void setOrder(Order order) {
-		int result = oService.setOrder(order);
+		// 주문 정보 DB에 저장
+		oService.setOrder(order);
 	}
 	
 	@GetMapping("/")

@@ -4,7 +4,6 @@ import com.kh.baribari.community.resaleplatform.domain.dto.ArticleHashtagDto;
 import com.kh.baribari.community.resaleplatform.domain.dto.GetArticleDto;
 import com.kh.baribari.community.resaleplatform.domain.dto.ArticleCommentResponse;
 import com.kh.baribari.community.resaleplatform.domain.dto.GetArticleResponse;
-import com.kh.baribari.community.resaleplatform.domain.dto.GetArticleRespose;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,7 +21,7 @@ public class Converter
                         .build())
                 .collect(Collectors.toSet());
 
-        return GetArticleRespose.builder()
+        return GetArticleResponse.builder()
                 .communityNo(dto.getCommunityNo())
                 .communitySubject(dto.getCommunitySubject())
                 .communityContent(dto.getCommunityContent())

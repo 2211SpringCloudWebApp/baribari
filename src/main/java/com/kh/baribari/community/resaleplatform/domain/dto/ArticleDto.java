@@ -7,8 +7,7 @@ import lombok.*;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Getter @Setter
-@ToString
+@Getter @Setter @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleDto
@@ -34,29 +33,41 @@ public class ArticleDto
         return new ArticleDto(communityNo, userDto, communitySubject, communityContent, articleHashtagDtos,  communityDate);
     }
 
-    public static ArticleDto from(Article article)
-    {
+    public static ArticleDto from(Article article) {
         return new ArticleDto(
                 article.getCommunityNo(),
                 UserDto.from(article.getUser()),
                 article.getCommunitySubject(),
                 article.getCommunityContent(),
                 article.getHashtags().stream()
-                        .map(ArticleHashtagDto::from)
-                        .collect(Collectors.toUnmodifiableSet()),
+                       .map(ArticleHashtagDto::from)
+                       .collect(Collectors.toUnmodifiableSet()),
                 article.getCommunityDate()
         );
     }
 
+
     public Article toEntity(User user)
     {
-        return Article.builder()
-                .communityNo(communityNo)
-                .userNo((long) user.getUserNo())
-                .communitySubject(communitySubject)
-                .communityContent(communityContent)
-                .articleHashtags(articleHashtagDto.stream().map(ArticleHashtagDto::toEntity).collect(Collectors.toSet()))
-                .communityDate(communityDate)
-                .build();
+        Article article = new Article();
+        article.setCommunityNo(communityNo);
+        article.setUserNo((long) user.getUserNo());
+        article.setCommunitySubject(communitySubject);
+        article.setCommunityContent(communityContent);
+        article.setArticleHashtags(articleHashtagDto.stream().map(ArticleHashtagDto::toEntity).collect(Collectors.toSet()));
+        article.setCommunityDate(communityDate);
+
+        return article;
     }
+    //    public Article toEntity(User user)
+    //    {
+    //        return Article.builder()
+    //                .communityNo(communityNo)
+    //                .userNo((long) user.getUserNo())
+    //                .communitySubject(communitySubject)
+    //                .communityContent(communityContent)
+    //                .articleHashtags(articleHashtagDto.stream().map(ArticleHashtagDto::toEntity).collect(Collectors.toSet()))
+    //                .communityDate(communityDate)
+    //                .build();
+    //    }
 }

@@ -8,34 +8,28 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotBlank;
 import java.util.*;
 
-@Getter @ToString(callSuper = true)
-@AllArgsConstructor @Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter @Setter
+@ToString(callSuper = true)
+@AllArgsConstructor
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Article
 {
 
     private int communityNo;
 
-    @Setter
     private Long userNo;
 
-    @Setter
     private User user;
-
-    @Setter @NotBlank @Length(min=2)
+    @NotBlank @Length(min=2)
     private String communitySubject;
-
-    @Setter @NotBlank
+    @NotBlank
     private String communityContent;
-
     private Set<ArticleHashtag> articleHashtags = new LinkedHashSet<>();
 
-
-
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-//    private LocalDateTime communityDate;
+    //    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    //    private LocalDateTime communityDate;
     private String communityDate;
-
     @ToString.Exclude
     private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
 
@@ -51,26 +45,31 @@ public class Article
         return new Article(userNo, communitySubject, communityContent);
     }
 
-    public Set<ArticleHashtag> getHashtags() {
+    public Set<ArticleHashtag> getHashtags()
+    {
         return Collections.unmodifiableSet(articleHashtags);
     }
 
 
-    public void addHashtag(ArticleHashtag hashTag) {
+    public void addHashtag(ArticleHashtag hashTag)
+    {
         this.getArticleHashtags().add(hashTag);
     }
 
-    public void addHashtags(Collection<ArticleHashtag> hashTag) {
+    public void addHashtags(Collection<ArticleHashtag> hashTag)
+    {
         this.getArticleHashtags().addAll(hashTag);
     }
 
-    public void clearHashtags() {
+    public void clearHashtags()
+    {
         this.getArticleHashtags().clear();
     }
 
 
     // Add getter and setter methods for the User field
-    public User getUser() {
+    public User getUser()
+    {
         return user;
     }
 

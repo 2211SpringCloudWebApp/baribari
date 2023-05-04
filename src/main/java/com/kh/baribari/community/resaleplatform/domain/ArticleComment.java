@@ -9,8 +9,9 @@ import java.util.Set;
 
 @Getter @Setter @ToString
 @NoArgsConstructor
-@AllArgsConstructor @Builder
-public class ArticleComment {
+@AllArgsConstructor
+public class ArticleComment
+{
 
     private int commentNo;
     private Article article;
@@ -18,17 +19,19 @@ public class ArticleComment {
     private User user;
     private int parentCommentNo;
     private Set<ArticleComment> childComments = new LinkedHashSet<>();
-    private String commentContent;
+    private java.lang.String commentContent;
 
-    public static ArticleComment of(Article article, int userNo, String commentContent) {
-        return ArticleComment.builder()
-                .article(article)
-                .userNo(userNo)
-                .commentContent(commentContent)
-                .build();
+    public static ArticleComment create(Article article, int userNo, java.lang.String commentContent)
+    {
+        ArticleComment articleComment = new ArticleComment();
+        articleComment.setArticle(article);
+        articleComment.setUserNo(userNo);
+        articleComment.setCommentContent(commentContent);
+        return articleComment;
     }
 
-    public void addChildComment(ArticleComment child) {
+    public void addChildComment(ArticleComment child)
+    {
         child.setParentCommentNo(this.getCommentNo());
         this.getChildComments().add(child);
     }

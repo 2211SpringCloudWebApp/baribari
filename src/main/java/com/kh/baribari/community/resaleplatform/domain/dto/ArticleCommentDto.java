@@ -4,13 +4,12 @@ import com.kh.baribari.community.resaleplatform.domain.Article;
 import com.kh.baribari.community.resaleplatform.domain.ArticleComment;
 import com.kh.baribari.user.domain.User;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data @Builder
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ArticleCommentDto
 {
     private Integer commentNo;
@@ -22,42 +21,34 @@ public class ArticleCommentDto
 
     public static ArticleCommentDto of(Integer communityNo, UserDto userDto, String content)
     {
-        return ArticleCommentDto.builder()
-                .communityNo(communityNo)
-                .userDto(userDto)
-                .content(content)
-                .build();
+        return new ArticleCommentDto(null, communityNo, userDto, null, null, content);
     }
 
     public static ArticleCommentDto of(Integer communityNo, UserDto userDto,
                                        Integer parentCommentNo, String content)
     {
-        return ArticleCommentDto.builder()
-                .communityNo(communityNo)
-                .userDto(userDto)
-                .parentCommentNo(parentCommentNo)
-                .content(content)
-                .build();
+        return new ArticleCommentDto(null, communityNo, userDto, null, parentCommentNo, content);
     }
 
     public static ArticleCommentDto from(ArticleComment entity)
     {
-        return ArticleCommentDto.builder()
-                .commentNo(entity.getCommentNo())
-                .communityNo(entity.getArticle().getCommunityNo())
-                .userDto(UserDto.from(entity.getUser()))
-                .parentCommentNo(entity.getParentCommentNo())
-                .content(entity.getCommentContent())
-                .build();
+        return new ArticleCommentDto(
+                entity.getCommentNo(),
+                entity.getArticle().getCommunityNo(),
+                UserDto.from(entity.getUser()),
+                null, // communityDate
+                entity.getParentCommentNo(),
+                entity.getCommentContent()
+        );
     }
 
     public ArticleComment toEntity(Article article, User user)
     {
-        return ArticleComment.builder()
-                .article(article)
-                .user(user)
-                .parentCommentNo(parentCommentNo)
-                .commentContent(content)
-                .build();
+        ArticleComment articleComment = new ArticleComment();
+        articleComment.setArticle(article);
+        articleComment.setUser(user);
+        articleComment.setParentCommentNo(parentCommentNo);
+        articleComment.setCommentContent(content);
+        return articleComment;
     }
 }

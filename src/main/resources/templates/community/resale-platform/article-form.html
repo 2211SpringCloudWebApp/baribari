@@ -41,7 +41,27 @@
 
 
 </head>
+  <style>
+  .hashtag-button {
+    display: inline-block;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+  }
 
+  .hashtag-button:hover {
+    background-color: #ccc;
+    color: #fff;
+  }
+  </style>
 <body>
 <nav th:replace="community/fragments :: nav"></nav>
 
@@ -53,7 +73,7 @@
     <div class="table-cell">
       <div class="container">
         <h2 class="intro-title mb-4"
-            th:text="${articleAction} ? ${articleAction.action} : _"
+            th:text="${articleAction != null} ? ${articleAction.action} : '캠핑용 버너'"
         >캠핑용 버너</h2>
         <ol class="breadcrumb d-flex justify-content-center">
           <li class="breadcrumb-item">
@@ -69,150 +89,69 @@
   </div>
 </div>
 
+
 <section class="blog-wrapper sect-pt4" id="blog">
   <div class="container">
     <div class="row">
       <div class="col-md-8">
         <div class="article-box">
-          <form id="article-form" th:action="${articleAction.isUpdate} ? '/articles/' + ${article.id} + '/form' : '/resale/article'" th:method="post">
+          <form id="article-form" th:action="${articleAction?.isUpdate} ? '/resale/article'  : '/resale'" th:method="post">
             <div class="article-thumb">
               <img src="img/article-1.jpg" class="img-fluid" alt="">
             </div>
             <div class="row mb-3 justify-content-md-center">
-              <label for="article-title" class="col-sm-2 col-lg-1 col-form-label text-sm-end">제목</label>
+              <label for="article-title" class="col-sm-2 col-lg-1 col-form-label text-sm-end"
+                     th:text="${writeRequest?.communitySubject != null} ? ${writeRequest.communitySubject} : '제목'">제목</label>
               <div class="col-sm-8 col-lg-9">
-                <input type="text" class="form-control"  id="article-title" name="title" required
-                       th:value="${writeRequest?.communitySubject} ?:_">
+                <input type="text" class="form-control"  id="article-title" name="title" required>
               </div>
             </div>
-            <ul>
-              <li>
-                <span class="ion-ios-person"></span>
-                <a href="#" id="nickname">판매자 캠핑고래</a>
-              </li>
-              <li>
-                <span class="ion-pricetag"></span>
-                <a href="#">100 좋아요</a>
-              </li>
-              <li>
-                <span class="ion-chatbox"></span>
-                <a href="#">14 문의글</a>
-              </li>
-            </ul>
+<!--            <ul>-->
+<!--              <li>-->
+<!--                <span class="ion-ios-person"></span>-->
+<!--                <a href="#" id="nickname">판매자 캠핑고래</a>-->
+<!--              </li>-->
+<!--              <li>-->
+<!--                <span class="ion-pricetag"></span>-->
+<!--                <a href="#">100 좋아요</a>-->
+<!--              </li>-->
+<!--              <li>-->
+<!--                <span class="ion-chatbox"></span>-->
+<!--                <a href="#">14 문의글</a>-->
+<!--              </li>-->
+<!--            </ul>-->
             <div class="article-content">
-              <img style="width: 650px;"
-                   src="../../../static/img/camping/버너857_583.png"
-                   th:src="@{img/camping/버너857_583.png}" alt="">
+
 
               <div class="row mb-3 justify-content-md-center">
                 <label for="article-content" class="col-sm-2 col-lg-1 col-form-label text-sm-end">본문</label>
                 <div class="col-sm-8 col-lg-9">
-          <textarea class="form-control" id="article-content" name="content" rows="5" required
-                    th:text="${writeRequest?.communityContent} ?:_">
+            <textarea class="form-control" id="article-content" name="content" rows="27" required
+                      th:text="${writeRequest?.communityContent != null} ? ${writeRequest.communityContent} : ''">
           </textarea>
                 </div>
               </div>
             </div>
-            <button type="submit" class="btn btn-primary" id="submit-button"
+            <div class="justify-content-center">
+            <button type="submit" class="btn btn-primary " id="submit-button"
                     th:text="${articleAction?.action} ?: _">저장</button>
             <button type="button" class="btn btn-secondary" id="cancel-button"
                     th:onclick="'history.back()'">취소</button>
+            </div>
           </form>
         </div>
 
-        <div class="box-comments">
+        <div class="box-comments" hidden>
           <div class="title-box-2">
-            <h4 class="title-comments title-left">Comments (34)</h4>
           </div>
           <ul class="list-comments">
-            <li>
-              <div class="comment-avatar">
-                <img src="img/testimonial-2.jpg" alt="">
-              </div>
-              <div class="comment-details">
-                <h4 class="comment-author">가가</h4>
-                <span>18 Sep 2017</span>
-                <p>
-                  사용감 문의드립니다
-                </p>
-                <a href="3">Reply</a>
-              </div>
-            </li>
-            <li>
-              <div class="comment-avatar">
-                <img src="img/testimonial-4.jpg" alt="">
-              </div>
-              <div class="comment-details">
-                <h4 class="comment-author">나나</h4>
-                <span>18 Sep 2017</span>
-                <p>
-                  어디서 구입하셨어요
-                </p>
-                <a href="3">Reply</a>
-              </div>
-            </li>
-            <li class="comment-children">
-              <div class="comment-avatar">
-                <img src="img/testimonial-2.jpg" alt="">
-              </div>
-              <div class="comment-details">
-                <h4 class="comment-author"> 판매자</h4>
-                <span>18 Sep 2017</span>
-                <p>
-                  인터넷 쇼핑몰에서 작년 가을에 구입했습니다
-                </p>
-                <a href="3">Reply</a>
-              </div>
-            </li>
-            <li>
-              <div class="comment-avatar">
-                <img src="img/testimonial-2.jpg" alt="">
-              </div>
-              <div class="comment-details">
-                <h4 class="comment-author"> 가가</h4>
-                <span>18 Sep 2017</span>
-                <p>
-                  사진좀 더 찍어 보내주실 수 있나요?
-                </p>
-                <a href="3">Reply</a>
-              </div>
-            </li>
           </ul>
         </div>
-        <div class="form-comments">
+        <div class="form-comments" hidden>
           <div class="title-box-2">
-            <h3 class="title-left">
-              Leave a Reply
-            </h3>
+
           </div>
-          <form class="form-mf">
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <div class="form-group">
-                  <input type="text" class="form-control input-mf" id="inputName" placeholder="Name *" required>
-                </div>
-              </div>
-              <div class="col-md-6 mb-3">
-                <div class="form-group">
-                  <input type="email" class="form-control input-mf" id="inputEmail1" placeholder="Email *" required>
-                </div>
-              </div>
-              <div class="col-md-12 mb-3">
-                <div class="form-group">
-                  <input type="url" class="form-control input-mf" id="inputUrl" placeholder="Website">
-                </div>
-              </div>
-              <div class="col-md-12 mb-3">
-                <div class="form-group">
-                    <textarea id="textMessage" class="form-control input-mf" placeholder="Comment *" name="message"
-                              cols="45" rows="8" required></textarea>
-                </div>
-              </div>
-              <div class="col-md-12">
-                <button type="submit" class="button button-a button-big button-rouded">Send Message</button>
-              </div>
-            </div>
-          </form>
+
         </div>
       </div>
       <div class="col-md-4">
@@ -232,78 +171,28 @@
           </div>
         </div>
         <div class="widget-sidebar">
-          <h5 class="sidebar-title">동작</h5>
+          <h5 class="sidebar-title">작성</h5>
           <div class="sidebar-content">
-            <ul class="list-sidebar">
-              <li>
-                <a href="#">연락하기</a>
-              </li>
-              <li>
-                <a href="#">나나</a>
-              </li>
-              <li>
-                <a href="#">다다</a>
-              </li>
-              <li>
-                <a href="#">라라</a>
-              </li>
-              <li>
-                <a href="#">마마</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="widget-sidebar">
-          <h5 class="sidebar-title">기록</h5>
-          <div class="sidebar-content">
-            <ul class="list-sidebar">
-              <li>
-                <a href="#">사진</a>
-              </li>
-              <li>
-                <a href="#">사진</a>
-              </li>
-              <li>
-                <a href="#">사진</a>
-              </li>
-              <li>
-                <a href="#">사진</a>
-              </li>
-              <li>
-                <a href="#">사진</a>
-              </li>
-            </ul>
+            </br>
+            <p>
+
+              작성자:<a id="resale__nickname">  <span th:text="${loginUser != null ? loginUser.getUserId() : '가가'}">가가</span></a></br></br>
+              작성일:<span th:text="${#temporals.format(currentDate, 'yyyy-MM-dd HH:mm:ss')}">2023-05-04 12:34:56</span>
+            </p>
           </div>
         </div>
         <div class="widget-sidebar widget-tags">
           <h5 class="sidebar-title">Tags</h5>
           <div class="sidebar-content">
-            <ul>
-              <li>
-                <a href="#">Web.</a>
-              </li>
-              <li>
-                <a href="#">Design.</a>
-              </li>
-              <li>
-                <a href="#">Travel.</a>
-              </li>
-              <li>
-                <a href="#">Photoshop</a>
-              </li>
-              <li>
-                <a href="#">Corel Draw</a>
-              </li>
-              <li>
-                <a href="#">JavaScript</a>
-              </li>
-            </ul>
+            <input type="text" class="form-control" id="hashtags-input" name="hashtags" placeholder="태그 입력" >
+            <ul id="hashtags-output" class="list-unstyled"></ul>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
 <!--/ Section Blog-Single End /-->
 
 <!--/ Section Contact-Footer Star /-->
@@ -316,5 +205,22 @@
 <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 <div id="preloader"></div>
 
+
+<script>
+  document.getElementById('hashtags-input').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+
+      var hashtag = e.target.value.trim();
+      if (hashtag !== '') {
+        var button = document.createElement('button');
+        button.innerText = hashtag;
+        button.className = 'hashtag-button';
+        document.getElementById('hashtags-output').appendChild(button);
+        e.target.value = '';
+      }
+    }
+  });
+</script>
 </body>
 </html>

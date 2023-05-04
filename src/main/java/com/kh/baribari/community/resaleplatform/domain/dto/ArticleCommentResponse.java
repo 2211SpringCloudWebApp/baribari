@@ -1,7 +1,9 @@
 package com.kh.baribari.community.resaleplatform.domain.dto;
 
-import com.kh.baribari.community.resaleplatform.domain.Article;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Comparator;
 import java.util.LinkedHashSet;
@@ -10,12 +12,10 @@ import java.util.TreeSet;
 
 @Getter @Setter
 @NoArgsConstructor
-@AllArgsConstructor @Builder
+@AllArgsConstructor
 public class ArticleCommentResponse
 {
-
     private Integer commentNo;
-    private Article article;
     private String userNo;
     private String userNickname;
     private Integer parentCommentNo;
@@ -23,28 +23,15 @@ public class ArticleCommentResponse
     private String commentContent;
     private String CommunityDate;
 
-    public static ArticleCommentResponse of(Integer commentNo, Article article, String userNo, String userNickname,
-                                            Integer parentCommentNo, String commentContent)
-    {
-        return ArticleCommentResponse.of(commentNo, article, userNo, userNickname, parentCommentNo, new LinkedHashSet<>(), commentContent);
-    }
-
-    public static ArticleCommentResponse of(Integer commentNo, Article article, String userNo, String userNickname, Integer parentCommentNo,
-                                            Set<ArticleCommentResponse> childComments, String commentContent)
+    public static ArticleCommentResponse of(Integer commentNo, String userNo,
+                                            String userNickname, Integer parentCommentNo,
+                                            String commentContent)
     {
         Comparator<ArticleCommentResponse> childCommentComparator = Comparator
                 .comparing(ArticleCommentResponse::getCommunityDate)
                 .thenComparingLong(ArticleCommentResponse::getCommentNo);
-
-        return ArticleCommentResponse.builder()
-                .commentNo(commentNo)
-                .article(article)
-                .userNo(userNo)
-                .userNickname(userNickname)
-                .parentCommentNo(parentCommentNo)
-                .childComments(new TreeSet<>(childCommentComparator))
-                .commentContent(commentContent)
-                .build();
+        Set<ArticleCommentResponse> childComments = new TreeSet<>(childCommentComparator);
+        return new ArticleCommentResponse(commentNo, userNo, userNickname, parentCommentNo, childComments, commentContent, null);
     }
 
     public static ArticleCommentResponse from(ArticleCommentDto dto)
@@ -54,21 +41,16 @@ public class ArticleCommentResponse
         {
             nickname = dto.getUserDto().getUserNickName();
         }
-
-        return ArticleCommentResponse.builder()
-                .commentNo(dto.getCommentNo())
-                .commentContent(dto.getContent())
-                .CommunityDate(dto.getCommunityDate())
-                .parentCommentNo(dto.getParentCommentNo())
-                .userNo(dto.getUserDto().getUserId())
-                .userNickname(dto.getUserDto().getUserNickName())
-                .build();
-
+        return new ArticleCommentResponse(
+                dto.getCommentNo(),
+                dto.getUserDto().getUserId(),
+                dto.getUserDto().getUserNickName(),
+                dto.getParentCommentNo(),
+                new LinkedHashSet<>(), // Initialize an empty set for childComments
+                dto.getContent(),
+                dto.getCommunityDate()
+        );
     }
-
-    private Integer communityNo;
-
-    private UserDto userDto;
 
     public boolean hasParentComment()
     {

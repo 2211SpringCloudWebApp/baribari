@@ -5,12 +5,11 @@ import lombok.*;
 
 
 @Getter @Setter
-@ToString @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto
 {
-
     private int userNo;
     private String userId;
     private String userNickName;
@@ -22,10 +21,15 @@ public class UserDto
 
     public static UserDto from(User user)
     {
-        return new UserDto(
-                user.getUserNo(),
-                user.getUserId(),
-                user.getUserNickName()
-        );
+        if (user == null) {
+            return null;
+        }
+        UserDto userDto = new UserDto();
+        userDto.setUserNo(user.getUserNo());
+        userDto.setUserId(user.getUserId());
+        userDto.setUserNickName(user.getUserNickName());
+        // Set other fields as needed
+        return userDto;
     }
+
 }

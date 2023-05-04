@@ -1,8 +1,8 @@
 package com.kh.baribari.community.resaleplatform.domain.dto;
 
 import lombok.*;
+
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter @Setter @ToString
 @NoArgsConstructor
@@ -30,31 +30,26 @@ public class ReadingListResponse
         return responseDto;
     }
 
-    public static ReadingListResponse from(ArticleDto dto)
-    {
-        String userNickName = dto.getUserDto().getUserNickName();
-        if (userNickName == null || userNickName.isBlank())
-        {
-            userNickName = dto.getUserDto().getUserNickName();
+    public static ReadingListResponse from(ArticleDto articleDto) {
+        ReadingListResponse response = new ReadingListResponse();
+        response.setCommunityNo(articleDto.getCommunityNo());
+        response.setCommunitySubject(articleDto.getCommunitySubject());
+        response.setCommunityContent(articleDto.getCommunityContent());
+        response.setCommunityDate(articleDto.getCommunityDate());
+        UserDto userDto = articleDto.getUserDto();
+        if (userDto != null) {
+            response.setUserNickName(userDto.getUserNickName());
+        } else {
+            response.setUserNickName("Unknown User");
         }
-
-        Set<String> hashtags = dto.getArticleHashtagDto().stream()
-                .map(ArticleHashtagDto::getHashtagName)
-                .collect(Collectors.toUnmodifiableSet());
-
-        return ReadingListResponse.of(
-                dto.getCommunityNo(),
-                dto.getCommunitySubject(),
-                dto.getCommunityContent(),
-                hashtags,
-                dto.getUserDto().getUserNickName(),
-                dto.getCommunityDate()
-
-        );
+        return response;
     }
 
     public static ReadingListResponse fromArticleDto(ArticleDto articleDto) {
-        ReadingListResponse response = new ReadingListResponse();
-        return response;
+        return from(articleDto);
+    }
+
+    public void setHashtags(Set<String> hashtags) {
+        this.hashtags = hashtags;
     }
 }

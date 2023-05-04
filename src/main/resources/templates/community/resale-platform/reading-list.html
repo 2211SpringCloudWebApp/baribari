@@ -48,21 +48,22 @@
   </style>
 </head>
 <body id="page-top">
-  
+
 
 <nav th:replace="community/fragments :: nav"></nav>
 
+
+
 <!--/ Intro Skew Star /-->
-<div id="home" class="intro route bg-image">
+<div id="home" class="intro route bg-image" style="height: 300px">
   <!--     style="background-image: url(../../../static/img/camping/night-ged7e95dc0_1920.jpg)"-->
-  >
   <div class="overlay-itro"></div>
   <div class="intro-content display-table">
     <div class="table-cell">
       <div class="container">
         <!--<p class="display-6 color-d">Hello, world!</p>-->
-        <h1 class="intro-title mb-4">바리바리 커뮤니티</h1>
-        <p class="intro-subtitle"><span class="text-slider-items">자유게시판 / 중고게시판</span><strong class="text-slider"></strong></p>
+        <h1 class="intro-title mb-4">중고게시판</h1>
+        <!--        <p class="intro-subtitle"><span class="text-slider-items">자유게시판 / 중고게시판</span><strong class="text-slider"></strong></p>-->
         <!-- <p class="pt-3"><a class="btn btn-primary btn js-scroll px-4" href="#about" role="button">Learn More</a></p> -->
       </div>
     </div>
@@ -73,14 +74,16 @@
 <!--/ Section folio Star /-->
 <section id="work" class="folio-mf sect-pt4 route">
   <div class="container">
+
+
     <div class="row">
       <div class="col-sm-12">
         <div class="title-box text-center">
-          <h3 class="title-a">
-            중고게시판
-          </h3>
+          <!--          <h3 class="title-a">-->
+          <!--            중고게시판-->
+          <!--          </h3>-->
           <p class="subtitle-a">
-            최근에 올라온 따끈따끈한 캠핑 용품이에요 
+            최근에 올라온 따끈따끈한 캠핑 용품이에요
           </p>
           <div class="line-mf"></div>
         </div>
@@ -89,64 +92,79 @@
 
 
 
-    
-<section id="about" class="about-mf sect-pt4 route">
-  <div class="container">
 
-    <div class="row">
 
-      <div class="col-sm-12">
-      
-        <div class="box-shadow-full">
-      
-          <form>
-           
-            <div class="input-group">
-              <div class="input-group-text form-check form-check-inline">
-                <input class="form-check-input mt-0" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" aria-label="Radio button for following text input">
-                <label class="form-check-label" for="inlineRadio1">제목</label>
-              </div>
-              <div class="input-group-text form-check form-check-inline">
-                <input class="form-check-input mt-0" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" aria-label="Radio button for following text input">
-                <label class="form-check-label" for="inlineRadio2">내용</label>
-              </div>
-              <div class="input-group-text form-check form-check-inline">
-                <input class="form-check-input mt-0" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" aria-label="Radio button for following text input">
-                <label class="form-check-label" for="inlineRadio3">제목 + 내용</label>
-              </div>
-              <input type="text" class="form-control" aria-label="Text input with radio button">
+    <section id="about" class="about-mf sect-pt4 route">
+      <div class="container">
+
+        <div class="row">
+
+          <div class="col-sm-12">
+
+            <div class="box-shadow-full">
+
+              <form action="#" th:action="@{/resale}" method="get">
+                <div class="input-group">
+                  <div class="input-group-text form-check form-check-inline">
+                    <input class="form-check-input mt-0" type="radio" name="searchType" id="inlineRadio1" value="SUBJECT"
+                          th:checked="${searchType == null or searchType == 'SUBJECT'}"
+                           aria-label="Radio button for following text input">
+                    <label class="form-check-label" for="inlineRadio1">제목</label>
+                  </div>
+                  <div class="input-group-text form-check form-check-inline">
+                    <input class="form-check-input mt-0" type="radio" name="searchType" id="inlineRadio2" value="CONTENT"
+                           th:checked="${searchType != null and searchType == 'CONTENT'}"
+                           aria-label="Radio button for following text input">
+                    <label class="form-check-label" for="inlineRadio2">내용</label>
+                  </div>
+                  <div class="input-group-text form-check form-check-inline">
+                    <input class="form-check-input mt-0" type="radio" name="searchType" id="inlineRadio3" value="BOTH"
+                           th:checked="${searchType != null and searchType == 'BOTH'}"
+                           aria-label="Radio button for following text input">
+                    <label class="form-check-label" for="inlineRadio3">제목 + 내용</label>
+                  </div>
+
+
+                  <div class="input-group-append">
+                    <input type="text" class="form-control" name="searchWord" aria-label="Text input with radio button" th:value="${searchWord}">
+                  </div>
+                  <button type="submit" class="btn btn-outline-secondary">검색</button>
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
 
 
 
     <div class="row" th:remove="all-but-first">
-      <div class="col-md-4" th:each="resalePost : ${resalePost}">
+      <div class="col-md-4" th:each="article : ${articles}">
 
         <div class="work-box">
           <!--이미지 부 -->
           <a href="../../static/img/community/work-1.jpg" data-lightbox="gallery-mf">
             <div class="work-img">
               <img src="../../static/img/community/work-1.jpg"
-                   th:src="@{img/community/work-1.jpg}" alt="" class="img-fluid">
+                   th:src="@{img/community/work-1.jpg}"
+                   th:href="@{/resale/article/{communityNo}(communityNo=${article.communityNo})}"
+                   alt="" class="img-fluid">
             </div>
             <!-- 정보부 -->
             <div class="work-content">
               <div class="row">
-                <div class="col-sm-8">
-                  <h2 class="w-title" th:text="${resalePost.title}" th:href="@{'/resalePost/' + ${resalePost.id}}">상품</h2>
+                <div class="col-sm-8">x
+                  <h2 class="w-title" th:text="${article.communitySubject}"
+                      th:href="@{/resale/article/{communityNo}(communityNo=${article.communityNo})}">상품</h2>
+<!--                      th:href="@{'/article/' + ${article.communityNo}}"-->
                   <div class="w-more">
-                    <span class="w-ctegory" th:text="${resalePost.userNo.userNickName}">Web Design</span> /
+                    <span class="w-ctegory" th:text="${article.getUserNickName()}">Web Design</span> /
 
                     <!-- TODO :  작성일시 찍어주는것 둘중 무엇이 적정한지 확인하기
-                                        <span class="w-date" th:datetime="${resalePost.communityDate}" th:text="${#temporals.format(resalePost.communityDate, 'yyyy-MM-dd')}">18 Sep. 2018</span>-->
-                    <span class="w-date" th:text="${resalePost.communityDate}">18 Sep. 2018</span>
+                                        <span class="w-date" th:datetime="${article.communityDate}" th:text="${#temporals.format(article.communityDate, 'yyyy-MM-dd')}">18 Sep. 2018</span>-->
+                    <span class="w-date" th:text="${article.communityDate}">18 Sep. 2018</span>
 
                   </div>
                 </div>
@@ -292,6 +310,39 @@
 </section>
 <!--/ Section folio End /-->
 
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+    <!-- Add 'Previous' button -->
+    <li class="page-item" th:class="${pageInfo.isHasPreviousPage() ? '' : 'disabled'}">
+      <a class="page-link" th:href="@{'/resale?page=' + ${pageInfo.prePage}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+
+    <li class="page-item" th:each="pageNum : ${pageInfo.navigatepageNums}"
+        th:class="${pageNum == pageInfo.pageNum ? 'active' : ''}">
+      <a class="page-link" th:href="@{'/resale?page=' + ${pageNum}}" th:text="${pageNum}">
+        <!-- Your text will be replaced by Thymeleaf -->
+      </a>
+    </li>
+
+    <!-- Add 'Next' button -->
+    <li class="page-item" th:class="${pageInfo.isHasNextPage() ? '' : 'disabled'}">
+      <a class="page-link" th:href="@{'/resale?page=' + ${pageInfo.nextPage}}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav>
+  <ul>
+    <li th:each="pageNum : ${pageInfo.navigatepageNums}" th:class="${pageNum == pageInfo.pageNum ? 'active' : ''}">
+      <a th:href="@{'/resale?page=' + ${pageNum}}" th:text="${pageNum}"></a>
+    </li>
+  </ul>
+</nav>
 <!--/ Section Testimonials Star /-->
 <div class="testimonials paralax-mf bg-image" style="background-image: url(img/overlay-bg.jpg)">
   <div class="overlay-mf"></div>
@@ -306,7 +357,7 @@
             </div>
             <div class="content-test">
               <p class="description lead">
-               아무말
+                아무말
               </p>
               <span class="comit"><i class="fa fa-quote-right"></i></span>
             </div>
@@ -339,7 +390,7 @@
             바리바리 특가
           </h3>
           <p class="subtitle-a">
-            바리바리 특가 상품 
+            바리바리 특가 상품
           </p>
           <div class="line-mf"></div>
         </div>
@@ -349,8 +400,8 @@
       <div class="col-md-4">
         <div class="card card-blog">
           <div class="card-img">
-            <a href="blog-single.html"><img src="../../../static/img/community/resalePost-1.jpg"
-                                            th:src="@{img/community/resalePost-1.jpg}" alt="" class="img-fluid"></a>
+            <a href="blog-single.html"><img src="../../../static/img/community/article-1.jpg"
+                                            th:src="@{img/community/article-1.jpg}" alt="" class="img-fluid"></a>
           </div>
           <div class="card-body">
             <div class="card-category-box">
@@ -360,19 +411,19 @@
             </div>
             <h3 class="card-title"><a href="blog-single.html">쇼핑몰 특가 상품</a></h3>
             <p class="card-description">
-              바리바리 특가 상품 광고 
-              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다 
+              바리바리 특가 상품 광고
+              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다
             </p>
           </div>
           <div class="card-footer">
-            <div class="resalePost-author">
+            <div class="article-author">
               <a href="#">
                 <img src="../../../static/img/community/testimonial-2.jpg"
                      th:src="@{img/community/testimonial-2.jpg}" alt="" class="avatar rounded-circle">
                 <span class="author">캠핑 고래</span>
               </a>
             </div>
-            <div class="resalePost-date">
+            <div class="article-date">
               <span class="ion-ios-clock-outline"></span> 10 min
             </div>
           </div>
@@ -381,8 +432,8 @@
       <div class="col-md-4">
         <div class="card card-blog">
           <div class="card-img">
-            <a href="blog-single.html"><img src="../../../static/img/community/resalePost-2.jpg"
-                                            th:src="@{img/community/resalePost-2.jpg}" alt="" class="img-fluid"></a>
+            <a href="blog-single.html"><img src="../../../static/img/community/article-2.jpg"
+                                            th:src="@{img/community/article-2.jpg}" alt="" class="img-fluid"></a>
           </div>
           <div class="card-body">
             <div class="card-category-box">
@@ -392,19 +443,19 @@
             </div>
             <h3 class="card-title"><a href="blog-single.html">쇼핑몰 특가 상품</a></h3>
             <p class="card-description">
-              바리바리 특가 상품 광고 
-              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다 
+              바리바리 특가 상품 광고
+              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다
             </p>
           </div>
           <div class="card-footer">
-            <div class="resalePost-author">
+            <div class="article-author">
               <a href="#">
                 <img src="../../../static/img/community/testimonial-2.jpg"
                      th:src="@{img/community/testimonial-2.jpg}" alt="" class="avatar rounded-circle">
                 <span class="author">판매자</span>
               </a>
             </div>
-            <div class="resalePost-date">
+            <div class="article-date">
               <span class="ion-ios-clock-outline"></span> 30 min
             </div>
           </div>
@@ -413,8 +464,8 @@
       <div class="col-md-4">
         <div class="card card-blog">
           <div class="card-img">
-            <a href="blog-single.html"><img src="../../../static/img/community/resalePost-3.jpg"
-                                            th:src="@{img/community/resalePost-3.jpg}" alt="" class="img-fluid"></a>
+            <a href="blog-single.html"><img src="../../../static/img/community/article-3.jpg"
+                                            th:src="@{img/community/article-3.jpg}" alt="" class="img-fluid"></a>
           </div>
           <div class="card-body">
             <div class="card-category-box">
@@ -424,20 +475,20 @@
             </div>
             <h3 class="card-title"><a href="blog-single.html">쇼핑몰 특가 상품</a></h3>
             <p class="card-description">
-              바리바리 특가 상품 광고 
-              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다 
+              바리바리 특가 상품 광고
+              게시판에 다이렉트로 유입되는 사용자를 위한 쇼핑몰 상품 안내 색션입니다
 
             </p>
           </div>
           <div class="card-footer">
-            <div class="resalePost-author">
+            <div class="article-author">
               <a href="#">
                 <img src="../../../static/img/community/testimonial-2.jpg"
                      th:src="@{img/community/testimonial-2.jpg}" alt="" class="avatar rounded-circle">
                 <span class="author">자매판</span>
               </a>
             </div>
-            <div class="resalePost-date">
+            <div class="article-date">
               <span class="ion-ios-clock-outline"></span> 50 min
             </div>
           </div>
@@ -448,114 +499,7 @@
 </section>
 <!--/ Section Blog End /-->
 
-
-
-
-
-
-
-
-
-<!--⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜ 카드 영역 ⬜⬜⬜⬜⬜⬜⬜⬜⬜-->
-<div class="card">
-  <div class="card-body">
-
-    <h5 class="card-title" th:text="${enrollment.event.title}">Event title</h5>
-
-    <h6 class="card-subtitle mb-2 text-muted" th:text="${enrollment.event.study.title}">Study title</h6>
-
-    <p class="card-text">
-                                <span>
-                                    <i class="fa fa-calendar-o"></i>
-                                    <span class="calendar" th:text="${enrollment.event.startDateTime}">Last updated 3 mins ago</span>
-                                </span>
-    </p>
-
-    <a th:href="@{'/study/' + ${enrollment.event.study.path} + '/events/' + ${enrollment.event.id}}" class="card-link">모임 조회</a>
-    <a th:href="@{'/study/' + ${enrollment.event.study.path}}" class="card-link">스터디 조회</a>
-
-  </div>
-</div>
-<!--⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜카드 영역 ⬜⬜⬜⬜⬜⬜⬜⬜⬜-->
-
-<div class="row">
-  <table class="table" id="article-table">
-
-    <thead>
-    <tr>
-      <th class="title col-6"><a>제목</a></th>
-      <th class="hashtag col-2"><a>해시태그</a></th>
-      <th class="user-id"><a>작성자</a></th>
-      <th class="created-at"><a>작성일</a></th>
-    </tr>
-    </thead>
-
-    <tbody th:remove="all-but-first">
-
-    <tr th:each="article : ${articles}">
-      <td class="title">
-        <a th:text="${article.title}" th:href="@{'/articles/' + ${article.id}}">
-          첫글
-        </a>
-      </td>
-      <td class="hashtag">
-                <span class="badge text-bg-secondary mx-1" th:each="hashtag : ${article.hashtags}">
-                  <a class="text-reset"
-                     th:text="'#' + ${hashtag}"
-                     th:href="@{/templates/resalePost(searchType=${searchTypeHashtag},searchValue=${hashtag})}">
-                    #java
-                  </a>
-                </span>
-      </td>
-      <td class="user-id" th:text="${article.nickname}">
-        Uno
-      </td>
-      <td class="created-at">
-        <time th:datetime="${article.createdAt}" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd')}">
-          2022-01-01
-        </time>
-      </td>
-    </tr>
-    <tr>
-      <td>두번째글</td>
-      <td>#spring</td>
-      <td>Uno</td>
-      <td><time>2022-01-02</time></td>
-    </tr>
-    <tr>
-      <td>세번째글</td>
-      <td>#java</td>
-      <td>Uno</td>
-      <td><time>2022-01-03</time></td>
-    </tr>
-    </tbody>
-
-  </table>
-</div>
-
-<!--        <attr sel="tbody" th:remove="all-but-first">-->
-<!--          <attr sel="tr[0]" th:each="article : ${articles}">-->
-<!--            <attr sel="td.title/a" th:text="${article.title}" th:href="@{'/articles/' + ${article.id}}" />-->
-<!--            <attr sel="td.hashtag/span" th:each="hashtag : ${article.hashtags}">-->
-<!--              <attr sel="a"-->
-<!--                    th:text="'#' + ${hashtag}"-->
-<!--                    th:href="@{/templates/resalePost(searchType=${searchTypeHashtag},searchValue=${hashtag})}"-->
-<!--              />-->
-<!--            </attr>-->
-<!--            <attr sel="td.user-id" th:text="${article.nickname}" />-->
-<!--            <attr sel="td.created-at/time" th:datetime="${article.createdAt}" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd')}" />-->
-<!--          </attr>-->
-<!--        </attr>-->
-<!--        </attr>-->
-
-
-
-
-
-
-
-
-<!--/ Section Contact-Footer Star /-->
+<!--/ Section Contact-Footer Star /&ndash;&gt;-->
 <section class="paralax-mf footer-paralax bg-image sect-mt4 route"
          style="background-image: url(../../../static/img/community/overlay-bg.jpg)">
   <div class="overlay-mf"></div>

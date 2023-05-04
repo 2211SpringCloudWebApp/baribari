@@ -47,6 +47,20 @@
 <nav th:replace="community/fragments :: nav"></nav>
 
 
+<h1 th:text="${article.getCommunitySubject()}"></h1>
+<p th:text="'작성자: ' + ${article.getUserId()}"></p>
+<p th:text="'작성일: ' + ${article.getCommunityDate()}"></p>
+<div th:text="${article.getCommunityContent()}"></div>
+
+<h2>댓글</h2>
+<p th:text="'총 댓글 수: ' + ${totalCount}"></p>
+<div th:each="comment : ${articleComments}">
+  <p th:text="'작성자: ' + ${comment.userNickname}"></p>
+  <p th:text="'작성일: ' + ${comment.communityDate}"></p>
+  <div th:text="${comment.commentContent}"></div>
+</div>
+
+
 <div class="intro intro-single route bg-image" style="background-image: url(img/overlay-bg.jpg)">
 
   <div class="overlay-mf"></div>
@@ -109,7 +123,7 @@
 <!-- 댓글 출력 -->
         <div class="box-comments">
           <div class="title-box-2">
-            <h4 class="title-comments title-left">댓글(22)</h4>
+            <h4 class="title-comments title-left">댓글(2)</h4>
           </div>
           <ul class="list-comments" th:remove="all-but-first">
             <li th:each="comment : ${article.organizeChildComments()}">
@@ -117,19 +131,19 @@
                 <img src="img/testimonial-2.jpg" alt="">
               </div>
               <div class="comment-details">
-                <h4 class="comment-author"  th:text="${comment.nickname}">가가</h4>
+                <h4 class="comment-author"  th:text="${comment.stringNickname}">가가</h4>
                 <span th:text="${comment.communityDate}">18 Sep 2017</span>
                 <p th:text="${comment.commentContent}">
                   댓글입니다.
                 </p>
                 <a href="3">Reply</a>
               </div>
-            <li class="comment-children" th:each="child : ${child.childComments}">
+            <li class="comment-children" th:each="child : ${articleComments}">
               <div class="comment-avatar">
                 <img src="img/testimonial-2.jpg" alt="">
               </div>
               <div class="comment-details">
-                <h4 class="comment-author"  th:text="${child.userNickname}">가가</h4>
+                <h4 class="comment-author"  th:text="${child.stringNickname}">가가</h4>
                 <span th:text="${child.communityDate}">18 Sep 2017</span>
                 <p th:text="${child.commentContent}">
                   답글은 1-depth 입니다.

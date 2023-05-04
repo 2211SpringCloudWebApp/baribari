@@ -32,6 +32,6 @@ public class WriteRequest
                 communitySubject,
                 communityContent,
                 articleHashtagDto
-        );
+                            );
     }
 }

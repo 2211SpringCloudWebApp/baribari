@@ -1,6 +1,6 @@
 package com.kh.baribari.community.resaleplatform.controller;
 
-
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.kh.baribari.common.annotation.LoginUser;
 import com.kh.baribari.community.resaleplatform.domain.dto.*;
@@ -15,10 +15,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @Slf4j @Controller
 @RequiredArgsConstructor
@@ -26,29 +28,30 @@ import java.util.stream.Collectors;
 public class ArticleController
 {
     private final ArticleService articleService;
+    private final Converter2nd converter2nd;
+
 
     @GetMapping
     public ModelAndView getReadingList(
-            @RequestParam(required = false, defaultValue = "BOTH") SearchType searchType,
+            @RequestParam(required = false) SearchType searchType,
             @RequestParam(required = false) String searchWord,
             @RequestParam(required = false, defaultValue = "1") int page,
             ModelAndView modelAndView
-    ) {
+                                      )
+    {
         int pageSize = 10;
 
         Map<String, Object> params = new HashMap<>();
-        params.put("searchType", searchType);
+        params.put("searchType", searchType != null ? searchType.toString() : null);
         params.put("searchWord", searchWord);
-        params.put("page", page);
-        params.put("pageSize", pageSize);
 
-        PageInfo<ArticleDto> pageInfo = articleService.searchArticles(params);
-        List<ReadingListResponse> articles = pageInfo.getList().stream()
-                .map(ReadingListResponse::fromArticleDto)
-                .collect(Collectors.toList());
+        PageHelper.startPage(page, pageSize);
+        List<ArticleDto> articleDtos = articleService.searchArticles(params);
+        PageInfo<ArticleDto> pageInfo = new PageInfo<>(articleDtos);
+        PageInfo<ReadingListResponse> responsePageInfo = converter2nd.toReadingListResponse(pageInfo);
 
-        modelAndView.addObject("articles", articles);
-        modelAndView.addObject("pageInfo", pageInfo);
+        modelAndView.addObject("articles", responsePageInfo.getList());
+        modelAndView.addObject("pageInfo", responsePageInfo);
         modelAndView.addObject("SearchTypes", SearchType.values());
         modelAndView.addObject("searchTypeHashtag", SearchType.HASHTAG);
         modelAndView.setViewName("community/resale-platform/reading-list");
@@ -61,43 +64,43 @@ public class ArticleController
     public String getArticle(
             @PathVariable int communityNo,
             ModelMap map
-    ) throws NotFoundException
-    {
-        GetArticleResponse article = Converter.toGetArticleResponse(articleService.getArticleComments(communityNo));
-        Map<String, Object> params = new HashMap<>();
-        String searchWord = "example";
-        params.put("searchWord", searchWord);
+                            ) throws NotFoundException {
 
+        GetArticleResponse article = Converter.toGetArticleResponse(articleService.getArticleComments(communityNo));
+        Set<ArticleCommentResponse> organizedComments = article.organizeChildComments();
         map.addAttribute("article", article);
-        map.addAttribute("articleComments", article.getArticleCommentsResponse());
-        map.addAttribute("totalCount", articleService.getArticleCount(params));
-        map.addAttribute("searchTypeHashtag", SearchType.HASHTAG);
+        map.addAttribute("articleComments", organizedComments);
+        map.addAttribute("totalCount", articleService.countComments(communityNo));
 
         return "community/resale-platform/article";
     }
 
+
     @GetMapping("/article/new")
-    public String article(ModelMap modelMap)
+    public String article(ModelMap modelMap, @LoginUser LoginUserDto loginUserDto)
     {
         modelMap.addAttribute("articleAction", ArticleAction.CREATE);
-
+        modelMap.addAttribute("loginUser", loginUserDto);
+        modelMap.addAttribute("currentDate", LocalDateTime.now());
         return "community/resale-platform/article-form";
     }
+
 
     @PostMapping("/article/new")
     public String writeArticle(
             @LoginUser LoginUserDto loginUserDto,
             WriteRequest writeRequest,
             RedirectAttributes redirectAttributes
-    ) {
+                              ) {
         if (loginUserDto != null) {
             articleService.saveArticle(writeRequest.toDto(loginUserDto.toDto()));
-            return "redirect:";
+            return "redirect:resale";
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "게시물을 생성하려면 로그인해야 합니다.");
             return "redirect:/login";
         }
     }
+
 
     @GetMapping("/article/{communityNo}/update")
     public String updateArticlePost(@PathVariable int communityNo, ModelMap map) throws NotFoundException
@@ -110,12 +113,13 @@ public class ArticleController
         return "community/resale-platform/article-form";
     }
 
+
     @PutMapping("/article/{communityNo}/update")
     public String updateArticlePost(
             @PathVariable int communityNo,
             @LoginUser LoginUserDto loginUserDto,
             WriteRequest writeRequest
-    )
+                                   )
     {
         articleService.updateArticle(communityNo, writeRequest.toDto(loginUserDto.toDto()));
 
@@ -123,11 +127,12 @@ public class ArticleController
 
     }
 
+
     @DeleteMapping("/article/{communityNo}/delete")
     public String deleteArticle(
             @PathVariable Integer communityNo,
             @LoginUser LoginUserDto loginUserDto
-    )
+                               )
     {
         articleService.deleteArticle(communityNo, loginUserDto.getUserNo());
 

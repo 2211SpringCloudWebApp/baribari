@@ -160,48 +160,19 @@
 					<h3>상품 문의작성</h3>
 					<form id="qnaForm" action="/qna/register" method="post">
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="제목" />
+							<input id="qnaTitle" type="text" class="form-control" placeholder="제목" />
 						</div>
 						<div class="form-group">
-							<textarea class="form-control" name="qnaContent" placeholder="내용"></textarea>
+							<textarea id="qnaContent" class="form-control" name="qnaContent" placeholder="내용"></textarea>
 						</div>
 						<input type="hidden" name="userNo" th:value="${#authentication.principal.user.userNo}">
 						<input type="hidden" name="productNo" th:value="${product.productNo}">
-						<button type="submit" class="btn btn-primary">등록</button>
+						<button type="button" id="submitQna" class="btn btn-primary">등록</button>
 					</form>
 				</div>
+				<!-- 문의 목록 (script영역에서 출력) -->
 				<ul id="qnaBoard" class="list-unstyled">
-					<li>
-						<span class="num">1</span>
-						<span class="title"><a href="#" data-toggle="collapse" data-target="#content1">제목1</a></span>
-						<span class="author">작성자1</span>
-						<span class="date">2023-04-13</span>
-						<span class="views">100</span>
-					</li>
-					<li>
-						<span class="num">2</span>
-						<span class="title"><a href="#" data-toggle="collapse" data-target="#content2">제목2</a></span>
-						<span class="author">작성자2</span>
-						<span class="date">2023-04-14</span>
-						<span class="views">50</span>
-					</li>
-					<li>
-						<span class="num">3</span>
-						<span class="title"><a href="#" data-toggle="collapse" data-target="#content3">제목3</a></span>
-						<span class="author">작성자3</span>
-						<span class="date">2023-04-15</span>
-						<span class="views">20</span>
-					</li>
 				</ul>
-				<div id="content1" class="content collapse">
-					<p>내용1</p>
-				</div>
-				<div id="content2" class="content collapse">
-					<p>내용2</p>
-				</div>
-				<div id="content3" class="content collapse">
-					<p>내용3</p>
-				</div>
 			</div>
 
 			<!-- 배송/반품/교환/AS -->
@@ -306,6 +277,7 @@
 
 		/* 후기 출력 함수 실행 */
 		getReviewList();
+		getQnaList();
 
 		const quantity = document.querySelector('#quantity'); // 수량
 		const price = document.querySelector('#price').textContent.replace(/[,원]/g, ''); // 가격 - ','와 '원' 제거
@@ -460,6 +432,100 @@
 				url: "/review/remove",
 				data: {
 					"reviewNo": reviewNo,
+					"userNo": userNo
+				},
+				type: "post",
+				success: function (result) {
+					if (result == "1") {
+						alert("후기 삭제 완료");
+						getReviewList();
+					} else {
+						alert("후기 삭제 실패");
+						console.log(result);
+					}
+				},
+				error: function () {
+					alert("처리 실패");
+				}
+			});
+		}
+		
+		
+		/* ============================================== QNA ============================================== */
+		
+		
+		/* 문의 출력 */
+		function getQnaList() {
+			$.ajax({
+				url: "/qna/list",
+				data: { "productNo": productNo },
+				type: "get",
+				dataType: "json",
+				success: function (qList) {
+					var qnaList = "";
+					for (var i = 0; i < qList.length; i++) {
+						qnaList += "<li>"
+							+ "<span class='num'>" + (qList.length - i) + "</span>" // 후기 번호 (역순)
+							+ "<span class='title'>" + qList[i].qnaContent.replace(/\n/g, "<br>") + "</span>" // 후기 내용
+							+ "<span class='author'>" + qList[i].userNo + "</span>" // 후기 작성자 = 로그인된 사용자
+							+ (qList[i].userNo == userNo ? "<span class='btns'>" + "<button>수정</button>" + "<button onclick='deleteReview(" + qList[i].qnaNo + ", " + userNo + ")'>삭제</button>" + "</span>" : "") // 후기 작성자와 로그인한 사용자가 같은 경우 수정/삭제 버튼 출력
+							+ "</li>";
+					}
+					$("#qnaBoard").empty();
+					$("#qnaBoard").append(qnaList);
+				},
+				error: function () {
+					alert("처리 실패");
+				}
+			});
+		}
+		/* 문의 등록 */
+		$("#submitQna").on("click", function () {
+			var qnaTitle = document.querySelector('#qnaTitle');
+			var qnaContent = document.querySelector('#qnaContent');
+			if (qnaTitle.value.length == 0) {
+				alert("제목을 입력해주세요.");
+				return;
+			}
+			if (qnaContent.value.length == 0) {
+				alert("내용을 입력해주세요.");
+				return;
+			}
+
+			const formData = new FormData();
+
+			formData.append("qnaTitle", qnaTitle.value);
+			formData.append("qnaContent", qnaContent.value);
+			formData.append("productNo", productNo);
+			formData.append("userNo", userNo);
+
+			$.ajax({
+				url: "/qna/register",
+				data: formData,
+				type: "post",
+				processData: false,
+				contentType: false,
+				success: function (result) {
+					if (result == "1") {
+						alert("후기 등록 완료");
+						getReviewList();
+					} else {
+						alert("후기 등록 실패");
+						console.log(result);
+					}
+				},
+				error: function () {
+					alert("처리 실패");
+				}
+			});
+		});
+		/* 문의 삭제 */
+		function deleteReview(reviewNo, userNo) {
+			confirm("삭제하시겠습니까");
+			$.ajax({
+				url: "/qna/remove",
+				data: {
+					"qnaNo": qnaNo,
 					"userNo": userNo
 				},
 				type: "post",

@@ -1469,7 +1469,7 @@ section {
 
 #footer .footer-top .footer-newsletter form {
   margin-top: 30px;
-  background: #28251f;
+  background: #081333;
   padding: 6px 10px;
   position: relative;
   border-radius: 50px;
@@ -1480,7 +1480,7 @@ section {
   border: 0;
   padding: 4px;
   width: calc(100% - 110px);
-  background: #28251f;
+  background: #081333;
   color: white;
 }
 
@@ -1500,7 +1500,8 @@ section {
 }
 
 #footer .footer-top .footer-newsletter form input[type="submit"]:hover {
-  background: #d3af71;
+  background: #FFBF1F;
+  color: #081333;
 }
 
 #footer .copyright {

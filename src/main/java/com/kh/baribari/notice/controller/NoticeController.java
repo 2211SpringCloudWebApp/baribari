@@ -22,7 +22,6 @@ import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.common.Search;
 import com.kh.baribari.notice.domain.Notice;
 import com.kh.baribari.notice.service.NoticeService;
-import com.kh.baribari.user.domain.User;
 import com.kh.baribari.user.service.UserService;
 
 @Controller
@@ -174,9 +173,19 @@ public class NoticeController {
 			int result = nService.updateViewCount(noticeNo);
 			if (result > 0) {
 				
-				Notice noticePrev = nService.selectOneByNo(noticeNo-1);
+				int noticePrevNo = noticeNo - 1;
+				int noticeNextNo = noticeNo + 1;
+				Notice noticePrev = nService.selectOneByNo(noticePrevNo);
+				Notice noticeNext = nService.selectOneByNo(noticeNextNo);
+				while (noticePrev == null && noticePrevNo > 0) {
+				    noticePrevNo--;
+				    noticePrev = nService.selectOneByNo(noticePrevNo);
+				}
+				while (noticeNext == null) {
+				    noticeNextNo++;
+				    noticeNext = nService.selectOneByNo(noticeNextNo);
+				}
 				Notice notice = nService.selectOneByNo(noticeNo);
-				Notice noticeNext = nService.selectOneByNo(noticeNo+1);
 				int viewCount = nService.updateViewCount(noticeNo);
 				String userId = notice.getUserId();
 //				User writer = uService.selectUserByuserId(userId);

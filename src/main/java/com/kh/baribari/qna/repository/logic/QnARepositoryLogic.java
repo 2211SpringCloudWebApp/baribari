@@ -29,4 +29,10 @@ public class QnARepositoryLogic implements QnARepository{
 		return result;
 	}
 
+	@Override
+	public int deleteQnA(SqlSession session, int productNo) {
+		int result = session.delete("QnAMapper.deleteQnA", productNo);
+		return result;
+	}
+
 }

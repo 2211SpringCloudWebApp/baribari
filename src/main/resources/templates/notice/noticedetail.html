@@ -62,11 +62,17 @@
 				<div class="prev-next">
 					<div class="prev">
 						▲이전글 :
-						<span class="title"><a th:href="@{/notice/detail(noticeNo=${noticePrev.noticeNo})}" th:text="${noticePrev.noticeTitle }"></a></span>
+						<span class="title">
+							<a th:if="${noticePrev != null}" th:href="@{/notice/detail(noticeNo=${noticePrev.noticeNo})}" th:text="${noticePrev.noticeTitle }"></a>
+							<span th:if="${noticePrev == null}">no</span>
+						</span>
 					</div>
 					<div class="next">
 						▼다음글 :
-						<span class="title"><a th:href="@{/notice/detail(noticeNo=${noticeNext.noticeNo})}" th:text="${noticeNext.noticeTitle }"></a></span>
+						<span class="title">
+							<a th:if="${noticeNext != null}"  th:href="@{/notice/detail(noticeNo=${noticeNext.noticeNo})}" th:text="${noticeNext.noticeTitle }"></a>
+							<span th:if="${noticeNext == null}">no</span>
+						</span>
 					</div>
 				</div>
 			</div>

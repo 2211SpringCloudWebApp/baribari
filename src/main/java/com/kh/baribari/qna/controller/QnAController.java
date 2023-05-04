@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -75,6 +76,25 @@ public class QnAController {
 			e.printStackTrace();
 			mv.addObject("msg", e.getMessage()).setViewName("error");
 			return mv;
+		}
+		return mv;
+	}
+	
+	// QnA 삭제
+	@GetMapping("/remove")
+	public ModelAndView qnaDelete(ModelAndView mv, @RequestParam("productNo") int productNo) {
+		try {
+			int result = qService.deleteQnA(productNo);
+			if(result > 0) {
+				mv.setViewName("redirect:/qna/list");
+			}else {
+				mv.addObject("msg", "상품문의 삭제에 실패하였습니다.");
+				mv.setViewName("/common/error");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			mv.addObject("msg", e.getMessage());
+			mv.setViewName("common/error");
 		}
 		return mv;
 	}

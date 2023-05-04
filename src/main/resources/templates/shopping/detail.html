@@ -132,7 +132,7 @@
 				<div sec:authorize="hasRole('ROLE_USER')" th:if="${customer >= 0}" class="writeReview">
 					<h3>상품후기 작성</h3>
 					<form id="reviewForm" action="/review/register" method="post" enctype="multipart/form-data">
-						<textarea id="reviewContent" placeholder="후기를 입력해 주세요"></textarea>
+						<textarea id="reviewContent" placeholder="후기를 입력해 주세요."></textarea>
 						<div id="imgPreview"></div>
 						<label for="photoInput">사진 첨부</label>
 						<input type="file" id="photoInput" accept="image/*" name="fileUpload" multiple>
@@ -160,10 +160,7 @@
 					<h3>상품 문의작성</h3>
 					<form id="qnaForm" action="/qna/register" method="post">
 						<div class="form-group">
-							<input id="qnaTitle" type="text" class="form-control" placeholder="제목" />
-						</div>
-						<div class="form-group">
-							<textarea id="qnaContent" class="form-control" name="qnaContent" placeholder="내용"></textarea>
+							<textarea id="qnaContent" class="form-control" name="qnaContent" placeholder="문의하실 내용을 입력해주세요."></textarea>
 						</div>
 						<input type="hidden" name="userNo" th:value="${#authentication.principal.user.userNo}">
 						<input type="hidden" name="productNo" th:value="${product.productNo}">
@@ -465,10 +462,10 @@
 					var qnaList = "";
 					for (var i = 0; i < qList.length; i++) {
 						qnaList += "<li>"
-							+ "<span class='num'>" + (qList.length - i) + "</span>" // 후기 번호 (역순)
-							+ "<span class='title'>" + qList[i].qnaContent.replace(/\n/g, "<br>") + "</span>" // 후기 내용
-							+ "<span class='author'>" + qList[i].userNo + "</span>" // 후기 작성자 = 로그인된 사용자
-							+ (qList[i].userNo == userNo ? "<span class='btns'>" + "<button>수정</button>" + "<button onclick='deleteReview(" + qList[i].qnaNo + ", " + userNo + ")'>삭제</button>" + "</span>" : "") // 후기 작성자와 로그인한 사용자가 같은 경우 수정/삭제 버튼 출력
+							+ "<span class='num'>" + (qList.length - i) + "</span>" // 문의 번호 (역순)
+							+ "<span class='title'>" + qList[i].qnaContent.replace(/\n/g, "<br>") + "</span>" // 문의 내용
+							+ "<span class='author'>" + qList[i].userNo + "</span>" // 문의 작성자 = 로그인된 사용자
+							+ (qList[i].userNo == userNo ? "<span class='btns'>" + "<button>수정</button>" + "<button onclick='deleteReview(" + qList[i].qnaNo + ", " + userNo + ")'>삭제</button>" + "</span>" : "") // 문의 작성자와 로그인한 사용자가 같은 경우 수정/삭제 버튼 출력
 							+ "</li>";
 					}
 					$("#qnaBoard").empty();
@@ -481,12 +478,7 @@
 		}
 		/* 문의 등록 */
 		$("#submitQna").on("click", function () {
-			var qnaTitle = document.querySelector('#qnaTitle');
 			var qnaContent = document.querySelector('#qnaContent');
-			if (qnaTitle.value.length == 0) {
-				alert("제목을 입력해주세요.");
-				return;
-			}
 			if (qnaContent.value.length == 0) {
 				alert("내용을 입력해주세요.");
 				return;
@@ -494,7 +486,6 @@
 
 			const formData = new FormData();
 
-			formData.append("qnaTitle", qnaTitle.value);
 			formData.append("qnaContent", qnaContent.value);
 			formData.append("productNo", productNo);
 			formData.append("userNo", userNo);

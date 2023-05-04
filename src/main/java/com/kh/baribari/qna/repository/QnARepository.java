@@ -32,4 +32,12 @@ public interface QnARepository {
 	 */
 	public int selectByproductNo(SqlSession session, int productNo);
 
+	/**
+	 * qna 삭제
+	 * @param session
+	 * @param productNo
+	 * @return
+	 */
+	public int deleteQnA(SqlSession session, int productNo);
+
 }

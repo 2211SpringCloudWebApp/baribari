@@ -165,6 +165,7 @@
     text-align: center;
 }
 
+
 .writeReview {
     margin-bottom: 30px;
     display: flex;
@@ -194,6 +195,7 @@
     border: none;
     cursor: pointer;
     float: right;
+    border-radius: 5px;
 }
 
 .reviewTitle {
@@ -215,6 +217,7 @@
     border: none;
     cursor: pointer;
     text-align: center;
+    border-radius: 5px;
 }
 
 /* 페이징 */
@@ -455,3 +458,37 @@
     padding: 20px;
     font-size: 14px;
 }
+
+/*버튼 css*/
+
+.num {
+    color: #081333;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .title {
+    color: #081333;
+    margin-right: 10px;
+  }
+  
+  .author {
+    color: #081333;
+    margin-right: 10px;
+  }
+  
+  .btns button {
+    background-color: #081333;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .btns button:hover {
+    background-color: white;
+    color: #081333;
+  }
+  

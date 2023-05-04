@@ -85,7 +85,7 @@
             	<div style = "width:40%">
             		<span th:switch="${community.communityYn}">
 	               		<span th:case="0">
-	               			<a th:href="@{/boardDetail(communityNo=${community.communityNo}, page=${pi.currentPage}, category=${category}, sort=${sort})}" th:text="${community.communitySubject}"></a>
+	               			<a th:href="@{/boardDetail(communityNo=${community.communityNo}, page=${pi.currentPage}, category=${category}, sort=${sort}, hashTagName=${hashTagName})}" th:text="${community.communitySubject}"></a>
 	               		</span>
 	               		<span th:case="1">
 						블라인드 처리된 게시물입니다.
@@ -108,30 +108,30 @@
 					<ul th:if="${pi.totalCount > 0}" class="pagination">
 				        <!-- 첫 페이지 버튼 -->
 				        <li th:if="${pi.currentPage > 1}" class="page-item">
-				            <a th:href="@{/boardList(page=1, category=${category}, sort=${sort})}" class="page-link">
+				            <a th:href="@{/boardList(page=1, category=${category}, sort=${sort}, hashTagName=${hashTagName})}" class="page-link">
 				                <i class="fas fa-angle-double-left"><<</i>
 				            </a>
 				        </li>
 				        <!-- 이전 페이지 버튼 -->
 				        <li th:if="${pi.currentPage > 1}" class="page-item">
-				            <a th:href="@{/boardList(page=${pi.currentPage} - 1, category=${category}, sort=${sort})}" class="page-link">
+				            <a th:href="@{/boardList(page=${pi.currentPage} - 1, category=${category}, sort=${sort}, hashTagName=${hashTagName})}" class="page-link">
 				                <i class="fas fa-angle-left"><</i>
 				            </a>
 				        </li>
 				        <!-- 페이지 번호 버튼 -->
 				        <li th:each="page : ${#numbers.sequence(pi.startNav, pi.endNav)}"
 				            th:class="${page == pi.currentPage} ? 'active' : ''">
-				            <a th:href="@{/boardList(page=${page}, category=${category}, sort=${sort})}" th:text="${page}" class="page-link"></a>
+				            <a th:href="@{/boardList(page=${page}, category=${category}, sort=${sort}, hashTagName=${hashTagName})}" th:text="${page}" class="page-link"></a>
 				        </li>
 				        <!-- 다음 페이지 버튼 -->
 				        <li th:if="${pi.currentPage < pi.navTotalCount}" class="page-item">
-				            <a th:href="@{/boardList(page=${pi.currentPage} + 1, category=${category}, sort=${sort})}" class="page-link">
+				            <a th:href="@{/boardList(page=${pi.currentPage} + 1, category=${category}, sort=${sort}, hashTagName=${hashTagName})}" class="page-link">
 				                <i class="fas fa-angle-right">></i>
 				            </a>
 				        </li>
 				        <!-- 마지막 페이지 버튼 -->
 				        <li th:if="${pi.currentPage < pi.navTotalCount}" class="page-item">
-				            <a th:href="@{/boardList(page=${pi.navTotalCount}, category=${category}, sort=${sort})}" class="page-link">
+				            <a th:href="@{/boardList(page=${pi.navTotalCount}, category=${category}, sort=${sort}, hashTagName=${hashTagName})}" class="page-link">
 				                <i class="fas fa-angle-double-right">>></i>
 				            </a>
 				        </li>

@@ -79,6 +79,22 @@
 		SELECT * FROM COMMUNITY_PIC_TBL WHERE COMMUNITY_NO = #{boardNo}
 	</select>
 	
+	<select id="selectHashTagList" resultType="community">
+		SELECT C.* 
+		FROM COMMUNITY_TBL C
+		INNER JOIN HASH_TAG_TBL H ON C.COMMUNITY_NO = H.COMMUNITY_NO
+		WHERE
+		H.HASH_TAG_NAME = #{hashTagName}
+	</select>
+	
+	<select id="selectHashTagCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM COMMUNITY_TBL C
+		INNER JOIN HASH_TAG_TBL H ON C.COMMUNITY_NO = H.COMMUNITY_NO
+		WHERE
+		H.HASH_TAG_NAME = #{hashTagName}
+	</select>
+	
 	<insert id="boardRegister">
 		INSERT INTO COMMUNITY_TBL VALUES(
 			#{communityNo},

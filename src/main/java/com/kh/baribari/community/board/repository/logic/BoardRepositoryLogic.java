@@ -25,6 +25,12 @@ public class BoardRepositoryLogic implements BoardRepository {
 		RowBounds rowBounds = new RowBounds(pi.getOffset(), pi.getBoardLimit());
 		return session.selectList("CommunityMapper.getBoardListAll",comm , rowBounds);
 	}
+	
+	@Override
+	public List<Community> selectHashTagList(SqlSession session, PageInfo pi, String hashTagName) {
+		RowBounds rowBounds = new RowBounds(pi.getOffset(), pi.getBoardLimit());
+		return session.selectList("CommunityMapper.selectHashTagList",hashTagName, rowBounds);
+	}
 
 	@Override
 	public int getListCount(SqlSession session, int boardNo) {
@@ -79,6 +85,11 @@ public class BoardRepositoryLogic implements BoardRepository {
 	@Override
 	public void plusViewCount(SqlSession session, Integer boardNo) {
 		session.update("CommunityMapper.plusViewCount",boardNo);
+	}
+
+	@Override
+	public int selectHashTagCount(SqlSession session, String hashTag) {
+		return session.selectOne("CommunityMapper.selectHashTagCount", hashTag);
 	}
 
 }

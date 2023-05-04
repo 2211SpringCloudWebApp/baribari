@@ -31,15 +31,16 @@ public class BoardServiceLogic implements BoardService {
 	public List<Community> getBoardListAll(PageInfo pi, Community comm) {
 		return brepository.getBoardListAll(session, pi, comm);
 	}
+	
+	@Override
+	public List<Community> selectHashTagList(PageInfo pi, String hashTagName) {
+		return brepository.selectHashTagList(session, pi, hashTagName);
+	}
 
 	@Override
 	public int getListCount(int boardNo) {
 		return brepository.getListCount(session,boardNo);
 	}
-
-	
-
-	
 
 	@Override
 	public int getSEQ() {
@@ -50,8 +51,6 @@ public class BoardServiceLogic implements BoardService {
 	public int boardRegister(Community commu) {
 		return brepository.boardRegister(session, commu);
 	}
-
-	
 
 	@Override
 	public int registerPhoto(CommunityPIC pic) {
@@ -92,4 +91,10 @@ public class BoardServiceLogic implements BoardService {
 	public void plusViewCount(Integer boardNo) {
 		brepository.plusViewCount(session, boardNo);
 	}
+
+	@Override
+	public int selectHashTagCount(String hashTag) {
+		return brepository.selectHashTagCount(session, hashTag);
+	}
+
 }

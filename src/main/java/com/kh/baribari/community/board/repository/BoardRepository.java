@@ -27,6 +27,15 @@ public interface BoardRepository {
 	public List<Community> getBoardListAll(SqlSession session, PageInfo pi, Community comm);
 
 	/**
+	 * 해시태그 있을때 게시글 목록 조회
+	 * @param session
+	 * @param pi
+	 * @param hashTagName
+	 * @return
+	 */
+	public List<Community> selectHashTagList(SqlSession session, PageInfo pi, String hashTagName);
+	
+	/**
 	 * 게시글 좋아요 수 조회
 	 * @param boardNo
 	 * @return int
@@ -109,5 +118,14 @@ public interface BoardRepository {
 	 * @param boardNo
 	 */
 	public void plusViewCount(SqlSession session, Integer boardNo);
+
+	/**
+	 * 해시태그 있을때 총 게시물 수
+	 * @param session
+	 * @param hashTag
+	 * @return
+	 */
+	public int selectHashTagCount(SqlSession session, String hashTag);
+
 
 }

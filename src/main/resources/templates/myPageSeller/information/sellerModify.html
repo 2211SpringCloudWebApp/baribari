@@ -39,7 +39,6 @@
                 <div class="page-menu">
                     <dl>
                         <dd><a href="/myPageUser/modify" class="page-active">회원정보 수정</a></dd>
-                        <dd class="page-address"><a href="/myPageUser/address">배송지 관리</a></dd>
                         <dd class="page-withdraw"><a href="/myPageUser/withdraw">회원탈퇴</a></dd>
                     </dl>
                 </div>
@@ -78,10 +77,10 @@
                             2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 작성해주세요! :)
                         </div>
                         <div class="invalid-feedback nickName-check-success" style="color:#0a53be">
-                            예쁜 닉네임이에요~!!
+                            예쁜 상점명이에요~!!
                         </div>
                         <div class="invalid-feedback nickName-check-same">
-                            중복된 닉네임이에요 ㅠ.ㅠ
+                            중복된 상점명이에요 ㅠ.ㅠ
                         </div>
                     </div>
                     <div class="phone-input-box">
@@ -96,10 +95,6 @@
                         <input type="text" id="phone2" maxlength="4">
                         <input type="text" id="phone3" maxlength="4">
                     </div>
-                    <div>
-                        <label>배송지 주소</label>
-                        <a href="/myPageUser/address" style="font-size: 14px;">배송지 관리로 가기.</a>
-                    </div>
                     <div class="email-input-box">
                         <label>이메일</label>
                         <input type="text" class="display-none" th:value="${#authentication.principal.user.userEmail}" name="userEmail" id="userEmail">
@@ -112,7 +107,7 @@
                 </div>
             </fieldset>
             <div class="okbox">
-                <button type="submit" class="submit-btn">회원정보 수정</button>
+                <button type="submit" class="submit-btn">상점정보 수정</button>
             </div>
         </form>
     </div>

@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>배송지 관리</title>
+    <title>BARIBARI</title>
     <!-- Favicons -->
     <link href="../assets/img/favicon.png" rel="icon">
     <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -38,14 +38,14 @@
 <div class="mainContainer" style="padding-top: 170px">
     <div class="top">
         <div class="top-container">
-            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/pegDown">팩다운글</a></div>
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myComment">내가쓴댓글</a></div>
             <div style="margin-top: 30px;">
-                <div class="page-title">팩다운 글</div>
+                <div class="page-title">내가 쓴 댓글</div>
                 <div class="page-menu">
                     <dl>
-                        <dd class="page-active"><a href="/pegDown" >팩다운 글</a></dd>
-                        <dd class="page-myWrite"><a href="/myPageUser/myWrite">내가 쓴 글</a></dd>
-                        <dd class="page-myComment"><a href="/myPageUser/myComment">내가 쓴 댓글</a></dd>
+                        <dd class="page-pegDown"><a href="/pegDown" >팩다운 글</a></dd>
+                        <dd class="page-write"><a href="/myWrite">내가 쓴 글</a></dd>
+                        <dd class="page-active"><a href="/myComment">내가 쓴 댓글</a></dd>
                     </dl>
                 </div>
             </div>
@@ -64,23 +64,18 @@
                 <thead>
                 <tr style="text-align: center">
                     <th class="sorting_disabled col">게시글번호</th>
-                    <th class="sorting_disabled col">분류</th>
-                    <th class="sorting_disabled col">제목</th>
-                    <th class="sorting_disabled col">등록일</th>
+                    <th class="sorting_disabled col">게시글제목</th>
+                    <th class="sorting_disabled col">댓글내용</th>
+                    <th class="sorting_disabled col">작성날짜</th>
                 </tr>
                 </thead>
-                <tr class="table-tr" th:each="CommunityList : ${communityList}">
-                    <td class="table-td" th:text="${CommunityList.communityNo}"></td>
-                    <td class="table-td">
-                        <span th:if="${CommunityList.communityCategory == 0}">자유잡담</span>
-                        <span th:if="${CommunityList.communityCategory == 1}">자유장소공유</span>
-                        <span th:if="${CommunityList.communityCategory == 2}">중고구매</span>
-                        <span th:if="${CommunityList.communityCategory == 3}">중고판매</span>
-                    </td>
+                <tr class="table-tr" th:each="CommentList : ${CommentList}">
+                    <td class="table-td" th:text="${CommentList.communityNo}"></td>
+                    <td class="table-td" th:text="${CommentList.communitySubject}"></td>
                     <td class=" td-center">
-                        <a th:href="'/boardDetail?communityNo='+${CommunityList.communityNo}" th:text="${CommunityList.communitySubject}"></a>
+                        <a th:href="'/boardDetail?communityNo='+${CommentList.communityNo}" th:text="${CommentList.commentContent}"></a>
                     </td>
-                    <td class=" td-center" th:text="${#dates.format(CommunityList.scrapDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td class=" td-center" th:text="${#dates.format(CommentList.commentDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 </tr>
             </table>
         </div>
@@ -94,7 +89,7 @@
                     "ordering": false,
                     "autoWidth": false,
                     "language": {
-                        "emptyTable": "팩다운 글이 없습니다.",
+                        "emptyTable": "작성한 댓글이 없습니다.",
                         url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/ko.json'
                     }
                 }

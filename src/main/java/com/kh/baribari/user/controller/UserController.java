@@ -15,6 +15,7 @@ import com.kh.baribari.common.JsonParse;
 import com.kh.baribari.security.auth.PrincipalDetails;
 import com.kh.baribari.user.service.UserService;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -445,4 +446,43 @@ public class UserController {
         }
     }
 
+    // 커뮤니티
+    // 팩다운뷰
+    @GetMapping("pegDown")
+    public ModelAndView pegDownView(
+            ModelAndView mv,
+            Authentication authentication
+    ){
+        User user = returnUser(authentication);
+        List<MPCommunityList> CommunityList = uService.selectPegDownList(user);
+        mv.addObject("communityList", CommunityList);
+        mv.setViewName("/myPage/community/pegDown");
+        return mv;
+    }
+
+    // 내가쓴글 뷰
+    @GetMapping("myWrite")
+    public ModelAndView myWriteView(
+            ModelAndView mv,
+            Authentication authentication
+    ){
+        User user = returnUser(authentication);
+        List<MPCommunityList> CommunityList = uService.selectMyWrite(user);
+        mv.addObject("communityList", CommunityList);
+        mv.setViewName("/myPage/community/myWrite");
+        return mv;
+    }
+
+    // 내가쓴글 뷰
+    @GetMapping("myComment")
+    public ModelAndView myCommentView(
+            ModelAndView mv,
+            Authentication authentication
+    ){
+        User user = returnUser(authentication);
+        List<CommentList> CommentList = uService.selectCommentList(user);
+        mv.addObject("CommentList", CommentList);
+        mv.setViewName("/myPage/community/myComment");
+        return mv;
+    }
 }

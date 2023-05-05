@@ -17,11 +17,12 @@
 .middle-content{
     width: 45%;
     height: 90%;
-    border: 1px solid black;
+    border: 1px solid #ccc;
     border-radius: 15px;
     padding: 10px 0 10px 0;
     background-color: white;
     overflow: auto;
+    box-shadow: 0 0 20px 0 #ccc;
 }
 .middle-content::-webkit-scrollbar{
     display: none;

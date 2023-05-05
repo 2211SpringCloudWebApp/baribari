@@ -46,6 +46,37 @@ public class SellerController {
     @Autowired
     private ReturnUser returnUser;
 
+    @GetMapping("/myPageSeller")
+    public String myPageSellerView(
+            Authentication authentication,
+            Model model
+    ){
+        User user = returnUser.returnUser(authentication);
+        UserMyPageData userUserMyPageData = new UserMyPageData(user.getUserNo(), user.getUserLevelPoint());
+        UserMyPageData userMyPageData = uService.selectUserMyPageData(userUserMyPageData);
+        model.addAttribute("userMyPageData", userMyPageData);
+        return "myPageSeller/myPageSeller";
+    }
+
+    @GetMapping("myPageSeller/modify")
+    public String myPageUserModifyView(
+            Authentication authentication,
+            Model model
+    ) {
+        User userData = returnUser.returnUser(authentication);
+        User user = uService.selectModifyUser(userData.getUserNo());
+        model.addAttribute("user", user);
+        return "myPageSeller/information/sellerModify";
+    }
+
+    @GetMapping("myPageSeller/orderList")
+    public ModelAndView orderListView(
+            ModelAndView mv
+    ){
+        mv.setViewName("myPageSeller/information/sellerModify");
+        return mv;
+    }
+
     /* ------------ 판매자 부분 ------------ */
     // 판매자가 판매하는 상품 목록 (상품등록/수정/삭제는 product패키지에 존재)
     @GetMapping("myPageSeller/list")
@@ -56,4 +87,6 @@ public class SellerController {
     	mv.addObject("pList", pList).setViewName("");
     	return mv;
     }
+
+
 }

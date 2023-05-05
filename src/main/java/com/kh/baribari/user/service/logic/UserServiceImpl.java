@@ -39,17 +39,17 @@ public class UserServiceImpl implements UserService {
         return uRepository.selectUserMyPageData(userUserMyPageData);
     }
 
-	@Override
-	public int checkCustomer(Integer productNo) {
-		return uRepository.checkCustomer(productNo);
-	}
+    @Override
+    public int checkCustomer(Integer productNo) {
+        return uRepository.checkCustomer(productNo);
+    }
 
-	@Override
-	public User selectUserByuserId(String userId) {
-		return uRepository.selectUserByuserId(userId);
-	}
+    @Override
+    public User selectUserByuserId(String userId) {
+        return uRepository.selectUserByuserId(userId);
+    }
 
-//    유저마이페이지 - 개인정보 수정
+    //    유저마이페이지 - 개인정보 수정
     @Override
     public User updateMyPageByUser(User user) {
         return uRepository.updateMyPageByUser(user);
@@ -60,16 +60,16 @@ public class UserServiceImpl implements UserService {
         return uRepository.insertAddressByUser(address);
     }
 
-//    배송지 리스트 가져오기
+    //    배송지 리스트 가져오기
     @Override
     public List<Address> selectAddressList(User user) {
         return uRepository.selectAddressList(user);
     }
 
-	@Override
-	public User getUserInfo(int userNo) {
-		return uRepository.getUserInfo(userNo);
-	}
+    @Override
+    public User getUserInfo(int userNo) {
+        return uRepository.getUserInfo(userNo);
+    }
 
     @Override
     public List<MyPageQna> selectQna(MyPageQna qna) {
@@ -156,13 +156,28 @@ public class UserServiceImpl implements UserService {
         return uRepository.changePw(user);
     }
 
+    @Override
+    public List<MPCommunityList> selectPegDownList(User user) {
+        return uRepository.selectPegDownList(user);
+    }
+
+    @Override
+    public List<MPCommunityList> selectMyWrite(User user) {
+        return uRepository.selectMyWrite(user);
+    }
+
+    @Override
+    public List<CommentList> selectCommentList(User user) {
+        return uRepository.selectCommentList(user);
+    }
+
     //  배송지 삭제
     @Override
     public int deleteAddress(int addressNo) {
         return uRepository.deleteAddress(addressNo);
     }
 
-//    유저 회원탈퇴
+    //    유저 회원탈퇴
     @Override
     public int deleteUserByUserNo(int userNo) {
         return uRepository.deleteUserByUser(userNo);

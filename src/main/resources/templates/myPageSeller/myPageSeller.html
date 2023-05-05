@@ -38,7 +38,7 @@
                         <div class="profile-pic" ><img th:src="${userMyPageData.profilePicPath}" style="width: 100%; height: 100%"></div>
                     </div>
                         <div>
-                            <div class="info" th:text="${#authentication.principal.user.userName}+님">
+                            <div class="info" th:text="${#authentication.principal.user.userNickName}+님">
                         </div>
                         <div class="userMyPageData">
                             <span  th:text="'Lv.' + ${userMyPageData.levelNo}" style="font-size: 25px; color:black; font-weight: bold"></span>
@@ -51,17 +51,11 @@
                         </div>
                     </div>
                     <div>
-                        <button class="modify-btn" onclick="location.href='/myPageUser/modify'"><img src="img/setting.png" style="width:14px; height: 14px" alt="수정"/>수정</button>
+                        <button class="modify-btn" onclick="location.href='/myPageSeller/modify'"><img src="img/setting.png" style="width:14px; height: 14px" alt="수정"/>수정</button>
                     </div>
                 </div>
                 <div class="profile-right">
                 <div class="right-content">
-                    <ul>
-                        <li style="color:#868686">적립금</li>
-                    </ul>
-                    <ul style="font-weight: bold; font-size: 15px">
-                        <li th:text="${#numbers.formatInteger(userMyPageData.pointVal, 3, 'COMMA')}+' 원'"></li>
-                    </ul>
                 </div>
                 </div>
             </div>
@@ -69,11 +63,11 @@
     </div>
     <div class="middle">
         <div class="order-list">
-        <h1 style="font-weight: bold;font-size: 35px;">주문현황</h1>
+        <h1 style="font-weight: bold;font-size: 35px;">배송현황</h1>
         </div>
         <div class="logistic-container">
             <div>
-            <a onclick="MonthSearch(1);">
+            <a href="myPageSeller/orderList">
                 <div class="payment-logistic">
                     <img src="img/payment.svg" class="order-img">
                 </div>
@@ -81,7 +75,7 @@
                 <span class="logistic-count" th:text="${userMyPageData.payment}"></span>
             </a>
                 <div class="dashed"></div>
-            <a onclick="MonthSearch(1);">
+            <a href="myPageSeller/orderList">
                 <div class="ready-logistic" >
                     <img src="img/box-time.svg" class="order-img">
                 </div>
@@ -89,7 +83,7 @@
                 <span class="logistic-count" th:text="${userMyPageData.ready}"></span>
             </a>
                 <div class="dashed"></div>
-            <a onclick="MonthSearch(1);">
+            <a href="myPageSeller/orderList">
                 <div class="start-logistic">
                     <img src="img/logistic.svg" class="order-img">
                 </div>
@@ -97,7 +91,7 @@
                 <span class="logistic-count" th:text="${userMyPageData.logistic}"></span>
             </a>
                 <div class="dashed"></div>
-            <a onclick="MonthSearch(1);">
+            <a href="myPageSeller/orderList">
                 <div class="complete-logistic">
                     <img  src="img/box-comp.svg" class="order-img">
                 </div>
@@ -113,18 +107,16 @@
                 <img src="img/icon_main_3.svg" alt="내정보">
                 정보관리
             </dt>
-            <dd><a href="/myPageUser/modify" >회원정보 수정</a></dd>
-            <dd><a href="/myPageUser/address">배송지 관리</a></dd>
+            <dd><a href="/myPageSeller/modify" >상점정보 수정</a></dd>
             <dd><a href="/myPageUser/withdraw">회원탈퇴</a></dd>
         </dl>
         <dl>
             <dt>
                 <img src="img/icon_main_1.svg" alt="배송이미지">
-                주문관리
+                상품관리
             </dt>
-            <dd onclick="MonthSearch(1);"><a>주문/배송조회</a></dd>
-            <dd><a href="/myPageUser/cart">장바구니</a></dd>
-            <dd><a href="/myPageUser/like">찜한 상품</a></dd>
+            <dd><a href="myPageSeller/list">상품목록 조회</a></dd>
+            <dd><a href="myPageSeller/orderList">주문내역 조회</a></dd>
         </dl>
         <dl>
             <dt>
@@ -140,10 +132,9 @@
                 <img src="img/icon_main_4.svg" alt="커뮤니티">
                 커뮤니티
             </dt>
-            <dd><a href="">팩다운 글</a></dd>
-            <dd><a href="">좋아요한 글</a></dd>
-            <dd><a href="">내가 쓴 글</a></dd>
-            <dd><a href="">내가 쓴 댓글</a></dd>
+            <dd><a href="/pegDown">팩다운 글</a></dd>
+            <dd><a href="/myWrite">내가 쓴 글</a></dd>
+            <dd><a href="/myComment">내가 쓴 댓글</a></dd>
         </dl>
     </div>
 </div>

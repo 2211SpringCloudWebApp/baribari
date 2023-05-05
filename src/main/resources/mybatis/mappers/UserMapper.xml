@@ -84,6 +84,14 @@
         DELETE FROM QNA_TBL WHERE QNA_NO = #{qnaNo}
     </select>
 
+<!--    내가쓴댓글 리스트 로딩 -->
+    <select id="selectCommentList" resultType="CommentList">
+        SELECT C.* , CC.COMMUNITY_SUBJECT
+        FROM COMMENT_TBL C
+        JOIN COMMUNITY_TBL CC ON C.COMMUNITY_NO = CC.COMMUNITY_NO
+        WHERE C.USER_NO = #{userNo}
+    </select>
+
     <!-- 유저 등록 -->
     <insert id="insertUserByUser" parameterType="User">
         INSERT INTO USER_TBL
@@ -141,8 +149,8 @@
         SELECT P.PRODUCT_NO, P.PRODUCT_NAME,PP.PRODUCT_PIC_1 , O.ORDER_DATE, O.ORDER_NO, D.ORDER_DETAIL_COUNT, D.ORDER_LOGIS, D.ORDER_TRACKING_NO, D.ORDER_STATUS, D.ORDER_PRICE, U.USER_NICKNAME, O.USER_NO, P.PRODUCT_BRAND
         FROM ORDER_DETAIL_TBL D
                  JOIN ORDER_TBL O ON O.ORDER_NO = D.ORDER_NO
-                 JOIN USER_TBL U ON U.USER_NO = D.SELLER_USER_NO
-                 JOIN PRODUCT_TBL P ON P.PRODUCT_NO = D.PRODUCT_NO
+                 FULL JOIN USER_TBL U ON U.USER_NO = D.SELLER_USER_NO
+                 FULL JOIN PRODUCT_TBL P ON P.PRODUCT_NO = D.PRODUCT_NO
                  FULL JOIN PRODUCT_PIC_TBL PP ON PP.PRODUCT_NO = P.PRODUCT_NO
         WHERE O.USER_NO = #{userNo} AND
               ORDER_DATE BETWEEN #{startDate} and #{endDate}
@@ -194,6 +202,22 @@
     WHERE F.USER_NO = #{userNo}
     </select>
 
+<!--    커뮤니티 팩다운 -->
+    <select id="selectPegDown" resultType="MPCommunityList">
+        SELECT C.COMMUNITY_NO, C.COMMUNITY_SUBJECT, C.COMMUNITY_DATE, C.COMMUNITY_CATEGORY, S.SCRAP_DATE, S.USER_NO
+        FROM COMMUNITY_TBL C
+        JOIN SCRAP_TBL S ON S.COMMUNITY_NO = C.COMMUNITY_NO
+        WHERE S.USER_NO = #{userNo}
+        ORDER BY SCRAP_DATE DESC
+    </select>
+<!--    커뮤니티 내가 쓴글 -->
+    <select id="selectMyWrite" resultType="MPCommunityList">
+        SELECT C.COMMUNITY_NO, C.COMMUNITY_SUBJECT,TO_CHAR(C.COMMUNITY_DATE, 'YYYYMMDDHHMISS') AS COMMUNITY_DATE, C.COMMUNITY_CATEGORY, U.USER_NO
+        FROM COMMUNITY_TBL C
+        JOIN USER_TBL U ON C.USER_NO = U.USER_NO
+        WHERE U.USER_NO = #{userNo}
+    </select>
+
 
 
 <!-- 유저 정보 업데이트 -->
@@ -227,7 +251,6 @@
     <update id="updateProfilePic">
         UPDATE PROFILE_TBL SET PROFILE_PIC_PATH = #{profilePicPath} WHERE USER_NO = #{userNo}
     </update>
-
 <!--   비밀번호 변경 -->
     <update id="changePw">
         UPDATE USER_TBL SET USER_PW = #{userPw} WHERE USER_ID = #{userId}

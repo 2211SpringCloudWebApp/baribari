@@ -75,4 +75,10 @@ public interface UserRepository {
     int findUserPw(User user);
 //  유저 비밀번호 번경
     int changePw(User user);
+//  팩다운 리스트
+    List<MPCommunityList> selectPegDownList(User user);
+//  내가쓴글 로딩
+    List<MPCommunityList> selectMyWrite(User user);
+//  내가쓴댓글 로딩
+    List<CommentList> selectCommentList(User user);
 }

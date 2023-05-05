@@ -181,4 +181,19 @@ public class UserRepositoryLogic implements UserRepository {
     public int changePw(User user) {
         return session.update("UserMapper.changePw",user);
     }
+
+    @Override
+    public List<MPCommunityList> selectPegDownList(User user) {
+        return session.selectList("UserMapper.selectPegDown",user);
+    }
+
+    @Override
+    public List<MPCommunityList> selectMyWrite(User user) {
+        return session.selectList("UserMapper.selectMyWrite",user);
+    }
+
+    @Override
+    public List<CommentList> selectCommentList(User user) {
+        return session.selectList("UserMapper.selectCommentList",user);
+    }
 }

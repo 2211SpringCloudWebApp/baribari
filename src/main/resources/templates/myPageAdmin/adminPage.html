@@ -113,13 +113,13 @@
                         <th>작성일시</th>
                         <th>조회수</th>
                     </tr>
-                    <tr class="content-tr" th:each="communityList : ${communityList}">
-                        <td th:text="${communityList.communityCategoryName}"></td>
-                        <td><a th:href="'/boardDetail?communityNo='+${communityList.communityNo}"
-                               th:text="${communityList.communitySubject}"></a></td>
-                        <td th:text="${communityList.userNickname}"></td>
-                        <td style="font-size: 12px;" th:text="${communityList.communityDate}"></td>
-                        <td th:text="${communityList.viewCount}"></td>
+                    <tr class="content-tr" th:each="MPCommunityList : ${MPCommunityList}">
+                        <td th:text="${MPCommunityList.communityCategoryName}"></td>
+                        <td><a th:href="'/boardDetail?communityNo='+${MPCommunityList.communityNo}"
+                               th:text="${MPCommunityList.communitySubject}"></a></td>
+                        <td th:text="${MPCommunityList.userNickname}"></td>
+                        <td style="font-size: 12px;" th:text="${MPCommunityList.communityDate}"></td>
+                        <td th:text="${MPCommunityList.viewCount}"></td>
                     </tr>
                 </table>
             </div>
@@ -164,7 +164,7 @@
                         <th>문의일시</th>
                         <th>답변여부</th>
                     </tr>
-                    <tr class="content-tr" th:each="qnaList : ${qnaList}">
+                    <tr class="content-tr" th:each="qnaList : ${qnaList}" onclick="location.href='/admin/qna'" style="cursor: pointer">
                         <td th:text="${qnaList.userNickname}"></td>
                         <td th:text="${qnaList.qnaContent}"></td>
                         <td style="font-size: 12px;" th:text="${qnaList.qnaDate}"></td>

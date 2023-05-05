@@ -63,7 +63,7 @@
         ORDER BY PRODUCT_NO ASC
     </select>
     <select id="selectReportCountByUser" resultType="_int">
-        SELECT COUNT(*) FROM USER_TBL WHERE USER_NO = #{reportTargetNo}
+        SELECT REPORT_COUNT FROM USER_TBL WHERE USER_NO = #{reportTargetNo}
     </select>
 
 

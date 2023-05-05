@@ -108,14 +108,15 @@
     })
     function mdOff(productNo){
         $.ajax({
-            url:'/ajaxMdOff',
+            url:'/ajaxMdOn',
             type:'post',
             data:{
                 'productNo' : productNo,
-                'mdYn' : 1
+                'mdYn' : 0
             },
             success:function(data){
-
+                alert("처리되었습니다.");
+                location.href = location.href;
             }
         })
     }
@@ -125,10 +126,11 @@
             type:'post',
             data:{
                 'productNo' : productNo,
-                'mdYn' : 0
+                'mdYn' : 1
             },
             success:function(data){
-
+                alert("처리되었습니다.");
+                location.href = location.href;
             }
         })
     }

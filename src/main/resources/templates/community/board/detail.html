@@ -135,26 +135,88 @@
         	function commentRegister(){
         		var communityNo = $("#seq").val();
 	        	var userNo = $("#loginUserNo").val();
-	        	var subject = $("#commentText").val();
+	        	var commentContent = $("#commentText").val();
+	        	var scrollTop = $(window).scrollTop(); // 스크롤위치 저장
 	        	
-	      		$.ajax({
-	        		url : "commentRegister",
+	        	if(userNo != 0){
+	        		if(commentContent != ""){
+			      		$.ajax({
+			        		url : "commentRegister",
+			        		data : {
+			        			"communityNo": communityNo,
+			        			"userNo": userNo,
+			        			"commentContent" : commentContent
+			        		},
+			        		type : "GET",
+			        		success : function(){
+			        			$(window).scrollTop(scrollTop);//스크롤위치 다시 불러오기
+			        			commentShow(); // 댓글 출력하기
+			        		},
+			        		error : function(){
+			        			showTage.empty();
+			        		}
+			        	});
+	        		}else{
+	        			alert("댓글 내용을 작성해주세요.");
+	        		}
+	        	}else{
+	        		alert("로그인을 먼저 해주세요.");
+	        	}
+        	}
+        	
+        	// 댓글 출력허기
+        	function commentShow(){
+        		var communityNo = $("#seq").val();
+        		var scrollTop = $(window).scrollTop(); // 스크롤위치 저장
+        		var showComment = $("#showComment");
+        		var loginUserNo = $("#loginUserNo").val();
+        		
+        		$.ajax({
+	        		url : "commentShow",
 	        		data : {
 	        			"communityNo": communityNo,
-	        			"userNo": userNo
 	        		},
 	        		type : "GET",
 	        		success : function(data){
-	        			showLike.empty();
-	        			showLike.html(data);
-	        			$(window).scrollTop(scrollTop);//스크롤위치 다시 불러오기
-	        		},
-	        		error : function(){
-	        			showTage.empty();
-	        		}
+	        			 showComment.empty();
+	        	            for (var i = 0; i < data.length; i++) {
+	        	                var commentDiv = $("<div>").addClass("all-commentdiv commentdiv displayFlex hCenter");
+	        	                var commentName = $("<input>").addClass("comment-name").attr("type", "text").attr("readonly", true).val(data[i].userNickname);
+	        	                var commentInput = $("<input>").addClass("comment-input").attr("type", "text").attr("readonly", true).val(data[i].commentContent);
+	        	                var commentEditBtn = $("<input>").addClass("comment-allbtn").attr("type", "button").val("수정").click(function(){
+	        	                    // TODO: Edit comment
+	        	                });
+	        	                var commentDeleteBtn = $("<input>").addClass("comment-allbtn").attr("type", "button").val("삭제").click(function(){
+	        	                    // TODO: Delete comment
+	        	                });
+	        	                var commentReplyBtn = $("<input>").addClass("comment-allbtn").attr("type", "button").val("댓글달기").click(function(){
+	        	                    // TODO: Reply to comment
+	        	                });
+
+	        	                // Append all the elements to the comment div
+	        	                commentDiv.append(commentName);
+	        	                commentDiv.append(commentInput);
+	        	                if(loginUserNo != 0){
+	        	                	commentDiv.append(commentReplyBtn);
+	        	                	if(loginUserNo == data[i].userNo){
+		        	                	commentDiv.append(commentEditBtn);
+		        	                	commentDiv.append(commentDeleteBtn);
+	        	                	}
+	        	                }
+
+	        	                // Append the comment div to the showComment div
+	        	                showComment.append(commentDiv);
+	        	            }
+	        	            $(window).scrollTop(scrollTop); // Restore the scroll position
+	        	        },
+	        	        error : function(){
+	        	            showComment.empty();
+	        	        }
 	        	});
         	}
         
+        	commentShow();
+        	
         	function goList(){
         		var page = document.getElementById("page").value;
         		var category = document.getElementById("category").value;

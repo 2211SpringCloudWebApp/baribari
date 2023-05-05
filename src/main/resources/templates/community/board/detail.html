@@ -135,10 +135,8 @@
         	function commentRegister(){
         		var communityNo = $("#seq").val();
 	        	var userNo = $("#loginUserNo").val();
+	        	var subject = $("#commentText").val();
 	        	
-	      		var showLike = $("#showLike");
-	      		var scrollTop = $(window).scrollTop(); // 스크롤위치 저장
-
 	      		$.ajax({
 	        		url : "commentRegister",
 	        		data : {
@@ -147,7 +145,6 @@
 	        		},
 	        		type : "GET",
 	        		success : function(data){
-	        			console.log(data);
 	        			showLike.empty();
 	        			showLike.html(data);
 	        			$(window).scrollTop(scrollTop);//스크롤위치 다시 불러오기

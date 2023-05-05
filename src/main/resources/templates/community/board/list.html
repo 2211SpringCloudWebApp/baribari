@@ -42,16 +42,16 @@
         		자유게시판
         	</div>
             <div id="flist-Nav">
-	            <div id="flistNav1">
-	            	<a href="boardList?category=9">전체</a>
+	            <div id="flistNav1" class="displayFlex hCenter wCenter">
+	            	<a href="boardList?category=9">전체 </a>
 	            	/
-	                <a href="boardList?category=1">캠핑지</a>
+	                <a href="boardList?category=1">캠핑지 </a>
 	                /
 	                <a href="boardList?category=0">잡담</a>
 	                <input id="getCategory" th:value="${category}" type="hidden">
 	            	<input id="sort"  th:value="${sort}" type="hidden">
 	            </div>
-	            <div id="flistNav2">
+	            <div id="flistNav2" class="displayFlex hCenter wRight">
 	                <input type="checkbox" id="checkbox1" name="checkbox1" value="0"  checked onchange="uncheckOthers('checkbox1')">
 	                <label for="checkbox1">제목</label>
 	                <input type="checkbox" id="checkbox2" name="checkbox2" value="1" onchange="uncheckOthers('checkbox2')">
@@ -59,9 +59,9 @@
 	                <input type="checkbox" id="checkbox3" name="checkbox3" value="2" onchange="uncheckOthers('checkbox3')">
 	                <label for="checkbox3">닉네임</label>
 	            </div>
-	            <div id="flistNav3">
-	                <input type="text" id="searchbox">
-	                <input type="button" value="검색" onclick="keywordSearch()">
+	            <div id="flistNav3" class="displayFlex hCenter wRight">
+	                <input id="searchbox" type="text" >
+	                <input id="searchbtn" type="button" value="검색" onclick="keywordSearch()">
 	            </div>
             </div>
             <div id="show-list-head">
@@ -194,17 +194,17 @@
 	            var viewsSort = document.getElementById('viewsSort');
             	console.log(sort);
 	            if(sort == 0){ // 좋아요 높은순
-	            	likeSort.style.color = 'gold';
+	            	likeSort.style.color = 'rgb(8,19,51,0.7)';
 	            	dateSort.style.color = 'black';
 	            	viewsSort.style.color = 'black';
 	            }else if(sort == 1){ // 작성일 높은순
 	            	likeSort.style.color = 'black';
-	            	dateSort.style.color = 'gold';
+	            	dateSort.style.color = 'rgb(8,19,51,0.7)';
 	            	viewsSort.style.color = 'black';
 	            }else if(sort == 2){ // 조회수 높은순
 	            	likeSort.style.color = 'black';
 	            	dateSort.style.color = 'black';
-	            	viewsSort.style.color = 'gold';
+	            	viewsSort.style.color = 'rgb(8,19,51,0.7)';
 	            }else{
 	            	likeSort.style.color = 'black';
 	            	dateSort.style.color = 'black';

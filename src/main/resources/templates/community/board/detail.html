@@ -68,7 +68,7 @@
      
                 <div id="registerdiv3">
                 
-                </div> 
+                </div>
                 <div th:if="${pic.communityPic1} != null" id="registerdiv7">
 	                <div th:if="${pic.communityPic1} != null" class="div_style"><img id="img1" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic1}" alt="첨부사진1" /></div>
 	                <div th:if="${pic.communityPic2} != null" class="div_style"><img id="img2" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic2}" alt="첨부사진2" /></div>
@@ -79,7 +79,7 @@
 	                <div th:if="${pic.communityPic7} != null" class="div_style"><img id="img7" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic7}" alt="첨부사진7" /></div>
 	                <div th:if="${pic.communityPic8} != null" class="div_style"><img id="img8" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic8}" alt="첨부사진8" /></div>
 	                <div th:if="${pic.communityPic9} != null" class="div_style"><img id="img9" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic9}" alt="첨부사진9" /></div>
-	                <div th:if="${pic.communityPic10} != null" class="div_style"><img id="img10" onclick="showImg()" class = "img_style" th:src="${pic.communityPic10}" alt="첨부사진10" /></div>
+	                <div th:if="${pic.communityPic10} != null" class="div_style"><img id="img10" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic10}" alt="첨부사진10" /></div>
                 </div>
                 <div id="registerdiv4">
                     <textarea name="content" id="inputContent" readonly th:text=${commu.communityContent} ></textarea>
@@ -95,6 +95,34 @@
                 	<input id="hashTagName"	type="hidden" th:value=${hashTagName}>
                 </div>
             </div>
+            <div id="commentContainer">
+	            <textarea id="commentText"></textarea>
+	            <input id="commentbtn" type="button" value="댓글달기" onclick="commentRegister()">
+            </div>
+            <div id="showComment">
+            	<div class="all-commentdiv commentdiv displayFlex hCenter">
+            		<input class="comment-name" type="text" value="동두천불주먹">
+            		<input class="comment-input" type="text" value="1댓글입니다 최대 길이는 얼마나 될까요?">
+            		<input class="comment-allbtn" type="button" value="수정" onclick="">
+            		<input class="comment-allbtn" type="button" value="삭제" onclick="">
+            		<input class="comment-allbtn" type="button" value="댓글달기" onclick="">
+            	</div>
+            	<div class="all-commentdiv commentdiv displayFlex hCenter">
+            		<input class="comment-name" type="text" value="동두천불주먹">
+            		<input class="comment-input" type="text" value="2댓글입니다.">
+            		<input class="comment-allbtn" type="button" value="수정" onclick="">
+            		<input class="comment-allbtn" type="button" value="삭제" onclick="">
+            		<input class="comment-allbtn" type="button" value="댓글달기" onclick="">
+            	</div>
+            	<div class="all-commentdiv recommentdiv displayFlex hCenter">
+            		<input class="comment-name" type="text" value="동두천불주먹">
+            		<input class="comment-input" type="text" value="3대댓글입니다.">
+            		<input class="comment-allbtn" type="button" value="수정" onclick="">
+            		<input class="comment-allbtn" type="button" value="삭제" onclick="">
+            		<input class="comment-allbtn" type="button" value="댓글달기" onclick="">
+            	</div>
+            </div>
+            
         </form>
 
         <script type="text/javascript"
@@ -102,7 +130,34 @@
         <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ba03b0afa21d048313b9d7072d06edb9"></script>
         <script>
-     
+        
+        	//댓글 등록하기
+        	function commentRegister(){
+        		var communityNo = $("#seq").val();
+	        	var userNo = $("#loginUserNo").val();
+	        	
+	      		var showLike = $("#showLike");
+	      		var scrollTop = $(window).scrollTop(); // 스크롤위치 저장
+
+	      		$.ajax({
+	        		url : "commentRegister",
+	        		data : {
+	        			"communityNo": communityNo,
+	        			"userNo": userNo
+	        		},
+	        		type : "GET",
+	        		success : function(data){
+	        			console.log(data);
+	        			showLike.empty();
+	        			showLike.html(data);
+	        			$(window).scrollTop(scrollTop);//스크롤위치 다시 불러오기
+	        		},
+	        		error : function(){
+	        			showTage.empty();
+	        		}
+	        	});
+        	}
+        
         	function goList(){
         		var page = document.getElementById("page").value;
         		var category = document.getElementById("category").value;
@@ -353,8 +408,9 @@
 	        	});
 	        }
         </script>
-        <footer>
-            <div th:replace="footer.html :: footer"></div>
-        </footer>
+        
+	    <footer>
+		   	<div th:replace="footer.html :: footer"></div>
+	    </footer>
     </body>
 </html>

@@ -80,7 +80,6 @@
                 <span style="display: block; text-align: center; color: rgb(128, 128, 128); margin-top:20px;">
                 사진을 첨부 하려면 아래 영역에 파일 선택 버튼을 클릭하거나 파일을 드래그앤드롭 하세요
                 </span>
-                <div id="registerdiv3"></div>
                 <div id="registerdiv7"></div>
                 <div id="registerdiv8">
                     <input type="file" id="fileUpload" name="fileUpload" multiple='multiple' accept='image/*'>
@@ -88,10 +87,10 @@
                 <script>
                 	(// 이미지를 보여주는 영역 설정.
                         imageView = function imageView(registerdiv7, btn){
-                            var attZone = document.getElementById(registerdiv7);
-                            var fileUpload = document.getElementById(btn)
+                            var attZone = document.getElementById(registerdiv7); // 이미지를 보여줄 영역
+                            var fileUpload = document.getElementById(btn) //?
                             var sel_files = [];
-                            var showimg = document.getElementById(showimg); // 테스트로 이미지값 보여줄곳
+                            
                             // 이미지와 체크 박스를 감싸고 있는 div 속성
                             var div_style = 'display:inline-block;position:relative;'
                                         + 'width:90px;height:90px;'
@@ -109,8 +108,6 @@
 							    var files = e.target.files; // 선택한 파일 목록을 변수에 할당합니다.
 							    var fileArr = Array.prototype.slice.call(files) // 파일 목록을 배열로 변경하여 변수에 할당합니다.
 							    var addedFiles = sel_files.length + fileArr.length; // 추가된 파일 개수를 저장합니다.
-							    console.log(addedFiles);
-							    alert(addedFiles);
 							    if (addedFiles > 10) { // 추가된 파일 개수가 10개를 초과한 경우 이미지 추가가 불가능합니다.
 							    	alert("이미지는 최대 10개까지만 추가할 수 있습니다.");
 							    	return false;
@@ -150,9 +147,10 @@
                                 }
                             }, false)
 
-                            /*첨부된 이미리즐을 배열에 넣고 미리보기 */
+                            /*첨부된 이미리들을 배열에 넣고 미리보기 */
                             imageLoader = function(file){
                                 sel_files.push(file);   // 배열에 이미지 저장
+                                console.log(sel_files);
                                 var reader = new FileReader();  // 이미지 불러올 변수 생성
                                 reader.onload = function(ee){   // 이미지 로드될때 실행되는 함수 정의
                                     let img = document.createElement('img') // img 태그 생성
@@ -391,7 +389,6 @@
 	        
 			//해시태그 동작 부분
 	        function handleKeyDown(event) {
-				console.log(event.key)
 	            if (event.key === ',' || event.key == ' ') {
 	                // ',' 키가 눌렸을 때 해시태그 유효성 검사
 	                var inputTage = document.getElementById('inputTage');

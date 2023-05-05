@@ -23,6 +23,14 @@ public interface BoardService {
 	public List<Community> getBoardListAll(PageInfo pi, Community comm);
 
 	/**
+	 * 해시태그로 검색한 게시글 목록 조회
+	 * @param pi
+	 * @param hashTagName
+	 * @return
+	 */
+	public List<Community> selectHashTagList(PageInfo pi, String hashTagName);
+	
+	/**
 	 * 게시글 좋아요 수 조회
 	 * @param boardNo
 	 * @return int
@@ -96,4 +104,12 @@ public interface BoardService {
 	 * @param boardNo
 	 */
 	public void plusViewCount(Integer boardNo);
+
+	/**
+	 * 해시태그 있을때 총 게시물 수
+	 * @param hashTag
+	 * @return
+	 */
+	public int selectHashTagCount(String hashTag);
+
 }

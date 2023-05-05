@@ -9,12 +9,10 @@ public enum ArticleAction
     READ_ONLY("읽기전용", false);
 
 
-
     @Getter
     private final String action;
     @Getter
     private final boolean isUpdate;
-//    private final Boolean update;
 
     ArticleAction(String action, boolean isUpdate)
     {

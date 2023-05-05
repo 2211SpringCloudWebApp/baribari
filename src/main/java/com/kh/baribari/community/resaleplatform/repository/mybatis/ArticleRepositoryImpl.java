@@ -4,6 +4,7 @@ import com.kh.baribari.community.resaleplatform.domain.Article;
 import com.kh.baribari.community.resaleplatform.domain.dto.ArticleDto;
 import com.kh.baribari.community.resaleplatform.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -11,36 +12,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@Repository
+@Repository @Slf4j
 @RequiredArgsConstructor
 public class ArticleRepositoryImpl implements ArticleRepository
 {
-
     private final SqlSession sqlSession;
 
-
-    @Override
-    public List<Article> findByTitleContaining(String communitySubject) {
-        return sqlSession.selectList("ArticleMapper.findByTitleContaining", communitySubject);
-    }
-
-    @Override
-    public List<Article> findByContentContaining(String communityContent)
-    {
-        return sqlSession.selectList("ArticleMapper.findByContentContaining", communityContent);
-    }
-
-    @Override
-    public List<Article> findByUserAccount_UserIdContaining(String userNo)
-    {
-        return sqlSession.selectList("ArticleMapper.findByUserAccount_UserIdContaining", userNo);
-    }
-
-    @Override
-    public List<Article> findByUserAccount_NicknameContaining(String userNickname)
-    {
-        return sqlSession.selectList("ArticleMapper.findByUserAccount_NicknameContaining", userNickname);
-    }
 
     @Override
     public List<ArticleDto> searchArticles(Map<String, Object> params)
@@ -55,14 +32,21 @@ public class ArticleRepositoryImpl implements ArticleRepository
     }
 
     @Override
-    public void save(Article article)
+    public Optional<Article> findById(int communityNo)
     {
-        sqlSession.insert("ArticleMapper.saveArticle", article);
+        return Optional.ofNullable(sqlSession.selectOne("ArticleMapper.findById", communityNo));
     }
 
     @Override
-    public Optional<Article> findById(int communityNo) {
-        return Optional.ofNullable(sqlSession.selectOne("ArticleMapper.findById", communityNo));
+    public int countComments(int communityNo)
+    {
+        return sqlSession.selectOne("ArticleMapper.countComments", communityNo);
+    }
+
+    @Override
+    public void save(Article article)
+    {
+        sqlSession.insert("ArticleMapper.saveArticle", article);
     }
 
     @Override
@@ -78,6 +62,3 @@ public class ArticleRepositoryImpl implements ArticleRepository
     }
 
 }
-
-
-

@@ -3,54 +3,161 @@
 
 <mapper namespace="ArticleMapper">
 
+    <!--    <resultMap id="UserResultMap" type="UserDto">-->
+    <!--        <id property="userNo" column="USER_NO" />-->
+    <!--        <result property="userId" column="USER_ID" />-->
+    <!--        <result property="userNickName" column="USER_NICKNAME" />-->
+    <!--    </resultMap>-->
+
+    <resultMap id="ArticleCommentResultMap" type="ArticleCommentDto">
+        <id property="commentNo" column="COMMENT_NO" />
+        <result property="communityNo" column="COMMUNITY_NO" />
+        <result property="parentCommentNo" column="PARENT_COMMENT_NO" />
+        <result property="content" column="COMMENT_CONTENT" />
+        <result property="communityDate" column="COMMENT_COMMUNITY_DATE" />
+        <association property="userDto" resultMap="UserResultMap" />
+    </resultMap>
+
+    <resultMap id="ArticleHashtagResultMap" type="ArticleHashtagDto">
+        <id property="hashtagNo" column="HASHTAG_NO" />
+        <result property="hashtagName" column="HASHTAG_NAME" />
+    </resultMap>
+
+    <resultMap id="ArticleResultMap" type="Article">
+        <id property="communityNo" column="COMMUNITY_NO" />
+        <result property="communitySubject" column="COMMUNITY_SUBJECT" />
+        <result property="communityContent" column="COMMUNITY_CONTENT" />
+        <result property="communityDate" column="COMMUNITY_DATE" />
+        <association property="user" resultMap="UserResultMap" />
+        <collection property="articleComments" resultMap="ArticleCommentResultMap" />
+        <collection property="hashtags" resultMap="ArticleHashtagResultMap" />
+    </resultMap>
+
+
+    <resultMap id="ArticleHashtagResult" type="com.kh.baribari.community.resaleplatform.domain.ArticleHashtag">
+        <id property="communityNo" column="community_no" />
+        <result property="hashtagName" column="hashtag_name" />
+    </resultMap>
+
+    <resultMap id="ArticleResult" type="com.kh.baribari.community.resaleplatform.domain.Article">
+        <id property="communityNo" column="community_no" />
+        <result property="communitySubject" column="community_subject" />
+        <result property="communityContent" column="community_content" />
+        <result property="communityDate" column="community_date" />
+        <collection property="hashtags" ofType="com.kh.baribari.community.resaleplatform.domain.ArticleHashtag" resultMap="ArticleHashtagResult" />
+    </resultMap>
 
 
     <select id="searchArticles" resultType="ArticleDto">
-        SELECT * FROM BARIBARI.COMMUNITY_TBL
-        WHERE
-        <if test="searchType == 'SUBJECT'">
-            COMMUNITY_SUBJECT LIKE CONCAT('%', #{searchWord}, '%')
+        SELECT *
+        FROM community_tbl
+        WHERE 1 = 1
+        <if test="searchType != null and searchWord != null and searchWord != ''">
+            <choose>
+                <when test="searchType == 'BOTH'">
+                    AND (community_subject LIKE '%' || #{searchWord} || '%' OR community_content LIKE '%' || #{searchWord} || '%')
+                </when>
+                <when test="searchType == 'SUBJECT'">
+                    AND community_subject LIKE '%' || #{searchWord} || '%'
+                </when>
+                <when test="searchType == 'CONTENT'">
+                    AND community_content LIKE '%' || #{searchWord} || '%'
+                </when>
+                <when test="searchType == 'HASHTAG'">
+                    AND community_hashtag LIKE '%' || #{searchWord} || '%'
+                </when>
+            </choose>
         </if>
-        <if test="searchType == 'CONTENT'">
-            COMMUNITY_CONTENT LIKE CONCAT('%', #{searchWord}, '%')
-        </if>
-        <if test="searchType == 'BOTH'">
-            COMMUNITY_SUBJECT LIKE CONCAT('%', #{searchWord}, '%') OR COMMUNITY_CONTENT LIKE CONCAT('%', #{searchWord}, '%')
-        </if>
-        <!-- Add a default condition to avoid generating an incomplete query -->
-        <if test="searchType != 'SUBJECT' and searchType != 'CONTENT' and searchType != 'BOTH'">
-            1=1
-        </if>
+        ORDER BY community_date DESC
     </select>
 
     <select id="countArticles" resultType="int">
-        SELECT COUNT(*) FROM BARIBARI.COMMUNITY_TBL
-        WHERE 1=1
-        <if test="params.searchWord != null">
-            AND (COMMUNITY_SUBJECT LIKE CONCAT('%', #{params.searchWord}, '%') OR COMMUNITY_CONTENT LIKE CONCAT('%', #{params.searchWord}, '%'))
+        SELECT COUNT(*)
+        FROM community_tbl
+        WHERE 1 = 1
+        <if test="searchType != null and searchWord != null and searchWord != ''">
+            <choose>
+                <when test="searchType == 'BOTH'">
+                    AND (community_subject LIKE '%' || #{searchWord} || '%' OR community_content LIKE '%' || #{searchWord} || '%')
+                </when>
+                <when test="searchType == 'SUBJECT'">
+                    AND community_subject LIKE '%' || #{searchWord} || '%'
+                </when>
+                <when test="searchType == 'CONTENT'">
+                    AND community_content LIKE '%' || #{searchWord} || '%'
+                </when>
+                <when test="searchType == 'HASHTAG'">
+                    AND community_hashtag LIKE '%' || #{searchWord} || '%'
+                </when>
+            </choose>
         </if>
     </select>
 
-    <insert id="saveArticle" parameterType="Article">
-        INSERT INTO BARIBARI.COMMUNITY_TBL (COMMUNITY_NO, USER_NO, COMMUNITY_SUBJECT, COMMUNITY_CONTENT, COMMUNITY_DATE)
-        VALUES (#{communityNo}, #{user.userNo}, #{communitySubject}, #{communityContent}, #{communityDate})
+    <select id="findById" resultMap="ArticleResultMap" parameterType="int">
+        SELECT
+            A.*,
+            U.*,
+            AC.*,
+            AH.*
+        FROM BARIBARI.COMMUNITY_TBL A
+                 INNER JOIN USER_TBL U ON A.USER_NO = U.USER_NO
+                 LEFT JOIN COMMENT_TBL AC ON A.COMMUNITY_NO = AC.COMMUNITY_NO
+                 LEFT JOIN HASH_TAG_TBL AH ON A.COMMUNITY_NO = AH.COMMUNITY_NO
+        WHERE A.COMMUNITY_NO = #{communityNo}
+    </select>
+
+    <select id="countComments" resultType="int" parameterType="int">
+        SELECT COUNT(*) FROM BARIBARI.COMMENT_TBL WHERE COMMUNITY_NO = #{communityNo}
+    </select>
+
+    <insert id="saveArticle" parameterType="com.kh.baribari.community.resaleplatform.domain.Article" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO COMMUNITY_TBL (COMMUNITY_SUBJECT, COMMUNITY_CONTENT, USER_NO, COMMUNITY_DATE)
+        VALUES (#{communitySubject}, #{communityContent}, #{userNo}, #{communityDate})
+        <selectKey keyProperty="communityNo" resultType="Integer" order="AFTER">
+            SELECT ()
+        </selectKey>
     </insert>
 
-    <select id="findById" resultType="Article" parameterType="int">
-        SELECT * FROM BARIBARI.COMMUNITY_TBL WHERE COMMUNITY_NO = #{communityNo}
+    <insert id="saveArticleHashtags" parameterType="java.util.Map">
+        INSERT INTO HASH_TAG_TBL (COMMUNITY_NO, HASH_TAG_NAME)
+        VALUES
+        <foreach collection="hashtags" item="hashtag" separator=",">
+            (#{articleId}, #{hashtag.hashtagName})
+        </foreach>
+    </insert>
+
+
+
+    <select id="findHashtagsByNames" resultMap="ArticleHashtagResult" parameterType="java.util.List">
+        SELECT * FROM HASH_TAG_TBL
+        WHERE HASH_TAG_TBL.HASH_TAG_NAME IN
+        <foreach item="hashtagName" index="index" collection="list" open="(" separator="," close=")">
+            #{hashtagName}
+        </foreach>
+    </select>
+
+    <select id="findArticleById" resultMap="ArticleResult" parameterType="int">
+        SELECT a.*, ah.community_no, ah.hash_tag_name
+        FROM COMMUNITY_TBL a
+                 LEFT JOIN HASH_TAG_TBL ah ON a.COMMUNITY_NO = ah.COMMUNITY_NO
+        WHERE a.community_no = #{communityNo}
     </select>
 
     <update id="updateArticle" parameterType="Article">
-        UPDATE BARIBARI.COMMUNITY_TBL
-        SET COMMUNITY_SUBJECT = #{communitySubject},
-            COMMUNITY_CONTENT = #{communityContent},
-            COMMUNITY_DATE = #{communityDate}
+        UPDATE COMMUNITY_TBL
+        SET COMMUNITY_SUBJECT = #{communitySubject}, COMMUNITY_CONTENT = #{communityContent}
         WHERE COMMUNITY_NO = #{communityNo}
     </update>
 
-    <delete id="deleteByIdAndUserAccount_UserId" parameterType="map">
-        DELETE FROM BARIBARI.COMMUNITY_TBL
+    <delete id="deleteArticleHashtags" parameterType="int">
+        DELETE FROM HASH_TAG_TBL
         WHERE COMMUNITY_NO = #{communityNo}
-          AND USER_NO = #{userNo}
+    </delete>
+
+
+
+    <delete id="deleteByIdAndUserAccount_UserId" parameterType="int">
+        DELETE FROM COMMUNITY_TBL
+        WHERE COMMUNITY_NO = #{communityNo} AND USER_NO = #{userNo}
     </delete>
 </mapper>

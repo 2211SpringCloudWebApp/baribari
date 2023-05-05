@@ -36,4 +36,10 @@ public class QnAServiceImpl implements QnAService {
 		return result;
 	}
 
+	@Override
+	public int deleteQnA(int productNo) {
+		int result = qRepository.deleteQnA(session, productNo);
+		return result;
+	}
+
 }

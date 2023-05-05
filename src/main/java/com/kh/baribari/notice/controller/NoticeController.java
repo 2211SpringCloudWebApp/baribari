@@ -22,7 +22,6 @@ import com.kh.baribari.common.PageInfo;
 import com.kh.baribari.common.Search;
 import com.kh.baribari.notice.domain.Notice;
 import com.kh.baribari.notice.service.NoticeService;
-import com.kh.baribari.user.domain.User;
 import com.kh.baribari.user.service.UserService;
 
 @Controller
@@ -44,7 +43,7 @@ public class NoticeController {
 
 	// 게시판 글쓰기 등록
 	@PostMapping("/write")
-	public ModelAndView noticeWrite(ModelAndView mv, Notice notice, HttpServletRequest request, @RequestParam(value = "noticePic", required = false) List<MultipartFile> noticePic) {
+	public ModelAndView noticeWrite(ModelAndView mv, Notice notice, HttpServletRequest request, @RequestParam(value = "uploadFile", required = false) List<MultipartFile> noticePic) {
 		try {
 			Map<String, String> fMap = new HashMap<String, String>();
 	    	// 파일 경로
@@ -111,7 +110,7 @@ public class NoticeController {
 		try {
 			int result = nService.modifyNotice(notice);
 			if (result > 0) {
-				mv.setViewName("redirect:/notice/noticedetail?noticeNo=" + notice.getNoticeNo());
+				mv.setViewName("redirect:/notice/detail?noticeNo=" + notice.getNoticeNo());
 			} else {
 				mv.addObject("msg", "게시글 수정에 실패하였습니다.");
 				mv.setViewName("/common/error");
@@ -125,13 +124,12 @@ public class NoticeController {
 	}
 
 	// 게시판 삭제
-	@PostMapping("/delete")
-	public ModelAndView noticeDelete(@RequestParam("noticeNo") int noticeNo) {
-		ModelAndView mv = new ModelAndView();
+	@GetMapping("/delete")
+	public ModelAndView noticeDelete(ModelAndView mv, @RequestParam("noticeNo") int noticeNo) {
 		try {
 			int result = nService.deleteNotice(noticeNo);
 			if (result > 0) {
-				mv.setViewName("redirect:/notice/noticelist");
+				mv.setViewName("redirect:/notice/list");
 			} else {
 				mv.addObject("msg", "게시글 삭제에 실패하였습니다.");
 				mv.setViewName("/common/error");
@@ -174,12 +172,27 @@ public class NoticeController {
 		try {
 			int result = nService.updateViewCount(noticeNo);
 			if (result > 0) {
+				
+				int noticePrevNo = noticeNo - 1;
+				int noticeNextNo = noticeNo + 1;
+				Notice noticePrev = nService.selectOneByNo(noticePrevNo);
+				Notice noticeNext = nService.selectOneByNo(noticeNextNo);
+				while (noticePrev == null && noticePrevNo > 0) {
+				    noticePrevNo--;
+				    noticePrev = nService.selectOneByNo(noticePrevNo);
+				}
+				while (noticeNext == null) {
+				    noticeNextNo++;
+				    noticeNext = nService.selectOneByNo(noticeNextNo);
+				}
 				Notice notice = nService.selectOneByNo(noticeNo);
 				int viewCount = nService.updateViewCount(noticeNo);
 				String userId = notice.getUserId();
 //				User writer = uService.selectUserByuserId(userId);
 				if (userId != null && !userId.equals("")) {
+					mv.addObject("noticePrev", noticePrev);
 					mv.addObject("notice", notice);
+					mv.addObject("noticeNext", noticeNext);
 					mv.addObject("viewCount", viewCount);
 					mv.addObject("userId", userId);
 //					mv.addObject("writer", writer);

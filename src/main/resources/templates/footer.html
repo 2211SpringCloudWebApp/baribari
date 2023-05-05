@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>baribari footer</title>
-    <link href="assets/css/style.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>baribari footer</title>
+  <link href="assets/css/style.css" rel="stylesheet">
 </head>
+
 <body>
-</header>
+  </header>
 
   <!-- ======= Footer ======= -->
   <footer id="footer">
@@ -45,20 +47,20 @@
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links">
-            <h4>여긴 뭐하지</h4>
+            <h4>BARIBARI</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">뭐적지1</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">뭐적지2</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">뭐적지3</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">뭐적지4</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">뭐적지5</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">회사소개</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">이용약관</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">개인정보처리방침</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">이용안내</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">광고/제휴</a></li>
             </ul>
           </div>
 
           <div class="col-lg-4 col-md-6 footer-newsletter">
             <h4>비지니스 문의</h4>
             <p>메일을 보내주시면 확인 후 연락드리겠습니다.</p>
-            <form action="" method="post">
+            <form th:action="'mailto:help_baribari@baribari.com?subject=비즈니스 문의드립니다.'" method="post">
               <input type="email" name="email"><input type="submit" value="이메일 보내기">
             </form>
           </div>
@@ -83,4 +85,5 @@
 
 
 </body>
+
 </html>

@@ -27,4 +27,11 @@ public interface QnAService {
 	 */
 	public int selectByproductNo(int productNo);
 
+	/**
+	 * qna 삭제
+	 * @param productNo
+	 * @return
+	 */
+	public int deleteQnA(int productNo);
+
 }

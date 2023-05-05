@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- JQuery JS -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 	<!-- Fancybox JS -->
@@ -22,53 +23,113 @@
 	<link href="../../css/shopping/style.css" rel="stylesheet" />
 	<!-- Template Main CSS File -->
 	<link href="../../assets/css/style.css" rel="stylesheet">
-    <!-- IBM Plex Sans KR font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
-    <!--css-->
-    <link href="../../css/shopping/noticedetail.css" rel="stylesheet" />
-    <title>BARIBARI</title>
+	<!-- IBM Plex Sans KR font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
+	<!--css-->
+	<link href="../../css/shopping/noticedetail.css" rel="stylesheet" />
+	<title>BARIBARI</title>
 </head>
-<body>
-		<!-- Header -->
-		<header th:replace="header :: header"></header>
 
-    <div id="noticedetailW">
-	<div class="container1">
-		<div class="header">
-			<h3 th:text="${notice.noticeTitle }"></h3><br>
-			<p class="author" th:text="${notice.userId }"></p>
-			<p class="date" th:text="${notice.noticeDate }"></p>
-		</div>
-		<div class="content">
-			<p th:text="${notice.noticeContent }"></p>
-		</div>
-		<div class="btns">
-			<a href="/notice/list" class="btn">목록</a>
-<!-- 			<div sec:authorize="hasRole('ROLE_USER')"> -->
-			<a th:href="@{'/notice/modify?noticeNo='+ ${notice.noticeNo} }" class="btn">수정</a>
-			<a th:href="@{'/notice/delete?noticeNo='+ ${notice.noticeNo} }" class="btn">삭제</a>
-<!-- 			</div> -->
-		</div>
-		<div class="container2">
-			<div class="prev-next">
-				<div class="prev">
-					▲이전글 : 
-					
-					<span class="title"><a th:href="@{#}"></a></span>
-				</div>
-				<div class="next">
-					▼다음글 : 
-					<span class="title"><a th:href="@{#}"></a></span>
+<body>
+	<!-- Header -->
+	<header th:replace="header :: header"></header>
+
+	<div id="noticedetailW">
+		<div class="container1">
+			<div class="header">
+				<h3 th:text="${notice.noticeTitle }"></h3><br>
+				<p class="author" th:text="${notice.userId }"></p>
+				<p class="date" th:text="${notice.noticeDate }"></p>
+			</div>
+			<div class="content">
+				<p th:text="${notice.noticeContent }"></p>
+			</div>
+			<div class="pic">
+				<p th:if="${notice.noticePic} != null" class="div_style"><img id="noticePic" onclick="showImg(this.id)"
+						class="img_style" th:src="${notice.noticePic}" alt="첨부사진" /></p>
+				<p th:text="${notice.noticeContent }"></p>
+			</div>
+			<div id="btns">
+				<a href="/notice/list" class="btn">목록</a>
+				<!-- 			<div sec:authorize="hasRole('ROLE_USER')"> -->
+				<a th:href="@{'/notice/modify?noticeNo='+ ${notice.noticeNo} }" class="btn">수정</a>
+				<a th:href="@{'/notice/delete?noticeNo='+ ${notice.noticeNo} }" class="btn">삭제</a>
+				<!-- 			</div> -->
+			</div>
+			<div class="container2">
+				<div class="prev-next">
+					<div class="prev">
+						▲이전글 :
+						<span class="title">
+							<a th:if="${noticePrev != null}" th:href="@{/notice/detail(noticeNo=${noticePrev.noticeNo})}" th:text="${noticePrev.noticeTitle }"></a>
+							<span th:if="${noticePrev == null}">no</span>
+						</span>
+					</div>
+					<div class="next">
+						▼다음글 :
+						<span class="title">
+							<a th:if="${noticeNext != null}"  th:href="@{/notice/detail(noticeNo=${noticeNext.noticeNo})}" th:text="${noticeNext.noticeTitle }"></a>
+							<span th:if="${noticeNext == null}">no</span>
+						</span>
+					</div>
 				</div>
 			</div>
-		</div>
-		
-	</div>
-    </div>
 
-		<!-- Footer -->
-		<footer th:replace="footer :: footer"></footer>
+		</div>
+	</div>
+	<script>
+		//이미지 보여주는 함수
+		function showImg(id) {
+			// 클릭한 이미지의 src 값을 가져옵니다.
+			var imgSrc = document.getElementById(id).src;
+			var showImdiv = document.getElementById("pic");
+
+			// registerdiv3에 이미지를 추가합니다.
+			var imgTag = '<img src="' + imgSrc + '" class="show_img_style">';
+			showImdiv.style.height = "400px";
+			showImdiv.innerHTML = imgTag;
+		}
+
+
+		// 상세조회 하단 이전글, 다음글 구현
+		// 현재 글의 ID 정보를 가져옵니다.
+		var noticeId = "현재 글의 ID 정보";
+
+		// 이전글/다음글 정보를 가져오는 함수
+		function getPrevNext() {
+			$.ajax({
+				url: "/api/notice/prev-next",
+				method: "GET",
+				data: { id: noticeId },
+				success: function (data) {
+					// 이전글/다음글 정보를 가져와서 화면에 표시합니다.
+					if (data.prev) {
+						$(".prev .title").html(`<a href="${data.prev.link}">${data.prev.title}</a>`);
+					} else {
+						$(".prev .title").text("이전글 없음");
+					}
+					if (data.next) {
+						$(".next .title").html(`<a href="${data.next.link}">${data.next.title}</a>`);
+					} else {
+						$(".next .title").text("다음글 없음");
+					}
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			});
+		}
+
+		// 페이지 로딩 시 이전글/다음글 정보를 가져옵니다.
+		$(document).ready(function () {
+			//getPrevNext();
+		});
+	</script>
+
+	<!-- Footer -->
+	<footer th:replace="footer :: footer"></footer>
 </body>
+
 </html>

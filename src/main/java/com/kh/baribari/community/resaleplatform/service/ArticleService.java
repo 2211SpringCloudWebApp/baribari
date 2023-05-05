@@ -1,7 +1,6 @@
 package com.kh.baribari.community.resaleplatform.service;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.kh.baribari.community.resaleplatform.controller.Converter2nd;
 import com.kh.baribari.community.resaleplatform.domain.Article;
 import com.kh.baribari.community.resaleplatform.domain.ArticleHashtag;
 import com.kh.baribari.community.resaleplatform.domain.dto.ArticleDto;
@@ -29,51 +28,68 @@ public class ArticleService
     private final ArticleRepository articleRepository;
     private final UserRepository userRepository;
     private final HashtagService hashtagService;
+    private final Converter2nd converter2nd;
 
 
-    public PageInfo<ArticleDto> searchArticles(Map<String, Object> params)
+    public List<ArticleDto> searchArticles(Map<String, Object> params)
     {
-        int page = (int) params.get("page");
-        int pageSize = (int) params.get("pageSize");
-
-        PageHelper.startPage(page, pageSize);
-        List<ArticleDto> articles = articleRepository.searchArticles(params);
-
-        return new PageInfo<>(articles);
+        return articleRepository.searchArticles(params);
     }
 
-
-    public GetArticleDto getArticleComments(int communityNo) throws NotFoundException
-    {
-        return articleRepository.findById(communityNo)
-                .map(GetArticleDto::from)
-                .orElseThrow(() -> new NotFoundException("게시글이 없습니다"));
-    }
-
-    public int getArticleCount(Map<String, Object> params)
+    public int count(Map<String, Object> params)
     {
         return articleRepository.count(params);
     }
 
+    public GetArticleDto getArticleComments(int communityNo) throws NotFoundException
+    {
+        return articleRepository.findById(communityNo)
+                                .map(GetArticleDto::from)
+                                .orElseThrow(() -> new NotFoundException("게시글이 없습니다"));
+    }
+
+    public int countComments(int communityNo)
+    {
+        return articleRepository.countComments(communityNo);
+    }
 
     public void saveArticle(ArticleDto dto) {
         User user = userRepository.getUserInfo(dto.getUserDto().getUserNo());
         Set<ArticleHashtag> hashtags = renewHashtagsFromContent(dto.getCommunityContent());
+        //        Set<ArticleHashtag> hashtags = hashtagService.findHashtagsByNames(hashtagService.parseHashtagNames(dto.getCommunityContent())getCommunityContent);
 
         Article article = dto.toEntity(user);
         article.addHashtags(hashtags);
         articleRepository.save(article);
     }
 
+    private Set<ArticleHashtag> renewHashtagsFromContent(String content)
+    {
+        Set<String> hashtagNamesInContent = hashtagService.parseHashtagNames(content);
+        Set<ArticleHashtag> hashtags = hashtagService.findHashtagsByNames(hashtagNamesInContent);
+        Set<String> existingHashtagNames = hashtags.stream()
+                                                   .map(ArticleHashtag::getHashtagName)
+                                                   .collect(Collectors.toUnmodifiableSet());
+
+        hashtagNamesInContent.forEach(newHashtagName -> {
+            if (!existingHashtagNames.contains(newHashtagName)) {
+                hashtags.add(ArticleHashtag.of(newHashtagName));
+            }
+        });
+
+        return hashtags;
+    }
+
     @Transactional(readOnly = true)
     public ArticleDto getArticle(int communityNo) throws NotFoundException
     {
         return articleRepository.findById(communityNo)
-                .map(ArticleDto::from)
-                .orElseThrow(() -> new NotFoundException("게시글이 없습니다"));
+                                .map(ArticleDto::from)
+                                .orElseThrow(() -> new NotFoundException("게시글이 없습니다"));
     }
 
-    public void updateArticle(int communityNo, ArticleDto dto) {
+    public void updateArticle(int communityNo, ArticleDto dto)
+    {
         Optional<Article> article = articleRepository.findById(communityNo);
         User user = (User) userRepository.findByUserNo(dto.getUserDto().getUserNo());
 
@@ -82,8 +98,8 @@ public class ArticleService
             if (dto.getCommunityContent() != null) { article.get().setCommunityContent(dto.getCommunityContent()); }
 
             Set<Integer> hashtagIds = article.get().getHashtags().stream()
-                    .map(ArticleHashtag::getCommunityNo)
-                    .collect(Collectors.toUnmodifiableSet());
+                                             .map(ArticleHashtag::getCommunityNo)
+                                             .collect(Collectors.toUnmodifiableSet());
             article.get().clearHashtags();
 
             hashtagIds.forEach(hashtagService::deleteHashtagWithoutArticles);
@@ -99,28 +115,12 @@ public class ArticleService
     {
         Optional<Article> article = articleRepository.findById(communityNo);
         Set<Integer> hashtagIds = article.get().getHashtags().stream()
-                .map(ArticleHashtag::getCommunityNo)
-                .collect(Collectors.toUnmodifiableSet());
+                                         .map(ArticleHashtag::getCommunityNo)
+                                         .collect(Collectors.toUnmodifiableSet());
 
         articleRepository.deleteByIdAndUserAccount_UserId(communityNo, userNo);
 
         hashtagIds.forEach(hashtagService::deleteHashtagWithoutArticles);
-    }
-
-    private Set<ArticleHashtag> renewHashtagsFromContent(String content) {
-        Set<String> hashtagNamesInContent = hashtagService.parseHashtagNames(content);
-        Set<ArticleHashtag> hashtags = hashtagService.findHashtagsByNames(hashtagNamesInContent);
-        Set<String> existingHashtagNames = hashtags.stream()
-                .map(ArticleHashtag::getHashtagName)
-                .collect(Collectors.toUnmodifiableSet());
-
-        hashtagNamesInContent.forEach(newHashtagName -> {
-            if (!existingHashtagNames.contains(newHashtagName)) {
-                hashtags.add(ArticleHashtag.of(newHashtagName));
-            }
-        });
-
-        return hashtags;
     }
 }
 

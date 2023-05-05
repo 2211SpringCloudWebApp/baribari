@@ -40,15 +40,16 @@
     <div id="ntcModify">
         <h1>게시판 수정</h1>
         <form id="modifyForm" action="/notice/modify" method="post">
+            <input type="hidden" id="noInput" name="noticeNo" th:value="${notice.noticeNo}"><br>
             <label for="titleInput">제목</label>
-            <input type="text" id="titleInput" name="noticeTitle" th:value="${notice.noticeTitle }"><br>
+            <input type="text" id="titleInput" name="noticeTitle" th:value="${notice.noticeTitle}"><br>
             <label for="categoryInput">카테고리</label>
             <select id="categoryInput" name="noticeCategory">
                 <option value="이벤트">이벤트</option>
                 <option value="공지사항">공지사항</option>
             </select><br>
             <label for="contentInput">내용</label>
-            <textarea id="contentInput" name="noticeContent" th:text="${notice.noticeContent }"></textarea><br>
+            <textarea id="contentInput" name="noticeContent" th:text="${notice.noticeContent}"></textarea><br>
             <button type="submit">등록</button>
             <button type="reset">취소</button>
         </form>

@@ -48,26 +48,39 @@ public class BoardController {
 			,@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage
 			,@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword
 			,@RequestParam(value = "check", required = false, defaultValue = "9") Integer check
+			,@RequestParam(value="hashTagName",required = false, defaultValue = "없") String hashTagName
 			) {
 		try {
 			Community comm = new Community();
 			comm.setCommunityCategory(category);
-			
 			comm.setSort(sort);	
 			comm.setCheck(check);
+			
 			if(check != 9) {//check값이 있으면 검색어 추가해줌.
 				comm.setKeyword(keyword);
 			}
-			// 게시글 총 갯수
-			int bCount = bService.getBoardCount(comm);
 			
-			// 페이지 정보 불러오기
-			PageInfo pi = new PageInfo(currentPage, bCount, 10);
+			//------------------------------------------------------------
+			String hashTag = "#" + hashTagName;
+			PageInfo pi;
+			int bCount;
 			
-			List<Community> bList = bService.getBoardListAll(pi, comm); // 전체 목록 조회
+			List<Community> bList;
+			if(hashTagName.equals("없")) { // 태그를 클릭한 경우 실행
+				System.out.println("해시태그 없음.");
+				bCount = bService.getBoardCount(comm); // 게시글 총 갯수
+				pi = new PageInfo(currentPage, bCount, 10); // 페이지 정보 불러오기
+				bList = bService.getBoardListAll(pi, comm); // 전체 목록 조회
+			}else {
+				System.out.println("해시태그 들어옴 : " + hashTag);
+				bCount = bService.selectHashTagCount(hashTag); // 게시글 총 갯수
+				pi = new PageInfo(currentPage, bCount, 10); // 페이지 정보 불러오기
+				bList = bService.selectHashTagList(pi, hashTag); // 전체 목록 조회
+			}
+			//------------------------------------------------------------
 			
-			//날짜 변경, 좋아요 가져오는 부분
-			for (Community commu : bList) {
+			
+			for (Community commu : bList) { //날짜 변경, 좋아요 가져오는 부분
 				String data = commu.getCommunityDate();
 				LocalDateTime dateTime = LocalDateTime.parse(data, DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
 				String formattedDateTime = dateTime.format(DateTimeFormatter.ofPattern("yy/MM/dd"));
@@ -80,6 +93,7 @@ public class BoardController {
 				mv.addObject("pi",pi);
 				mv.addObject("category",category);
 				mv.addObject("sort",sort);
+				mv.addObject("hashTagName",hashTagName);
 				mv.setViewName("community/board/list");
 				return mv;
 			} else {
@@ -191,6 +205,7 @@ public class BoardController {
 			,@RequestParam(value="page",required = false) Integer page
 			,@RequestParam(value="category",required = false) Integer category
 			,@RequestParam(value="sort",required = false) Integer sort
+			,@RequestParam(value="hashTagName",required = false) String hashTagName
 			
 			) throws Exception{
 		Community commu = bService.getBoardOne(boardNo);	// 게시글 불러오기
@@ -201,16 +216,21 @@ public class BoardController {
 		}
 		bService.plusViewCount(boardNo); //조회수 증가
 		mv.addObject("commu", commu);
-		mv.addObject("page", page).addObject("category", category).addObject("sort", sort);
+		mv.addObject("page", page);
+		mv.addObject("category", category);
+		mv.addObject("sort", sort);
+		mv.addObject("hashTagName", hashTagName);
 		mv.setViewName("community/board/detail");
 		
 		return mv;
 	}
+	
 	//게시글 수정 보여주기
 	@GetMapping("boardModify")
 	public ModelAndView showModify(
 			ModelAndView mv
 			,@RequestParam(value="communityNo",required = false) Integer boardNo
+			,@RequestParam(value="page",required = false) Integer page
 			) throws Exception{
 		
 		Community commu = bService.getBoardOne(boardNo);	// 게시글 불러오기
@@ -219,6 +239,7 @@ public class BoardController {
 			mv.addObject("pic", pic);
 		}
 		mv.addObject("commu", commu);
+		mv.addObject("page", page);
 		mv.setViewName("community/board/modify");
 		
 		return mv;

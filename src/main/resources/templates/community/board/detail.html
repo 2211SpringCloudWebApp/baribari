@@ -52,7 +52,7 @@
                     </div>
                 </div>
 				<div id="boardDetailNav" class="displayFlex hCenter wRight">
-					<a id="aModify" th:href="@{/boardModify(communityNo=${commu.communityNo})}" >수정</a>
+					<a id="aModify" th:href="@{/boardModify(communityNo=${commu.communityNo}, page=${page})}" >수정</a>
 					<a id="aDelete" href="#" onclick="deleteboard()">삭제</a>
 					<a id="aReport" href="#">신고</a>
 					<a id="aScrap" href="#" onclick="clickScrap()">팩다운</a>
@@ -88,10 +88,11 @@
                     <div id="showTage" ></div>
                 </div>
                 <div id="registerdiv9">
-                    <input type="button" value="목록" onclick="goList()">
-                	<input id="page" type="hidden" th:value=${page}>
-                	<input id="category" type="hidden" th:value=${category}>
-                	<input id="sort" type="hidden" th:value=${sort}>
+                    <input type="button" value="뒤로가기" onclick="goList()">
+                	<input id="page"		type="hidden" th:value=${page}>
+                	<input id="category"	type="hidden" th:value=${category}>
+                	<input id="sort"		type="hidden" th:value=${sort}>
+                	<input id="hashTagName"	type="hidden" th:value=${hashTagName}>
                 </div>
             </div>
         </form>
@@ -101,12 +102,14 @@
         <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ba03b0afa21d048313b9d7072d06edb9"></script>
         <script>
+     
         	function goList(){
-        		console.log('클릭');
         		var page = document.getElementById("page").value;
         		var category = document.getElementById("category").value;
         		var sort = document.getElementById("sort").value;
-				var url = "/boardList?page=" + page + "&category=" + category + "&sort=" + sort;
+				var hashTagName = document.getElementById("hashTagName").value;
+        		
+        		var url = "/boardList?page=" + page + "&category=" + category + "&sort=" + sort + "&hashTagName=" + hashTagName;
 				location.href=url;
         	}
         	
@@ -282,7 +285,8 @@
 	        		}
 	        	});
 	        }
-        
+	      	
+	        var check = 0; // 스크랩 체크를 위한 변수
 	      	// 스크랩 클릭
 	      	function clickScrap(){
 	      		var communityNo = $("#seq").val();
@@ -294,16 +298,26 @@
 	      			url : "scrapClick",
 	        		data : {
 	        			"communityNo": communityNo,
-	        			"userNo": userNo
+	        			"userNo": userNo,
+	        			"check" : check
 	        		},
 	        		type : "GET",
 	        		success : function(data){
-	        			alert(data);
-	        			if(data == 1){
-	        				scrap.style.color = "black";
-	        			}else if(data == 0){
-	        				scrap.style.color = "red";
+	        			if(check == 0){
+	        				if(data == 0){
+		        				scrap.style.color = "black";
+		        			}else if(data == 1){
+		        				scrap.style.color = "red";
+		        			}
+	        				check++;
+	        			}else{
+	        				if(data == 0){
+		        				scrap.style.color = "red";
+		        			}else if(data == 1){
+		        				scrap.style.color = "black";
+		        			}
 	        			}
+	        			console.log(check);
 	        		},
 	        		error : function(){
 	        			showTage.empty();
@@ -311,14 +325,13 @@
 	      		});
 	      		
 	      	}
+	      	clickScrap();
 	      	
         	getHashTag();
 	        // 헤시태그 출력 함수
 	        function getHashTag(){
 	        	var communityNo = $("#seq").val();
 	        	var showTage = $("#showTage");
-	        	var inputTage = document.getElementById('inputTage');
-	        	var scrollTop = $(window).scrollTop(); // 스크롤위치 저장
 	        	$.ajax({
 	        		url : "getHashTag",
 	        		data : {
@@ -329,19 +342,10 @@
 	        			showTage.empty(); // 기존 내용 삭제
 	        		    for (var i = 0; i < data.length; i++) {
 	        		    	var tag = $("<a>").attr({
-	        		    		href : "#",
-	        		    		onclick: "registerHashTag('" + data[i].hashTagName + "', " + getHashTag + ", 'delete')"
+	        		    		href: "/boardList?hashTagName=" + encodeURIComponent(data[i].hashTagName.replace("#", ""))
 	        		    	}).text(data[i].hashTagName); // 새로운 a 태그 생성
 	        		    	showTage.append(tag); // 새로운 a 태그를 요소에 추가
 	        			}
-	        		    if (data.length == 10){
-	        		        inputTage.readOnly = true; // inputTage를 읽기전용으로 설정
-	        		        inputTage.placeholder = "해시태그는 10개까지 등록이 가능합니다."; // placeholder를 "해시태그는 10개까지 등록이 가능합니다." 로 설정
-	        		    }else{
-	        		    	inputTage.readOnly = false;
-	        		    	inputTage.placeholder = "#해시태그, 입력";
-	        		    }
-	        		    $(window).scrollTop(scrollTop);//스크롤위치 다시 불러오기
 	        		},
 	        		error : function(){
 	        			showTage.empty();

@@ -1,11 +1,14 @@
 package com.kh.baribari.community.resaleplatform.domain.dto;
 
 import com.kh.baribari.community.resaleplatform.domain.Article;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.Set;
 import java.util.stream.Collectors;
-@Getter @Setter @ToString @Builder
+@Getter @ToString
 @NoArgsConstructor @AllArgsConstructor
 public class GetArticleDto
 {
@@ -17,7 +20,6 @@ public class GetArticleDto
  private String communityContent;
  private Set<ArticleHashtagDto> articleHashtagDtos;
  private String communityDate;
-
 
  public static GetArticleDto of(Integer communityNo, UserDto userDto,
                                 Set<ArticleCommentDto> articleCommentDto,
@@ -34,13 +36,13 @@ public class GetArticleDto
           article.getCommunityNo(),
           UserDto.from(article.getUser()),
           article.getArticleComments().stream()
-                  .map(ArticleCommentDto::from)
-                  .collect(Collectors.toSet()),
+                 .map(ArticleCommentDto::from)
+                 .collect(Collectors.toSet()),
           article.getCommunitySubject(),
           article.getCommunityContent(),
           article.getHashtags().stream()
-                  .map(ArticleHashtagDto::from)
-                  .collect(Collectors.toSet()),
+                 .map(ArticleHashtagDto::from)
+                 .collect(Collectors.toSet()),
           article.getCommunityDate()
   );
  }

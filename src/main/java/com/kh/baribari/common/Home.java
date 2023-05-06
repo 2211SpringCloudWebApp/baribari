@@ -50,4 +50,9 @@ public class Home {
 		mv.setViewName("index");
 		return mv;
 	}
+
+	@GetMapping("error403")
+	public String error(){
+		return "403error";
+	}
 }

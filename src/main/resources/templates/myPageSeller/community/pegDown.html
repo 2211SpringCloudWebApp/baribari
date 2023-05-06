@@ -38,14 +38,14 @@
 <div class="mainContainer" style="padding-top: 170px">
     <div class="top">
         <div class="top-container">
-            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myPageUser/myComment">내가쓴댓글</a></div>
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageSeller">마이페이지</a> > <a style="color:black" href="/myPageSeller/pegDown">팩다운글</a></div>
             <div style="margin-top: 30px;">
-                <div class="page-title">내가 쓴 댓글</div>
+                <div class="page-title">팩다운 글</div>
                 <div class="page-menu">
                     <dl>
-                        <dd class="page-pegDown"><a href="/myPageUser/pegDown" >팩다운 글</a></dd>
-                        <dd class="page-write"><a href="/myPageUser/myWrite">내가 쓴 글</a></dd>
-                        <dd class="page-active"><a href="/myPageUser/myComment">내가 쓴 댓글</a></dd>
+                        <dd class="page-active"><a href="/myPageSeller/pegDown" >팩다운 글</a></dd>
+                        <dd class="page-myWrite"><a href="/myPageSeller/myWrite">내가 쓴 글</a></dd>
+                        <dd class="page-myComment"><a href="/myPageSeller/myComment">내가 쓴 댓글</a></dd>
                     </dl>
                 </div>
             </div>
@@ -57,33 +57,39 @@
             <table id="myTable">
                 <colgroup>
                     <col style="width:10%">
-                    <col style="width:30%">
+                    <col style="width:10%">
                     <col style="width:*%">
                     <col style="width:15%">
                 </colgroup>
                 <thead>
                 <tr style="text-align: center">
                     <th class="sorting_disabled col">게시글번호</th>
-                    <th class="sorting_disabled col">게시글제목</th>
-                    <th class="sorting_disabled col">댓글내용</th>
-                    <th class="sorting_disabled col">작성날짜</th>
+                    <th class="sorting_disabled col">분류</th>
+                    <th class="sorting_disabled col">제목</th>
+                    <th class="sorting_disabled col">등록일</th>
                 </tr>
                 </thead>
-                <tr class="table-tr" th:each="CommentList : ${CommentList}">
-                    <td class="table-td" th:text="${CommentList.communityNo}"></td>
-                    <td class="table-td" th:text="${CommentList.communitySubject}"></td>
-                    <td class=" td-center">
-                        <a th:href="'/boardDetail?communityNo='+${CommentList.communityNo}" th:text="${CommentList.commentContent}"></a>
+                <tr class="table-tr" th:each="CommunityList : ${communityList}">
+                    <td class="table-td" th:text="${CommunityList.communityNo}"></td>
+                    <td class="table-td">
+                        <span th:if="${CommunityList.communityCategory == 0}">자유잡담</span>
+                        <span th:if="${CommunityList.communityCategory == 1}">자유장소공유</span>
+                        <span th:if="${CommunityList.communityCategory == 2}">중고구매</span>
+                        <span th:if="${CommunityList.communityCategory == 3}">중고판매</span>
                     </td>
-                    <td class=" td-center" th:text="${#dates.format(CommentList.commentDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td class=" td-center">
+                        <a th:href="'/boardDetail?communityNo='+${CommunityList.communityNo}" th:text="${CommunityList.communitySubject}"></a>
+                    </td>
+                    <td class=" td-center" th:text="${#dates.format(CommunityList.scrapDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
                 </tr>
             </table>
         </div>
     </div>
 </div>
-    <footer>
-        <div th:replace="footer :: footer"></div>
-    </footer>
+<footer>
+    <div th:replace="footer :: footer"></div>
+</footer>
+
     <script src="../js/datatables-simple-demo.js"></script>
     <script>
         $(document).ready(function () {
@@ -92,7 +98,7 @@
                     "ordering": false,
                     "autoWidth": false,
                     "language": {
-                        "emptyTable": "작성한 댓글이 없습니다.",
+                        "emptyTable": "팩다운 글이 없습니다.",
                         url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/ko.json'
                     }
                 }

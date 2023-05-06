@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>배송지 관리</title>
+    <title>BARIBARI</title>
     <!-- Favicons -->
     <link href="../assets/img/favicon.png" rel="icon">
     <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -41,7 +41,7 @@
                     <dl>
                         <dd class="page-active"><a href="/myPageUser/qna?qnaAnswerYn=all">1:1 문의</a></dd>
                         <dd class="page-productQna"><a href="/myPageUser/productQna?qnaAnswerYn=all">상품 문의</a></dd>
-                        <dd class="page-report">신고 내역</dd>
+                        <dd class="page-report"><a href="/myPageUser/report">신고 내역</a></dd>
                     </dl>
                 </div>
             </div>
@@ -86,6 +86,10 @@
             </table>
         </div>
     </div>
+</div>
+<footer>
+    <div th:replace="footer :: footer"></div>
+</footer>
 
 
     <script src="../js/user/user-qna.js"></script>

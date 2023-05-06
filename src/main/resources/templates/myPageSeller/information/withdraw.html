@@ -35,14 +35,13 @@
 <div class="mainContainer" style="padding-top: 170px">
     <div class="top">
         <div class="top-container">
-            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myPageUser/withdraw">회원탈퇴</a></div>
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageSeller">마이페이지</a> > <a style="color:black" href="/myPageSeller/withdraw">회원탈퇴</a></div>
             <div style="margin-top: 30px;">
                 <div class="page-title">회원탈퇴</div>
                 <div class="page-menu">
                     <dl>
-                        <dd class="page-modify"><a href="/myPageUser/modify" >회원정보 수정</a></dd>
-                        <dd class="page-address"><a href="/myPageUser/address">배송지 관리</a></dd>
-                        <dd class="page-active"><a href="/myPageUser/withdraw">회원탈퇴</a></dd>
+                        <dd class="page-modify"><a href="/myPageSeller/modify" >회원정보 수정</a></dd>
+                        <dd class="page-active"><a href="/myPageSeller/withdraw">회원탈퇴</a></dd>
                     </dl>
                 </div>
             </div>
@@ -70,13 +69,14 @@
         </div>
         <ul>
             <li style="margin-bottom: 10px;">회원 탈퇴 시 회원님께서 보유하셨던 적립금, 예치금, 쿠폰, 회원정보 등은 모두 삭제됩니다.</li>
-            <li>탈퇴 후 게시판형 서비스에 등록된 게시물은 모두 삭제됩니다.</li>
+            <li style="margin-bottom: 10px;">판매자의 경우 등록된 상품이 모두 삭제됩니다.</li>
+            <li>탈퇴 후 게시판형 서비스에 등록된 게시물이 모두 삭제됩니다.</li>
         </ul>
     </div>
 </div>
-    <footer>
-        <div th:replace="footer :: footer"></div>
-    </footer>
+<footer>
+    <div th:replace="footer :: footer"></div>
+</footer>
 <script src="../js/user/user-withdraw.js"></script>
 
 <!-- Vendor JS Files -->

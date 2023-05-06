@@ -57,6 +57,41 @@
         WHERE ROWNUM <![CDATA[<]]> = 1
     </select>
 
+<!--    셀러 마이페이지 데이터 -->
+    <select id="selectMyPageSeller" resultType="UserMyPageData">
+        SELECT L.LEVEL_NO, L.LEVEL_MIN_POINT, L.LEVEL_MAX_POINT,O.PROFILE_PIC_PATH,
+        COALESCE(O.PAYMENT, 0) AS PAYMENT,
+        COALESCE(O.READY, 0) AS READY,
+        COALESCE(O.LOGISTIC, 0) AS LOGISTIC,
+        COALESCE(O.COMPLETE, 0) AS COMPLETE,
+        COALESCE(O.POINT_VAL, 0) AS POINT_VAL
+        FROM (
+        SELECT LEVEL_NO, LEVEL_MIN_POINT, LEVEL_MAX_POINT
+        FROM LEVEL_TBL
+        WHERE LEVEL_MIN_POINT  <![CDATA[<]]>  (
+        SELECT USER_LEVEL_POINT
+        FROM USER_TBL
+        WHERE USER_NO = #{levelNo}
+        )
+        ORDER BY LEVEL_MIN_POINT DESC
+        )  L
+        LEFT JOIN (
+        SELECT
+        SUM(CASE WHEN ORDER_STATUS = 0 THEN 1 ELSE 0 END) AS PAYMENT,
+        SUM(CASE WHEN ORDER_STATUS = 1 THEN 1 ELSE 0 END) AS READY,
+        SUM(CASE WHEN ORDER_STATUS = 2 THEN 1 ELSE 0 END) AS LOGISTIC,
+        SUM(CASE WHEN ORDER_STATUS = 3 THEN 1 ELSE 0 END) AS COMPLETE,
+        P.POINT_VAL, PP.PROFILE_PIC_PATH
+        FROM ORDER_DETAIL_TBL A
+        FULL JOIN POINT_TBL P ON P.USER_NO = A.SELLER_USER_NO
+        FULL JOIN PROFILE_TBL PP ON PP.USER_NO = P.USER_NO
+        WHERE P.USER_NO = #{levelNo} AND A.SELLER_USER_NO = #{levelNo}
+        GROUP BY P.POINT_VAL, PP.PROFILE_PIC_PATH
+        ) O
+        ON 1 = 1
+        WHERE ROWNUM <![CDATA[<]]> = 1
+    </select>
+
 <!-- 마이페이지 수정 데이터 로드 -->
     <select id="selectModifyUser" resultType="User">
         SELECT U.USER_NO, U.USER_ID , U.USER_NAME , U.USER_NICKNAME, P.PROFILE_PIC_PATH, U.USER_ID, U.USER_PHONE, U.USER_EMAIL
@@ -82,6 +117,14 @@
 <!-- 문의 삭제 -->
     <select id="deleteQna">
         DELETE FROM QNA_TBL WHERE QNA_NO = #{qnaNo}
+    </select>
+<!--    신고내역 리스트 가져오기 -->
+    <select id="selectReportList" resultType="MyPageReportList">
+        SELECT R.REPORT_NO, R.REPORT_CONTENT, RC.REPORT_CATEGORY_NAME, R.REPORT_TARGET_NAME, R.REPORT_PROCESSING, TO_CHAR(R.REPORT_DATE, 'YYYY-MM-DD HH24:mi:ss') AS REPORT_DATE
+        FROM REPORT_TBL R
+                 JOIN REPORT_CATEGORY_TBL RC ON R.REPORT_CATEGORY_NO = RC.REPORT_CATEGORY_NO
+                 JOIN USER_TBL U ON R.REPORT_USER = U.USER_NO
+        WHERE R.REPORT_USER = #{userNo}
     </select>
 
 <!--    내가쓴댓글 리스트 로딩 -->
@@ -210,20 +253,20 @@
         WHERE S.USER_NO = #{userNo}
         ORDER BY SCRAP_DATE DESC
     </select>
+
 <!--    커뮤니티 내가 쓴글 -->
-    <select id="selectMyWrite" resultType="MPCommunityList">
-        SELECT C.COMMUNITY_NO, C.COMMUNITY_SUBJECT,TO_CHAR(C.COMMUNITY_DATE, 'YYYYMMDDHHMISS') AS COMMUNITY_DATE, C.COMMUNITY_CATEGORY, U.USER_NO
+    <select id="selectMyWrite" resultType="MPCommunityList" parameterType="int">
+        SELECT C.COMMUNITY_NO, C.COMMUNITY_SUBJECT,C.COMMUNITY_DATE, C.COMMUNITY_CATEGORY, U.USER_NO
         FROM COMMUNITY_TBL C
         JOIN USER_TBL U ON C.USER_NO = U.USER_NO
         WHERE U.USER_NO = #{userNo}
     </select>
 
-
-
 <!-- 유저 정보 업데이트 -->
     <update id="updateMyPageUser" parameterType="User">
         UPDATE USER_TBL SET USER_NICKNAME = #{userNickName}, USER_PHONE = #{userPhone}, USER_EMAIL = #{userEmail} WHERE USER_ID = #{userId}
     </update>
+
     <select id="selectUpdateByUser" resultType="User">
         SELECT * FROM USER_TBL WHERE USER_ID = #{userId}
     </select>

@@ -34,14 +34,14 @@
 <div class="mainContainer" style="padding-top: 170px">
     <div class="top">
         <div class="top-container">
-            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myPageUser/productQna?qnaAnswerYn=all">상품문의</a></div>
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageSeller">마이페이지</a> > <a style="color:black" href="/myPageSeller/qna?qnaAnswerYn=all">상품문의</a></div>
             <div style="margin-top: 30px;">
                 <div class="page-title">상품 문의</div>
                 <div class="page-menu">
                     <dl>
-                        <dd class="page-qna"><a href="/myPageUser/qna?qnaAnswerYn=all">1:1 문의</a></dd>
-                        <dd class="page-active"><a href="/myPageUser/productQna?qnaAnswerYn=all">상품 문의</a></dd>
-                        <dd class="page-report"><a href="/myPageUser/report">신고 내역</a></dd>
+                        <dd class="page-qna"><a href="/myPageSeller/qna?qnaAnswerYn=all">1:1 문의</a></dd>
+                        <dd class="page-active"><a href="/myPageSeller/productQna?qnaAnswerYn=all">상품 문의</a></dd>
+                        <dd class="page-report"><a href="/myPageSeller/report">신고 내역</a></dd>
                     </dl>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                     <tr class="table-qna-tr" th:each="qna : ${qnaList}">
                         <td th:text="${qna.qnaDate}"></td>
                         <td th:text="${qna.qnaCategory}">구분</td>
-                        <td><a th:href="'/myPageUser/qnaDetail?qnaNo='+${qna.qnaNo}"><span th:text="${qna.qnaContent}" class="table-content"></span></a></td>
+                        <td><a th:href="'/myPageSeller/qnaDetail?qnaNo='+${qna.qnaNo}"><span th:text="${qna.qnaContent}" class="table-content"></span></a></td>
                         <td th:class="${qna.qnaAnswerYn}" th:text="${qna.qnaAnswerYn}"></td>
                     </tr>
                 </tbody>
@@ -84,9 +84,9 @@
         </div>
     </div>
 </div>
-    <footer>
-        <div th:replace="footer :: footer"></div>
-    </footer>
+<footer>
+    <div th:replace="footer :: footer"></div>
+</footer>
 
 
     <script src="../js/user/user-qna.js"></script>

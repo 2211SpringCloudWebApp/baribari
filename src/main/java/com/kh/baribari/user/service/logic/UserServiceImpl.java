@@ -171,6 +171,11 @@ public class UserServiceImpl implements UserService {
         return uRepository.selectCommentList(user);
     }
 
+    @Override
+    public List<MyPageReportList> selectReportList(User user) {
+        return uRepository.selectReportList(user);
+    }
+
     //  배송지 삭제
     @Override
     public int deleteAddress(int addressNo) {

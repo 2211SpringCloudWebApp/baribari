@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>마이페이지</title>
+    <title>BARIBARI</title>
     <!-- Favicons -->
     <link href="assets/img/favicon.png" rel="icon">
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -31,7 +31,7 @@
 <div class="mainContainer" style="padding-top: 170px">
     <div class="top">
         <div class="top-container">
-            <div class="profile-root">홈 > <a style="color:black" href="/mypage">마이페이지</a></div>
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageSeller">마이페이지</a></div>
             <div class="profile-container" >
                 <div class="profile-left">
                     <div style="width: 250px;">
@@ -108,7 +108,7 @@
                 정보관리
             </dt>
             <dd><a href="/myPageSeller/modify" >상점정보 수정</a></dd>
-            <dd><a href="/myPageUser/withdraw">회원탈퇴</a></dd>
+            <dd><a href="/myPageSeller/withdraw">회원탈퇴</a></dd>
         </dl>
         <dl>
             <dt>
@@ -123,21 +123,24 @@
                 <img src="img/icon_main_2.svg" alt="나문희">
                 문의사항
             </dt>
-            <dd><a href="/myPageUser/qna?qnaAnswerYn=all">1:1 문의</a></dd>
-            <dd><a href="/myPageUser/productQna?qnaAnswerYn=all">상품 문의</a></dd>
-            <dd><a href="">신고 내역</a></dd>
+            <dd><a href="/myPageSeller/qna?qnaAnswerYn=all">1:1 문의</a></dd>
+            <dd><a href="/myPageSeller/productQna?qnaAnswerYn=all">상품 문의</a></dd>
+            <dd><a href="/myPageSeller/report">신고 내역</a></dd>
         </dl>
         <dl>
             <dt>
                 <img src="img/icon_main_4.svg" alt="커뮤니티">
                 커뮤니티
             </dt>
-            <dd><a href="/pegDown">팩다운 글</a></dd>
-            <dd><a href="/myWrite">내가 쓴 글</a></dd>
-            <dd><a href="/myComment">내가 쓴 댓글</a></dd>
+            <dd><a href="/myPageSeller/pegDown">팩다운 글</a></dd>
+            <dd><a href="/myPageSeller/myWrite">내가 쓴 글</a></dd>
+            <dd><a href="/myPageSeller/myComment">내가 쓴 댓글</a></dd>
         </dl>
     </div>
 </div>
+<footer>
+    <div th:replace="footer :: footer"></div>
+</footer>
 <script src="../js/user/myPageJs.js"></script>
 <!-- Vendor JS Files -->
 <script src="assets/vendor/aos/aos.js"></script>

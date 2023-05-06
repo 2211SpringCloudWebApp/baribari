@@ -81,4 +81,6 @@ public interface UserRepository {
     List<MPCommunityList> selectMyWrite(User user);
 //  내가쓴댓글 로딩
     List<CommentList> selectCommentList(User user);
+//  신고 내역 리스트 로딩
+    List<MyPageReportList> selectReportList(User user);
 }

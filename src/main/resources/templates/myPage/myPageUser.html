@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>마이페이지</title>
+    <title>BARIBARI</title>
     <!-- Favicons -->
     <link href="assets/img/favicon.png" rel="icon">
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -133,19 +133,22 @@
             </dt>
             <dd><a href="/myPageUser/qna?qnaAnswerYn=all">1:1 문의</a></dd>
             <dd><a href="/myPageUser/productQna?qnaAnswerYn=all">상품 문의</a></dd>
-            <dd><a href="">신고 내역</a></dd>
+            <dd><a href="/myPageUser/report">신고 내역</a></dd>
         </dl>
         <dl>
             <dt>
                 <img src="img/icon_main_4.svg" alt="커뮤니티">
                 커뮤니티
             </dt>
-            <dd><a href="/pegDown">팩다운 글</a></dd>
-            <dd><a href="/myWrite">내가 쓴 글</a></dd>
-            <dd><a href="/myComment">내가 쓴 댓글</a></dd>
+            <dd><a href="/myPageUser/pegDown">팩다운 글</a></dd>
+            <dd><a href="/myPageUser/myWrite">내가 쓴 글</a></dd>
+            <dd><a href="/myPageUser/myComment">내가 쓴 댓글</a></dd>
         </dl>
     </div>
 </div>
+<footer>
+    <div th:replace="footer :: footer"></div>
+</footer>
 <script src="../js/user/myPageJs.js"></script>
 <!-- Vendor JS Files -->
 <script src="assets/vendor/aos/aos.js"></script>

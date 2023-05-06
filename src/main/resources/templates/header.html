@@ -92,11 +92,11 @@
 	        <div sec:authorize="isAuthenticated()">
 	            <input type="hidden" th:value="${#authentication.principal.user.userNo}" id="userNo">
 	            <div class="dropdown">
-	                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${#authentication.principal.user.userName}"></button>
+	                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" th:text="${#authentication.principal.user.userNickName}"></button>
 	                <!-- 일반 회원 -->
                     <ul class="dropdown-menu" sec:authorize="hasRole('ROLE_USER')">
                         <li><button class="dropdown-item" type="button" onclick="location.href='/myPageUser'">마이페이지</button></li>
-                        <li><button class="dropdown-item" type="button">주문내역</button></li>
+                        <li><button class="dropdown-item" type="button" onclick="location.href='/myPageUser/orderLogistic?endDate=2023-05-05&startDate=2023-04-05'">주문내역</button></li>
                         <li><button class="dropdown-item" type="button" onclick="location.href='/cart/list'">장바구니</button></li>
 						<li><button class="dropdown-item" type="button" onclick="window.open('/message','','top=0, left=700, width=500, height=600')">메시지</button></li>
                         <li><button class="dropdown-item" type="button" onclick="location.href='/logout'">로그아웃</button></li>

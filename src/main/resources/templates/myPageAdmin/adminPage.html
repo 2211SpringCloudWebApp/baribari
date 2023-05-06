@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>마이페이지</title>
+    <title>BARIBARI</title>
     <!-- Favicons -->
     <link href="assets/img/favicon.png" rel="icon">
     <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -84,14 +84,14 @@
                         <th>신고일시</th>
                         <th>처리여부</th>
                     </tr>
-                    <tr class="content-tr" th:onclick="'reportModal('+${reportList.reportNo}+')'"
-                        th:each="reportList : ${reportList}">
-                        <td th:text="${reportList.reportCategoryName}"></td>
-                        <td th:text="${reportList.reportTargetName}"></td>
-                        <td th:text="${reportList.reportContent}"></td>
+                    <tr class="content-tr" th:onclick="'reportModal('+${myPageReportList.reportNo}+')'"
+                        th:each="myPageReportList : ${myPageReportList}">
+                        <td th:text="${myPageReportList.reportCategoryName}"></td>
+                        <td th:text="${myPageReportList.reportTargetName}"></td>
+                        <td th:text="${myPageReportList.reportContent}"></td>
                         <td style="font-size: 12px;"
-                            th:text="${#dates.format(reportList.reportDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                        <td th:text="${reportList.reportProcessing}"></td>
+                            th:text="${#dates.format(myPageReportList.reportDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                        <td th:text="${myPageReportList.reportProcessing}"></td>
                     </tr>
                 </table>
             </div>
@@ -176,6 +176,9 @@
     </div>
 
 </div>
+<footer>
+    <div th:replace="footer :: footer"></div>
+</footer>
 <script>
     const myModal = document.getElementById('myModal')
     const myInput = document.getElementById('myInput')

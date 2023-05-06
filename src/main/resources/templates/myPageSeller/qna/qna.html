@@ -34,14 +34,14 @@
 <div class="mainContainer" style="padding-top: 170px">
     <div class="top">
         <div class="top-container">
-            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myPageUser/productQna?qnaAnswerYn=all">상품문의</a></div>
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageSeller">마이페이지</a> > <a style="color:black" href="/myPageSeller/qna?qnaAnswerYn=all">1:1문의</a></div>
             <div style="margin-top: 30px;">
-                <div class="page-title">상품 문의</div>
+                <div class="page-title">1:1 문의</div>
                 <div class="page-menu">
                     <dl>
-                        <dd class="page-qna"><a href="/myPageUser/qna?qnaAnswerYn=all">1:1 문의</a></dd>
-                        <dd class="page-active"><a href="/myPageUser/productQna?qnaAnswerYn=all">상품 문의</a></dd>
-                        <dd class="page-report"><a href="/myPageUser/report">신고 내역</a></dd>
+                        <dd class="page-active"><a href="/myPageSeller/qna?qnaAnswerYn=all">1:1 문의</a></dd>
+                        <dd class="page-productQna"><a href="/myPageSeller/productQna?qnaAnswerYn=all">상품 문의</a></dd>
+                        <dd class="page-report"><a href="/myPageSeller/report">신고 내역</a></dd>
                     </dl>
                 </div>
             </div>
@@ -54,6 +54,9 @@
             <button class="qna-btn" id="all" onclick="btnSelect('all');">전체</button>
             <button class="qna-btn" id="Y" onclick="btnSelect('Y');">답변완료</button>
             <button class="qna-btn" id="N" onclick="btnSelect('N');">답변대기</button>
+            </div>
+            <div >
+                <button class="qna-btn" onclick="location.href='/myPageSeller/qnaWrite'">글쓰기</button>
             </div>
         </div>
         <div>
@@ -75,8 +78,8 @@
                 <tbody>
                     <tr class="table-qna-tr" th:each="qna : ${qnaList}">
                         <td th:text="${qna.qnaDate}"></td>
-                        <td th:text="${qna.qnaCategory}">구분</td>
-                        <td><a th:href="'/myPageUser/qnaDetail?qnaNo='+${qna.qnaNo}"><span th:text="${qna.qnaContent}" class="table-content"></span></a></td>
+                        <td th:if="${qna.qnaCategory == 1}">유저</td>
+                        <td><a th:href="'/myPageSeller/qnaDetail?qnaNo='+${qna.qnaNo}"><span th:text="${qna.qnaContent}" class="table-content"></span></a></td>
                         <td th:class="${qna.qnaAnswerYn}" th:text="${qna.qnaAnswerYn}"></td>
                     </tr>
                 </tbody>
@@ -84,9 +87,9 @@
         </div>
     </div>
 </div>
-    <footer>
-        <div th:replace="footer :: footer"></div>
-    </footer>
+<footer>
+    <div th:replace="footer :: footer"></div>
+</footer>
 
 
     <script src="../js/user/user-qna.js"></script>
@@ -100,6 +103,5 @@
 
     <!-- Template Main JS File -->
     <script src="../assets/js/main.js"></script>
-
 </body>
 </html>

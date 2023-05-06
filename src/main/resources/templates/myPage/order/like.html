@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>찜한상품</title>
+    <title>BARIBARI</title>
     <!-- Favicons -->
     <link href="../assets/img/favicon.png" rel="icon">
     <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -38,7 +38,7 @@
     <div class="top">
         <div class="top-container">
             <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black"
-                                                                                                   href="/myPageUser/cart">장바구니</a>
+                                                                                                   href="/myPageUser/like">찜한상품</a>
             </div>
             <div style="margin-top: 30px;">
                 <div class="page-title">장바구니</div>
@@ -88,6 +88,9 @@
     </div>
 
 </div>
+<footer>
+    <div th:replace="footer :: footer"></div>
+</footer>
 <script>
     window.onload = function () {
         var priceInput = document.querySelectorAll('.price-input');

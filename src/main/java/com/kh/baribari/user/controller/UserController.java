@@ -448,7 +448,7 @@ public class UserController {
 
     // 커뮤니티
     // 팩다운뷰
-    @GetMapping("pegDown")
+    @GetMapping("myPageUser/pegDown")
     public ModelAndView pegDownView(
             ModelAndView mv,
             Authentication authentication
@@ -461,7 +461,7 @@ public class UserController {
     }
 
     // 내가쓴글 뷰
-    @GetMapping("myWrite")
+    @GetMapping("myPageUser/myWrite")
     public ModelAndView myWriteView(
             ModelAndView mv,
             Authentication authentication
@@ -469,12 +469,12 @@ public class UserController {
         User user = returnUser(authentication);
         List<MPCommunityList> CommunityList = uService.selectMyWrite(user);
         mv.addObject("communityList", CommunityList);
-        mv.setViewName("/myPage/community/myWrite");
+        mv.setViewName("myPage/community/myWrite");
         return mv;
     }
 
     // 내가쓴글 뷰
-    @GetMapping("myComment")
+    @GetMapping("myPageUser/myComment")
     public ModelAndView myCommentView(
             ModelAndView mv,
             Authentication authentication
@@ -483,6 +483,19 @@ public class UserController {
         List<CommentList> CommentList = uService.selectCommentList(user);
         mv.addObject("CommentList", CommentList);
         mv.setViewName("/myPage/community/myComment");
+        return mv;
+    }
+
+//    신고내역 뷰
+    @GetMapping("myPageUser/report")
+    public ModelAndView reportView(
+            ModelAndView mv,
+            Authentication authentication
+    ){
+        User user = returnUser(authentication);
+        List<MyPageReportList> myPageReportList = uService.selectReportList(user);
+        mv.addObject("reportList", myPageReportList);
+        mv.setViewName("myPage/qna/report");
         return mv;
     }
 }

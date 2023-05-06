@@ -196,4 +196,9 @@ public class UserRepositoryLogic implements UserRepository {
     public List<CommentList> selectCommentList(User user) {
         return session.selectList("UserMapper.selectCommentList",user);
     }
+
+    @Override
+    public List<MyPageReportList> selectReportList(User user) {
+        return session.selectList("UserMapper.selectReportList",user);
+    }
 }

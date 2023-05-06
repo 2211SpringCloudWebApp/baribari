@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.kh.baribari.user.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
@@ -25,8 +26,6 @@ import com.kh.baribari.common.ReturnUser;
 import com.kh.baribari.product.domain.Product;
 import com.kh.baribari.product.service.ProductService;
 import com.kh.baribari.security.auth.PrincipalDetails;
-import com.kh.baribari.user.domain.User;
-import com.kh.baribari.user.domain.UserMyPageData;
 import com.kh.baribari.user.service.SellerService;
 import com.kh.baribari.user.service.UserService;
 
@@ -53,7 +52,7 @@ public class SellerController {
     ){
         User user = returnUser.returnUser(authentication);
         UserMyPageData userUserMyPageData = new UserMyPageData(user.getUserNo(), user.getUserLevelPoint());
-        UserMyPageData userMyPageData = uService.selectUserMyPageData(userUserMyPageData);
+        UserMyPageData userMyPageData = sService.selectMyPageSeller(userUserMyPageData);
         model.addAttribute("userMyPageData", userMyPageData);
         return "myPageSeller/myPageSeller";
     }
@@ -74,6 +73,106 @@ public class SellerController {
             ModelAndView mv
     ){
         mv.setViewName("myPageSeller/information/sellerModify");
+        return mv;
+    }
+
+    //  회원탈퇴 뷰
+    @GetMapping("myPageSeller/withdraw")
+    public String withdrawView() {
+        return "myPageSeller/information/withdraw";
+    }
+
+    //    유저 1:1 문의 뷰
+    @GetMapping("/myPageSeller/qna")
+    public String myPageUserQnaView(Authentication authentication, Model model, @RequestParam String qnaAnswerYn) {
+        User user = returnUser.returnUser(authentication);
+        MyPageQna qna = new MyPageQna(user.getUserNo(), qnaAnswerYn);
+        List<MyPageQna> qnaList = uService.selectQna(qna);
+        model.addAttribute("qnaList", qnaList);
+        return "myPageSeller/qna/qna";
+    }
+
+    //    문의 작성 뷰
+    @GetMapping("/myPageSeller/qnaWrite")
+    public String myPageQnaWriteView() {
+        return "myPage/qna/qnaWrite";
+    }
+
+    //    문의 상세페이지
+    @GetMapping("/myPageSeller/qnaDetail")
+    public String myPageUserQnaDetailView(@RequestParam int qnaNo, Model model) {
+        MyPageQna qna = uService.selectQnaDetail(qnaNo);
+        model.addAttribute("qnaDetail", qna);
+        return "myPageSeller/qna/qnaDetail";
+    }
+
+    //    상품 문의 뷰
+    @GetMapping("/myPageSeller/productQna")
+    public String productQnaView(Authentication authentication, Model model) {
+        User user = returnUser.returnUser(authentication);
+        List<MyPageQna> myPageQnaList = uService.selectProductQna(user);
+        model.addAttribute("qnaList", myPageQnaList);
+        return "myPageSeller/qna/productQna";
+    }
+
+    //    문의 수정 뷰
+    @GetMapping("/myPageSeller/qnaModify")
+    public String myPageUserQnaModify(@RequestParam int qnaNo, Model model) {
+        MyPageQna qna = uService.selectQnaDetail(qnaNo);
+        model.addAttribute("qnaDetail", qna);
+        return "myPageSeller/qna/qnaModify";
+    }
+
+    //    신고내역 뷰
+    @GetMapping("myPageSeller/report")
+    public ModelAndView reportView(
+            ModelAndView mv,
+            Authentication authentication
+    ){
+        User user = returnUser.returnUser(authentication);
+        List<MyPageReportList> myPageReportList = uService.selectReportList(user);
+        mv.addObject("reportList", myPageReportList);
+        mv.setViewName("/myPageSeller/qna/report");
+        return mv;
+    }
+
+
+    // 커뮤니티
+    // 팩다운뷰
+    @GetMapping("myPageSeller/pegDown")
+    public ModelAndView pegDownView(
+            ModelAndView mv,
+            Authentication authentication
+    ){
+        User user = returnUser.returnUser(authentication);
+        List<MPCommunityList> CommunityList = uService.selectPegDownList(user);
+        mv.addObject("communityList", CommunityList);
+        mv.setViewName("/myPageSeller/community/pegDown");
+        return mv;
+    }
+
+    // 내가쓴글 뷰
+    @GetMapping("myPageSeller/myWrite")
+    public ModelAndView myWriteView(
+            ModelAndView mv,
+            Authentication authentication
+    ){
+        User user = returnUser.returnUser(authentication);
+        List<MPCommunityList> CommunityList = uService.selectMyWrite(user);
+        mv.addObject("communityList", CommunityList);
+        mv.setViewName("/myPageSeller/community/myWrite");
+        return mv;
+    }
+    // 내가쓴댓글 뷰
+    @GetMapping("myPageSeller/myComment")
+    public ModelAndView myCommentView(
+            ModelAndView mv,
+            Authentication authentication
+    ){
+        User user = returnUser.returnUser(authentication);
+        List<CommentList> CommentList = uService.selectCommentList(user);
+        mv.addObject("CommentList", CommentList);
+        mv.setViewName("/myPageSeller/community/myComment");
         return mv;
     }
 

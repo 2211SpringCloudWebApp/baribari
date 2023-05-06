@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>배송지 관리</title>
+    <title>BARIBARI</title>
     <!-- Favicons -->
     <link href="../assets/img/favicon.png" rel="icon">
     <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -34,7 +34,7 @@
 <div class="mainContainer" style="padding-top: 170px">
     <div class="top">
         <div class="top-container">
-            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myPageUser/modify">배송지관리</a></div>
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myPageUser/address">배송지관리</a></div>
             <div style="margin-top: 30px;">
                 <div class="page-title">배송지관리</div>
                 <div class="page-menu">
@@ -123,8 +123,12 @@
         <div class="modal-close-btn"></div>
 
     </div>
+</div>
 
     <div class="modal-back" onclick="modalRemove();"></div>
+    <footer>
+        <div th:replace="footer :: footer"></div>
+    </footer>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="../js/user/user-address.js"></script>
 <script>

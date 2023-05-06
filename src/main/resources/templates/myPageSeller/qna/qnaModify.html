@@ -25,7 +25,7 @@
     <link href="../assets/css/style.css" rel="stylesheet">
     <link href="../css/mypage/user/userMypageCss.css" rel="stylesheet">
     <link href="../css/mypage/user/userModifyCss.css" rel="stylesheet">
-    <link href="../css/mypage/user/userQnaCss.css" rel="stylesheet">
+    <link href="../css/mypage/user/userQnaModifyCss.css" rel="stylesheet">
 
 
 </head>
@@ -34,14 +34,16 @@
 <div class="mainContainer" style="padding-top: 170px">
     <div class="top">
         <div class="top-container">
-            <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myPageUser/productQna?qnaAnswerYn=all">상품문의</a></div>
+            <div class="profile-root">홈 > <a style="color:black" href="/myPageSeller">마이페이지</a> > <a style="color:black"
+                                                                                                   href="/myPageSeller/qna?qnaAnswerYn=all">1:1문의</a>
+            </div>
             <div style="margin-top: 30px;">
-                <div class="page-title">상품 문의</div>
+                <div class="page-title">1:1 문의</div>
                 <div class="page-menu">
                     <dl>
-                        <dd class="page-qna"><a href="/myPageUser/qna?qnaAnswerYn=all">1:1 문의</a></dd>
-                        <dd class="page-active"><a href="/myPageUser/productQna?qnaAnswerYn=all">상품 문의</a></dd>
-                        <dd class="page-report"><a href="/myPageUser/report">신고 내역</a></dd>
+                        <dd class="page-active"><a href="/myPageSeller/qna?qnaAnswerYn=all">1:1 문의</a></dd>
+                        <dd class="page-productQna"><a href="/myPageSeller/productQna?qnaAnswerYn=all">상품 문의</a></dd>
+                        <dd class="page-report"><a href="/myPageSeller/report">신고 내역</a></dd>
                     </dl>
                 </div>
             </div>
@@ -49,46 +51,43 @@
     </div>
 
     <div class="qna-middle">
-        <div class="qna-btn-box">
-            <div style="display: flex;">
-            <button class="qna-btn" id="all" onclick="btnSelect('all');">전체</button>
-            <button class="qna-btn" id="Y" onclick="btnSelect('Y');">답변완료</button>
-            <button class="qna-btn" id="N" onclick="btnSelect('N');">답변대기</button>
-            </div>
-        </div>
+
         <div>
-            <table class="qna-table">
-                <colgroup>
-                    <col style="width: 20%;">
-                    <col style="width: 14%;">
-                    <col>
-                    <col style="width: 10%;">
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th>작성일</th>
-                        <th>문의구분</th>
-                        <th>내용</th>
-                        <th>답변여부</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="table-qna-tr" th:each="qna : ${qnaList}">
-                        <td th:text="${qna.qnaDate}"></td>
-                        <td th:text="${qna.qnaCategory}">구분</td>
-                        <td><a th:href="'/myPageUser/qnaDetail?qnaNo='+${qna.qnaNo}"><span th:text="${qna.qnaContent}" class="table-content"></span></a></td>
-                        <td th:class="${qna.qnaAnswerYn}" th:text="${qna.qnaAnswerYn}"></td>
-                    </tr>
-                </tbody>
-            </table>
+            <form action="/qnaModify/save" method="post">
+                <div class="qna-detail-content">
+                    <div class="title">문의수정</div>
+                    <input type="hidden" th:value="${qnaDetail.qnaNo}" name="qnaNo">
+                    <div class="content">
+                        <div style="display: flex">
+                            <div class="qna-title">내용</div>
+                            <textarea th:text="${qnaDetail.qnaContent}" name="qnaContent">
+                            </textarea>
+                        </div>
+                        <div class="file-input-box">
+                            <input class="file-input" type="file" name="qnaPic1">
+                            <input class="file-input" type="file" name="qnaPic2">
+                        </div>
+                    </div>
+                </div>
+                <div class="qna-btn-box">
+                    <button type="button" class="qna-detail-btn"
+                            onclick="location.href='/myPageSeller/qna?qnaAnswerYn=all'">목록으로
+                    </button>
+                    <button type="submit" class="qna-detail-btn save-btn">저장</button>
+                </div>
+            </form>
+
         </div>
     </div>
 </div>
-    <footer>
-        <div th:replace="footer :: footer"></div>
-    </footer>
+<footer>
+    <div th:replace="footer :: footer"></div>
+</footer>
 
 
+    <script>
+
+    </script>
     <script src="../js/user/user-qna.js"></script>
     <!-- Vendor JS Files -->
     <script src="../assets/vendor/aos/aos.js"></script>
@@ -100,6 +99,6 @@
 
     <!-- Template Main JS File -->
     <script src="../assets/js/main.js"></script>
-
+</div>
 </body>
 </html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>BARIBARI</title>
+  <!-- Favicons -->
+  <link href="../assets/img/favicon.png" rel="icon">
+  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+  <link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <link href="../assets/css/style.css" rel="stylesheet">
+  <link href="../css/mypage/user/userMypageCss.css" rel="stylesheet">
+  <link href="../css/mypage/user/userModifyCss.css" rel="stylesheet">
+  <link href="../css/mypage/user/userQnaCss.css" rel="stylesheet">
+
+
+</head>
+<body>
+<header th:replace="header :: #header"></header>
+<div class="mainContainer" style="padding-top: 170px">
+  <div class="top">
+    <div class="top-container">
+      <div class="profile-root">홈 > <a style="color:black" href="/myPageUser">마이페이지</a> > <a style="color:black" href="/myPageUser/report">신고내역</a></div>
+      <div style="margin-top: 30px;">
+        <div class="page-title">신고내역</div>
+        <div class="page-menu">
+          <dl>
+            <dd class="page-qna"><a href="/myPageUser/qna?qnaAnswerYn=all">1:1 문의</a></dd>
+            <dd class="page-product"><a href="/myPageUser/productQna?qnaAnswerYn=all">상품 문의</a></dd>
+            <dd class="page-active"><a href="/myPageUser/report">신고 내역</a></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qna-middle">
+    <div>
+      <table class="qna-table">
+        <colgroup>
+          <col style="width: 10%;">
+          <col style="width: *%;">
+          <col style="width: 10%">
+          <col style="width: 10%;">
+          <col style="width: 15%;">
+        </colgroup>
+        <thead>
+        <tr>
+          <th>분류</th>
+          <th>신고내용</th>
+          <th>신고대상</th>
+          <th>처리여부</th>
+          <th>신고일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table-qna-tr" th:each="reportList : ${reportList}">
+          <td th:text="${reportList.reportCategoryName}"></td>
+          <td th:text="${reportList.reportContent}"></td>
+          <td th:text="${reportList.reportTargetName}"></td>
+          <td th:text="${reportList.reportProcessing}"></td>
+          <td th:text="${reportList.reportDate}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<footer>
+  <div th:replace="footer :: footer"></div>
+</footer>
+
+
+  <script src="../js/user/user-qna.js"></script>
+  <!-- Vendor JS Files -->
+  <script src="../assets/vendor/aos/aos.js"></script>
+  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="../assets/vendor/php-email-form/validate.js"></script>
+  <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="../assets/js/main.js"></script>
+
+</body>
+</html>

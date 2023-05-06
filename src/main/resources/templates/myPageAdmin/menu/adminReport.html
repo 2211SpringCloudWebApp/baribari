@@ -74,13 +74,13 @@
                     <th class="sorting_disabled col">처리여부</th>
                 </tr>
                 </thead>
-                <tr class="table-tr" th:each="reportList : ${reportList }" th:onclick="'reportDetail('+${reportList.reportNo}+');'">
-                    <td class="table-td" th:text="${reportList.reportNo}"></td>
-                    <td class="table-td" th:text="${reportList.reportCategoryName}"></td>
-                    <td class=" td-center" th:text="${reportList.userNickName}"></td>
-                    <td class=" td-center" th:text="${reportList.reportTargetName}"></td>
-                    <td class="td-center" th:text="${#dates.format(reportList.reportDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
-                    <td class="td-center" th:text="${reportList.reportProcessing}">N</td>
+                <tr class="table-tr" th:each="myPageReportList : ${myPageReportList }" th:onclick="'reportDetail('+${myPageReportList.reportNo}+');'">
+                    <td class="table-td" th:text="${myPageReportList.reportNo}"></td>
+                    <td class="table-td" th:text="${myPageReportList.reportCategoryName}"></td>
+                    <td class=" td-center" th:text="${myPageReportList.userNickName}"></td>
+                    <td class=" td-center" th:text="${myPageReportList.reportTargetName}"></td>
+                    <td class="td-center" th:text="${#dates.format(myPageReportList.reportDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td class="td-center" th:text="${myPageReportList.reportProcessing}">N</td>
                 </tr>
             </table>
         </div>
@@ -111,6 +111,9 @@
         </div>
     </div>
 </div>
+<footer>
+    <div th:replace="footer :: footer"></div>
+</footer>
 <script src="../js/datatables-simple-demo.js"></script>
 <script>
     $(document).ready(function () {

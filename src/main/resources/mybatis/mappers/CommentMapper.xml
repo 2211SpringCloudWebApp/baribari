@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="CommentMapper">
+	<resultMap type="comment" id="reCommentMapper">
+		<id property="commentNo" column="RE_COMMENT_NO"/>
+		<result property="userNo" column="USER_NO"/>
+		<result property="communityNo" column="COMMUNITY_NO"/>
+		<result property="commentContent" column="RE_COMMENT_SUBJECT"/>
+		<result property="commentDate" column="RE_ COMMENT_DATE"/>
+		<result property="userNickname" column="USER_NICKNAME"/>
+		<result property="parentsCommentNo" column="COMMENT_NO"/>
+	</resultMap>
 	<insert id="commentRegister">
 		INSERT INTO COMMENT_TBL VALUES(
 			COMMENT_SEQ.NEXTVAL,
@@ -11,10 +20,35 @@
 			DEFAULT)
 	</insert>
 	
+	<insert id="registerReComment">
+		INSERT INTO RE_COMMENT_TBL VALUES(
+			RE_COMMENT_SEQ.NEXTVAL,
+			#{communityNo},
+			#{userNo},
+			#{commentContent},
+			#{parentsCommentNo},
+			DEFAULT)
+	</insert>
+	
 	<select id="commentShow" resultType="comment">
 		SELECT C.*, U.USER_NICKNAME
 		FROM COMMENT_TBL C
 		JOIN USER_TBL U ON C.USER_NO = U.USER_NO
 		WHERE COMMUNITY_NO = #{communityNo}
+		ORDER BY C.COMMENT_DATE ASC
 	</select>
+	
+	<select id="reCommentShow" resultMap="reCommentMapper">
+		SELECT R.*, U.USER_NICKNAME
+		FROM RE_COMMENT_TBL R
+		JOIN USER_TBL U ON R.USER_NO = U.USER_NO
+		WHERE COMMENT_NO = #{commentNo}
+		ORDER BY R.RE_COMMENT_DATE ASC
+	</select>
+	<delete id="commentDelete">
+		DELETE FROM COMMENT_TBL WHERE COMMENT_NO = #{commentNo}
+	</delete>
+	<delete id="reCommentDelete">
+		DELETE FROM RE_COMMENT_TBL WHERE RE_COMMENT_NO = #{commentNo}
+	</delete>
 </mapper>

@@ -20,4 +20,32 @@ public interface CommentService {
 	 */
 	public List<Comment> commentShow(Integer communityNo);
 
+	/**
+	 * 댓글 삭제
+	 * @param commentNo
+	 * @return
+	 */
+	public int commentDelete(Integer commentNo);
+
+	/**
+	 * 대댓글 등록
+	 * @param rcomment
+	 * @return
+	 */
+	public int registerReComment(Comment rcomment);
+
+	/**
+	 * 대댓글 출력
+	 * @param commentNo
+	 * @return
+	 */
+	public List<Comment> reCommentShow(Integer commentNo);
+
+	/**
+	 * 대댓글 삭제
+	 * @param commentNo
+	 * @return
+	 */
+	public int reCommentDelete(Integer commentNo);
+
 }

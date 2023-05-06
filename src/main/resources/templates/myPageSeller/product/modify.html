@@ -56,7 +56,7 @@
 		
 		<input th:value="${#authentication.principal.user.userNo}" type="hidden" name="userNo">
 
-		<div class="mainContainer" style="padding-top: 170px">
+		<div class="mainContainer" style="padding-top: 170px; height: 1600px;">
 			<div class="top">
 				<div class="top-container">
 					<div class="profile-root">
@@ -65,7 +65,7 @@
 						<a style="color:black" href="/list">상품목록 조회</a>
 					</div>
 					<div style="margin-top: 30px;">
-						<div class="page-title">상품등록</div>
+						<div class="page-title">상품수정</div>
 						<div class="page-menu">
 							<dl>
 								<dd class="page-write"><a href="/myPageSeller/list">상품목록 조회</a></dd>
@@ -86,39 +86,38 @@
 									<label>상품분류</label>
 									<input type="hidden" name="sellerUserNo" th:value="${#authentication.principal.user.userNo}">
 									<select name="productCategory" required>
-										<option>선택하세요</option>
-										<option value="텐트">텐트</option>
-										<option value="타프">타프</option>
-										<option value="가구">가구</option>
-										<option value="침구">침구</option>
-										<option value="주방">주방</option>
-										<option value="BBQ">BBQ</option>
-										<option value="조명">조명</option>
-										<option value="수납">수납</option>
-										<option value="공구">공구</option>
-										<option value="소품">소품</option>
-										<option value="기타">기타</option>
+									    <option value="텐트" th:selected="${product.productCategory == '텐트'}">텐트</option>
+									    <option value="타프" th:selected="${product.productCategory == '타프'}">타프</option>
+									    <option value="가구" th:selected="${product.productCategory == '가구'}">가구</option>
+									    <option value="침구" th:selected="${product.productCategory == '침구'}">침구</option>
+									    <option value="주방" th:selected="${product.productCategory == '주방'}">주방</option>
+									    <option value="BBQ" th:selected="${product.productCategory == 'BBQ'}">BBQ</option>
+									    <option value="조명" th:selected="${product.productCategory == '조명'}">조명</option>
+									    <option value="수납" th:selected="${product.productCategory == '수납'}">수납</option>
+									    <option value="공구" th:selected="${product.productCategory == '공구'}">공구</option>
+									    <option value="소품" th:selected="${product.productCategory == '소품'}">소품</option>
+									    <option value="기타" th:selected="${product.productCategory == '기타'}">기타</option>
 									</select>
 								</div>
 								<div>
 									<label>브랜드</label>
-									<input name="productBrand" th:value="${product.productBrand}">
+									<input name="productBrand" th:value="${product.productBrand}" required>
 								</div>
 								<div>
 									<label>상품명</label>
-									<input name="productName" th:value="${product.productName}">
+									<input name="productName" th:value="${product.productName}" required>
 								</div>
 								<div>
 									<label>상품가격</label>
-									<input name="productPrice" th:value="${product.productPrice}">
+									<input name="productPrice" th:value="${product.productPrice}" required>원
 								</div>
 								<div>
 									<label>할인율</label>
-									<input name="productDiscount" th:value="${product.productDiscount}">
+									<input name="productDiscount" th:value="${product.productDiscount}" type="number" min="0" max="100" required>%
 								</div>
 								<div>
 									<label>배송비</label>
-									<input name="productDeliveryCharge" th:value="${product.productDeliveryCharge}">
+									<input name="productDeliveryCharge" th:value="${product.productDeliveryCharge}" required>원
 								</div>
 								<div>
 									<label>상품내용</label>
@@ -131,18 +130,16 @@
 								<div>
 									<label>메인사진</label>
 									<input type="file" id="photoInput1" accept="image/*" name="mainImg">
-								</div>
-								<div>
-									<label></label>
-									<span id="mainImgPreview"></span>
+									<span id="mainImgPreview"><img th:src="${product.productPic1}" style="max-width: 100px; max-height: 300px"></span>
 								</div>
 								<div>
 									<label>상품설명사진</label>
 									<input type="file" id="photoInput2" accept="image/*" name="descriptionImgs" multiple>
-								</div>
-								<div>
-									<label></label>
-									<span id="imgPreview"></span>
+									<span id="imgPreview">
+										<img th:src="${product.productPic2}" style="max-width: 60px; max-height: 300px">
+										<img th:src="${product.productPic3}" style="max-width: 60px; max-height: 300px">
+										<img th:src="${product.productPic4}" style="max-width: 60px; max-height: 300px">
+									</span>
 								</div>
 							</div>
 						</fieldset>
@@ -181,7 +178,7 @@
 					var img = document.createElement("img");
 					img.setAttribute("src", event.target.result);
 					img.style.maxWidth = "100px";
-					img.style.height = "auto";
+					img.style.maxHeight = "300px";
 					var imgPreviewItem = document.createElement("span");
 					imgPreviewItem.classList.add("img-preview");
 					imgPreviewItem.appendChild(img);
@@ -201,8 +198,8 @@
 		        reader.onload = function(event) {
 					var img = document.createElement("img");
 					img.setAttribute("src", event.target.result);
-					img.style.maxWidth = "100px";
-					img.style.height = "auto";
+					img.style.maxWidth = "60px";
+					img.style.maxHeight = "300px";
 					var imgPreviewItem = document.createElement("span");
 					imgPreviewItem.classList.add("img-preview");
 					imgPreviewItem.appendChild(img);

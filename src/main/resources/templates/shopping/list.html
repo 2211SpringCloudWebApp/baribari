@@ -68,7 +68,6 @@
 				<button class="category-btn" name="category" value="수납">수납</button>
 				<button class="category-btn" name="category" value="공구">공구</button>
 				<button class="category-btn" name="category" value="소품">소품</button>
-				
 			</div>
 		</form>
 
@@ -88,7 +87,8 @@
 						<!-- Sale 뱃지, productDiscount가 있으면 Sale 뱃지 출력 -->
 						<div th:if="${product != null and product.productDiscount != 0}" class="badge bg-baribari text-black position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
 						<!-- 상품 사진 -->
-						<img th:src="@{${product.productPic1} != null} ? @{${product.productPic1}} : @{'../../img/logo.png'}" class="card-img-top" alt="제품사진" />
+						<img th:src="@{${product.productPic1} != null} ? @{${product.productPic1}} : @{'../../img/logo.png'}" class="card-img-top" alt="제품사진" style="width: 100%; height: auto; aspect-ratio: 1/1; object-fit: contain;" />
+
 						<!-- 상품 내용 -->
 						<a th:href="@{'/shopping/detail?productNo=' + ${product.productNo}}">
 							<div class="card-body p-4">
@@ -97,7 +97,7 @@
 									<h5 th:text="${product.productName}" class="fw-bolder">상품명</h5>
 									<!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
 									<span th:if="${product != null and product.productDiscount == 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|">상품가격</span>
-									<span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|" class="text-muted text-decoration-line-through">상품가격 취소선</span>
+									<span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice, 0, 'COMMA')}원|" class="text-muted text-decoration-line-through">상품가격 취소선</span><br>
 									<span th:if="${product != null and product.productDiscount != 0}" th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|">할인된 가격</span>
 								</div>
 							</div>
@@ -178,9 +178,21 @@
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="../js/user/user-address.js"></script>
 	<script>
+		const categoryBtns = document.querySelectorAll('.category-btn');
+	
+		categoryBtns.forEach(btn => {
+		  btn.addEventListener('click', (event) => {
+		    const category = event.target.value;
+		    if (category === '[[${param.category}]]') {
+		      event.preventDefault(); // 이벤트 기본 동작 막기
+		      window.location.href = "/shopping/list";
+		    }
+		  });
+		});
+
 		var userNo = document.querySelector('input[name="userNo"]').value;
 
-		/* 찜하기 (AJAX) */
+		/* 찜하기 */
 		$(document).ready(function () {
 			$('body').on('click', '.fa-heart', function (event) {
 				event.preventDefault();
@@ -208,7 +220,7 @@
 			});
 		});
 
-		/* 장바구니에 추가 (AJAX) */
+		/* 장바구니에 추가 */
 		$(document).ready(function () {
 			$('body').on('click', '.fa-shopping-cart', function (event) {
 				event.preventDefault();
@@ -228,7 +240,7 @@
 			});
 		});
 		
-		/* MD 추천상품 추가/삭제 (AJAX) */
+		/* MD 추천상품 추가/삭제 */
 		$(document).ready(function (){
 			$('body').on('click', '.md-recommend', function (event) {
 				event.preventDefault();

@@ -28,4 +28,24 @@ public class CommentServiceLogic implements CommentService{
 	public List<Comment> commentShow(Integer communityNo) {
 		return crepositery.commentShow(session, communityNo);
 	}
+
+	@Override
+	public int commentDelete(Integer commentNo) {
+		return crepositery.commentDelete(session,commentNo);
+	}
+
+	@Override
+	public int registerReComment(Comment rcomment) {
+		return crepositery.registerReComment(session,rcomment);
+	}
+
+	@Override
+	public List<Comment> reCommentShow(Integer commentNo) {
+		return crepositery.reCommentShow(session, commentNo);
+	}
+
+	@Override
+	public int reCommentDelete(Integer commentNo) {
+		return crepositery.reCommentDelete(session, commentNo);
+	}
 }

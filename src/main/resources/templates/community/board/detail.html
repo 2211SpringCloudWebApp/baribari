@@ -107,6 +107,11 @@
             		<input class="comment-allbtn" type="button" value="삭제" onclick="">
             		<input class="comment-allbtn" type="button" value="댓글달기" onclick="">
             	</div>
+            	<div class="reComment-div all-commentdiv displayFlex hCenter">
+            		<input class="reComment-input" type="text">
+            		<input class="comment-allbtn" type="button" value="댓글달기" onclick="">
+            		<input class="comment-allbtn" type="button" value="취소" onclick="">
+            	</div>
             	<div class="all-commentdiv commentdiv displayFlex hCenter">
             		<input class="comment-name" type="text" value="동두천불주먹">
             		<input class="comment-input" type="text" value="2댓글입니다.">
@@ -137,7 +142,6 @@
 	        	var userNo = $("#loginUserNo").val();
 	        	var commentContent = $("#commentText").val();
 	        	var scrollTop = $(window).scrollTop(); // 스크롤위치 저장
-	        	
 	        	if(userNo != 0){
 	        		if(commentContent != ""){
 			      		$.ajax({
@@ -164,7 +168,7 @@
 	        	}
         	}
         	
-        	// 댓글 출력허기
+        	// 댓글, 대댓글 출력하기
         	function commentShow(){
         		var communityNo = $("#seq").val();
         		var scrollTop = $(window).scrollTop(); // 스크롤위치 저장
@@ -180,32 +184,68 @@
 	        		success : function(data){
 	        			 showComment.empty();
 	        	            for (var i = 0; i < data.length; i++) {
-	        	                var commentDiv = $("<div>").addClass("all-commentdiv commentdiv displayFlex hCenter");
+	        	            	if(data[i].parentsCommentNo == 0){//댓글일 경우
+	        	            		var commentDiv = $("<div>").addClass("all-commentdiv commentdiv displayFlex hCenter");
+	        	            		var commentInput = $("<input>").addClass("comment-input").attr("type", "text").attr("readonly", true).val(data[i].commentContent);
+	        	            		var commentDeleteBtn = $("<input>").addClass("comment-allbtn").attr("type", "button").val("삭제").click(function(){
+		        	                	if(confirm("정말 삭제하시겠습니까?")) {
+			        	                	var commentNo = $(this).siblings("input[type='hidden']").val();
+			        	                	deleteComment(commentNo, 0);
+		        	                	}
+		        	                });
+	        	            	}else{//대댓글일 경우
+	        	            		var commentDiv = $("<div>").addClass("all-commentdiv recommentdiv displayFlex hCenter");
+	        	            		var commentInput = $("<input>").addClass("reComment-showInput").attr("type", "text").attr("readonly", true).val(data[i].commentContent);
+	        	            		var commentDeleteBtn = $("<input>").addClass("comment-allbtn").attr("type", "button").val("삭제").click(function(){
+		        	                	if(confirm("정말 삭제하시겠습니까?")) {
+			        	                	var commentNo = $(this).siblings("input[type='hidden']").val();
+			        	                	deleteComment(commentNo, 1);
+		        	                	}
+		        	                });
+	        	            	}
 	        	                var commentName = $("<input>").addClass("comment-name").attr("type", "text").attr("readonly", true).val(data[i].userNickname);
-	        	                var commentInput = $("<input>").addClass("comment-input").attr("type", "text").attr("readonly", true).val(data[i].commentContent);
-	        	                var commentEditBtn = $("<input>").addClass("comment-allbtn").attr("type", "button").val("수정").click(function(){
-	        	                    // TODO: Edit comment
-	        	                });
-	        	                var commentDeleteBtn = $("<input>").addClass("comment-allbtn").attr("type", "button").val("삭제").click(function(){
-	        	                    // TODO: Delete comment
-	        	                });
+	        	                
+	        	                var commentNo = $("<input>").attr("type", "hidden").val(data[i].commentNo);
+	        	                
+	        	                // 대댓글 달기 버튼
 	        	                var commentReplyBtn = $("<input>").addClass("comment-allbtn").attr("type", "button").val("댓글달기").click(function(){
-	        	                    // TODO: Reply to comment
+	        	                    var replyDiv = $("<div>").addClass("reComment-div all-commentdiv displayFlex hCenter");
+	        	                    var replyContent = $("<input>").addClass("reComment-input").attr("type", "text");
+	        	                    var replyRegisterBtn = $("<input>").addClass("comment-allbtn").attr("type", "button").val("댓글등록").click(function(){
+	        	                    	if(replyContent.val()==""){
+	        	                    		alert("내용을 입력하세요.")
+	        	                    	}else{
+	        	                    		var commentNo = $(this).parent().parent().find("input[type='hidden']").val();
+	        	                    		registerReComment(commentNo, replyContent.val());
+	        	                    	}
+	        	                    });
+	        	                    var replyResetBtn = $("<input>").addClass("comment-allbtn").attr("type", "button").val("취소").click(function(){
+	        	                    	$(this).closest(".reComment-div").remove();
+	        	                    });
+
+	        	                    replyDiv.append(replyContent);
+	        	                    replyDiv.append(replyRegisterBtn);
+	        	                    replyDiv.append(replyResetBtn);
+
+	        	                    $(this).parent().after(replyDiv);
 	        	                });
 
 	        	                // Append all the elements to the comment div
 	        	                commentDiv.append(commentName);
 	        	                commentDiv.append(commentInput);
+	        	                commentDiv.append(commentNo);
 	        	                if(loginUserNo != 0){
-	        	                	commentDiv.append(commentReplyBtn);
+	        	                	if(data[i].parentsCommentNo == 0){
+	        	                		commentDiv.append(commentReplyBtn);
+	        	                	}
 	        	                	if(loginUserNo == data[i].userNo){
-		        	                	commentDiv.append(commentEditBtn);
 		        	                	commentDiv.append(commentDeleteBtn);
 	        	                	}
 	        	                }
 
 	        	                // Append the comment div to the showComment div
 	        	                showComment.append(commentDiv);
+// 	        	                ReCommentShow(data[i].commentNo);
 	        	            }
 	        	            $(window).scrollTop(scrollTop); // Restore the scroll position
 	        	        },
@@ -214,9 +254,56 @@
 	        	        }
 	        	});
         	}
-        
-        	commentShow();
         	
+        	commentShow();
+        	// 대댓글 등록
+        	function registerReComment(commentNo, replyContent){
+        		var scrollTop = $(window).scrollTop(); // 스크롤위치 저장
+        		var communityNo = $("#seq").val();
+        		var loginUserNo = $("#loginUserNo").val(); // 작성자 유저번호
+        		
+        		$.ajax({
+	        		url : "registerReComment",
+	        		data : {
+	        			"communityNo": communityNo,
+	        			"commentNo": commentNo,
+	        			"replyContent": replyContent,
+	        			"loginUserNo": loginUserNo
+	        		},
+	        		type : "GET",
+	        		success : function(){
+	        			commentShow(); // 댓글 출력하기
+	        			$(window).scrollTop(scrollTop);//스크롤위치 다시 불러오기
+	        			commentShow();
+	        		},
+	        		error : function(){
+	        			showTage.empty();
+	        		}
+	        	});
+        	}
+        	
+        	
+        	// 댓글, 대댓글 삭제
+        	function deleteComment(commentNo, check){
+        		console.log(check);
+        		var scrollTop = $(window).scrollTop(); // 스크롤위치 저장
+        		$.ajax({
+	        		url : "commentDelete",
+	        		data : {
+	        			"commentNo": commentNo,
+	        			"check": check
+	        		},
+	        		type : "GET",
+	        		success : function(){
+	        			$(window).scrollTop(scrollTop);//스크롤위치 다시 불러오기
+	        			commentShow(); // 댓글 출력하기
+	        		},
+	        		error : function(){
+	        			showTage.empty();
+	        		}
+	        	});
+        	}
+        	//--------------------------------------------------------------
         	function goList(){
         		var page = document.getElementById("page").value;
         		var category = document.getElementById("category").value;

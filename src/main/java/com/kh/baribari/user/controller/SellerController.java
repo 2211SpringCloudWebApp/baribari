@@ -69,13 +69,6 @@ public class SellerController {
 		return "myPageSeller/information/sellerModify";
 	}
 
-    @GetMapping("myPageSeller/orderList")
-    public ModelAndView orderListView(
-            ModelAndView mv
-    ){
-        mv.setViewName("myPageSeller/information/sellerModify");
-        return mv;
-    }
 
     //  회원탈퇴 뷰
     @GetMapping("myPageSeller/withdraw")

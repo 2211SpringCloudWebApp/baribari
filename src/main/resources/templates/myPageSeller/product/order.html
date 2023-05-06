@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta charset="UTF-8">
+	<title>BARIBARI - 상품관리</title>
+
+	<!-- Favicons -->
+	<link href="../assets/img/favicon.png" rel="icon">
+	<link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="stylesheet">
+
+	<!-- jQuery JS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<!-- datatables JS Files -->
+	<script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
+	<!-- Vendor JS Files -->
+	<script src="../assets/vendor/aos/aos.js"></script>
+	<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+	<script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+	<script src="../assets/vendor/php-email-form/validate.js"></script>
+	<script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+	<!-- Template Main JS File -->
+	<script src="../assets/js/main.js"></script>
+	<!-- datatables CSS Files -->
+	<link href="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.css" rel="stylesheet" />
+	<!-- Vendor CSS Files -->
+	<link href="../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+	<link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+	<link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+	<link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+	<link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+	<link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+	<link href="../assets/css/style.css" rel="stylesheet">
+
+	<link href="../css/mypage/user/userMypageCss.css" rel="stylesheet">
+	<link href="../css/mypage/user/userModifyCss.css" rel="stylesheet">
+	<link href="../css/mypage/user/pegdown.css" rel="stylesheet">
+</head>
+
+<body>
+	<!-- Header -->
+	<header th:replace="header :: header"></header>
+	
+	<div class="mainContainer" style="padding-top: 170px">
+		<div class="top">
+			<div class="top-container">
+				<div class="profile-root">
+					홈 >&nbsp;
+					<a style="color:black" href="/myPageSeller">마이페이지</a> >&nbsp;
+					<a style="color:black" href="/list">상품목록 조회</a>
+				</div>
+				<div style="margin-top: 30px;">
+					<div class="page-title">상품목록 조회</div>
+					<div class="page-menu">
+						<dl>
+							<dd class="page-write"><a href="list">상품목록 조회</a></dd>
+							<dd class="page-active"><a href="orderList">주문내역 조회</a></dd>
+							<dd class="page-myComment"><a href="../shopping/register">상품등록</a></dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="pegDown-middle">
+			<div class="pegDown-main">
+				<table id="myTable">
+					<colgroup>
+						<col style="width:10%">
+						<col style="width:15%">
+						<col style="width:10%">
+						<col style="width:40%">
+						<col style="width:7%">
+						<col style="width:8%">
+						<col style="width:8%">
+						<col style="width:8%">
+					</colgroup>
+					<thead>
+						<tr style="text-align: center">
+							<th class="sorting col">주문번호</th>
+							<th class="sorting col">주문자</th>
+							<th class="sorting col">주문일</th>
+							<th class="sorting col">상품명</th>
+							<th class="sorting col">갯수</th>
+							<th class="sorting col">가격</th>
+							<th class="sorting col">상태</th>
+							<th class="sorting-disabled col"></th>
+						</tr>
+					</thead>
+					<tr class="table-tr" th:each="order : ${oList}">
+						<td class="table-td" th:text="${order.orderNo}"></td>
+						<td class="table-td" th:text="|${order.userName} (${order.userId})|"></td>
+						<td class="table-td" th:text="${order.orderDate}"></td>
+						<td class="table-td" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+ 							<a th:href="@{'/shopping/detail?productNo=' + ${order.productNo}}" th:text="${order.productName}"></a>
+						</td>
+						<td class="table-td" th:text="${order.orderDetailCount}"></td>
+						<td class="table-td" th:text="|${#numbers.formatInteger({order.orderPrice}, 0, 'COMMA')}원|"></td>
+						<td class="table-td" th:if="${order.orderStatus == 0}" th:text="결제완료"></td>
+						<td class="table-td" th:if="${order.orderStatus == 1}" th:text="배송준비"></td>
+						<td class="table-td" th:if="${order.orderStatus == 2}" th:text="배송중"></td>
+						<td class="table-td" th:if="${order.orderStatus == 3}" th:text="배송완료"></td>
+						<td class="table-td">
+							<button th:onclick="|modifyProduct(${order.productNo})|">수정</button>
+						</td>
+					</tr>
+
+				</table>
+			</div>
+		</div>
+
+		<script src="../js/datatables-simple-demo.js"></script>
+		<script>
+			$(document).ready(function () {
+				$('#myTable').DataTable({
+					"info": false,
+					"ordering": true,
+					"autoWidth": false,
+					"language": {
+						"emptyTable": "목록이 없습니다.",
+						url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/ko.json'
+						}
+					}
+				);
+			})
+
+			function modifyProduct(productNo) {
+				confirm("삭제하시겠습니까");
+				$.post("/shopping/modify", {
+					"productNo": productNo
+				}, function (result) {
+					if (result == "1") {
+						alert('상품을 수정하였습니다');
+						location.href = "/myPageSeller/list";
+					} else {
+						alert('상품 수정 실패');
+					}
+				});
+			}
+
+			function deleteProduct(productNo) {
+				confirm("삭제하시겠습니까");
+				$.post("/shopping/delete", {
+					"productNo": productNo
+				}, function (result) {
+					if (result == "1") {
+						alert('상품을 삭제하였습니다');
+						location.href = "/myPageSeller/list";
+					} else {
+						alert('상품 삭제 실패');
+					}
+				});
+			}
+		</script>
+</body>
+</html>

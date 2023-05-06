@@ -67,12 +67,10 @@ public class BoardController {
 			
 			List<Community> bList;
 			if(hashTagName.equals("없")) { // 태그를 클릭한 경우 실행
-				System.out.println("해시태그 없음.");
 				bCount = bService.getBoardCount(comm); // 게시글 총 갯수
 				pi = new PageInfo(currentPage, bCount, 10); // 페이지 정보 불러오기
 				bList = bService.getBoardListAll(pi, comm); // 전체 목록 조회
 			}else {
-				System.out.println("해시태그 들어옴 : " + hashTag);
 				bCount = bService.selectHashTagCount(hashTag); // 게시글 총 갯수
 				pi = new PageInfo(currentPage, bCount, 10); // 페이지 정보 불러오기
 				bList = bService.selectHashTagList(pi, hashTag); // 전체 목록 조회
@@ -232,7 +230,6 @@ public class BoardController {
 			,@RequestParam(value="communityNo",required = false) Integer boardNo
 			,@RequestParam(value="page",required = false) Integer page
 			) throws Exception{
-		
 		Community commu = bService.getBoardOne(boardNo);	// 게시글 불러오기
 		CommunityPIC pic = bService.getPhoto(boardNo);		// 이미지 불러오기
 		if(pic != null) {	// 이미지가 존재하면 mv에 추가해줌

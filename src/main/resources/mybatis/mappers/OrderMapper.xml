@@ -3,15 +3,30 @@
 <mapper namespace="OrderMapper">
 	<resultMap type="Order" id="orderResultMap">
 		<id		property="orderNo" column="ORDER_NO"/>
-		<result	property="userNo" column="USER_NO"/>
 		<result	property="orderDate" column="ORDER_DATE"/>
-		<result	property="productNo" column="PRODUCT_NO"/>
 		<result	property="orderDetailNo" column="ORDER_DETAIL_NO"/>
 		<result	property="orderDetailCount" column="ORDER_DETAIL_COUNT"/>
-		<result	property="orderLogistics" column="ORDER_LOGISTICS"/>
+		<result	property="orderLogis" column="ORDER_LOGIS"/>
 		<result	property="orderTrackingNo" column="ORDER_TRACKING_NO"/>
 		<result	property="orderStatus" column="ORDER_STATUS"/>
+		<result	property="orderPrice" column="ORDER_PRICE"/>
 		<result	property="sellerUserNo" column="SELLER_USER_NO"/>
+		<result	property="userNo" column="USER_NO"/>
+		<result	property="userId" column="USER_ID"/>
+		<result	property="userName" column="USER_NAME"/>
+		<result	property="userEmail" column="USER_EMAIL"/>
+		<result	property="addressName" column="ADDRESS_NAME"/>
+		<result	property="addressZipCode" column="ADDRESS_ZIP_CODE"/>
+		<result	property="addressJibun" column="ADDRESS_JIBUN"/>
+		<result	property="addressJibunDetail" column="ADDRESS_JIBUN_DETAIL"/>
+		<result	property="addressPickup" column="ADDRESS_PICKUP"/>
+		<result	property="addressPhone" column="ADDRESS_PHONE"/>
+		<result	property="productNo" column="PRODUCT_NO"/>
+		<result	property="productBrand" column="PRODUCT_BRAND"/>
+		<result	property="productName" column="PRODUCT_NAME"/>
+		<result	property="productPrice" column="PRODUCT_PRICE"/>
+		<result	property="productDiscount" column="PRODUCT_DISCOUNT"/>
+		<result	property="productDeliveryCharge" column="PRODUCT_DELIVERY_CHARGE"/>
 	</resultMap>
 	
 	<insert id="setOrderInfo" parameterType="Order">
@@ -20,4 +35,12 @@
 	<insert id="setOrderDetailInfo" parameterType="Order">
 		INSERT INTO ORDER_DETAIL_TBL VALUES(SEQ_ORDER_DETAIL_NO.NEXTVAL, #{productNo}, SEQ_ORDER_NO.CURRVAL, #{orderDetailCount}, #{orderLogis}, #{orderTrackingNo}, #{orderStatus}, #{orderPrice}, #{sellerUserNo})
 	</insert>
+	<select id="getOrderList" parameterType="_int" resultMap="orderResultMap">
+		SELECT * FROM ORDER_TBL
+		    LEFT JOIN ORDER_DETAIL_TBL USING (ORDER_NO)
+		    LEFT JOIN PRODUCT_TBL USING (PRODUCT_NO)
+		    LEFT JOIN USER_TBL USING (USER_NO)
+		    LEFT JOIN ADDRESS_TBL USING (USER_NO)
+	    WHERE ORDER_DETAIL_TBL.SELLER_USER_NO = ${userNo}
+	</select>
 </mapper>

@@ -1,5 +1,7 @@
 package com.kh.baribari.product.service.logic;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,5 +20,10 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public int setOrder(Order order) {
 		return oRepository.setOrder(session, order);
+	}
+
+	@Override
+	public List<Order> getOrderList(int userNo) {
+		return oRepository.getOrderList(session, userNo);
 	}
 }

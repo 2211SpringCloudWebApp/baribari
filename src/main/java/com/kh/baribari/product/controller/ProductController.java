@@ -144,7 +144,7 @@ public class ProductController {
 		User user = returnUser.returnUser(authentication);
 		if (user != null) {
 			if (user.getUserType() == 2) {
-				mv.setViewName("shopping/register");
+				mv.setViewName("myPageSeller/product/register");
 			} else if (user.getUserType() == 1) {
 				mv.addObject("msg", "판매자만 이용이 가능합니다").setViewName("error");
 			} else {

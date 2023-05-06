@@ -81,7 +81,7 @@ body {
   	background-position: center center;
 }
 
-#registerContainer {
+#registerContainer{
 	width: 1000px;
 	height: 100%;
 	margin: auto;
@@ -90,6 +90,7 @@ body {
 	background-color: rgb(255, 255, 255, 0.8);
 	border-radius: 15px;
 }
+
 /*헤더 부분*/
 #registerdiv1 {
 	height: 100px;
@@ -284,4 +285,97 @@ body {
 	border-radius : 15px;
 	margin-right: 20px;
 	margin-left: 20px;
+}
+
+#commentContainer{
+	width: 1000px;
+	height: 100%;
+	margin: auto;
+	margin-top: 30px;
+	margin-bottom: 50px;
+	background-color: rgb(255, 255, 255, 0.8);
+	border-radius: 15px;
+}
+
+#commentText {
+	margin-top : 30px;
+	margin-bottom : 30px;
+	margin-left : 50px;
+	margin-right : 20px;
+	border-radius: 15px;
+	padding-left: 10px;
+	width: 680px;
+	height: 50px;
+	float: left;
+}
+
+#commentbtn{
+	margin-top : 30px;
+	margin-bottom : 30px;
+	margin-left : 20px;
+	margin-right : 50px;
+	background-color: rgb(8,19,51,0.7);
+	border-radius: 15px;
+	color : rgb(8,19,51);
+	font-weight: 700;
+	font-size : 20px;
+	width: 180px;
+	height: 50px;
+}
+
+#showComment{
+	padding-top:10px;
+	padding-bottom:10px;
+	width: 1000px;
+	height: 100%;
+	margin: auto;
+	margin-top: 30px;
+	margin-bottom: 50px;
+	background-color: rgb(255, 255, 255, 0.8);
+	border-radius: 15px;
+}
+.all-commentdiv{
+	margin-top:10px;
+	width: 850px;
+	height: 50px;
+	background-color: rgb(8,19,51,0.7);
+	border-radius: 15px;
+}
+
+.commentdiv{
+	margin-left : 50px;
+	margin-right : 100px;
+}
+
+.recommentdiv{
+	margin-left : 100px;
+	margin-right : 50px;
+}
+
+.comment-input{
+	margin-left : 20px;
+	width: 540px;
+	color : white;
+	font-weight: 700;
+	font-size : 20px;
+	background-color: transparent;
+	border: 0;
+}
+
+.comment-allbtn{
+	color : rgb(8,19,51,0.7);
+	font-weight: 700;
+	border-radius: 10px;
+	background-color: rgb(255, 255, 255, 0.8);
+}
+
+.comment-name{
+	color : rgb(8,19,51,0.7);
+	font-weight: 700;
+	font-size : 15px;
+	margin-left : 10px;
+	border-radius: 12px;
+	background-color: rgb(255, 255, 255, 0.8);
+	width: 100px;
+	text-align: center;
 }

@@ -97,4 +97,6 @@ public class BoardServiceLogic implements BoardService {
 		return brepository.selectHashTagCount(session, hashTag);
 	}
 
+	
+
 }

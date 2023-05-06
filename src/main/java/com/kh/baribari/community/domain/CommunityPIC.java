@@ -15,4 +15,5 @@ public class CommunityPIC {
 	private String communityPic8;
 	private String communityPic9;
 	private String communityPic10;
+	private String imageUrl; // 삭제할 이미지의 이름 저장하는 공간
 }

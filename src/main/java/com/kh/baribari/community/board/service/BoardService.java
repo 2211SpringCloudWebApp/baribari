@@ -112,4 +112,5 @@ public interface BoardService {
 	 */
 	public int selectHashTagCount(String hashTag);
 
+
 }

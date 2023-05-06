@@ -127,5 +127,7 @@ public interface BoardRepository {
 	 */
 	public int selectHashTagCount(SqlSession session, String hashTag);
 
+	
+
 
 }

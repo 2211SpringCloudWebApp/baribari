@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta charset="UTF-8">
+	<title>BARIBARI - 상품관리</title>
+
+	<!-- Favicons -->
+	<link href="../assets/img/favicon.png" rel="icon">
+	<link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@200&display=swap" rel="stylesheet">
+
+	<!-- jQuery JS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+	<!-- datatables JS Files -->
+	<script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
+	<!-- Vendor JS Files -->
+	<script src="../assets/vendor/aos/aos.js"></script>
+	<script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+	<script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+	<script src="../assets/vendor/php-email-form/validate.js"></script>
+	<script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+	<!-- Template Main JS File -->
+	<script src="../assets/js/main.js"></script>
+	<!-- datatables CSS Files -->
+	<link href="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.css" rel="stylesheet" />
+	<!-- Vendor CSS Files -->
+	<link href="../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+	<link href="../assets/vendor/aos/aos.css" rel="stylesheet">
+	<link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+	<link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+	<link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+	<link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+	<link href="../assets/css/style.css" rel="stylesheet">
+
+	<link href="../css/mypage/user/userMypageCss.css" rel="stylesheet">
+	<link href="../css/mypage/user/userModifyCss.css" rel="stylesheet">
+	<link href="../css/mypage/user/pegdown.css" rel="stylesheet">
+    
+    <style type="text/css">
+    	.content > div {
+    		height: 2em;
+    	}
+    </style>
+</head>
+
+	<section>
+		<!-- Header -->
+		<header th:replace="header :: header"></header>
+		
+		<input th:value="${#authentication.principal.user.userNo}" type="hidden" name="userNo">
+
+		<div class="mainContainer" style="padding-top: 170px">
+			<div class="top">
+				<div class="top-container">
+					<div class="profile-root">
+						홈 >&nbsp;
+						<a style="color:black" href="/myPageSeller">마이페이지</a> >&nbsp;
+						<a style="color:black" href="/list">상품목록 조회</a>
+					</div>
+					<div style="margin-top: 30px;">
+						<div class="page-title">상품등록</div>
+						<div class="page-menu">
+							<dl>
+								<dd class="page-write"><a href="/myPageSeller/list">상품목록 조회</a></dd>
+								<dd class="page-pegDown"><a href="/myPageSeller/orderList">주문내역 조회</a></dd>
+								<dd class="page-active"><a href="../shopping/register">상품등록</a></dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+			<div class="modify-form-box">
+				<form action="/shopping/modifyProduct" method="post" enctype="multipart/form-data">
+					<div class="modify-form-box">
+						<fieldset>
+							<div class="box">
+								<div>
+									<label>상품분류</label>
+									<input type="hidden" name="sellerUserNo" th:value="${#authentication.principal.user.userNo}">
+									<select name="productCategory" required>
+										<option>선택하세요</option>
+										<option value="텐트">텐트</option>
+										<option value="타프">타프</option>
+										<option value="가구">가구</option>
+										<option value="침구">침구</option>
+										<option value="주방">주방</option>
+										<option value="BBQ">BBQ</option>
+										<option value="조명">조명</option>
+										<option value="수납">수납</option>
+										<option value="공구">공구</option>
+										<option value="소품">소품</option>
+										<option value="기타">기타</option>
+									</select>
+								</div>
+								<div>
+									<label>브랜드</label>
+									<input name="productBrand" th:value="${product.productBrand}">
+								</div>
+								<div>
+									<label>상품명</label>
+									<input name="productName" th:value="${product.productName}">
+								</div>
+								<div>
+									<label>상품가격</label>
+									<input name="productPrice" th:value="${product.productPrice}">
+								</div>
+								<div>
+									<label>할인율</label>
+									<input name="productDiscount" th:value="${product.productDiscount}">
+								</div>
+								<div>
+									<label>배송비</label>
+									<input name="productDeliveryCharge" th:value="${product.productDeliveryCharge}">
+								</div>
+								<div>
+									<label>상품내용</label>
+									<textarea name="productContent" th:value="${product.productContent}"></textarea>
+								</div>
+								<div>
+									<label>해시태그</label>
+									<input name="productHashTag" th:value="${product.productHashTag}">
+								</div>
+								<div>
+									<label>메인사진</label>
+									<input type="file" id="photoInput1" accept="image/*" name="mainImg">
+								</div>
+								<div>
+									<label></label>
+									<span id="mainImgPreview"></span>
+								</div>
+								<div>
+									<label>상품설명사진</label>
+									<input type="file" id="photoInput2" accept="image/*" name="descriptionImgs" multiple>
+								</div>
+								<div>
+									<label></label>
+									<span id="imgPreview"></span>
+								</div>
+							</div>
+						</fieldset>
+					</div>
+		            <div class="okbox">
+		                <button type="submit" class="submit-btn">등록</button>
+		            </div>				
+				</form>
+			</div>		
+		</div>
+		
+	</section>
+	
+	<!-- Footer -->
+	<footer th:replace="footer :: footer"></footer>
+	
+	<script>
+		$(document).ready(function () {
+			$(".fancybox").fancybox({
+				buttons: ["zoom", "slideShow", "fullScreen", "close"],
+				transitionEffect: "slide",
+				transitionDuration: 500,
+				loop: true,
+				margin: [50, 50]
+			});
+		});	
+		/* 사진 미리보기 */
+		document.querySelector("#photoInput1").addEventListener("change", function() {
+			var fileList = this.files;
+			var imgPreview = document.querySelector("#mainImgPreview");
+			imgPreview.innerHTML = "";
+			for (var i = 0; i < fileList.length; i++) {
+				var file = fileList[i];
+				var reader = new FileReader();
+				reader.onload = function(event) {
+					var img = document.createElement("img");
+					img.setAttribute("src", event.target.result);
+					img.style.maxWidth = "100px";
+					img.style.height = "auto";
+					var imgPreviewItem = document.createElement("span");
+					imgPreviewItem.classList.add("img-preview");
+					imgPreviewItem.appendChild(img);
+					imgPreview.appendChild(imgPreviewItem);
+				};
+				reader.readAsDataURL(file);
+			}
+		});
+
+		document.querySelector("#photoInput2").addEventListener("change", function() {
+		    var fileList = this.files;
+		    var imgPreview = document.querySelector("#imgPreview");
+		    imgPreview.innerHTML = "";
+		    for (var i = 0; i < fileList.length; i++) {
+		        var file = fileList[i];
+		        var reader = new FileReader();
+		        reader.onload = function(event) {
+					var img = document.createElement("img");
+					img.setAttribute("src", event.target.result);
+					img.style.maxWidth = "100px";
+					img.style.height = "auto";
+					var imgPreviewItem = document.createElement("span");
+					imgPreviewItem.classList.add("img-preview");
+					imgPreviewItem.appendChild(img);
+					imgPreview.appendChild(imgPreviewItem);
+		        };
+		        reader.readAsDataURL(file);
+		    }
+		});
+	</script>
+</body>
+
+</html>

@@ -76,12 +76,12 @@
 						<col style="width:8%">
 						<col style="width:8%">
 						<col style="width:10%">
-						<col style="width:30%">
+						<col style="width:*%">
 						<col style="width:10%">
 						<col style="width:7%">
 						<col style="width:10%">
 						<col style="width:7%">
-						<col style="width:10%">
+						<col style="width:15%">
 					</colgroup>
 					<thead>
 						<tr style="text-align: center">
@@ -108,9 +108,12 @@
 						<td class="table-td" th:text="|${#numbers.formatInteger(product.productPrice - product.productDiscount * product.productPrice / 100, 0, 'COMMA')}원|"></td>
 						<td class="table-td" th:text="${product.productSales}"></td>
 						<td class="table-td">
-							<button th:onclick="|modifyProduct(${product.productNo})|">수정</button>
-							&nbsp;
-							<button th:onclick="|deleteProduct(${product.productNo})|">삭제</button>
+							<form action="/shopping/modify" method="post">
+								<input type="hidden" name="productNo" th:value="${product.productNo}">
+								<button type="submit">수정</button>
+								&nbsp;
+								<button type="button" th:onclick="|deleteProduct(${product.productNo})|">삭제</button>
+							</form>
 						</td>
 					</tr>
 
@@ -133,33 +136,21 @@
 				);
 			})
 
-			function modifyProduct(productNo) {
-				confirm("삭제하시겠습니까");
-				$.post("/shopping/modify", {
-					"productNo": productNo
-				}, function (result) {
-					if (result == "1") {
-						alert('상품을 수정하였습니다');
-						location.href = "/myPageSeller/list";
-					} else {
-						alert('상품 수정 실패');
-					}
-				});
+			function deleteProduct(productNo) {
+				if (confirm("삭제하시겠습니까")) {
+				    $.post("/shopping/delete", {
+				        "productNo": productNo
+				    }, function (result) {
+				        if (result == "1") {
+				            alert('상품을 삭제하였습니다');
+				            location.href = "/myPageSeller/list";
+				        } else {
+				            alert('상품 삭제 실패');
+				        }
+				    });
+				}
 			}
 
-			function deleteProduct(productNo) {
-				confirm("삭제하시겠습니까");
-				$.post("/shopping/delete", {
-					"productNo": productNo
-				}, function (result) {
-					if (result == "1") {
-						alert('상품을 삭제하였습니다');
-						location.href = "/myPageSeller/list";
-					} else {
-						alert('상품 삭제 실패');
-					}
-				});
-			}
 		</script>
 </body>
 </html>

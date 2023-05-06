@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,6 +25,7 @@ import com.kh.baribari.common.ReturnUser;
 import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
 import com.kh.baribari.product.service.ProductService;
+import com.kh.baribari.review.domain.Review;
 import com.kh.baribari.review.service.ReviewService;
 import com.kh.baribari.user.domain.Favorite;
 import com.kh.baribari.user.domain.User;
@@ -198,15 +201,86 @@ public class ProductController {
 		return mv;
 	}
 	
-	// 상품 수정
+	// 상품 수정 페이지 뷰
 	@PostMapping("/modify")
-	public void modifyProduct() {
-		
+	public ModelAndView modifyProduct(ModelAndView mv, int productNo, Authentication authentication) {
+		// 사용자 정보
+		User user = returnUser.returnUser(authentication);
+		if (user != null) {
+			if (user.getUserType() == 2) {
+				Product product = pService.getProductDetail(productNo);
+				mv.addObject("product", product).setViewName("myPageSeller/product/modify");
+			} else if (user.getUserType() == 1) {
+				mv.addObject("msg", "판매자만 이용이 가능합니다").setViewName("error");
+			} else {
+				mv.addObject("msg", "사용자 정보를 찾을 수 없습니다").setViewName("error");
+			}
+		} else {
+			mv.addObject("msg", "사용자 정보를 찾을 수 없습니다").setViewName("error");
+		}
+		return mv;
+	}
+	
+	// 상품 수정
+	@PostMapping("/modifyProduct")
+	public ModelAndView modifyProduct(
+			@RequestParam(value = "mainImg", required = false) List<MultipartFile> fList 
+			, @RequestParam(value = "descriptionImgs", required = false) List<MultipartFile> fList2
+			, Product product
+			, HttpServletRequest request
+			, ModelAndView mv
+			) throws Exception {
+		Map<String, String> fMap = new HashMap<String, String>();
+		String path = "product";
+		fList.addAll(fList2);
+		int i = 1;
+		if (fList != null) {
+			for (MultipartFile file : fList) {
+				Map<String, String> files = fileInfo.saveFile(file, request, path);
+				for (String k : files.keySet()) {
+					String key = "file" + i;
+					String value = files.get(k);
+					fMap.put(key, value);
+					if (i == 1) {
+						product.setProductPic1(value);
+					} else if (i == 2) {
+						product.setProductPic2(value);
+					} else if (i == 3) {
+						product.setProductPic3(value);
+					} else if (i == 4) {
+						product.setProductPic4(value);
+					}
+				}
+				i++;
+			}
+		}
+		int result = pService.registerProduct(product);
+		if (result > 0) {
+			mv.setViewName("redirect:/shopping/list?category=All&page=1");
+		} else {
+			mv.addObject("msg", "오류").setViewName("error");
+		}
+		return mv;
 	}
 	
 	// 상품 삭제
 	@PostMapping("/delete")
-	public String deleteProduct(int productNo) {
+	@ResponseBody
+	public String deleteProduct(int productNo, HttpServletRequest request) throws Exception {
+		// 정보 가져오기 → 사진이 있을 경우 사진 물리적 삭제 → 상품 삭제 (CASCADE로 인해 후기 사진 테이블의 자료도 자동 삭제)
+		// 사진 정보를 가져오기 위해 product정보 가져오기
+		Product product = pService.getProductDetail(productNo);
+		String path = "product";
+		// 사진이 있을 경우 삭제
+		if (product.getProductPic1() != null && !product.getProductPic1().isEmpty()) {
+		    fileInfo.deleteFile(request, product.getProductPic1());
+		}
+		if (product.getProductPic2() != null && !product.getProductPic2().isEmpty()) {
+			fileInfo.deleteFile(request, product.getProductPic2());
+		}
+		if (product.getProductPic3() != null && !product.getProductPic3().isEmpty()) {
+			fileInfo.deleteFile(request, product.getProductPic1());
+		}
 		int result = pService.deleteProduct(productNo);
 		if (result > 0) {
 			return "1";

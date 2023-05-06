@@ -127,6 +127,14 @@ public interface BoardRepository {
 	 */
 	public int selectHashTagCount(SqlSession session, String hashTag);
 
+	/**
+	 * 게시글 수정
+	 * @param session
+	 * @param commu
+	 * @return
+	 */
+	public int boardModify(SqlSession session, Community commu);
+
 	
 
 

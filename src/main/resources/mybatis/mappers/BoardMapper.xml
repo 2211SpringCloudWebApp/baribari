@@ -143,14 +143,14 @@
 		DELETE FROM COMMUNITY_TBL WHERE COMMUNITY_NO = #{boardNo}
 	</delete>
 	
-	<update id="boardUpdate">
+	<update id="boardModify">
 		UPDATE COMMUNITY_TBL SET
-			COMMUNITY_SUBJECT = #{communitySubject}
-			,COMMUNITY_CONTENT = #{communityContent}
-			,COMMUNITY_CATEGORY = #{communityCategory}
-			,MAP_X = #{mapX}
-			,MAP_Y = #{mapY}
-		WHERE COMMUNITY_NO = #{boardNo}
+		COMMUNITY_SUBJECT = #{communitySubject}
+		,COMMUNITY_CONTENT = #{communityContent}
+		,COMMUNITY_CATEGORY = #{communityCategory}
+		,MAP_X = #{mapX}
+		,MAP_Y = #{mapY}
+		WHERE COMMUNITY_NO = #{communityNo}
 	</update>
 	
 	<update id="userPointUp">

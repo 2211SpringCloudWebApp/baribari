@@ -5,6 +5,7 @@
 		<id		property="reviewNo" column="REVIEW_NO"/>
 		<result	property="reviewContent" column="REVIEW_CONTENT"/>
 		<result	property="userNo" column="USER_NO"/>
+		<result	property="userId" column="USER_ID"/>
 		<result property="userName" column="USER_NAME"/>
 		<result	property="reviewPic1" column="REVIEW_PIC_1"/>
 		<result	property="reviewPic2" column="REVIEW_PIC_2"/>

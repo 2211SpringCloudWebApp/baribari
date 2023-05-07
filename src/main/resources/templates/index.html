@@ -366,11 +366,12 @@
 							<div class="testimonial-item">
 								<p>
 									<a th:href="@{'/shopping/detail?productNo=' + ${review.productNo}}">
-										<img th:src="${review.reviewPic1}" style="width: 4em;">
-										<img th:src="${review.reviewPic2}" style="width: 4em;">
-										<img th:src="${review.reviewPic3}" style="width: 4em;">
-										<img th:src="${review.reviewPic4}" style="width: 4em;">
-										<img th:src="${review.reviewPic5}" style="width: 4em;">
+										<img th:src="${review.reviewPic1}" style="width: 3em;">
+										<img th:src="${review.reviewPic2}" style="width: 3em;">
+										<img th:src="${review.reviewPic3}" style="width: 3em;">
+										<img th:src="${review.reviewPic4}" style="width: 3em;">
+										<img th:src="${review.reviewPic5}" style="width: 3em;">
+										<br><br>
 										<i th:text="${#strings.length(review.reviewContent) &lt;= 30} ? ${review.reviewContent} : ${#strings.substring(review.reviewContent, 0, 30) + '...'}"
 											class="bx bxs-quote-alt-left quote-icon-left"></i>
 										<i class="bx bxs-quote-alt-right quote-icon-right"></i>
@@ -378,8 +379,7 @@
 								</p>
 								<img th:src="@{'../../img/user.webp'}" class="testimonial-img" alt="">
 								<h3>
-									<span
-										th:text="${#strings.length(review.userName) &lt;= 3} ? ${review.userName + '님'} : ${review.userName.substring(0, 3) + '*'.repeat(#strings.length(review.userName) - 3) + '님'}"></span>
+									<span th:text="${#strings.length(review.userId) <= 3} ? ${review.userId + '님'} : ${review.userId.substring(0, 3) + '*'.repeat(#strings.length(review.userId) - 3) + '님'}"></span>
 								</h3>
 
 							</div>

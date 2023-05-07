@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CommunityPicMapper">
+	<select id="selectOne" resultType="communityPic">
+		SELECT * FROM COMMUNITY_PIC_TBL WHERE COMMUNITY_NO = #{communityNo}
+	</select>
+	<select id="getPicCount" resultType="int">
+		SELECT 
+		    NVL((CASE WHEN COMMUNITY_PIC_1 IS NOT NULL THEN 1 ELSE 0 END), 0) +
+		    NVL((CASE WHEN COMMUNITY_PIC_2 IS NOT NULL THEN 1 ELSE 0 END), 0) +
+		    NVL((CASE WHEN COMMUNITY_PIC_3 IS NOT NULL THEN 1 ELSE 0 END), 0) +
+		    NVL((CASE WHEN COMMUNITY_PIC_4 IS NOT NULL THEN 1 ELSE 0 END), 0) +
+		    NVL((CASE WHEN COMMUNITY_PIC_5 IS NOT NULL THEN 1 ELSE 0 END), 0) +
+		    NVL((CASE WHEN COMMUNITY_PIC_6 IS NOT NULL THEN 1 ELSE 0 END), 0) +
+		    NVL((CASE WHEN COMMUNITY_PIC_7 IS NOT NULL THEN 1 ELSE 0 END), 0) +
+		    NVL((CASE WHEN COMMUNITY_PIC_8 IS NOT NULL THEN 1 ELSE 0 END), 0) +
+		    NVL((CASE WHEN COMMUNITY_PIC_9 IS NOT NULL THEN 1 ELSE 0 END), 0) +
+		    NVL((CASE WHEN COMMUNITY_PIC_10 IS NOT NULL THEN 1 ELSE 0 END), 0) AS non_null_count
+		FROM COMMUNITY_PIC_TBL
+		WHERE COMMUNITY_NO = #{communityNo}
+		UNION ALL
+		SELECT 0 AS non_null_count
+		FROM dual
+		WHERE NOT EXISTS (
+		    SELECT 1 
+		    FROM COMMUNITY_PIC_TBL
+		    WHERE COMMUNITY_NO = #{communityNo}
+		)
+	</select>
+	
+	<insert id="registerPhoto">
+		INSERT INTO COMMUNITY_PIC_TBL VALUES(
+		#{communityNo}
+		, <if test="communityPic1 != null">#{communityPic1}</if>
+		<if test="communityPic1 == null">NULL</if>
+		, <if test="communityPic2 != null">#{communityPic2}</if>
+		<if test="communityPic2 == null">NULL</if>
+		, <if test="communityPic3 != null">#{communityPic3}</if>
+		<if test="communityPic3 == null">NULL</if>
+		, <if test="communityPic4 != null">#{communityPic4}</if>
+		<if test="communityPic4 == null">NULL</if>
+		, <if test="communityPic5 != null">#{communityPic5}</if>
+		<if test="communityPic5 == null">NULL</if>
+		, <if test="communityPic6 != null">#{communityPic6}</if>
+		<if test="communityPic6 == null">NULL</if>
+		, <if test="communityPic7 != null">#{communityPic7}</if>
+		<if test="communityPic7 == null">NULL</if>
+		, <if test="communityPic8 != null">#{communityPic8}</if>
+		<if test="communityPic8 == null">NULL</if>
+		, <if test="communityPic9 != null">#{communityPic9}</if>
+		<if test="communityPic9 == null">NULL</if>
+		, <if test="communityPic10 != null">#{communityPic10}</if>
+		<if test="communityPic10 == null">NULL</if>
+		)
+	</insert>
+	
+	<update id="updatePhoto">
+		<if test="communityPic1 != null">
+			UPDATE COMMUNITY_PIC_TBL SET COMMUNITY_PIC_1=#{communityPic1} WHERE COMMUNITY_NO = #{communityNo}
+		</if>
+		<if test="communityPic2 != null">
+			UPDATE COMMUNITY_PIC_TBL SET COMMUNITY_PIC_2=#{communityPic2} WHERE COMMUNITY_NO = #{communityNo}
+		</if>
+		<if test="communityPic3 != null">
+			UPDATE COMMUNITY_PIC_TBL SET COMMUNITY_PIC_3=#{communityPic3} WHERE COMMUNITY_NO = #{communityNo}
+		</if>
+		<if test="communityPic4 != null">
+			UPDATE COMMUNITY_PIC_TBL SET COMMUNITY_PIC_4=#{communityPic4} WHERE COMMUNITY_NO = #{communityNo}
+		</if>
+		<if test="communityPic5 != null">
+			UPDATE COMMUNITY_PIC_TBL SET COMMUNITY_PIC_5=#{communityPic5} WHERE COMMUNITY_NO = #{communityNo}
+		</if>
+		<if test="communityPic6 != null">
+			UPDATE COMMUNITY_PIC_TBL SET COMMUNITY_PIC_6=#{communityPic6} WHERE COMMUNITY_NO = #{communityNo}
+		</if>
+		<if test="communityPic7 != null">
+			UPDATE COMMUNITY_PIC_TBL SET COMMUNITY_PIC_7=#{communityPic7} WHERE COMMUNITY_NO = #{communityNo}
+		</if>
+		<if test="communityPic8 != null">
+			UPDATE COMMUNITY_PIC_TBL SET COMMUNITY_PIC_8=#{communityPic8} WHERE COMMUNITY_NO = #{communityNo}
+		</if>
+		<if test="communityPic9 != null">
+			UPDATE COMMUNITY_PIC_TBL SET COMMUNITY_PIC_9=#{communityPic9} WHERE COMMUNITY_NO = #{communityNo}
+		</if>
+		<if test="communityPic10 != null">
+			UPDATE COMMUNITY_PIC_TBL SET COMMUNITY_PIC_10=#{communityPic10} WHERE COMMUNITY_NO = #{communityNo}
+		</if>
+	</update>
+	
+	<update id="deleteImg">
+		UPDATE COMMUNITY_PIC_TBL
+		SET 
+			COMMUNITY_PIC_1 = NULLIF(COMMUNITY_PIC_1, #{imageUrl}),
+			COMMUNITY_PIC_2 = NULLIF(COMMUNITY_PIC_2, #{imageUrl}),
+			COMMUNITY_PIC_3 = NULLIF(COMMUNITY_PIC_3, #{imageUrl}),
+			COMMUNITY_PIC_4 = NULLIF(COMMUNITY_PIC_4, #{imageUrl}),
+			COMMUNITY_PIC_5 = NULLIF(COMMUNITY_PIC_5, #{imageUrl}),
+			COMMUNITY_PIC_6 = NULLIF(COMMUNITY_PIC_6, #{imageUrl}),
+			COMMUNITY_PIC_7 = NULLIF(COMMUNITY_PIC_7, #{imageUrl}),
+			COMMUNITY_PIC_8 = NULLIF(COMMUNITY_PIC_8, #{imageUrl}),
+			COMMUNITY_PIC_9 = NULLIF(COMMUNITY_PIC_9, #{imageUrl}),
+			COMMUNITY_PIC_10 = NULLIF(COMMUNITY_PIC_10, #{imageUrl})
+		WHERE COMMUNITY_NO = #{communityNo}
+	</update>
+	
+	<delete id="ALLdeleteImg">
+		DELETE FROM COMMUNITY_PIC_TBL WHERE COMMUNITY_NO = #{communityNo}
+	</delete>
+</mapper>

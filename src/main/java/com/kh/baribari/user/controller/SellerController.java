@@ -185,8 +185,6 @@ public class SellerController {
         return mv;
     }
 
-
-
 	/* ------------ 판매자 부분 ------------ */
 	// 판매자가 판매하는 상품 목록 (상품등록/수정/삭제는 product패키지에 존재)
 	@GetMapping("myPageSeller/list")

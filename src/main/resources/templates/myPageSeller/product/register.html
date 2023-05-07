@@ -52,12 +52,12 @@
 
 	<section>
 		<!-- Header -->
-		<header th:replace="header :: header"></header>
+		<header th:replace="header :: #header"></header>
 		
 		<input sec:authorize="!isAuthenticated()" value="0" type="hidden" name="userNo">
 		<input sec:authorize="isAuthenticated()" th:value="${#authentication.principal.user.userNo}" type="hidden" name="userNo">
 
-		<div class="mainContainer" style="padding-top: 170px">
+		<div class="mainContainer" style="padding-top: 110px; height: 1600px;">
 			<div class="top">
 				<div class="top-container">
 					<div class="profile-root">
@@ -87,7 +87,7 @@
 									<label>상품분류</label>
 									<input type="hidden" name="sellerUserNo" th:value="${#authentication.principal.user.userNo}">
 									<select name="productCategory" required>
-										<option>선택하세요</option>
+										<option disabled selected>상품분류</option>
 										<option value="텐트">텐트</option>
 										<option value="타프">타프</option>
 										<option value="가구">가구</option>
@@ -103,27 +103,23 @@
 								</div>
 								<div>
 									<label>브랜드</label>
-									<input name="productBrand">
+									<input name="productBrand" placeholder="브랜드" required>
 								</div>
 								<div>
 									<label>상품명</label>
-									<input name="productName">
+									<input name="productName" placeholder="상품명" required>
 								</div>
 								<div>
 									<label>상품가격</label>
-									<input name="productPrice">
+									<input name="productPrice" placeholder="상품가격" required>원
 								</div>
 								<div>
 									<label>할인율</label>
-									<input name="productDiscount">
+									<input name="productDiscount" placeholder="할인율" type="number" min="0" max="100" required>%
 								</div>
 								<div>
 									<label>배송비</label>
-									<input name="productDeliveryCharge">
-								</div>
-								<div>
-									<label>해시태그</label>
-									<input name="productHashTag">
+									<input name="productDeliveryCharge" placeholder="배송비" required>원
 								</div>
 								<div>
 									<label>상품내용</label>
@@ -136,17 +132,11 @@
 								<div>
 									<label>메인사진</label>
 									<input type="file" id="photoInput1" accept="image/*" name="mainImg">
-								</div>
-								<div>
-									<label></label>
 									<span id="mainImgPreview"></span>
 								</div>
 								<div>
 									<label>상품설명사진</label>
 									<input type="file" id="photoInput2" accept="image/*" name="descriptionImgs" multiple>
-								</div>
-								<div>
-									<label></label>
 									<span id="imgPreview"></span>
 								</div>
 							</div>
@@ -186,7 +176,7 @@
 					var img = document.createElement("img");
 					img.setAttribute("src", event.target.result);
 					img.style.maxWidth = "100px";
-					img.style.height = "auto";
+					img.style.maxHeight = "300px";
 					var imgPreviewItem = document.createElement("span");
 					imgPreviewItem.classList.add("img-preview");
 					imgPreviewItem.appendChild(img);
@@ -207,7 +197,7 @@
 					var img = document.createElement("img");
 					img.setAttribute("src", event.target.result);
 					img.style.maxWidth = "100px";
-					img.style.height = "auto";
+					img.style.maxHeight = "300px";
 					var imgPreviewItem = document.createElement("span");
 					imgPreviewItem.classList.add("img-preview");
 					imgPreviewItem.appendChild(img);

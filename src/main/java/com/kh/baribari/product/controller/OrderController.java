@@ -65,4 +65,10 @@ public class OrderController {
 	public ModelAndView sendOrderInfo(ModelAndView mv) {
 		return mv;
 	}
+	
+	// 해당 주문에 대한 주문정보
+	@PostMapping("/info")
+	public ModelAndView getOrder(ModelAndView mv, int orderNo) {
+		return mv;
+	}
 }

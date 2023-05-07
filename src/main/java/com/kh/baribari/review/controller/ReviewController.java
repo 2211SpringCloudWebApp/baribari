@@ -29,7 +29,7 @@ public class ReviewController {
 	private ReviewService rService;
 	@Autowired
 	@Qualifier("fileUpload")
-	private FileInfo filesInfo;
+	private FileInfo fileInfo;
 	
 	// 상품 후기 등록
 	@PostMapping("/register")
@@ -46,7 +46,7 @@ public class ReviewController {
         // 첨부파일이 있을 경우 파일 저장
         if (fList != null) {
         	for (MultipartFile file : fList) {
-        		Map<String, String> files = filesInfo.saveFile(file, request, path);
+        		Map<String, String> files = fileInfo.saveFile(file, request, path);
         		for (String k : files.keySet()) {
         			String key = "file" + i;
         			String value = files.get(k);
@@ -77,26 +77,26 @@ public class ReviewController {
 	// 상품 후기 삭제
 	@PostMapping("/remove")
 	@ResponseBody
-	public String removeReview(@ModelAttribute Review reviewParam, HttpServletRequest request) throws Exception {
+	public String removeReview(Review reviewParam, HttpServletRequest request) throws Exception {
 		// 후기 정보 가져오기 → 사진이 있을 경우 사진 물리적 삭제 → 후기 삭제 (CASCADE로 인해 후기 사진 테이블의 자료도 자동 삭제)
 		// 사진 정보를 가져오기 위해 review정보 가져오기
 		Review review = rService.getReview(reviewParam);
 		String path = "shopping/review";
 		// 사진이 있을 경우 삭제
 		if (review.getReviewPic1() != null && !review.getReviewPic1().isEmpty()) {
-		    filesInfo.deleteFile(request, review.getReviewPic1());
+		    fileInfo.deleteFile(request, review.getReviewPic1());
 		}
 		if (review.getReviewPic2() != null && !review.getReviewPic2().isEmpty()) {
-			filesInfo.deleteFile(request, review.getReviewPic2());
+			fileInfo.deleteFile(request, review.getReviewPic2());
 		}
 		if (review.getReviewPic3() != null && !review.getReviewPic3().isEmpty()) {
-			filesInfo.deleteFile(request, review.getReviewPic3());
+			fileInfo.deleteFile(request, review.getReviewPic3());
 		}
 		if (review.getReviewPic4() != null && !review.getReviewPic4().isEmpty()) {
-			filesInfo.deleteFile(request, review.getReviewPic4());
+			fileInfo.deleteFile(request, review.getReviewPic4());
 		}
 		if (review.getReviewPic5() != null && !review.getReviewPic5().isEmpty()) {
-			filesInfo.deleteFile(request, review.getReviewPic5());
+			fileInfo.deleteFile(request, review.getReviewPic5());
 		}
 		// 후기 삭제
 		int result = rService.removeReview(review);

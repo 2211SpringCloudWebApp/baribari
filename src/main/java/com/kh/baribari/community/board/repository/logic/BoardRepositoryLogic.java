@@ -92,4 +92,9 @@ public class BoardRepositoryLogic implements BoardRepository {
 		return session.selectOne("CommunityMapper.selectHashTagCount", hashTag);
 	}
 
+	@Override
+	public int boardModify(SqlSession session, Community commu) {
+		return session.update("CommunityMapper.boardModify", commu);
+	}
+
 }

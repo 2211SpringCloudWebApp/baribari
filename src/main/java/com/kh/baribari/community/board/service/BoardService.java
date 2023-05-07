@@ -112,4 +112,7 @@ public interface BoardService {
 	 */
 	public int selectHashTagCount(String hashTag);
 
+	public int boardModify(Community commu);
+
+
 }

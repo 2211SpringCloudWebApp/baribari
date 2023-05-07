@@ -33,7 +33,7 @@
         	<div th:replace="header.html :: header"></div>
         </header>
         
-        <form action="/boardRegister" method="post" onsubmit="return validateForm()">
+        <form action="/boardModify" method="post" onsubmit="return validateForm()">
             <div id="registerContainer">
                 <div id="registerdiv1">
                     게시글 수정
@@ -88,128 +88,155 @@
                     <input type="file" id="fileUpload" name="fileUpload" multiple='multiple' accept='image/*'>
                 </div>
                 <script>
-	                (// 이미지를 보여주는 영역 설정.
-	  					imageView = function imageView(registerdiv7, btn){
-							var attZone = document.getElementById(registerdiv7);
-							var fileUpload = document.getElementById(btn)
-							var sel_files = [];
-							var showimg = document.getElementById(showimg); // 테스트로 이미지값 보여줄곳
-							// 이미지와 체크 박스를 감싸고 있는 div 속성
-							var div_style = 'display:inline-block;position:relative;'
-							            + 'width:90px;height:90px;'
-							            + 'position: relative; display: inline-block;';
-							// 겹쳐지는 div 스타일 속성
-							var over_style = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 0, 0, 0.5); display:none'
-							            + 'align-items: center; justify-content: center; font-size:30px; color:rgb(255, 255, 255)';
-							// 미리보기 이미지 속성
-							var img_style = 'width:90px;height:90px;z-index:none';
-							// 이미지안에 표시되는 체크박스의 속성
-							var chk_style = 'width:30px;height:30px;position:absolute;font-size:24px;'
-							            + 'right:0px;bottom:0px;z-index:999;background-color:rgba(255,255,255,0.1);color:#f00';
+	                const registerdiv7 = document.getElementById("registerdiv7"); // 사진 미리보기 영역
+	                const fileUpload = document.getElementById("fileUpload"); //사진 선택하는 영역
+	
+	             	// 드래그 앤 드롭을 받아들일 수 있도록 설정
+	                registerdiv7.ondragover = (event) => {
+	                	event.preventDefault();
+
+	                };
+	             	// 파일을 드래그앤 드롭 했을 때 동작하는 함수
+	                registerdiv7.ondrop = (event) => {
+	                	event.preventDefault(); // 파일 보여주기 기본 동작 막기
+	                	const files = event.dataTransfer.files;
+	                	handleFiles(files)
+	                }
+	
+	                // 파일을 선택했을 때 동작하는 함수
+	                fileUpload.onchange = (event) => {
+	                	const files = event.target.files;
+	                	handleFiles(files)
+	                };
+	
+	                // 선택된 파일들을 처리하는 함수
+	                function handleFiles(files) {
+	                	const formData = new FormData(); // 사진을 담을 form 데이터
+	                	var communityNo = $("#seq").val();
+	                	
+	                	for (let i = 0; i < files.length; i++) {
+					    	const file = files[i];
+					    	formData.append('file', file); // 사진 담기
+					     	// 파일 처리하는 코드
+	                  	}
+	                	formData.append('communityNo',communityNo);
+	                	
+	                	$.ajax({
+	                	    url: '/imgRegister',
+	                	    type: 'POST',
+	                	    data: formData,
+	                	    processData: false,
+	                	    contentType: false,
+	                	    success: function(response) {
+	                	      if(response == 9){
+	                	    	  alert("사진은 10장까지만 등록 가능합니다.");
+	                	      }else{
+	                	    	  showImg();
+	                	      }
+	                	    },
+	                	    error: function(xhr) {
+	                	      console.log(xhr);
+	                	    }
+	                	 });
+	                }
+	                
+	                // 이미지 보여주는 함수
+	                function showImg(){
+	                	const formData = new FormData(); // 사진을 담을 form 데이터
+	                	var communityNo = $("#seq").val();
+	                	formData.append('communityNo',communityNo);
+	                	
+                        var attZone = document.getElementById(registerdiv7); // 이미지를 보여줄 영역
+                        var sel_files = [];
+                         
+                        // 이미지와 체크 박스를 감싸고 있는 div 속성
+                        var div_style = 'display:inline-block;position:relative;'
+                                     + 'width:90px;height:90px;'
+                                     + 'position: relative; display: inline-block;';
+                        // 겹쳐지는 div 스타일 속성
+                        var over_style = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 0, 0, 0.5); display:none'
+                                     + 'align-items: center; justify-content: center; font-size:30px; color:rgb(255, 255, 255)';
+                        // 미리보기 이미지 속성
+                        var img_style = 'width:90px;height:90px;z-index:none';
+                        // 이미지안에 표시되는 체크박스의 속성
+                        var chk_style = 'width:30px;height:30px;position:absolute;font-size:24px;'
+                                     + 'right:0px;bottom:0px;z-index:999;background-color:rgba(255,255,255,0.1);color:#f00';
+	                	
+	                	
+	                	$.ajax({
+	                	    url: '/showImg',
+	                	    type: 'POST',
+	                	    data: formData,
+	                	    processData: false,
+	                	    contentType: false,
+	                	    success: function(response) {
+	                	        console.log(response);
+
+	                	        // 이미지를 보여줄 div 요소
+	                	        const attZone = document.getElementById('registerdiv7');
+	                	     	// div 요소 내부를 비움
+	                	        attZone.innerHTML = '';
 							
-							fileUpload.onchange = function(e){ // 파일 선택이 변경되면 실행될 함수를 등록합니다.
-							    var files = e.target.files; // 선택한 파일 목록을 변수에 할당합니다.
-							    var fileArr = Array.prototype.slice.call(files) // 파일 목록을 배열로 변경하여 변수에 할당합니다.
-							    for(f of fileArr){ // 파일 목록을 순환하면서 imageLoader 함수를 실행합니다.
-							        imageLoader(f);
-							    }
-							}
-	
-	
-	                        // 탐색기에서 드래그앤 드롭 사용
-	                        // 드래그 앤 드롭 영역에 마우스가 진입하면 실행
-	                        attZone.addEventListener('dragenter', function(e){ 
-	                            e.preventDefault(); // 기본 이벤트 중지
-	                            e.stopPropagation();    // 이벤트 실행 중지
-	                        }, false)
-	                    
-	                        // 드래그한 파일을 영역 위에 놓을 때 실행
-	                        attZone.addEventListener('dragover', function(e){
-	                            e.preventDefault(); // 기본 이벤트 중지
-	                            e.stopPropagation();    // 이벤트 실행 중지
-	                        }, false)
-	
-	                        // 파일을 영역에 드롭했을 때 실행
-	                        attZone.addEventListener('drop', function(e){
-	                            var files = {}; // 이미지 저장할 객체 생성
-	                            e.preventDefault(); // 기본 이벤트 중지
-	                            e.stopPropagation();    // 이벤트 실행 중지
-	                            var dt = e.dataTransfer;    //
-	                            files = dt.files;   // 드롭한 이미지 변수 할당
-	                            for(f of files){    // files 순회하면서 imageLoader 함수 실행
-	                                imageLoader(f);
-	                            }
-	                        }, false)
-	
-	                        /*첨부된 이미리즐을 배열에 넣고 미리보기 */
-	                        imageLoader = function(file){
-	                            sel_files.push(file);   // 배열에 이미지 저장
-	                            var reader = new FileReader();  // 이미지 불러올 변수 생성
-	                            reader.onload = function(ee){   // 이미지 로드될때 실행되는 함수 정의
-	                                let img = document.createElement('img') // img 태그 생성
-	                                img.setAttribute('style', img_style)    // 스타일 적용
-	                                img.src = ee.target.result; // 이미지 소스 설정
-	                                attZone.appendChild(makeDiv(img, file));    // 미리보기 div 생성 후 이미지 추가
-	                            }
-	                            reader.readAsDataURL(file); // 파일 읽어와서 이미지 소스로 설정
-	                        }
-	
-	                        /*첨부된 파일이 있는 경우 checkbox와 함께 attZone에 추가할 div를 만들어 반환 */
-	                        makeDiv = function(img, file){
-	                            var div = document.createElement('div'); // div 태그 생성
-	                            div.setAttribute('style', div_style); // div 태그에 스타일 설정
-	
-	                            var overlay = document.createElement('div'); // overlay div 태그 생성
-	                            overlay.setAttribute('style', over_style); // div 태그에 스타일 설정
-	                            overlay.innerHTML = '삭제';
-	
-	                            // 마우스를 영역에 올렸을때 실행
-	                            div.onmouseover = function() { // div 태그에 마우스 오버 이벤트 핸들러 등록
-	                                overlay.style.display ='flex';
-	                                overlay.onclick = function(ev){
-	                                var ele = ev.srcElement;
-	                                var delFile = ele.getAttribute('delFile');
-	                                for(var i=0 ;i<sel_files.length; i++){
-	                                    if(delFile== sel_files[i].name){
-	                                        sel_files.splice(i, 1);      
-	                                    }
-	                                }
-	                                
-	                                dt = new DataTransfer();
-	                                for(f in sel_files) {
-	                                    var file = sel_files[f];
-	                                    dt.items.add(file);
-	                                }
-	                                fileUpload.files = dt.files;
-	                                var p = ele.parentNode;
-	                                attZone.removeChild(p)
-	                            }
-	                                div.appendChild(overlay); // div 태그에 overlay div 추가
-	                            };
-	                            // 마우스가 영역을 나갔을 때 실행
-	                            div.onmouseout = function() {overlay.style.display ='none';}
-	
-	                            var imgDiv = document.createElement('div'); // imgDiv div 태그 생성
-	                            imgDiv.appendChild(img); // imgDiv div 태그에 이미지 추가
-	                            div.appendChild(imgDiv); // div 태그에 imgDiv div 추가
-	                            return div; // 완성된 div 태그 반환
-	                        }
-	                    }
-					)('registerdiv7', 'fileUpload')
-                  
-	              	//사진 추가하는 부분
-	              	$(document).ready(function() { // 문서 로딩이 완료되면 실행하는 함수
-	              		$('#fileUpload').on('change', function() { // 파일 선택이 변경되면 실행하는 함수
-	              			const fileList = document.querySelector("#fileUpload").files;	//파일 리스트 가져오기
-	              			if (fileList.length > 0) {// 파일이 선택되었는지 확인합니다.
-	              				const formData = new FormData(); // FormData 객체를 생성합니다.
-	              				for (let i = 0; i < fileList.length; i++) { //formData에 사진 리스트를 넣음
-	 	  	            			formData.append("fileList", fileList[i]);
-	 	  	            		}
-	              			}
-	              		});
-	              	});
-                
+	                	        // 이미지 정보를 담을 배열
+	                	        const images = [];
+
+	                	        // communityPic1부터 communityPic10까지 가져와서 배열에 추가
+	                	        for (let i = 1; i <= 10; i++) {
+	                	          const pic = response[`communityPic${i}`];
+	                	          if (pic) {
+	                	            images.push(pic);
+	                	          }
+	                	        }
+
+	                	        // 이미지 요소를 생성하고 보여줌
+	                	        images.forEach(function(imageUrl) {
+	                	          const div = document.createElement('div');
+	                	          div.style = 'display:inline-block;position:relative;width:90px;height:90px;position:relative;display:inline-block;';
+
+	                	          const img = document.createElement('img');
+	                	          img.style = 'width:90px;height:90px;z-index:none';
+	                	          img.src = imageUrl;
+
+		                	      // 클릭 이벤트 추가
+	                	          img.addEventListener('click', function() {
+	                	          	deleteImg(imageUrl);
+	                	          });
+	                	       
+	                	          div.appendChild(img);
+	                	          attZone.appendChild(div);
+	                	        });
+	                	      },
+	                	    error: function(xhr) {
+	                	      console.log(xhr);
+	                	    }
+	                	  });
+	                }
+	                
+	             	// 이미지 삭제 함수
+	                function deleteImg(imageUrl) {
+	                	var communityNo = $("#seq").val();
+	                	const formData = new FormData(); // 사진을 담을 form 데이터
+	                	
+	                	formData.append('imageUrl',imageUrl);
+	                	formData.append('communityNo',communityNo);
+	             		
+	             		$.ajax({
+	                	    url: '/deleteImg',
+	                	    type: 'POST',
+	                	    data: formData,
+	                	    processData: false,
+	                	    contentType: false,
+	                	    
+	                	    success: function() {
+	                	    	showImg();
+	                	    },
+	                	    error: function(xhr) {
+	                	      console.log(xhr);
+	                	    }
+	                	});
+	           
+	             	}
+	                showImg();
                 </script>
                 <div name = "content" id="registerdiv4">
                     <textarea name="content" id="inputContent" th:text=${commu.communityContent}></textarea>
@@ -243,32 +270,33 @@
 	    	}
 	        
 	        $(document).ready(function() {
-	            $('form').on('submit', function(event) {
-	                event.preventDefault(); // 기본 동작인 form 데이터 전송을 막음
-	                const formData = new FormData(this); // form 데이터를 담을 FormData 객체를 생성
-	                const fileList = document.querySelector("#fileUpload").files; // 파일 리스트 가져오기
-	                if (fileList.length > 0) { // 파일이 선택되었는지 확인합니다.
-	                    for (let i = 0; i < fileList.length; i++) {
-	                        formData.append("fileList", fileList[i]); // formData에 사진 리스트를 추가합니다.
-	                    }
-	                }
+	        	
+// 	            $('form').on('submit', function(event) {
+// 	                event.preventDefault(); // 기본 동작인 form 데이터 전송을 막음
+// 	                const formData = new FormData(this); // form 데이터를 담을 FormData 객체를 생성
+// 	                const fileList = document.querySelector("#fileUpload").files; // 파일 리스트 가져오기
+// 	                if (fileList.length > 0) { // 파일이 선택되었는지 확인합니다.
+// 	                    for (let i = 0; i < fileList.length; i++) {
+// 	                        formData.append("fileList", fileList[i]); // formData에 사진 리스트를 추가합니다.
+// 	                    }
+// 	                }
 	                
-	                $.ajax({
-	                    url: $(this).attr('action'), // form의 action 속성에 해당하는 URL로 요청을 보냅니다.
-	                    type: $(this).attr('method'), // form의 method 속성에 해당하는 HTTP 메소드를 지정합니다.
-	                    data: formData, // FormData 객체를 전송합니다.
-	                    contentType: false, // 데이터 타입을 설정하지 않습니다.
-	                    processData: false, // 데이터를 자동으로 처리하지 않습니다.
-	                    success: function(response) {
-	                        // Ajax 요청이 성공한 경우
-	                        window.location.href = '/boardList';
-	                    },
-	                    error: function(xhr, status, error) {
-	                        // Ajax 요청이 실패한 경우
-	                        console.log(xhr);
-	                    }
-	                })
-	            });
+// 	                $.ajax({
+// 	                    url: $(this).attr('action'), // form의 action 속성에 해당하는 URL로 요청을 보냅니다.
+// 	                    type: $(this).attr('method'), // form의 method 속성에 해당하는 HTTP 메소드를 지정합니다.
+// 	                    data: formData, // FormData 객체를 전송합니다.
+// 	                    contentType: false, // 데이터 타입을 설정하지 않습니다.
+// 	                    processData: false, // 데이터를 자동으로 처리하지 않습니다.
+// 	                    success: function(response) {
+// 	                        // Ajax 요청이 성공한 경우
+// 	                        window.location.href = '/boardList';
+// 	                    },
+// 	                    error: function(xhr, status, error) {
+// 	                        // Ajax 요청이 실패한 경우
+// 	                        console.log(xhr);
+// 	                    }
+// 	                })
+// 	            });
 	        });
 	        
 	      	//지도 버튼 클릭시 요소들 보이게 하기.

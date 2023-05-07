@@ -10,7 +10,7 @@
 		<result	property="productContent" column="PRODUCT_CONTENT"/>
 		<result	property="productMdYn" column="PRODUCT_MD_YN"/>
 		<result	property="productSales" column="PRODUCT_SALES"/>
-		<result	property="productHashTag" column="PRODUCT_HASHTAG"/>
+		<result	property="productHashTag" column="PRODUCT_HASH_TAG"/>
 		<result	property="productDiscount" column="PRODUCT_DISCOUNT"/>
 		<result	property="productDeliveryCharge" column="PRODUCT_DELIVERY_CHARGE"/>
 		<result	property="sellerUserNo" column="SELLER_USER_NO"/>
@@ -132,4 +132,21 @@
     <select id="getProductListBySeller" parameterType="_int" resultMap="productResultMap">
         SELECT * FROM PRODUCT_TBL LEFT JOIN PRODUCT_PIC_TBL USING (PRODUCT_NO) WHERE SELLER_USER_NO = #{userNo} ORDER BY PRODUCT_NO DESC
     </select>
+    
+    <update id="modifyProduct">
+    	UPDATE PRODUCT_TBL
+    		SET PRODUCT_NAME = #{productName}, PRODUCT_PRICE = #{productPrice}, PRODUCT_CONTENT = #{productContent}
+    		, PRODUCT_HASH_TAG = #{productHashTag}, PRODUCT_DISCOUNT = #{productDiscount}, PRODUCT_CATEGORY = #{productCategory}
+    		, PRODUCT_BRAND = #{productBrand}, PRODUCT_DELIVERY_CHARGE = #{productDeliveryCharge}
+    		WHERE PRODUCT_NO = #{productNo} 
+    </update>
+    <update id="modifyProductPic">
+		UPDATE PRODUCT_PIC_TBL
+		SET 
+		    PRODUCT_PIC_1 = CASE WHEN #{productPic1} IS NULL OR #{productPic1} = '' THEN PRODUCT_PIC_1 ELSE #{productPic1} END,
+		    PRODUCT_PIC_2 = CASE WHEN #{productPic2} IS NULL OR #{productPic2} = '' THEN PRODUCT_PIC_2 ELSE #{productPic2} END,
+		    PRODUCT_PIC_3 = CASE WHEN #{productPic3} IS NULL OR #{productPic3} = '' THEN PRODUCT_PIC_3 ELSE #{productPic3} END,
+		    PRODUCT_PIC_4 = CASE WHEN #{productPic4} IS NULL OR #{productPic4} = '' THEN PRODUCT_PIC_4 ELSE #{productPic4} END
+		WHERE PRODUCT_NO = #{productNo}
+    </update>
 </mapper>

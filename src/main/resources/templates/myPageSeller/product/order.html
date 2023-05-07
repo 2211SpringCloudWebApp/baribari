@@ -73,10 +73,10 @@
 			<div class="pegDown-main">
 				<table id="myTable">
 					<colgroup>
-						<col style="width:10%">
+						<col style="width:8%">
 						<col style="width:15%">
 						<col style="width:10%">
-						<col style="width:40%">
+						<col style="width:*%">
 						<col style="width:7%">
 						<col style="width:8%">
 						<col style="width:8%">
@@ -108,7 +108,7 @@
 						<td class="table-td" th:if="${order.orderStatus == 2}" th:text="배송중"></td>
 						<td class="table-td" th:if="${order.orderStatus == 3}" th:text="배송완료"></td>
 						<td class="table-td">
-							<button th:onclick="|modifyProduct(${order.productNo})|">수정</button>
+							<button th:onclick="|orderInfo(${order.productNo})|">보기</button>
 						</td>
 					</tr>
 
@@ -131,9 +131,8 @@
 				);
 			})
 
-			function modifyProduct(productNo) {
-				confirm("삭제하시겠습니까");
-				$.post("/shopping/modify", {
+			function orderInfo(productNo) {
+				$.post("/order/info", {
 					"productNo": productNo
 				}, function (result) {
 					if (result == "1") {
@@ -141,20 +140,6 @@
 						location.href = "/myPageSeller/list";
 					} else {
 						alert('상품 수정 실패');
-					}
-				});
-			}
-
-			function deleteProduct(productNo) {
-				confirm("삭제하시겠습니까");
-				$.post("/shopping/delete", {
-					"productNo": productNo
-				}, function (result) {
-					if (result == "1") {
-						alert('상품을 삭제하였습니다');
-						location.href = "/myPageSeller/list";
-					} else {
-						alert('상품 삭제 실패');
 					}
 				});
 			}

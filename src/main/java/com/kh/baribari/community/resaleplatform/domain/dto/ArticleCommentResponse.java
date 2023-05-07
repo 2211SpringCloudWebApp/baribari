@@ -1,5 +1,4 @@
 package com.kh.baribari.community.resaleplatform.domain.dto;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +8,6 @@ import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.TreeSet;
-
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,7 +20,6 @@ public class ArticleCommentResponse
     private Set<ArticleCommentResponse> childComments = new LinkedHashSet<>();
     private String commentContent;
     private String CommunityDate;
-
     public static ArticleCommentResponse of(Integer commentNo, String userNo,
                                             String userNickname, Integer parentCommentNo,
                                             String commentContent)
@@ -33,7 +30,6 @@ public class ArticleCommentResponse
         Set<ArticleCommentResponse> childComments = new TreeSet<>(childCommentComparator);
         return new ArticleCommentResponse(commentNo, userNo, userNickname, parentCommentNo, childComments, commentContent, null);
     }
-
     public static ArticleCommentResponse from(ArticleCommentDto dto)
     {
         String nickname = dto.getUserDto().getUserNickName();
@@ -46,12 +42,11 @@ public class ArticleCommentResponse
                 dto.getUserDto().getUserId(),
                 dto.getUserDto().getUserNickName(),
                 dto.getParentCommentNo(),
-                new LinkedHashSet<>(), // Initialize an empty set for childComments
+                new LinkedHashSet<>(),
                 dto.getContent(),
                 dto.getCommunityDate()
         );
     }
-
     public boolean hasParentComment()
     {
         return parentCommentNo != null;

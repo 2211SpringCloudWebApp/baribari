@@ -1,163 +1,335 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="ArticleMapper">
 
-    <!--    <resultMap id="UserResultMap" type="UserDto">-->
-    <!--        <id property="userNo" column="USER_NO" />-->
-    <!--        <result property="userId" column="USER_ID" />-->
-    <!--        <result property="userNickName" column="USER_NICKNAME" />-->
-    <!--    </resultMap>-->
-
-    <resultMap id="ArticleCommentResultMap" type="ArticleCommentDto">
-        <id property="commentNo" column="COMMENT_NO" />
-        <result property="communityNo" column="COMMUNITY_NO" />
-        <result property="parentCommentNo" column="PARENT_COMMENT_NO" />
-        <result property="content" column="COMMENT_CONTENT" />
-        <result property="communityDate" column="COMMENT_COMMUNITY_DATE" />
-        <association property="userDto" resultMap="UserResultMap" />
-    </resultMap>
-
-    <resultMap id="ArticleHashtagResultMap" type="ArticleHashtagDto">
-        <id property="hashtagNo" column="HASHTAG_NO" />
-        <result property="hashtagName" column="HASHTAG_NAME" />
-    </resultMap>
-
-    <resultMap id="ArticleResultMap" type="Article">
-        <id property="communityNo" column="COMMUNITY_NO" />
-        <result property="communitySubject" column="COMMUNITY_SUBJECT" />
-        <result property="communityContent" column="COMMUNITY_CONTENT" />
-        <result property="communityDate" column="COMMUNITY_DATE" />
-        <association property="user" resultMap="UserResultMap" />
-        <collection property="articleComments" resultMap="ArticleCommentResultMap" />
-        <collection property="hashtags" resultMap="ArticleHashtagResultMap" />
+    <resultMap id="articleResultMap" type="ArticleDto">
+        <id column="community_no" property="communityNo"/>
+        <result column="user_no" property="userDto.userNo"/>
+        <result column="user_nickname" property="userDto.userNickName"/>
+        <result column="community_subject" property="communitySubject"/>
+        <result column="community_content" property="communityContent"/>
+        <result column="community_date" property="communityDate"/>
     </resultMap>
 
 
-    <resultMap id="ArticleHashtagResult" type="com.kh.baribari.community.resaleplatform.domain.ArticleHashtag">
-        <id property="communityNo" column="community_no" />
-        <result property="hashtagName" column="hashtag_name" />
-    </resultMap>
-
-    <resultMap id="ArticleResult" type="com.kh.baribari.community.resaleplatform.domain.Article">
-        <id property="communityNo" column="community_no" />
-        <result property="communitySubject" column="community_subject" />
-        <result property="communityContent" column="community_content" />
-        <result property="communityDate" column="community_date" />
-        <collection property="hashtags" ofType="com.kh.baribari.community.resaleplatform.domain.ArticleHashtag" resultMap="ArticleHashtagResult" />
-    </resultMap>
-
-
-    <select id="searchArticles" resultType="ArticleDto">
-        SELECT *
-        FROM community_tbl
-        WHERE 1 = 1
-        <if test="searchType != null and searchWord != null and searchWord != ''">
-            <choose>
-                <when test="searchType == 'BOTH'">
-                    AND (community_subject LIKE '%' || #{searchWord} || '%' OR community_content LIKE '%' || #{searchWord} || '%')
-                </when>
-                <when test="searchType == 'SUBJECT'">
-                    AND community_subject LIKE '%' || #{searchWord} || '%'
-                </when>
-                <when test="searchType == 'CONTENT'">
-                    AND community_content LIKE '%' || #{searchWord} || '%'
-                </when>
-                <when test="searchType == 'HASHTAG'">
-                    AND community_hashtag LIKE '%' || #{searchWord} || '%'
-                </when>
-            </choose>
-        </if>
-        ORDER BY community_date DESC
-    </select>
-
-    <select id="countArticles" resultType="int">
-        SELECT COUNT(*)
-        FROM community_tbl
-        WHERE 1 = 1
-        <if test="searchType != null and searchWord != null and searchWord != ''">
-            <choose>
-                <when test="searchType == 'BOTH'">
-                    AND (community_subject LIKE '%' || #{searchWord} || '%' OR community_content LIKE '%' || #{searchWord} || '%')
-                </when>
-                <when test="searchType == 'SUBJECT'">
-                    AND community_subject LIKE '%' || #{searchWord} || '%'
-                </when>
-                <when test="searchType == 'CONTENT'">
-                    AND community_content LIKE '%' || #{searchWord} || '%'
-                </when>
-                <when test="searchType == 'HASHTAG'">
-                    AND community_hashtag LIKE '%' || #{searchWord} || '%'
-                </when>
-            </choose>
-        </if>
-    </select>
-
-    <select id="findById" resultMap="ArticleResultMap" parameterType="int">
+    <select id="searchArticles" resultMap="articleResultMap">
         SELECT
-            A.*,
-            U.*,
-            AC.*,
-            AH.*
-        FROM BARIBARI.COMMUNITY_TBL A
-                 INNER JOIN USER_TBL U ON A.USER_NO = U.USER_NO
-                 LEFT JOIN COMMENT_TBL AC ON A.COMMUNITY_NO = AC.COMMUNITY_NO
-                 LEFT JOIN HASH_TAG_TBL AH ON A.COMMUNITY_NO = AH.COMMUNITY_NO
-        WHERE A.COMMUNITY_NO = #{communityNo}
+        a.community_no,
+        a.user_no,
+        u.user_nickname,
+        a.community_subject,
+        a.community_content,
+        a.community_date
+        FROM
+        community_tbl a
+        INNER JOIN
+        user_tbl u
+        ON
+        a.user_no = u.user_no
+        WHERE
+        a.community_category IN (2, 3)
+        <if test="searchType != null and searchWord != null and searchWord != ''">
+            <choose>
+                <when test="searchType == 'SUBJECT'">
+                    AND UPPER(a.community_subject) LIKE UPPER(CONCAT('%', #{searchWord}, '%'))
+                </when>
+                <when test="searchType == 'CONTENT'">
+                    AND UPPER(a.community_content) LIKE UPPER(CONCAT('%', #{searchWord}, '%'))
+                </when>
+                <when test="searchType == 'BOTH'">
+                    AND (UPPER(a.community_subject) LIKE UPPER(CONCAT('%', #{searchWord}, '%')) OR UPPER(a.community_content) LIKE UPPER(CONCAT('%', #{searchWord}, '%')))
+                </when>
+                <when test="searchType == 'HASHTAG'">
+                    AND a.community_no IN (
+                    SELECT
+                    ah.community_no
+                    FROM
+                    article_hashtag_tbl ah
+                    WHERE
+                    UPPER(ah.hashtag) LIKE UPPER(CONCAT('%', #{searchWord}, '%'))
+                    )
+                </when>
+            </choose>
+        </if>
+        ORDER BY
+        a.community_no DESC
+    </select>
+    <select id="countArticles" resultType="int">
+        SELECT COUNT(*) FROM (
+        SELECT a.community_no
+        FROM community_tbl a
+        INNER JOIN user_tbl u ON a.user_no = u.user_no
+        WHERE a.community_category IN (2, 3)
+        <if test="searchType != null and searchWord != null and searchWord != ''">
+            <choose>
+                <when test="searchType == 'SUBJECT'">
+                    AND UPPER(a.community_subject) LIKE UPPER(CONCAT('%', #{searchWord}, '%'))
+                </when>
+                <when test="searchType == 'CONTENT'">
+                    AND UPPER(a.community_content) LIKE UPPER(CONCAT('%', #{searchWord}, '%'))
+                </when>
+                <when test="searchType == 'BOTH'">
+                    AND (UPPER(a.community_subject) LIKE UPPER(CONCAT('%', #{searchWord}, '%')) OR UPPER(a.community_content) LIKE UPPER(CONCAT('%', #{searchWord}, '%')))
+                </when>
+                <when test="searchType == 'HASHTAG'">
+                    AND a.community_no IN (
+                    SELECT ah.community_no
+                    FROM article_hashtag_tbl ah
+                    WHERE UPPER(ah.hashtag) LIKE UPPER(CONCAT('%', #{searchWord}, '%'))
+                    )
+                </when>
+            </choose>
+        </if>
+        ORDER BY a.community_no DESC
+        ) tmp_count
     </select>
 
+
+
+    <insert id="saveArticle" parameterType="ArticleDto">
+    <![CDATA[
+        INSERT INTO COMMUNITY_TBL (COMMUNITY_NO, USER_NO, COMMUNITY_SUBJECT, COMMUNITY_CONTENT, COMMUNITY_CATEGORY, MAP_X, MAP_Y)
+        VALUES (COMMUNITY_SEQ.NEXTVAL, #{userDto.userNo}, #{communitySubject}, #{communityContent}, #{communityCategory}, #{mapX}, #{mapY})
+        ]]>
+  </insert>
+    <select id="findByNo" resultType="Article">
+        SELECT * FROM COMMUNITY_TBL WHERE COMMUNITY_NO = #{communityNo}
+    </select>
     <select id="countComments" resultType="int" parameterType="int">
         SELECT COUNT(*) FROM BARIBARI.COMMENT_TBL WHERE COMMUNITY_NO = #{communityNo}
     </select>
-
-    <insert id="saveArticle" parameterType="com.kh.baribari.community.resaleplatform.domain.Article" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO COMMUNITY_TBL (COMMUNITY_SUBJECT, COMMUNITY_CONTENT, USER_NO, COMMUNITY_DATE)
-        VALUES (#{communitySubject}, #{communityContent}, #{userNo}, #{communityDate})
-        <selectKey keyProperty="communityNo" resultType="Integer" order="AFTER">
-            SELECT ()
-        </selectKey>
-    </insert>
-
-    <insert id="saveArticleHashtags" parameterType="java.util.Map">
-        INSERT INTO HASH_TAG_TBL (COMMUNITY_NO, HASH_TAG_NAME)
-        VALUES
-        <foreach collection="hashtags" item="hashtag" separator=",">
-            (#{articleId}, #{hashtag.hashtagName})
-        </foreach>
-    </insert>
-
-
-
-    <select id="findHashtagsByNames" resultMap="ArticleHashtagResult" parameterType="java.util.List">
-        SELECT * FROM HASH_TAG_TBL
-        WHERE HASH_TAG_TBL.HASH_TAG_NAME IN
-        <foreach item="hashtagName" index="index" collection="list" open="(" separator="," close=")">
-            #{hashtagName}
-        </foreach>
-    </select>
-
-    <select id="findArticleById" resultMap="ArticleResult" parameterType="int">
-        SELECT a.*, ah.community_no, ah.hash_tag_name
-        FROM COMMUNITY_TBL a
-                 LEFT JOIN HASH_TAG_TBL ah ON a.COMMUNITY_NO = ah.COMMUNITY_NO
-        WHERE a.community_no = #{communityNo}
-    </select>
-
-    <update id="updateArticle" parameterType="Article">
-        UPDATE COMMUNITY_TBL
-        SET COMMUNITY_SUBJECT = #{communitySubject}, COMMUNITY_CONTENT = #{communityContent}
-        WHERE COMMUNITY_NO = #{communityNo}
-    </update>
-
-    <delete id="deleteArticleHashtags" parameterType="int">
-        DELETE FROM HASH_TAG_TBL
-        WHERE COMMUNITY_NO = #{communityNo}
-    </delete>
-
-
-
-    <delete id="deleteByIdAndUserAccount_UserId" parameterType="int">
-        DELETE FROM COMMUNITY_TBL
-        WHERE COMMUNITY_NO = #{communityNo} AND USER_NO = #{userNo}
-    </delete>
 </mapper>
+
+
+
+
+<!--    <insert id="saveArticle" parameterType="com.kh.baribari.community.resaleplatform.domain.Article">-->
+<!--        INSERT INTO COMMUNITY_TBL (-->
+<!--            COMMUNITY_NO, USER_NO, COMMUNITY_SUBJECT, COMMUNITY_CONTENT,-->
+<!--            COMMUNITY_CATEGORY, COMMUNITY_DATE, MAP_X, MAP_Y, COMMUNITY_YN, VIEW_COUNT-->
+<!--        ) VALUES (-->
+<!--                     #{communityNo}, #{user.userNo}, #{communitySubject}, #{communityContent},-->
+<!--                     #{communityCategory}, #{communityDate}, #{mapX}, #{mapY}, #{communityYn}, #{viewCount}-->
+<!--                 )-->
+<!--    </insert>-->
+
+
+<!--    <update id="updateArticle" parameterType="com.kh.baribari.community.resaleplatform.domain.Article">-->
+<!--        UPDATE COMMUNITY_TBL-->
+<!--        SET-->
+<!--            COMMUNITY_SUBJECT = #{communitySubject},-->
+<!--            COMMUNITY_CONTENT = #{communityContent},-->
+<!--            COMMUNITY_CATEGORY = #{communityCategory},-->
+<!--            MAP_X = #{mapX},-->
+<!--            MAP_Y = #{mapY},-->
+<!--            COMMUNITY_YN = #{communityYn},-->
+<!--            VIEW_COUNT = #{viewCount}-->
+<!--        WHERE COMMUNITY_NO = #{communityNo}-->
+<!--    </update>-->
+
+<!--    <delete id="deleteArticle">-->
+<!--        DELETE FROM COMMUNITY_TBL WHERE COMMUNITY_NO = #{communityNo}-->
+<!--    </delete>-->
+
+<!--    <select id="findAllArticles" resultMap="articleResultMap">-->
+<!--        SELECT * FROM COMMUNITY_TBL-->
+<!--    </select>-->
+
+
+
+
+
+
+        <!--<?xml version="1.0" encoding="UTF-8"?>-->
+        <!--<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">-->
+        <!--<mapper namespace="ArticleMapper">-->
+
+        <!--    <resultMap id="ArticleResultMap" type="Article">-->
+        <!--        <id column="COMMUNITY_NO" property="communityNo" />-->
+        <!--        <result column="USER_NO" property="userNo" />-->
+        <!--        <result column="COMMUNITY_SUBJECT" property="communitySubject" />-->
+        <!--        <result column="COMMUNITY_CONTENT" property="communityContent" />-->
+        <!--        <result column="COMMUNITY_CATEGORY" property="communityCategory" javaType="CommunityCategory" typeHandler="CommunityCategoryTypeHandler"/>-->
+        <!--        <result column="COMMUNITY_DATE" property="communityDate" />-->
+        <!--        <collection property="articleComments" resultMap="ArticleCommentResultMap" />-->
+        <!--        <collection property="hashtags" resultMap="ArticleHashtagResultMap" />-->
+        <!--        &lt;!&ndash; 다른 필드도 이와 유사하게 매핑해주십시오. &ndash;&gt;-->
+        <!--    </resultMap>-->
+
+        <!--    <select id="searchArticles" resultType="ArticleDto">-->
+        <!--        SELECT ct.*-->
+        <!--        FROM COMMUNITY_TBL ct-->
+        <!--        JOIN COMMUNITY_CATEGORY_TBL cct ON ct.COMMUNITY_CATEGORY = cct.COMMUNITY_CATEGORY_NO-->
+        <!--        WHERE cct.COMMUNITY_CATEGORY_NO IN-->
+        <!--        <foreach collection="category" item="item" open="(" close=")" separator=",">-->
+        <!--            #{item}-->
+        <!--        </foreach>-->
+        <!--        <if test="searchType != null and searchWord != null and searchWord != ''">-->
+        <!--            <choose>-->
+        <!--                <when test="searchType == 'BOTH'">-->
+        <!--                    AND (community_subject LIKE '%' || #{searchWord} || '%' OR community_content LIKE '%' || #{searchWord} || '%')-->
+        <!--                </when>-->
+        <!--                <when test="searchType == 'SUBJECT'">-->
+        <!--                    AND community_subject LIKE '%' || #{searchWord} || '%'-->
+        <!--                </when>-->
+        <!--                <when test="searchType == 'CONTENT'">-->
+        <!--                    AND community_content LIKE '%' || #{searchWord} || '%'-->
+        <!--                </when>-->
+        <!--                <when test="searchType == 'HASHTAG'">-->
+        <!--                    AND community_hashtag LIKE '%' || #{searchWord} || '%'-->
+        <!--                </when>-->
+        <!--            </choose>-->
+        <!--        </if>-->
+        <!--        ORDER BY ct.COMMUNITY_DATE DESC-->
+        <!--    </select>-->
+
+        <!--    <select id="countArticles" resultType="int">-->
+        <!--        SELECT COUNT(*)-->
+        <!--        FROM community_tbl-->
+        <!--        WHERE 1 = 1-->
+        <!--        <if test="searchType != null and searchWord != null and searchWord != ''">-->
+        <!--            <choose>-->
+        <!--                <when test="searchType == 'BOTH'">-->
+        <!--                    AND (community_subject LIKE '%' || #{searchWord} || '%' OR community_content LIKE '%' || #{searchWord} || '%')-->
+        <!--                </when>-->
+        <!--                <when test="searchType == 'SUBJECT'">-->
+        <!--                    AND community_subject LIKE '%' || #{searchWord} || '%'-->
+        <!--                </when>-->
+        <!--                <when test="searchType == 'CONTENT'">-->
+        <!--                    AND community_content LIKE '%' || #{searchWord} || '%'-->
+        <!--                </when>-->
+        <!--                <when test="searchType == 'HASHTAG'">-->
+        <!--                    AND community_hashtag LIKE '%' || #{searchWord} || '%'-->
+        <!--                </when>-->
+        <!--            </choose>-->
+        <!--        </if>-->
+        <!--    </select>-->
+        <!--</mapper>-->
+        <!--        &lt;!&ndash;<?xml version="1.0" encoding="UTF-8"?>&ndash;&gt;-->
+        <!--&lt;!&ndash;<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">&ndash;&gt;-->
+        <!--&lt;!&ndash;<mapper namespace="ArticleMapper">&ndash;&gt;-->
+
+        <!--&lt;!&ndash;&lt;!&ndash;    <resultMap id="ArticleCommentResultMap" type="ArticleCommentDto">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <id property="commentNo" column="COMMENT_NO" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <result property="communityNo" column="COMMUNITY_NO" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <result property="parentCommentNo" column="PARENT_COMMENT_NO" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <result property="content" column="COMMENT_CONTENT" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <result property="communityDate" column="COMMENT_COMMUNITY_DATE" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <association property="userDto" resultMap="UserResultMap" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;    </resultMap>&ndash;&gt;&ndash;&gt;-->
+
+        <!--&lt;!&ndash;    <resultMap id="ArticleHashtagResultMap" type="ArticleHashtagDto">&ndash;&gt;-->
+        <!--&lt;!&ndash;        <id property="hashtagNo" column="HASHTAG_NO" />&ndash;&gt;-->
+        <!--&lt;!&ndash;        <result property="hashtagName" column="HASHTAG_NAME" />&ndash;&gt;-->
+        <!--&lt;!&ndash;    </resultMap>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;&lt;!&ndash;    <resultMap id="ArticleResultMap" type="Article">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <id property="communityNo" column="COMMUNITY_NO" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <result property="communitySubject" column="COMMUNITY_SUBJECT" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <result property="communityContent" column="COMMUNITY_CONTENT" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <result property="communityDate" column="COMMUNITY_DATE" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <association property="user" resultMap="UserResultMap" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <collection property="articleComments" resultMap="ArticleCommentResultMap" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <collection property="hashtags" resultMap="ArticleHashtagResultMap" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;    </resultMap>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;    <resultMap id="ArticleResultMap" type="Article">&ndash;&gt;-->
+        <!--&lt;!&ndash;        <id column="COMMUNITY_NO" property="communityNo" />&ndash;&gt;-->
+        <!--&lt;!&ndash;        <result column="USER_NO" property="userNo" />&ndash;&gt;-->
+        <!--&lt;!&ndash;        <result column="COMMUNITY_SUBJECT" property="communitySubject" />&ndash;&gt;-->
+        <!--&lt;!&ndash;        <result column="COMMUNITY_CONTENT" property="communityContent" />&ndash;&gt;-->
+        <!--&lt;!&ndash;        <result column="COMMUNITY_CATEGORY" property="communityCategory" javaType="CommunityCategory" />&ndash;&gt;-->
+        <!--&lt;!&ndash;        <result column="COMMUNITY_DATE" property="communityDate" />&ndash;&gt;-->
+        <!--&lt;!&ndash;        <collection property="articleComments" resultMap="ArticleCommentResultMap" />&ndash;&gt;-->
+        <!--&lt;!&ndash;        <collection property="hashtags" resultMap="ArticleHashtagResultMap" />&ndash;&gt;-->
+        <!--&lt;!&ndash;        &lt;!&ndash; 다른 필드도 이와 유사하게 매핑해주십시오. &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;    </resultMap>&ndash;&gt;-->
+
+
+        <!--&lt;!&ndash;&lt;!&ndash;    <resultMap id="ArticleHashtagResult" type="com.kh.baribari.community.resaleplatform.domain.ArticleHashtag">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <id property="communityNo" column="community_no" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <result property="hashtagName" column="hashtag_name" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;    </resultMap>&ndash;&gt;&ndash;&gt;-->
+
+        <!--&lt;!&ndash;&lt;!&ndash;    <resultMap id="ArticleResult" type="com.kh.baribari.community.resaleplatform.domain.Article">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <id property="communityNo" column="community_no" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <result property="communitySubject" column="community_subject" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <result property="communityContent" column="community_content" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <result property="communityDate" column="community_date" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <collection property="hashtags" ofType="com.kh.baribari.community.resaleplatform.domain.ArticleHashtag" resultMap="ArticleHashtagResult" />&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;    </resultMap>&ndash;&gt;&ndash;&gt;-->
+
+
+
+
+        <!--&lt;!&ndash;&lt;!&ndash;    <select id="findById" resultMap="ArticleResultMap" parameterType="int">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        SELECT&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;            A.*,&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;            U.*,&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;            AC.*,&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;            AH.*&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        FROM BARIBARI.COMMUNITY_TBL A&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;                 INNER JOIN USER_TBL U ON A.USER_NO = U.USER_NO&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;                 LEFT JOIN COMMENT_TBL AC ON A.COMMUNITY_NO = AC.COMMUNITY_NO&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;                 LEFT JOIN HASH_TAG_TBL AH ON A.COMMUNITY_NO = AH.COMMUNITY_NO&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        WHERE A.COMMUNITY_NO = #{communityNo}&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;    </select>&ndash;&gt;&ndash;&gt;-->
+
+
+        <!--&lt;!&ndash;&lt;!&ndash;    <select id="categoryArticles" resultType="Article">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        SELECT *&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        FROM COMMUNITY_TBL&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        WHERE COMMUNITY_CATEGORY IN (2, 3)&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;    </select>&ndash;&gt;&ndash;&gt;-->
+
+        <!--        <insert id="saveArticle" parameterType="Article" useGeneratedKeys="true" keyProperty="id">-->
+        <!--            INSERT INTO COMMUNITY_TBL-->
+        <!--            (COMMUNITY_NO, USER_NO, COMMUNITY_SUBJECT, COMMUNITY_CONTENT, COMMUNITY_CATEGORY, COMMUNITY_YN, COMMUNITY_DATE)-->
+        <!--            VALUES   (COMMUNITY_SEQ.NEXTVAL, #{user.userNo}, #{communitySubject}, #{communityContent}, #{communityCategory}, #{communityYN}, #{communityDate})-->
+        <!--            <selectKey keyProperty="id" resultType="int" order="AFTER">-->
+        <!--                SELECT COMMUNITY_SEQ.CURRVAL FROM DUAL-->
+        <!--            </selectKey>-->
+        <!--        </insert>-->
+
+
+
+        <!--&lt;!&ndash;&lt;!&ndash;    <insert id="saveArticleHashtags" parameterType="java.util.Map">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        INSERT INTO HASH_TAG_TBL (COMMUNITY_NO, HASH_TAG_NAME)&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        VALUES&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <foreach collection="hashtags" item="hashtag" separator=",">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;            (#{articleId}, #{hashtag.hashtagName})&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        </foreach>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;    </insert>&ndash;&gt;&ndash;&gt;-->
+
+        <!--&lt;!&ndash;&lt;!&ndash;    <select id="findHashtagsByNames" resultMap="ArticleHashtagResult" parameterType="java.util.List">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        SELECT * FROM HASH_TAG_TBL&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        WHERE HASH_TAG_TBL.HASH_TAG_NAME IN&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        <foreach item="hashtagName" index="index" collection="list" open="(" separator="," close=")">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;            #{hashtagName}&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        </foreach>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;    </select>&ndash;&gt;&ndash;&gt;-->
+
+        <!--&lt;!&ndash;&lt;!&ndash;    <select id="findArticleById" resultMap="ArticleResult" parameterType="int">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        SELECT a.*, ah.community_no, ah.hash_tag_name&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        FROM COMMUNITY_TBL a&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;                 LEFT JOIN HASH_TAG_TBL ah ON a.COMMUNITY_NO = ah.COMMUNITY_NO&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        WHERE a.community_no = #{communityNo}&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;    </select>&ndash;&gt;&ndash;&gt;-->
+
+        <!--&lt;!&ndash;&lt;!&ndash;    <update id="updateArticle" parameterType="Article">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        UPDATE COMMUNITY_TBL&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        SET COMMUNITY_SUBJECT = #{communitySubject}, COMMUNITY_CONTENT = #{communityContent}&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        WHERE COMMUNITY_NO = #{communityNo}&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;    </update>&ndash;&gt;&ndash;&gt;-->
+
+        <!--&lt;!&ndash;&lt;!&ndash;    <delete id="deleteArticleHashtags" parameterType="int">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        DELETE FROM HASH_TAG_TBL&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        WHERE COMMUNITY_NO = #{communityNo}&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;    </delete>&ndash;&gt;&ndash;&gt;-->
+
+        <!--&lt;!&ndash;&lt;!&ndash;    <delete id="deleteByIdAndUserAccount_UserId" parameterType="int">&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        DELETE FROM COMMUNITY_TBL&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;        WHERE COMMUNITY_NO = #{communityNo} AND USER_NO = #{userNo}&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;&lt;!&ndash;    </delete>&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;</mapper>&ndash;&gt;-->

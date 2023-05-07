@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="community/fragments :: head">
+<head th:replace="community/fragments2 :: head">
   <meta charset="utf-8">
   <title>바리바리 커뮤니티</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -24,6 +24,10 @@
   <!-- Main Stylesheet File -->
   <link href="../../../static/css/community/community.css" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://unpkg.com/@yaireo/tagify/dist/tagify.css">
+  <script src="https://unpkg.com/@yaireo/tagify"></script>
+
+
   <!-- JavaScript Libraries -->
   <script src="../../../static/lib/jquery/jquery.min.js"></script>
   <script src="../../../static/lib/jquery/jquery-migrate.min.js"></script>
@@ -39,31 +43,73 @@
   <!-- Template Main Javascript File -->
   <script src="../../../static/js/community/community.js" defer></script>
 
-
-</head>
   <style>
-  .hashtag-button {
-    display: inline-block;
-    background-color: #f1f1f1;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 5px 10px;
-    margin: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    text-align: center;
-    text-decoration: none;
-    color: #333;
-    transition: background-color 0.3s, color 0.3s;
-  }
+    .customLook{
+      --tag-bg                  : #8BC34A;
+      --tag-hover               : #559B2F;
+      --tag-text-color          : #FFF;
+      --tags-border-color       : #33691E;
+      --tag-border-radius       : 25px;
+      --tag-text-color--edit    : #111;
+      --tag-remove-bg           : var(--tag-hover);
+      --tag-pad                 : .6em 1em;
+      --tag-inset-shadow-size   : 1.35em;
+      --tag-remove-btn-bg--hover: black;
 
-  .hashtag-button:hover {
-    background-color: #ccc;
-    color: #fff;
-  }
+      display: inline-block;
+      min-width: 0;
+      border: none;
+    }
+
+    .customLook .tagify__tag{
+      margin-top: 0;
+    }
+
+    /* Do not show the "remove tag" (x) button when only a single tag remains */
+    .customLook .tagify__tag:only-of-type .tagify__tag__removeBtn{
+      display: none;
+    }
+
+    .customLook .tagify__tag__removeBtn{
+      opacity: 0;
+      transform: translateX(-6px) scale(.5);
+      margin-left: -3ch;
+      transition: .12s;
+    }
+
+    .customLook .tagify__tag:hover .tagify__tag__removeBtn{
+      transform: none;
+      opacity: 1;
+      margin-left: -1ch;
+    }
+
+    .customLook + button{
+      color: #1B5E20;
+      font: bold 1.4em/1.65 Arial;
+      border: 0;
+      background: none;
+      box-shadow: 0 0 0 2px inset currentColor;
+      border-radius: 50%;
+      width: 1.65em;
+      height: 1.65em;
+      cursor: pointer;
+      outline: none;
+      transition: .1s ease-out;
+      margin: 0 0 0 5px;
+      vertical-align: top;
+    }
+
+    .customLook + button:hover{
+      box-shadow: 0 0 0 5px inset currentColor;
+    }
+
+    .customLook .tagify__input{
+      display: none;
+    }
   </style>
+</head>
 <body>
-<nav th:replace="community/fragments :: nav"></nav>
+<nav th:replace="community/fragments2 :: nav"></nav>
 
 <!--/ Intro Skew Star /-->
 <div class="intro intro-single route bg-image" style="background-image: url(img/overlay-bg.jpg)">
@@ -90,137 +136,174 @@
 </div>
 
 
-<section class="blog-wrapper sect-pt4" id="blog">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <div class="article-box">
-          <form id="article-form" th:action="${articleAction?.isUpdate} ? '/resale/article'  : '/resale'" th:method="post">
+<form id="article-form"
+      th:action="${articleAction?.isUpdate} ? '/resale/article/' + ${article.communityNo} + '/update' : '/resale/article/new'"
+      th:method="post">
+  <section class="blog-wrapper sect-pt4" id="blog">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-md-8">
+          <div class="article-box">
+
             <div class="article-thumb">
               <img src="img/article-1.jpg" class="img-fluid" alt="">
             </div>
             <div class="row mb-3 justify-content-md-center">
-              <label for="article-title" class="col-sm-2 col-lg-1 col-form-label text-sm-end"
+              <label for="article-title"
                      th:text="${writeRequest?.communitySubject != null} ? ${writeRequest.communitySubject} : '제목'">제목</label>
               <div class="col-sm-8 col-lg-9">
-                <input type="text" class="form-control"  id="article-title" name="title" required>
+                <input type="text" class="form-control"  id="article-title" name="title"  placeholder="제목을 입력하세요" required>
               </div>
             </div>
-<!--            <ul>-->
-<!--              <li>-->
-<!--                <span class="ion-ios-person"></span>-->
-<!--                <a href="#" id="nickname">판매자 캠핑고래</a>-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                <span class="ion-pricetag"></span>-->
-<!--                <a href="#">100 좋아요</a>-->
-<!--              </li>-->
-<!--              <li>-->
-<!--                <span class="ion-chatbox"></span>-->
-<!--                <a href="#">14 문의글</a>-->
-<!--              </li>-->
-<!--            </ul>-->
             <div class="article-content">
-
-
               <div class="row mb-3 justify-content-md-center">
-                <label for="article-content" class="col-sm-2 col-lg-1 col-form-label text-sm-end">본문</label>
+                <label for="article-content"  th:text="${writeRequest?.communityContent != null} ? ${writeRequest.communityContent} : '내용'">내용</label>
                 <div class="col-sm-8 col-lg-9">
-            <textarea class="form-control" id="article-content" name="content" rows="27" required
-                      th:text="${writeRequest?.communityContent != null} ? ${writeRequest.communityContent} : ''">
-          </textarea>
+                  <textarea class="form-control" id="article-content" name="content" rows="27" placeholder="내용을 입력하세요" required></textarea>
                 </div>
               </div>
             </div>
-            <div class="justify-content-center">
-            <button type="submit" class="btn btn-primary " id="submit-button"
-                    th:text="${articleAction?.action} ?: _">저장</button>
-            <button type="button" class="btn btn-secondary" id="cancel-button"
-                    th:onclick="'history.back()'">취소</button>
-            </div>
-          </form>
-        </div>
-
-        <div class="box-comments" hidden>
-          <div class="title-box-2">
-          </div>
-          <ul class="list-comments">
-          </ul>
-        </div>
-        <div class="form-comments" hidden>
-          <div class="title-box-2">
-
-          </div>
-
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="widget-sidebar sidebar-search">
-          <h5 class="sidebar-title">Search</h5>
-          <div class="sidebar-content">
-            <form>
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for..." aria-label="Search for...">
-                <span class="input-group-btn">
-                    <button class="btn btn-secondary btn-search" type="button">
-                      <span class="ion-android-search"></span>
-                    </button>
-                  </span>
+            <div class="row justify-content-center">
+              <div class="col-sm-6 col-md-4">
+                <button type="button" class="btn btn-primary btn-block" id="submit-button"
+                        th:text="${articleAction?.action} ?: _">저장</button>
               </div>
-            </form>
-          </div>
-        </div>
-        <div class="widget-sidebar">
-          <h5 class="sidebar-title">작성</h5>
-          <div class="sidebar-content">
-            </br>
-            <p>
+              <div class="col-sm-6 col-md-4 mt-3 mt-sm-0">
+                <button type="button" class="btn btn-secondary btn-block" id="cancel-button"
+                        th:onclick="'history.back()'">취소</button>
+              </div>
+            </div>
 
-              작성자:<a id="resale__nickname">  <span th:text="${loginUser != null ? loginUser.getUserId() : '가가'}">가가</span></a></br></br>
-              작성일:<span th:text="${#temporals.format(currentDate, 'yyyy-MM-dd HH:mm:ss')}">2023-05-04 12:34:56</span>
-            </p>
+          </div>
+
+
+
+          <div class="box-comments" hidden>
+            <div class="title-box-2">
+            </div>
+            <ul class="list-comments">
+            </ul>
+          </div>
+          <div class="form-comments" hidden>
+            <div class="title-box-2">
+
+            </div>
+
           </div>
         </div>
-        <div class="widget-sidebar widget-tags">
-          <h5 class="sidebar-title">Tags</h5>
-          <div class="sidebar-content">
-            <input type="text" class="form-control" id="hashtags-input" name="hashtags" placeholder="태그 입력" >
-            <ul id="hashtags-output" class="list-unstyled"></ul>
+        <div class="col-md-4">
+          <div class="widget-sidebar sidebar-search">
+            <h5 class="sidebar-title">구매/판매</h5>
+            <div class="sidebar-content">
+
+              <div class="form-group">
+                <label for="communityCategory" hidden="hidden">카테고리</label>
+                <select class="form-control" id="communityCategory" th:field="*{communityCategory}">
+                  <option value="" selected disabled>선택</option>
+                  <option th:each="category : ${communityCategory}"
+                          th:value="${category.value}"
+                          th:text="${category.getDescription()}"></option>
+                </select>
+
+              </div>
+
+            </div>
           </div>
+          <div class="widget-sidebar">
+            <h5 class="sidebar-title">작성</h5>
+            <div class="sidebar-content">
+              </br>
+              <p>
+                <!--              TODO: 시큐리티 후 로그인된 유저의 정보가 불려오는지 확인 -->
+
+                작성자:<a id="resale__nickname"><span th:text="${loginUser != null} ? ${loginUser.userNickName} : '가가'">가가</span></a>
+                </br></br>
+                작성일:<span th:text="${#temporals.format(currentDate, 'yyyy-MM-dd HH:mm:ss')}">2023-05-04 12:34:56</span>
+              </p>
+            </div>
+          </div>
+          <div class="widget-sidebar widget-tags" th:fragment="tagInput">
+            <h5 class="sidebar-title">Tags</h5>
+            <div class="sidebar-content">
+              <input type="text" class='customLook' id="hashtags-input" name="hashtags" placeholder="태그 입력">
+              <button type="button">+</button>
+              <ul id="hashtags-output" class="list-unstyled"></ul>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</form>
 
 <!--/ Section Blog-Single End /-->
 
 <!--/ Section Contact-Footer Star /-->
 <section class="paralax-mf footer-paralax bg-image sect-mt4 route" style="background-image: url(img/overlay-bg.jpg)">
   <div class="overlay-mf"></div>
-  <footer th:replace="community/fragments :: footer"></footer>
+  <footer th:replace="community/fragments2 :: footer"></footer>
 </section>
 <!--/ Section Contact-footer End /-->
 
 <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 <div id="preloader"></div>
 
+<script th:inline="javascript">
+  // generate random whilist items (for the demo)
+  var randomStringsArr =  [
+    '텐트', '침낭', '매트', '캠핑의자', '캠핑테이블', '캠핑그릴', '캠핑랜턴', '캠핑매트', '취사도구', '캠핑식기',
+    '캠핑버너', '캠핑파우치', '캠핑코펠', '캠핑세트', 'BBQ그릴', '멀티툴', '플레이트', '텀블러', '워터저그',
+    '캠핑쿨러', '캠핑웨건', '캠핑카', '포터블샤워', '가스랜턴', '온수매트', '캠핑책상', '난로', '접이식테이블', '캠핑스토브',
+    '캠핑주전자', '캠핑쿡', '캠핑판매대', '캠핑렉', '캠핑마루', '캠핑의자바퀴', '물통', '캠핑쇼핑백', '캠핑냉장고', '바베큐그릴',
+    '아이스박스', '캠핑바지바지', '보온병', '테이블', '포터블그릴', '캠핑체어', '캠핑침대', '캠핑욕조', '캠핑캐리어', '캠핑타프',
+    '캠핑솔', '캠핑테이프', '캠핑책장', '펜치', '캠핑숯불그릴', '캠핑솥', '캠핑시트', '캠핑스쿠터', '캠핑용품', '캠핑접시',
+    '보온밥통', '캠핑키친', '캠핑페그', '캠핑트레일러', '텐트매트', '카약', '바베큐판', '캠핑용세제', '캠핑버스', '캠핑용의자',
+    '토치', '매듭', '나이프', '다용도포',  ];
 
-<script>
-  document.getElementById('hashtags-input').addEventListener('keydown', function (e) {
-    if (e.key === 'Enter') {
-      e.preventDefault();
+  var input = document.querySelector('.customLook'),
+          tagify = new Tagify(input, {
+            // email address validation (https://stackoverflow.com/a/46181/104380)
+            whitelist: randomStringsArr,
+            callbacks: {
+              "invalid": onInvalidTag
+            },
+            dropdown : {
+              position: 'text',
+              enabled: 1 // show suggestions dropdown after 1 typed character
+            }
+          }),
+          button = input.nextElementSibling;  // "add new tag" action-button
 
-      var hashtag = e.target.value.trim();
-      if (hashtag !== '') {
-        var button = document.createElement('button');
-        button.innerText = hashtag;
-        button.className = 'hashtag-button';
-        document.getElementById('hashtags-output').appendChild(button);
-        e.target.value = '';
-      }
-    }
+  button.addEventListener("click", onAddButtonClick)
+
+  function onAddButtonClick(){
+    tagify.addEmptyTag()
+  }
+
+  function onInvalidTag(e){
+    console.log("invalid", e.detail)
+  }
+
+  var submitBtn = document.getElementById("submit-button");
+  submitBtn.addEventListener("click", function() {
+    var title = document.getElementById("article-title").value;
+    var content = document.getElementById("article-content").value;
+    var category = document.getElementById("communityCategory").selectedOptions[0].value;
+    var hashtags = tagify.getValue();
+    document.getElementById("hashtags-output").innerHTML = "";
+
+    var input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "hashtags";
+    input.value = hashtags;
+    document.getElementById("article-form").appendChild(input);
+
+    // Debugging: console.log(title, content, category, hashtags);
+    document.getElementById("article-form").submit();
   });
 </script>
+
 </body>
 </html>

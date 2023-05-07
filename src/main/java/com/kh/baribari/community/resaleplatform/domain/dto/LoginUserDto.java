@@ -23,23 +23,21 @@ public class LoginUserDto implements UserDetails, OAuth2User
     private String userNickName;
     private Map<String, Object> oAuth2Attributes;
 
-    public static LoginUserDto of(int userNo,String userId, String userPw,
+    public static LoginUserDto of(int userNo, String userId, String userPw,
                                   String userEmail, String userNickName)
     {
         return LoginUserDto.of(userNo, userId, userPw, userEmail, userNickName, Map.of());
     }
-//    TODO : 예외
-    public static LoginUserDto of(int userNo,String userId, String userNickName)
+    public static LoginUserDto of(int userNo, String userId, String userNickName)
     {
-        return LoginUserDto.of(userNo, userId, userNickName);
+        // TODO: 예외 처리
+        return LoginUserDto.of(userNo, userId, "", "", userNickName, Map.of());
     }
-
     public static LoginUserDto of(int userNo, String userId, String userPw,
                                   String userEmail, String userNickName,
                                   Map<String, Object> oAuth2Attributes)
     {
         Set<RoleType> roleTypes = Set.of(RoleType.USER);
-
         return new LoginUserDto(
                 userNo,
                 userId,
@@ -53,7 +51,6 @@ public class LoginUserDto implements UserDetails, OAuth2User
                 oAuth2Attributes
         );
     }
-
     public static LoginUserDto from(UserDto dto)
     {
         return LoginUserDto.of(
@@ -62,7 +59,6 @@ public class LoginUserDto implements UserDetails, OAuth2User
                 dto.getUserNickName()
         );
     }
-
     public UserDto toDto()
     {
         return UserDto.of(
@@ -71,79 +67,65 @@ public class LoginUserDto implements UserDetails, OAuth2User
                 userNickName
         );
     }
-
     @Override
     public boolean isAccountNonExpired()
     {
         return true;
     }
-
     @Override
     public boolean isAccountNonLocked()
     {
         return true;
     }
-
     @Override
     public boolean isCredentialsNonExpired()
     {
         return true;
     }
-
     @Override
     public boolean isEnabled()
     {
         return true;
     }
-
     @Override
     public Map<String, Object> getAttributes()
     {
         return oAuth2Attributes;
     }
-
     @Override
     public String getName()
     {
         return userId;
     }
-
     public String getFullName()
     {
         return this.userNickName + " (" + this.userEmail + ")";
     }
-
     public String getRolesAsString()
     {
         return this.authorities.stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(", "));
     }
-
     @Override
     public String getUsername()
     {
         return userId;
     }
-
     @Override
     public String getPassword()
     {
         return userPw;
     }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities()
     {
         return authorities;
     }
-
     public enum RoleType {
         USER("ROLE_USER");
-
         @Getter
         private final String name;
-
         RoleType(String name)
         {
             this.name = name;

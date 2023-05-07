@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.kh.baribari.common.annotation.LoginUser;
 import com.kh.baribari.community.resaleplatform.domain.dto.*;
 import com.kh.baribari.community.resaleplatform.domain.type.ArticleAction;
+import com.kh.baribari.community.resaleplatform.domain.type.CommunityCategory;
 import com.kh.baribari.community.resaleplatform.domain.type.SearchType;
 import com.kh.baribari.community.resaleplatform.service.ArticleService;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,6 @@ import java.util.Set;
 public class ArticleController
 {
     private final ArticleService articleService;
-    private final Converter2nd converter2nd;
-
 
     @GetMapping
     public ModelAndView getReadingList(
@@ -37,25 +36,22 @@ public class ArticleController
             @RequestParam(required = false) String searchWord,
             @RequestParam(required = false, defaultValue = "1") int page,
             ModelAndView modelAndView
-                                      )
+    )
     {
-        int pageSize = 10;
-
+        int pageSize = 9;
         Map<String, Object> params = new HashMap<>();
         params.put("searchType", searchType != null ? searchType.toString() : null);
         params.put("searchWord", searchWord);
-
         PageHelper.startPage(page, pageSize);
         List<ArticleDto> articleDtos = articleService.searchArticles(params);
         PageInfo<ArticleDto> pageInfo = new PageInfo<>(articleDtos);
-        PageInfo<ReadingListResponse> responsePageInfo = converter2nd.toReadingListResponse(pageInfo);
+        PageInfo<ReadingListResponse> responsePageInfo = Converter2nd.toReadingListResponse(pageInfo);
 
         modelAndView.addObject("articles", responsePageInfo.getList());
         modelAndView.addObject("pageInfo", responsePageInfo);
         modelAndView.addObject("SearchTypes", SearchType.values());
         modelAndView.addObject("searchTypeHashtag", SearchType.HASHTAG);
         modelAndView.setViewName("community/resale-platform/reading-list");
-
         return modelAndView;
     }
 
@@ -71,39 +67,48 @@ public class ArticleController
         map.addAttribute("article", article);
         map.addAttribute("articleComments", organizedComments);
         map.addAttribute("totalCount", articleService.countComments(communityNo));
+        map.addAttribute("searchTypeHashtag", SearchType.HASHTAG);
 
         return "community/resale-platform/article";
     }
 
 
     @GetMapping("/article/new")
-    public String article(ModelMap modelMap, @LoginUser LoginUserDto loginUserDto)
+    public String article(ModelMap modelMap,
+                          @LoginUser LoginUserDto loginUserDto
+    )
     {
         modelMap.addAttribute("articleAction", ArticleAction.CREATE);
-        modelMap.addAttribute("loginUser", loginUserDto);
+        modelMap.addAttribute("communityCategory", CommunityCategory.values());
+        modelMap.addAttribute("loginUser", loginUserDto != null ? loginUserDto : LoginUserDto.of(-1, "", "", "", ""));
         modelMap.addAttribute("currentDate", LocalDateTime.now());
+        modelMap.addAttribute("writeRequest", new WriteRequest()); // 추가
+
         return "community/resale-platform/article-form";
     }
-
 
     @PostMapping("/article/new")
     public String writeArticle(
             @LoginUser LoginUserDto loginUserDto,
-            WriteRequest writeRequest,
+            @ModelAttribute("writeRequest") WriteRequest writeRequest,
+
             RedirectAttributes redirectAttributes
+
                               ) {
         if (loginUserDto != null) {
-            articleService.saveArticle(writeRequest.toDto(loginUserDto.toDto()));
-            return "redirect:resale";
+
+            articleService.createArticle(writeRequest.toDto(loginUserDto.toDto()));
+            return "redirect:/resale";
         } else {
             redirectAttributes.addFlashAttribute("errorMessage", "게시물을 생성하려면 로그인해야 합니다.");
-            return "redirect:/login";
+            return "redirect:/resale";
         }
     }
 
-
     @GetMapping("/article/{communityNo}/update")
-    public String updateArticlePost(@PathVariable int communityNo, ModelMap map) throws NotFoundException
+    public String updateArticlePost(
+            @PathVariable int communityNo,
+            ModelMap map) throws NotFoundException
     {
         ReadingListResponse article = ReadingListResponse.from(articleService.getArticle(communityNo));
 
@@ -114,13 +119,15 @@ public class ArticleController
     }
 
 
-    @PutMapping("/article/{communityNo}/update")
+    @PostMapping("/article/{communityNo}/update")
     public String updateArticlePost(
             @PathVariable int communityNo,
-            @LoginUser LoginUserDto loginUserDto,
-            WriteRequest writeRequest
+//            @LoginUser LoginUserDto loginUserDto,
+            LoginUserDto loginUserDto,
+            @ModelAttribute("writeRequest") WriteRequest writeRequest
                                    )
     {
+
         articleService.updateArticle(communityNo, writeRequest.toDto(loginUserDto.toDto()));
 
         return "redirect:/resale/articles/" + communityNo;
@@ -131,7 +138,8 @@ public class ArticleController
     @DeleteMapping("/article/{communityNo}/delete")
     public String deleteArticle(
             @PathVariable Integer communityNo,
-            @LoginUser LoginUserDto loginUserDto
+//            @LoginUser LoginUserDto loginUserDto
+            LoginUserDto loginUserDto
                                )
     {
         articleService.deleteArticle(communityNo, loginUserDto.getUserNo());

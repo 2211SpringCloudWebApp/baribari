@@ -11,7 +11,7 @@ public class MainController {
 
     @GetMapping("community")
     public String community () {
-        return "redirect:community";
+        return "community/community";
     }
 
 }

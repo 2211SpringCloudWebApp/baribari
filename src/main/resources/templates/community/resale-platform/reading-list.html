@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 
 
-<head th:replace="community/fragments :: head">
+<head th:replace="community/fragments2 :: head">
   <meta charset="utf-8">
   <title>바리바리 커뮤니티</title>
   <meta content="width=device-width, initial-scale=1.0" name="view">
@@ -50,7 +50,7 @@
 <body id="page-top">
 
 
-<nav th:replace="community/fragments :: nav"></nav>
+<nav th:replace="community/fragments2 :: nav"></nav>
 
 
 
@@ -79,9 +79,9 @@
     <div class="row">
       <div class="col-sm-12">
         <div class="title-box text-center">
-          <!--          <h3 class="title-a">-->
-          <!--            중고게시판-->
-          <!--          </h3>-->
+                    <h3 class="title-a">
+                      <a href="/resale/article/new">새글 작성</a>
+                    </h3>
           <p class="subtitle-a">
             최근에 올라온 따끈따끈한 캠핑 용품이에요
           </p>
@@ -155,22 +155,26 @@
             <!-- 정보부 -->
             <div class="work-content">
               <div class="row">
-                <div class="col-sm-8">x
+                <div class="col-sm-8">
                   <h2 class="w-title" th:text="${article.communitySubject}"
                       th:href="@{/resale/article/{communityNo}(communityNo=${article.communityNo})}">상품</h2>
 <!--                      th:href="@{'/article/' + ${article.communityNo}}"-->
                   <div class="w-more">
                     <span class="w-ctegory" th:text="${article.getUserNickName()}">Web Design</span> /
 
-                    <!-- TODO :  작성일시 찍어주는것 둘중 무엇이 적정한지 확인하기
-                                        <span class="w-date" th:datetime="${article.communityDate}" th:text="${#temporals.format(article.communityDate, 'yyyy-MM-dd')}">18 Sep. 2018</span>-->
-                    <span class="w-date" th:text="${article.communityDate}">18 Sep. 2018</span>
+                    <!-- TODO :  작성일시 찍어주는것 둘중 무엇이 적정한지 확인하기-->
+<!--                    <span class="w-date" th:datetime="${article.communityDate}" th:text="${#temporals.format(article.communityDate, 'yyyy-MM-dd')}">18 Sep. 2018</span>-->
+<!--                    <span class="w-date" th:text="${article.communityDate}">18 Sep. 2018</span>-->
+<!--                    <span class="w-date" th:text="${#temporals.format(#temporals.createTemporalFromString(article.communityDate, 'yyyyMMddHHmmss'), 'yyyy-MM-dd HH:mm')}">18 Sep. 2018</span>-->
+                    <span class="w-date" th:text="${#temporals.format(T(java.time.LocalDateTime).parse(article.communityDate, T(java.time.format.DateTimeFormatter).ofPattern('yyyyMMddHHmmss')), 'yyyy-MM-dd HH:mm')}">18 Sep. 2018</span>
+
+                    <!--                    <span class="w-date" th:text="${#temporals.format(article.communityDate, 'yyyyMMddHHmmss')}">18 Sep. 2018</span>-->
 
                   </div>
                 </div>
                 <div class="col-sm-4">
                   <div class="w-like">
-                    <span class="ion-ios-heart-outline" >좋아요</span>
+                    <span class="ion-ios-heart-outline"></span>
                   </div>
                 </div>
               </div>
@@ -196,7 +200,7 @@
                 </div>
                 <div class="col-sm-4">
                   <div class="w-like">
-                    <span class="ion-ios-plus-outline"></span>
+                     <span class="ion-ios-heart-outline"></span>
                   </div>
                 </div>
               </div>
@@ -221,7 +225,7 @@
                 </div>
                 <div class="col-sm-4">
                   <div class="w-like">
-                    <span class="ion-ios-plus-outline"></span>
+                     <span class="ion-ios-heart-outline"></span>
                   </div>
                 </div>
               </div>
@@ -246,7 +250,7 @@
                 </div>
                 <div class="col-sm-4">
                   <div class="w-like">
-                    <span class="ion-ios-plus-outline"></span>
+                     <span class="ion-ios-heart-outline"></span>
                   </div>
                 </div>
               </div>
@@ -271,7 +275,7 @@
                 </div>
                 <div class="col-sm-4">
                   <div class="w-like">
-                    <span class="ion-ios-plus-outline"></span>
+                     <span class="ion-ios-heart-outline"></span>
                   </div>
                 </div>
               </div>
@@ -296,7 +300,7 @@
                 </div>
                 <div class="col-sm-4">
                   <div class="w-like">
-                    <span class="ion-ios-plus-outline"></span>
+                     <span class="ion-ios-heart-outline"></span>
                   </div>
                 </div>
               </div>
@@ -333,13 +337,6 @@
         <span aria-hidden="true">&raquo;</span>
         <span class="sr-only">Next</span>
       </a>
-    </li>
-  </ul>
-</nav>
-<nav>
-  <ul>
-    <li th:each="pageNum : ${pageInfo.navigatepageNums}" th:class="${pageNum == pageInfo.pageNum ? 'active' : ''}">
-      <a th:href="@{'/resale?page=' + ${pageNum}}" th:text="${pageNum}"></a>
     </li>
   </ul>
 </nav>
@@ -503,7 +500,7 @@
 <section class="paralax-mf footer-paralax bg-image sect-mt4 route"
          style="background-image: url(../../../static/img/community/overlay-bg.jpg)">
   <div class="overlay-mf"></div>
-  <footer th:replace="community/fragments :: footer"></footer>
+  <footer th:replace="community/fragments2 :: footer"></footer>
 </section>
 <!--/ Section Contact-footer End /-->
 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ArticleCommentRepository">
+    <select id="findByArticleId" resultType="ArticleComment">
+        SELECT * FROM COMMENT_TBL WHERE COMMENT_NO = #{articleId}
+    </select>
+
+    <insert id="insertArticleComment" parameterType="ArticleComment">
+        INSERT INTO COMMENT_TBL (COMMENT_NO, USER_NO, parent_comment_no, content)
+        VALUES (#{article.id}, #{user.id}, #{parentCommentNo}, #{content})
+    </insert>
+
+    <delete id="deleteByIdAndUserId">
+        DELETE FROM article_comment WHERE id = #{id} AND user_id = #{userId}
+    </delete>
+
+    <select id="selectCommentById" resultType="ArticleComment">
+        SELECT * FROM article_comment WHERE id = #{id}
+    </select>
+</mapper>

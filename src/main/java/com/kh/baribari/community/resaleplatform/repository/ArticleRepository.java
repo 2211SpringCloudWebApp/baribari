@@ -13,7 +13,7 @@ public interface ArticleRepository
     int count(Map<String, Object> params);
     List<ArticleDto> searchArticles(Map<String, Object> params);
 
-    Optional<Article> findById(int communityNo);
+    Optional<Article> findByNo(int communityNo);
 
     int countComments(int communityNo);
 

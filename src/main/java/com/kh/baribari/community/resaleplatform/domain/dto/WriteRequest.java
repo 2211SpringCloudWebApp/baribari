@@ -14,24 +14,18 @@ public class WriteRequest
 {
     private String communitySubject;
     private String communityContent;
-
-    public static WriteRequest of(String communitySubject, String communityContent)
-    {
-        return new WriteRequest(communitySubject, communityContent);
-    }
-
+    private int communityCategory;
     public ArticleDto toDto(UserDto userAccountDto)
     {
         return toDto(userAccountDto, null);
     }
-
-    public ArticleDto toDto(UserDto userAccountDto, Set<ArticleHashtagDto> articleHashtagDto)
-    {
+    public ArticleDto toDto(UserDto userAccountDto, Set<ArticleHashtagDto> articleHashtagDto) {
         return ArticleDto.of(
                 userAccountDto,
                 communitySubject,
                 communityContent,
+                communityCategory,
                 articleHashtagDto
-                            );
+        );
     }
 }

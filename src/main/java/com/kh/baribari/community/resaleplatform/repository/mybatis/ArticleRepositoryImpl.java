@@ -32,9 +32,9 @@ public class ArticleRepositoryImpl implements ArticleRepository
     }
 
     @Override
-    public Optional<Article> findById(int communityNo)
+    public Optional<Article> findByNo(int communityNo)
     {
-        return Optional.ofNullable(sqlSession.selectOne("ArticleMapper.findById", communityNo));
+        return Optional.ofNullable(sqlSession.selectOne("ArticleMapper.findByNo", communityNo));
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.kh.baribari.community.resaleplatform.domain.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 @Getter @Setter @ToString
@@ -44,6 +46,9 @@ public class ReadingListResponse
         }
         return response;
     }
+
+    LocalDateTime date = LocalDateTime.parse("20230507101110", DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+    String formattedDate = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
     public static ReadingListResponse fromArticleDto(ArticleDto articleDto) {
         return from(articleDto);

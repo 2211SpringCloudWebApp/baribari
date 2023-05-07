@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,6 +49,20 @@ public class SellerController {
 	@Autowired
 	@Qualifier("fileUpload")
 	private FileInfo fileUpload;
+
+    //  판매자 회원가입 로직
+    @PostMapping("registerSellerProc")
+    @ResponseBody
+    public String registerSellerProc(@ModelAttribute User user) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setUserPw(passwordEncoder.encode(user.getUserPw()));
+        int result = uService.insertUserBySeller(user);
+        if (result > 0) {
+            return "<script>alert('" + user.getUserNickName() + "님 환영합니다!'); location.href='/';</script>";
+        } else {
+            return "<script>alert('회원가입에 실패하였습니다. \n 관리자에게 문의하시거나 다시 시도해주세요.'); location.href='/register';</script>";
+        }
+    }
 
     @GetMapping("/myPageSeller")
     public String myPageSellerView(

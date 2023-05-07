@@ -447,7 +447,16 @@
 			});
 		}
 		
-		
+		/* 수정 폼 */
+		$("body").on("click", ".btns button:first-child", function() {
+			  var $reviewTitle = $(this).parent().siblings(".title");
+			  var $reviewTitleText = $reviewTitle.text();
+			  var $inputForm = $("<div>", {
+			    "class": "input-form"
+			  }).html("<textarea>" + $reviewTitleText + "</textarea><button class='save-btn'>저장</button><button class='cancel-btn'>취소</button>");
+			  $reviewTitle.hide().after($inputForm);
+			});
+
 		/* ============================================== QNA ============================================== */
 		
 		

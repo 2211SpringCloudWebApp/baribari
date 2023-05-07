@@ -52,11 +52,10 @@
 
 	<section>
 		<!-- Header -->
-		<header th:replace="header :: header"></header>
+		<header th:replace="header :: #header"></header>
 		
+		<div class="mainContainer" style="padding-top: 110px; height: 1600px;">
 		<input th:value="${#authentication.principal.user.userNo}" type="hidden" name="userNo">
-
-		<div class="mainContainer" style="padding-top: 170px; height: 1600px;">
 			<div class="top">
 				<div class="top-container">
 					<div class="profile-root">
@@ -85,6 +84,7 @@
 								<div>
 									<label>상품분류</label>
 									<input type="hidden" name="sellerUserNo" th:value="${#authentication.principal.user.userNo}">
+									<input type="hidden" name="productNo" th:value="${product.productNo}">
 									<select name="productCategory" required>
 									    <option value="텐트" th:selected="${product.productCategory == '텐트'}">텐트</option>
 									    <option value="타프" th:selected="${product.productCategory == '타프'}">타프</option>

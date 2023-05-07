@@ -100,4 +100,18 @@ public class ProductRepositoryLogic implements ProductRepository {
 	public List<Product> getProductListBySeller(SqlSession session, int userNo) {
 		return session.selectList("ProductMapper.getProductListBySeller", userNo);
 	}
+
+	@Override
+	@Transactional
+	public int modifyProduct(SqlSession session, Product product) {
+		// PRODUCT_TBL에 저장
+	    int result1 = session.update("ProductMapper.modifyProduct", product);
+	    int result2 = 0;
+	    // 사진이 있을 경우 PRODUCT_PIC_TBL에 저장
+	    if (product.getProductPic1() != null) {
+	    	result2 = session.update("ProductMapper.modifyProductPic", product);
+	    }
+	    // 성공 시 1 또는 2 반환
+	    return result1 + result2;
+	}
 }

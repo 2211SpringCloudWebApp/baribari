@@ -233,6 +233,22 @@ public class ProductController {
 		Map<String, String> fMap = new HashMap<String, String>();
 		String path = "product";
 		fList.addAll(fList2);
+		
+		// 기존 파일 삭제
+		Product originalProduct = pService.getProductDetail(product.getProductNo());
+		if (originalProduct.getProductPic1() != null && !originalProduct.getProductPic1().isEmpty()) {
+			fileInfo.deleteFile(request, originalProduct.getProductPic1());
+		}
+		if (originalProduct.getProductPic2() != null && !originalProduct.getProductPic2().isEmpty()) {
+			fileInfo.deleteFile(request, originalProduct.getProductPic2());
+		}
+		if (originalProduct.getProductPic3() != null && !originalProduct.getProductPic3().isEmpty()) {
+			fileInfo.deleteFile(request, originalProduct.getProductPic3());
+		}
+		if (originalProduct.getProductPic4() != null && !originalProduct.getProductPic4().isEmpty()) {
+			fileInfo.deleteFile(request, originalProduct.getProductPic4());
+		}
+		
 		int i = 1;
 		if (fList != null) {
 			for (MultipartFile file : fList) {
@@ -254,14 +270,15 @@ public class ProductController {
 				i++;
 			}
 		}
-		int result = pService.registerProduct(product);
+		int result = pService.modifyProduct(product);
 		if (result > 0) {
-			mv.setViewName("redirect:/shopping/list?category=All&page=1");
+			mv.setViewName("redirect:/shopping/detail?productNo=" + product.getProductNo());
 		} else {
 			mv.addObject("msg", "오류").setViewName("error");
 		}
 		return mv;
 	}
+
 	
 	// 상품 삭제
 	@PostMapping("/delete")
@@ -300,6 +317,4 @@ public class ProductController {
 			return "0";
 		}
 	}
-	
-
 }

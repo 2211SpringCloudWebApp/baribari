@@ -111,4 +111,11 @@ public interface ProductService {
 	 * @return List<Product>
 	 */
 	List<Product> getProductListBySeller(int userNo);
+
+	/**
+	 * 상품 수정하기
+	 * @param Product
+	 * @return int
+	 */
+	int modifyProduct(Product product);
 }

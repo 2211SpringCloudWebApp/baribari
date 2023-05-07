@@ -94,4 +94,9 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> getProductListBySeller(int userNo) {
 		return pRepository.getProductListBySeller(session, userNo);
 	}
+
+	@Override
+	public int modifyProduct(Product product) {
+		return pRepository.modifyProduct(session, product);
+	}
 }

@@ -128,5 +128,13 @@ public interface ProductRepository {
 	 * @return List<Product>
 	 */
 	List<Product> getProductListBySeller(SqlSession session, int userNo);
+
+	/**
+	 * 상품 수정하기
+	 * @param SqlSession
+	 * @param Product
+	 * @return int
+	 */
+	int modifyProduct(SqlSession session, Product product);
 }
 	

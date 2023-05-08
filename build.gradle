@@ -34,6 +34,7 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'com.google.code.gson:gson:2.8.9'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
 
 	//////////////추가
@@ -45,6 +46,11 @@ dependencies {
 	//oauth2 추가
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
+}
+
+
+bootWar {
+	archiveName("baribari.war")
 }
 
 tasks.named('test') {

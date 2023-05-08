@@ -52,7 +52,7 @@
 		    </div>
 				<div class="content">
 				<div class="row">
-					<div class="col-md-12 col-lg-8" style="border: 5px solid #ccc; border-radius: 10px; background-color: #fff">
+					<div class="col-md-12 col-lg-8">
 						<div class="col-md-12 items">
 							배송정보
 							<button>배송지목록</button>
@@ -91,7 +91,7 @@
 		 			</div>
 		 			
 		 			<!-- 가격/결제 -->
-		 			<div class="col-md-12 col-lg-4" style="border: 5px solid #ccc; border-radius: 10px; background-color: #fff">
+		 			<div class="col-md-12 col-lg-4" style="border-left: 1px solid #ccc;">
 		 				<div class="product" th:each="cart: ${cList}">
 		 					<div class="row">
 		 						<!-- 상품 사진 -->
@@ -100,7 +100,7 @@
 			 					</div>
 			 					<div class="col-md-8">
 			 						<div class="info">
-				 						<div class="row">
+				 						<div class="row" style="width: 90%; margin: 0 auto;">
 			 								<!-- 상품명 -->
 					 						<div class="col-md-12 product-name">
 						 						<a th:href="@{'/shopping/detail?productNo=' + ${cart.productNo}}"	th:text="${cart.productName}"></a>
@@ -119,7 +119,7 @@
 			 					</div>
 			 				</div>
 		 				</div>
-		 				<div class="summary">
+		 				<div class="summary summary-order">
 		 					<h3>가격</h3>
 		 					<div class="summary-item"><span class="text">상품 가격</span><span id="total-price" class="price">상품 가격</span></div>
 		 					<div class="summary-item"><span class="text">총 할인</span><span id="total-discount" class="price">할인</span></div>

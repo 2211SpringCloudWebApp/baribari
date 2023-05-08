@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +24,6 @@ import com.kh.baribari.common.ReturnUser;
 import com.kh.baribari.common.Search;
 import com.kh.baribari.product.domain.Product;
 import com.kh.baribari.product.service.ProductService;
-import com.kh.baribari.review.domain.Review;
 import com.kh.baribari.review.service.ReviewService;
 import com.kh.baribari.user.domain.Favorite;
 import com.kh.baribari.user.domain.User;
@@ -224,18 +222,19 @@ public class ProductController {
 	// 상품 수정
 	@PostMapping("/modifyProduct")
 	public ModelAndView modifyProduct(
-			@RequestParam(value = "mainImg", required = false) List<MultipartFile> fList 
-			, @RequestParam(value = "descriptionImgs", required = false) List<MultipartFile> fList2
-			, Product product
-			, HttpServletRequest request
-			, ModelAndView mv
-			) throws Exception {
+			@RequestParam(value = "mainImg", required = false) List<MultipartFile> fList,
+			@RequestParam(value = "descriptionImgs", required = false) List<MultipartFile> fList2,
+			Product product,
+			HttpServletRequest request, ModelAndView mv) throws Exception {
+			
 		Map<String, String> fMap = new HashMap<String, String>();
 		String path = "product";
 		fList.addAll(fList2);
-		
+		System.out.println(fList);
+
 		// 기존 파일 삭제
 		Product originalProduct = pService.getProductDetail(product.getProductNo());
+		System.out.println(originalProduct.getProductPic1());
 		if (originalProduct.getProductPic1() != null && !originalProduct.getProductPic1().isEmpty()) {
 			fileInfo.deleteFile(request, originalProduct.getProductPic1());
 		}
@@ -248,14 +247,20 @@ public class ProductController {
 		if (originalProduct.getProductPic4() != null && !originalProduct.getProductPic4().isEmpty()) {
 			fileInfo.deleteFile(request, originalProduct.getProductPic4());
 		}
-		
+
 		int i = 1;
 		if (fList != null) {
 			for (MultipartFile file : fList) {
+				String originalFileName = file.getOriginalFilename();
+				String extension = "";
+				int lastIndex = originalFileName.lastIndexOf('.');
+				if (lastIndex != -1) {
+					extension = originalFileName.substring(lastIndex + 1); // 확장자 추출
+				}
 				Map<String, String> files = fileInfo.saveFile(file, request, path);
 				for (String k : files.keySet()) {
 					String key = "file" + i;
-					String value = files.get(k);
+					String value = files.get(k) + "." + extension; // 파일명 뒤에 확장자 추가
 					fMap.put(key, value);
 					if (i == 1) {
 						product.setProductPic1(value);
@@ -278,6 +283,8 @@ public class ProductController {
 		}
 		return mv;
 	}
+
+
 
 	
 	// 상품 삭제

@@ -75,8 +75,8 @@
 					 						<!-- 구매수량, 수량이 변함에 따라 총 가격이 달라짐 -->
 					 						<div class="col-md-3 quantity">
 											    <label for="quantity">수량</label>
-											    <input th:value="${product.productQuantity}" th:id="|quantity-${i.index}|" class="form-control quantity-input" type="number" th:oninput="|updateTotalPrice(${product.productPrice}, ${i.index})|">
-											    <div class="col-md-1">
+											    <input th:value="${product.productQuantity}" th:id="|quantity-${i.index}|" class="form-control quantity-input" type="number" th:oninput="|updateTotalPrice(${product.productPrice}, ${i.index})|" style="margin-bottom: 10px;">
+											    <div class="col-md-1" style="display: contents;">
 					 							<span id="btn-updateQuantity" class="btn btn-outline-dark mt-auto" href="#" th:onclick="|updateQuantity(${product.productNo}, ${i.index})|">수정</span>
 					 						</div>
 											</div>

@@ -143,12 +143,9 @@
 				<!-- 후기 목록 (script영역에서 출력) -->
 				<ul id="reviewBoard">
 				</ul>
-				<ul id="reviewPagination">
+				<ul id="reviewPagination" style="display: none;">
 					<li><a href="#" class="prev">◀</a></li>
 					<li><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
 					<li><a href="#" class="next">▶</a></li>
 				</ul>
 			</div>
@@ -344,7 +341,7 @@
 							+ "<span class='num'>" + (rList.length - i) + "</span>" // 후기 번호 (역순)
 							+ "<span class='title'>" + rList[i].reviewContent.replace(/\n/g, "<br>") + "</span>" // 후기 내용
 							+ "<span class='author'>" + rList[i].userName + "</span>" // 후기 작성자 = 로그인된 사용자
-							+ (rList[i].userNo == userNo ? "<span class='btns'>" + "<button>수정</button>" + "<button onclick='deleteReview(" + rList[i].reviewNo + ", " + userNo + ")'>삭제</button>" + "</span>" : "") // 후기 작성자와 로그인한 사용자가 같은 경우 수정/삭제 버튼 출력
+							+ (rList[i].userNo == userNo ? "<span class='btns'><button onclick='deleteReview(" + rList[i].reviewNo + ", " + userNo + ")'>삭제</button>" + "</span>" : "") // 후기 작성자와 로그인한 사용자가 같은 경우 수정/삭제 버튼 출력
 							+ "</li>";
 						for (var j = 1; j <= 5; j++) { // 후기 사진 (최대 5장)
 							if (rList[i]['reviewPic' + j]) {

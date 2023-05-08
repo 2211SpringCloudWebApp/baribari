@@ -11,5 +11,5 @@ public class CommentList {
     private int userNo;
     private String commentContent;
     private String communitySubject;
-    private String commentDate;
+    private Timestamp commentDate;
 }

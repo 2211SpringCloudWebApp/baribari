@@ -461,7 +461,7 @@ public class UserController {
         return mv;
     }
 
-    // 내가쓴글 뷰
+    // 내가쓴 댓글 뷰
     @GetMapping("myPageUser/myComment")
     public ModelAndView myCommentView(
             ModelAndView mv,
@@ -470,7 +470,7 @@ public class UserController {
         User user = returnUser(authentication);
         List<CommentList> CommentList = uService.selectCommentList(user);
         mv.addObject("CommentList", CommentList);
-        mv.setViewName("/myPage/community/myComment");
+        mv.setViewName("myPage/community/myComment");
         return mv;
     }
 

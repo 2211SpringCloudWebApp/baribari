@@ -213,13 +213,14 @@ public class NoticeController {
 	public ModelAndView noticeSearch(ModelAndView mv, Search search,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage) {
 		try {
+			System.out.println(search);
 			int totalCount = nService.noticeSearch(search);
 			PageInfo pi = new PageInfo(currentPage, totalCount, 10);
 			List<Notice> searchList = nService.selectListByKeyword(pi, search);
 			if (!searchList.isEmpty()) {
 				mv.addObject("searchList", searchList);
 				mv.addObject("pi", pi);
-				mv.setViewName("notice/noticesearch");
+				mv.setViewName("notice/noticelist");
 				return mv;
 			}
 		} catch (Exception e) {

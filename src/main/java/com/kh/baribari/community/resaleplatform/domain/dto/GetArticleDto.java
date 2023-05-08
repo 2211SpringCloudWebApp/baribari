@@ -30,7 +30,7 @@ public class GetArticleDto {
     }
 
     public static GetArticleDto from(Article article) {
-        UserDto userDto = UserDto.from(article.getUser());
+        UserDto userDto = (article.getUser() != null) ? UserDto.from(article.getUser()) : null;
         return new GetArticleDto(
                 article.getCommunityNo(),
                 userDto,

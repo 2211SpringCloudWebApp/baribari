@@ -21,13 +21,14 @@ public class Converter
                 dto.getCommunitySubject(),
                 dto.getCommunityContent(),
                 dto.getArticleHashtagDtos().stream()
-                   .map(ArticleHashtagDto::getHashtagName)
-                   .collect(Collectors.toSet()),
+                        .map(ArticleHashtagDto::getHashtagName)
+                        .collect(Collectors.toSet()),
                 dto.getCommunityDate(),
-                dto.getUserDto().getUserNickName(),
-                dto.getUserDto().getUserId(),
+                (dto.getUserDto() != null) ? dto.getUserDto().getUserNickName() : "Unknown",
+                (dto.getUserDto() != null) ? dto.getUserDto().getUserId() : "Unknown",
                 articleCommentsResponse
         );
+
 
         response.setArticleCommentsResponse(response.organizeChildComments());
         return response;

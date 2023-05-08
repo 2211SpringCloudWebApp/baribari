@@ -58,24 +58,6 @@
 				<a th:href="@{'/notice/delete?noticeNo='+ ${notice.noticeNo} }" class="btn">삭제</a>
 				<!-- 			</div> -->
 			</div>
-			<div class="container2">
-				<div class="prev-next">
-					<div class="prev">
-						▲이전글 :
-						<span class="title">
-							<a th:if="${noticePrev != null}" th:href="@{/notice/detail(noticeNo=${noticePrev.noticeNo})}" th:text="${noticePrev.noticeTitle }"></a>
-							<span th:if="${noticePrev == null}">no</span>
-						</span>
-					</div>
-					<div class="next">
-						▼다음글 :
-						<span class="title">
-							<a th:if="${noticeNext != null}"  th:href="@{/notice/detail(noticeNo=${noticeNext.noticeNo})}" th:text="${noticeNext.noticeTitle }"></a>
-							<span th:if="${noticeNext == null}">no</span>
-						</span>
-					</div>
-				</div>
-			</div>
 
 		</div>
 	</div>
@@ -96,31 +78,6 @@
 		// 상세조회 하단 이전글, 다음글 구현
 		// 현재 글의 ID 정보를 가져옵니다.
 		var noticeId = "현재 글의 ID 정보";
-
-		// 이전글/다음글 정보를 가져오는 함수
-		function getPrevNext() {
-			$.ajax({
-				url: "/api/notice/prev-next",
-				method: "GET",
-				data: { id: noticeId },
-				success: function (data) {
-					// 이전글/다음글 정보를 가져와서 화면에 표시합니다.
-					if (data.prev) {
-						$(".prev .title").html(`<a href="${data.prev.link}">${data.prev.title}</a>`);
-					} else {
-						$(".prev .title").text("이전글 없음");
-					}
-					if (data.next) {
-						$(".next .title").html(`<a href="${data.next.link}">${data.next.title}</a>`);
-					} else {
-						$(".next .title").text("다음글 없음");
-					}
-				},
-				error: function (error) {
-					console.log(error);
-				}
-			});
-		}
 
 		// 페이지 로딩 시 이전글/다음글 정보를 가져옵니다.
 		$(document).ready(function () {

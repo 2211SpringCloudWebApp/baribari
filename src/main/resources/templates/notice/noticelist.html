@@ -58,12 +58,12 @@
                     분류
                 </label>
             </div>
-            <form action="" id="searchForm">
-                <div>
-                    <input type="text" id="searchKeyword" placeholder="검색어를 입력하세요.">
+            <div>
+                    <form action="/notice/search" id="searchForm" method="get">
+                    <input type="text" id="searchKeyword" placeholder="검색어를 입력하세요." name="keyword">
                     <button type="submit">검색</button>
+                    </form>
                 </div>
-            </form>
         </div>
         <table class="notice-table">
             <thead>
@@ -131,31 +131,6 @@
     </div>
 
     <script>
-        // 검색기능
-        const searchForm = document.querySelector('#searchForm');
-        const searchOptionRadios = searchForm.querySelectorAll('input[name="searchOption"]');
-        const searchKeywordInput = searchForm.querySelector('#searchKeyword');
-        const noticeList1 = document.querySelector('#noticeList');
-
-        searchForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const searchOption = Array.from(searchOptionRadios).find(radio => radio.checked).value;
-            const searchKeyword = searchKeywordInput.value.trim().toLowerCase();
-
-            // 검색 옵션과 검색어를 이용해 필터링된 목록을 생성
-            const filteredList = Array.from(noticeList1.children).filter(row => {
-                switch (searchOption) {
-                    case 'title':
-                        return row.querySelector('td:nth-child(3) a').textContent.toLowerCase().includes(searchKeyword);
-                    case 'titleContent':
-                        return row.querySelector('td:nth-child(3)').textContent.toLowerCase().includes(searchKeyword);
-                    case 'category':
-                        return row.querySelector('td:nth-child(2)').textContent.toLowerCase().includes(searchKeyword);
-                    default:
-                        return true;
-                }
-            });
 
             // 필터링된 목록으로 테이블 내용을 대체
             while (noticeList1.firstChild) {
@@ -164,7 +139,6 @@
             filteredList.forEach(row => {
                 noticeList1.appendChild(row);
             });
-        });
 
         const radioButtons = searchForm.querySelectorAll('input[name="searchOption"]');
         const searchKeyword = searchForm.querySelector('#searchKeyword');

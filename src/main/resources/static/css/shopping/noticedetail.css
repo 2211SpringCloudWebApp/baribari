@@ -3,6 +3,7 @@
     background-color: white;
     font-family: 'IBM Plex Sans KR', sans-serif;
     color: #495057;
+    margin-bottom: 100px;
 }
 .container1 {
     width: 1000px;
@@ -67,35 +68,3 @@ h3 {
 .btn:last-child {
     margin-right: 0;
 }
-
-.container2 {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-top: 20px;
-    margin-bottom: 100px;
-  }
-  
-  .prev-next {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .prev-next a{
-    text-decoration: none;
-    color: black;
-  }
-  
-  .prev-next .prev,
-  .prev-next .next {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .prev-next .prev .title,
-  .prev-next .next .title {
-    margin-left: 10px;
-  }
-  

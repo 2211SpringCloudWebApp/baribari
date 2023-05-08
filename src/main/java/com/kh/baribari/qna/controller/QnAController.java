@@ -34,7 +34,6 @@ public class QnAController {
 	@ResponseBody
 	public String writeQnAView(@ModelAttribute QnA qna, HttpServletRequest request, Model model) {
 		try {
-			System.out.println(qna);
 			int result = qService.registerQnA(qna);
 			if (result > 0) {
 				return "1";

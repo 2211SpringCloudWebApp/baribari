@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,11 +37,8 @@ public class OrderController {
 	private ProductService pService;
 	
 	@PostMapping("/save")
-	public void setOrder(Authentication authentication, Order order) {
-		User user = returnUser.returnUser(authentication);
-		List<Cart> cList = cService.getCartList(user.getUserNo());
-		System.out.println(cList);
-		// 주문 정보 DB에 저장
+	public void setOrder(List<Order> oList) {
+		System.out.println(oList);
 	}
 	
 	@GetMapping("/")
@@ -56,7 +54,6 @@ public class OrderController {
 			Product product = pService.getProductDetail(productNo);
 			cart.setProduct(product);
 		}
-		
 		mv.addObject("user", user);
 		mv.addObject("aList", aList);
 		mv.addObject("cList", cList);

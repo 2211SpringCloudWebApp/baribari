@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.baribari.product.domain.Cart;
 import com.kh.baribari.product.domain.Order;
 import com.kh.baribari.product.repository.OrderRepository;
 import com.kh.baribari.product.service.OrderService;
@@ -18,8 +19,8 @@ public class OrderServiceImpl implements OrderService {
 	private OrderRepository oRepository;
 	
 	@Override
-	public int setOrder(Order order) {
-		return oRepository.setOrder(session, order);
+	public int setOrder(List<Cart> cList) {
+		return oRepository.setOrder(session, cList);
 	}
 
 	@Override

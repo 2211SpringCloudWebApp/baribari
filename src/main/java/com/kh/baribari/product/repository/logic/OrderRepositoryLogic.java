@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.baribari.product.domain.Cart;
 import com.kh.baribari.product.domain.Order;
 import com.kh.baribari.product.repository.OrderRepository;
 
@@ -13,9 +14,9 @@ import com.kh.baribari.product.repository.OrderRepository;
 public class OrderRepositoryLogic implements OrderRepository {
 	@Override
 	@Transactional
-	public int setOrder(SqlSession session, Order order) {
-		int result1 = session.insert("OrderMapper.setOrderInfo", order);
-		int result2 = session.insert("OrderMapper.setOrderDetailInfo", order);
+	public int setOrder(SqlSession session, List<Cart> cList) {
+		int result1 = session.insert("OrderMapper.setOrderInfo", cList);
+		int result2 = session.insert("OrderMapper.setOrderDetailInfo", cList);
 		return result1 + result2;
 	}
 

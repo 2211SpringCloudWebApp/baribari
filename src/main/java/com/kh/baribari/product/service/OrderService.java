@@ -2,11 +2,12 @@ package com.kh.baribari.product.service;
 
 import java.util.List;
 
+import com.kh.baribari.product.domain.Cart;
 import com.kh.baribari.product.domain.Order;
 
 public interface OrderService {
 
-	int setOrder(Order order);
+	int setOrder(List<Cart> cList);
 
 
 	/**

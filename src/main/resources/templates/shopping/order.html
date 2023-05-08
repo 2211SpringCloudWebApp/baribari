@@ -46,6 +46,9 @@
 					</div>
 			</div>
 			
+		<input sec:authorize="!isAuthenticated()" value="0" type="hidden" name="userNo">
+		<input sec:authorize="isAuthenticated()" th:value="${#authentication.principal.user.userNo}" type="hidden" name="userNo">
+		
 		<div class="container">
 			<div class="block-heading">
 				<h2>주문 결제</h2>
@@ -65,11 +68,11 @@
 									<input type="radio" name="deliveryOption" value="direct" id="directInput">직접입력
 								</label>
 								<div id="deliveryInfoDiv">
-									<span th:text="${user.userName}">이름</span><br>
-									<span th:text="${aList[0].addressZipCode}">우편번호</span><br>
-									<span th:text="${aList[0].addressJibun}">기본 주소</span><br>
-									<span th:text="${aList[0].addressJibunDetail}">상세 주소</span><br>
-									<span th:text="${aList[0].addressPhone}">전화번호</span>
+									<input th:value="${user.userName}" style="border:none;"><br>
+									<input th:value="${aList[0].addressZipCode}"><br>
+									<input th:value="${aList[0].addressJibun}"><br>
+									<input th:value="${aList[0].addressJibunDetail}"><br>
+									<input th:value="${aList[0].addressPhone}"><br>
 								</div>
 								<br>
 								<div id="inputField">
@@ -89,41 +92,45 @@
 		 			
 		 			<!-- 가격/결제 -->
 		 			<div class="col-md-12 col-lg-4" style="border-left: 1px solid #ccc;">
-		 				<div class="product" th:each="cart: ${cList}">
-		 					<div class="row">
-		 						<!-- 상품 사진 -->
-			 					<div class="col-md-3">
-			 						<img th:src="@{'../../../img/logo.png'}" class="card-img-top" alt="제품사진" />
-			 					</div>
-			 					<div class="col-md-8">
-			 						<div class="info">
-				 						<div class="row" style="width: 90%; margin: 0 auto;">
-			 								<!-- 상품명 -->
-					 						<div class="col-md-12 product-name">
-						 						<a th:href="@{'/shopping/detail?productNo=' + ${cart.productNo}}"	th:text="${cart.productName}"></a>
-					 						</div>
-					 						<!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
-					 						<div class="col-md-12">
-					 							<span th:if="${cart.productDiscount == 0}" th:text="|${#numbers.formatInteger(cart.productPrice * cart.productQuantity, 0, 'COMMA')}원|" id="price">상품가격</span>
-												<span th:if="${cart.productDiscount != 0}" th:text="|${#numbers.formatInteger(cart.productQuantity * cart.productPrice - cart.productQuantity * cart.productDiscount * cart.productPrice / 100, 0, 'COMMA')}원|" id="price">할인된 가격</span>
-												/ <span th:text="${cart.productQuantity}" id="quantity" class="quantity-input"></span>개
-					 						</div>
-					 						<div class="col-md-12">
-												배송비 <span th:text="|${#numbers.formatInteger(cart.productDeliveryCharge, 0, 'COMMA')}원|" id="delivery-charge"></span>
-											</div>
-					 					</div>
-					 				</div>
-			 					</div>
+			 			<form id="orderForm" method="post" action="/order/save">
+			 				<div class="product" th:each="cart: ${cList}">
+			 					<div class="row">
+			 						<!-- 상품 사진 -->
+				 					<div class="col-md-3">
+				 						<img th:src="@{'../../../img/logo.png'}" class="card-img-top" alt="제품사진" />
+				 					</div>
+				 					<div class="col-md-8">
+				 						<div class="info">
+					 						<div class="row" style="width: 90%; margin: 0 auto;">
+				 								<!-- 상품명 -->
+						 						<div class="col-md-12 product-name">
+							 						<a th:href="@{'/shopping/detail?productNo=' + ${cart.productNo}}"	th:text="${cart.productName}"></a>
+							 						<input type="hidden" id="product-no" class="product-no" th:value="${cart.productNo}">
+						 						</div>
+						 						<!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
+						 						<div class="col-md-12">
+						 							<span th:if="${cart.productDiscount == 0}" th:text="|${#numbers.formatInteger(cart.productPrice * cart.productQuantity, 0, 'COMMA')}원|" id="price">상품가격</span>
+													<span th:if="${cart.productDiscount != 0}" th:text="|${#numbers.formatInteger(cart.productQuantity * cart.productPrice - cart.productQuantity * cart.productDiscount * cart.productPrice / 100, 0, 'COMMA')}원|" id="price">할인된 가격</span>
+													/ <span th:text="${cart.productQuantity}" id="quantity" class="quantity-input"></span>개
+						 						</div>
+						 						<div class="col-md-12">
+													배송비 <span th:text="|${#numbers.formatInteger(cart.productDeliveryCharge, 0, 'COMMA')}원|" id="delivery-charge"></span>
+												</div>
+						 					</div>
+						 				</div>
+				 					</div>
+				 				</div>
 			 				</div>
-		 				</div>
-		 				<div class="summary summary-order">
-		 					<h3>가격</h3>
-		 					<div class="summary-item"><span class="text">상품 가격</span><span id="total-price" class="price">상품 가격</span></div>
-		 					<div class="summary-item"><span class="text">총 할인</span><span id="total-discount" class="price">할인</span></div>
-		 					<div class="summary-item"><span class="text">배송비</span><span id="total-delivery-charge" class="price">총 배송비</span></div>
-		 					<div class="summary-item"><span class="text">결제 금액</span><span id="total-payment-price" class="price">결제 금액</span></div>
-		 					<button type="button" class="btn btn-primary btn-lg btn-block" onclick="submitForm()">결제하기</button>
-			 			</div>
+			 				<div class="summary summary-order">
+			 					<h3>가격</h3>
+			 					<div class="summary-item"><span class="text">상품 가격</span><span id="total-price" class="price">상품 가격</span></div>
+			 					<div class="summary-item"><span class="text">총 할인</span><span id="total-discount" class="price">할인</span></div>
+			 					<div class="summary-item"><span class="text">배송비</span><span id="total-delivery-charge" class="price">총 배송비</span></div>
+			 					<div class="summary-item"><span class="text">결제 금액</span><span id="total-payment-price" class="price">결제 금액</span></div>
+			 					<button type="button" class="btn btn-primary btn-lg btn-block" onclick="submitForm()">결제하기</button>
+				 			</div>
+				 			<input type="hidden" id="oList" name="oList">
+		 				</form>
 		 			</div>
 		 			
 				</div>	 			
@@ -135,6 +142,8 @@
 	<footer th:replace="footer :: footer"></footer>
 	
 	<script>
+	 	const userNo = document.querySelector('input[name="userNo"]').value;
+	 	
 		const deliveryOptionRadio = document.getElementsByName("deliveryOption");
 		const inputFieldDiv = document.getElementById("inputField");
 		
@@ -175,7 +184,28 @@
 		
 		/* ------------------------------------------- */
 		function submitForm() {
- 			document.getElementById("orderForm").submit();
+		    const price = document.querySelectorAll('#price');
+		    const quantity = document.querySelectorAll('#quantity');
+		    const productNo = document.querySelectorAll('#product-no');
+		    const oList = [];
+		
+		    // cList에 대한 반복문을 통해 OrderVO 객체 생성
+		    for (let i = 0; i < price.length; i++) {
+		    	const order = {
+		    		productNo: productNo[i].value,
+		    		orderDetailCount: quantity[i].innerText,
+		    		orderDetailPrice: price[i].innerText.replace(/[^0-9]/g, '')
+		    	}
+		    	oList.push(order);
+		    }
+		
+		    document.querySelector('#oList').value = JSON.stringify(oList);
+		    document.querySelector('#userNo').value = userNo;
+		    console.log(document.querySelector('#oList').value);
+		    console.log(document.querySelector('#userNo').value);
+		    document.querySelector('#orderForm').submit();
+		    console.log(document.querySelector('#orderForm'));
+		    
 		}
 		/* ------------------------------------------- */
 		

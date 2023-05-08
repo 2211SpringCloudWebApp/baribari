@@ -40,8 +40,8 @@
 	<link href="../assets/css/style.css" rel="stylesheet">
 
 	<link href="../css/mypage/user/userMypageCss.css" rel="stylesheet">
-	<link href="../css/mypage/user/userModifyCss.css" rel="stylesheet">
 	<link href="../css/mypage/user/pegdown.css" rel="stylesheet">
+	<link href="../css/mypage/seller/style.css" rel="stylesheet">
     
     <style type="text/css">
     	.content > div {
@@ -85,7 +85,7 @@
 									<label>상품분류</label>
 									<input type="hidden" name="sellerUserNo" th:value="${#authentication.principal.user.userNo}">
 									<input type="hidden" name="productNo" th:value="${product.productNo}">
-									<select name="productCategory" required>
+									<select name="productCategory" class="input-form" required>
 									    <option value="텐트" th:selected="${product.productCategory == '텐트'}">텐트</option>
 									    <option value="타프" th:selected="${product.productCategory == '타프'}">타프</option>
 									    <option value="가구" th:selected="${product.productCategory == '가구'}">가구</option>
@@ -101,31 +101,27 @@
 								</div>
 								<div>
 									<label>브랜드</label>
-									<input name="productBrand" th:value="${product.productBrand}" required>
+									<input name="productBrand" class="input-form" th:value="${product.productBrand}" required>
 								</div>
 								<div>
 									<label>상품명</label>
-									<input name="productName" th:value="${product.productName}" required>
+									<input name="productName" class="input-form" th:value="${product.productName}" required>
 								</div>
 								<div>
 									<label>상품가격</label>
-									<input name="productPrice" th:value="${product.productPrice}" required>원
+									<input name="productPrice" class="input-form" th:value="${product.productPrice}" required>원
 								</div>
 								<div>
 									<label>할인율</label>
-									<input name="productDiscount" th:value="${product.productDiscount}" type="number" min="0" max="100" required>%
+									<input name="productDiscount" class="input-form" th:value="${product.productDiscount}" type="number" min="0" max="100" required>%
 								</div>
 								<div>
 									<label>배송비</label>
-									<input name="productDeliveryCharge" th:value="${product.productDeliveryCharge}" required>원
+									<input name="productDeliveryCharge" class="input-form" th:value="${product.productDeliveryCharge}" required>원
 								</div>
 								<div>
 									<label>상품내용</label>
-									<textarea name="productContent" th:value="${product.productContent}"></textarea>
-								</div>
-								<div>
-									<label>해시태그</label>
-									<input name="productHashTag" th:value="${product.productHashTag}">
+									<textarea name="productContent" class="input-form" rows="3" cols="20" maxlength="20" style="resize: none;"></textarea>
 								</div>
 								<div>
 									<label>메인사진</label>

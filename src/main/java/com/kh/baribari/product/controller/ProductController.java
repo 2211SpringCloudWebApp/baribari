@@ -316,6 +316,7 @@ public class ProductController {
 	/* ---------------------------------------------------- 관리자 ---------------------------------------------------- */
 	// MD 추천/제거
 	@PostMapping("/mdRecommend")
+	@ResponseBody
 	public String mdRecommend(Product product) {
 		int result = pService.mdRecommend(product);
 		if (result > 0) {

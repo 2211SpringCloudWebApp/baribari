@@ -40,7 +40,7 @@
 
 					<div class="btns">
 						<a href="shopping/list" class="btn-menu animated fadeInUp scrollto">쇼핑몰 바로가기</a>
-						<a href="#book-a-table" class="btn-book animated fadeInUp scrollto">커뮤니티 바로가기</a>
+						<a href="/community" class="btn-book animated fadeInUp scrollto">커뮤니티 바로가기</a>
 					</div>
 				</div>
 				<div class="col-lg-4 d-flex align-items-center justify-content-center position-relative"
@@ -335,25 +335,27 @@
 									<img th:src="${md.productPic1}" class="img-fluid" alt="상품사진">
 								</div>
 								<div class="col-lg-6 pt-4 pt-lg-0 content">
-									<h3 th:text="${md.productName}">상품명</h3>
-									<div class="price">
-										<p>
-											<span th:if="${md.productDiscount == 0}"
-												th:text="|${#numbers.formatInteger(md.productPrice, 0, 'COMMA')}원|">상품가격</span>
-											<span th:if="${md.productDiscount != 0}"
-												th:text="|${#numbers.formatInteger(md.productPrice, 0, 'COMMA')}원|"
-												class="text-muted text-decoration-line-through">상품가격 취소선</span>
-											<span th:if="${md.productDiscount != 0}"
-												th:text="|${#numbers.formatInteger(md.productPrice - md.productDiscount * md.productPrice / 100, 0, 'COMMA')}원|">할인된
-												가격</span>
-										</p>
+									<a th:href="@{'/shopping/detail?productNo=' + ${md.productNo}}" style="text-decoration: none; color: #fff;">
+										<h3 th:text="${md.productName}">상품명</h3>
+										<div class="price">
+											<p>
+												<span th:if="${md.productDiscount == 0}"
+													th:text="|${#numbers.formatInteger(md.productPrice, 0, 'COMMA')}원|">상품가격</span>
+												<span th:if="${md.productDiscount != 0}"
+													th:text="|${#numbers.formatInteger(md.productPrice, 0, 'COMMA')}원|"
+													class="text-muted text-decoration-line-through">상품가격 취소선</span>
+												<span th:if="${md.productDiscount != 0}"
+													th:text="|→ ${#numbers.formatInteger(md.productPrice - md.productDiscount * md.productPrice / 100, 0, 'COMMA')}원|">할인된
+													가격</span>
+											</p>
+										</div>
+										<p class="fst-italic"></p>
+										<ul>
+											<li><i th:text="${md.productContent}" class="bi bi-check-circled" style="white-space: pre-line;"></i>	</li>
+										</ul>
+										<p></p>
 									</div>
-									<p class="fst-italic"></p>
-									<ul>
-										<li><i class="bi bi-check-circled"></i>	</li>
-									</ul>
-									<p></p>
-								</div>
+									</a>
 							</div>
 						</div>
 

@@ -40,8 +40,8 @@
 	<link href="../assets/css/style.css" rel="stylesheet">
 
 	<link href="../css/mypage/user/userMypageCss.css" rel="stylesheet">
-	<link href="../css/mypage/user/userModifyCss.css" rel="stylesheet">
 	<link href="../css/mypage/user/pegdown.css" rel="stylesheet">
+	<link href="../css/mypage/seller/style.css" rel="stylesheet">
     
     <style type="text/css">
     	.content > div {
@@ -86,7 +86,7 @@
 								<div>
 									<label>상품분류</label>
 									<input type="hidden" name="sellerUserNo" th:value="${#authentication.principal.user.userNo}">
-									<select name="productCategory" required>
+									<select name="productCategory" class="input-form" required>
 										<option disabled selected>상품분류</option>
 										<option value="텐트">텐트</option>
 										<option value="타프">타프</option>
@@ -103,31 +103,27 @@
 								</div>
 								<div>
 									<label>브랜드</label>
-									<input name="productBrand" placeholder="브랜드" required>
+									<input name="productBrand" class="input-form" placeholder="브랜드" required>
 								</div>
 								<div>
 									<label>상품명</label>
-									<input name="productName" placeholder="상품명" required>
+									<input name="productName" class="input-form" placeholder="상품명" required>
 								</div>
 								<div>
 									<label>상품가격</label>
-									<input name="productPrice" placeholder="상품가격" required>원
+									<input name="productPrice" class="input-form" placeholder="상품가격" required>원
 								</div>
 								<div>
 									<label>할인율</label>
-									<input name="productDiscount" placeholder="할인율" type="number" min="0" max="100" required>%
+									<input name="productDiscount" class="input-form" placeholder="할인율" type="number" min="0" max="100" required>%
 								</div>
 								<div>
 									<label>배송비</label>
-									<input name="productDeliveryCharge" placeholder="배송비" required>원
+									<input name="productDeliveryCharge" class="input-form" placeholder="배송비" required>원
 								</div>
 								<div>
 									<label>상품내용</label>
-									<textarea name="productContent"></textarea>
-								</div>
-								<div>
-									<label>해시태그</label>
-									<input name="productHashTag">
+									<textarea name="productContent" class="input-form" rows="3" cols="20" maxlength="20" style="resize: none;"></textarea>
 								</div>
 								<div>
 									<label>메인사진</label>

@@ -124,9 +124,12 @@
 							</div>
 						</div>
 
-						<!-- 체크박스 -->
-						<div sec:authorize="hasRole('ROLE_ADMIN')" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-							<a class="btn btn-outline-dark mt-auto" href="#">
+						<!-- MD추천 -->
+						<div sec:authorize="hasRole('ROLE_ADMIN')" class="card-footer p-4 pt-0 border-top-0 bg-transparent" style="margin: 0 auto;">
+							<a th:if="${product.productMdYn == 'Y'}" class="btn btn-outline-dark mt-auto" href="#" th:style="background-color: #FFBF1F;">
+								<i class="fas md-recommend">MD추천</i>
+							</a>
+							<a th:if="${product.productMdYn == 'N'}" class="btn btn-outline-dark mt-auto" href="#">
 								<i class="fas md-recommend">MD추천</i>
 							</a>
 						</div>
@@ -246,13 +249,15 @@
 				event.preventDefault();
 				var productNo = $(this).closest('.card').find('a').attr('href').split("=")[1];
 				confirm('해당 상품을 MD추천 상품으로 추가하시겠습니까?');
-				$.post("/shopping/addMdRecommend", {
+				$.post("/shopping/mdRecommend", {
 					productNo: productNo
 				}, function (result) {
 					if (result == "1") {
 						alert('MD 추천이 완료 되었습니다.');
+						location.reload();
 					} else {
 						alert('MD 추천 실패');
+						location.reload();
 					}
 				});
 			});

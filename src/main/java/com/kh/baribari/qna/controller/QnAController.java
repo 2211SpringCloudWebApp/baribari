@@ -52,7 +52,6 @@ public class QnAController {
 	@ResponseBody
 	public String getQnAList(Integer productNo) {
 		List<QnA> qList = qService.getQnAList(productNo);
-		System.out.println(qList);
 		return new Gson().toJson(qList);
 	}
 

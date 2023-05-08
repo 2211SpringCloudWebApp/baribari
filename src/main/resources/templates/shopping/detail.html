@@ -37,9 +37,9 @@
 
 <body>
 	<!-- Header -->
-	<header th:replace="header :: header"></header>
+	<header th:replace="header :: #header"></header>
 
-	<section class="py-5">
+	<section class="py-5" style="margin-top: 110px">
 		<input sec:authorize="!isAuthenticated()" value="0" type="hidden" name="userNo">
 		<input sec:authorize="isAuthenticated()" th:value="${#authentication.principal.user.userNo}" type="hidden"
 			name="userNo">
@@ -54,6 +54,8 @@
 					<span th:text="${product.productBrand}" class="mb-1">상품 브랜드</span>
 					<h1 th:text="${product.productName}" class="display-5 fw-bolder">상품명</h1>
 					<hr>
+					<!-- 상품 설명 -->
+					<div th:utext="${product.productContent}" style="white-space: pre-line; margin-bottom: 2em; line-height: 2em; font-style: italic;"></div>
 					<!-- 상품가, productDiscount가 있으면 정가에 취소선/할인가 출력 -->
 					<div class="fs-5 mb-5">
 						<span th:if="${product != null and product.productDiscount == 0}"
@@ -158,12 +160,8 @@
 				<!-- 후기 목록 (script영역에서 출력) -->
 				<ul id="reviewBoard">
 				</ul>
-				<ul id="reviewPagination">
+				<ul id="reviewPagination" style="display: none;">
 					<li><a href="#" class="prev">◀</a></li>
-					<li><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
 					<li><a href="#" class="next">▶</a></li>
 				</ul>
 			</div>
@@ -481,19 +479,7 @@
 			});
 		}
 
-		/* 수정 폼 */
-		$("body").on("click", ".btns button:first-child", function () {
-			var $reviewTitle = $(this).parent().siblings(".title");
-			var $reviewTitleText = $reviewTitle.text();
-			var $inputForm = $("<div>", {
-				"class": "input-form"
-			}).html("<textarea>" + $reviewTitleText + "</textarea><button class='save-btn'>저장</button><button class='cancel-btn'>취소</button>");
-			$reviewTitle.hide().after($inputForm);
-		});
-
 		/* ============================================== QNA ============================================== */
-
-
 		/* 문의 출력 */
 		function getQnaList() {
 			$.ajax({

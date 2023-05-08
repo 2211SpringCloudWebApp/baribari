@@ -11,4 +11,8 @@ public class QnA {
 	private int productNo;
 	private int categoryNo;
 	private String qnaDate;
+	// QnA Comment부분
+	private int commentNo;
+	private String userId;
+	private String commentContent;
 }

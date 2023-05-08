@@ -1,8 +1,5 @@
 package com.kh.baribari.qnacomment.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.baribari.qna.domain.QnA;
-import com.kh.baribari.qnacomment.domain.QnaComment;
 import com.kh.baribari.qnacomment.service.QnaCommentService;
 import com.kh.baribari.user.service.UserService;
 
@@ -30,7 +26,7 @@ public class QnaCommentContoller {
 			@RequestParam(value= "qnaNo", required = false) Integer qnaNo,
 			@RequestParam(value = "userNo", required = false) Integer userNo,
 			@RequestParam(value = "commentContent", required = false) String commentContent) throws Exception {
-		QnaComment qcomment = new QnaComment();
+		QnA qcomment = new QnA();
 		QnA qna = new QnA();
 		qcomment.setQnaNo(qna.getQnaNo());
 		qcomment.setProductNo(productNo);
@@ -41,12 +37,22 @@ public class QnaCommentContoller {
 	}
 
 	// 댓글 뷰
-	@ResponseBody
-	@GetMapping("/view")
-	public String commentView(
-			@RequestParam(value="productNo", required = false) Integer productNo) {
-		return "/shopping/detail?productNo="+productNo;
-	}
+//	@ResponseBody
+//	@GetMapping("/view")
+//	public List<> commentView(@RequestParam(value="productNo", required = false) Integer productNo) throws Exception {
+//		List<QnA> qList = qService.getQnAList(productNo);
+//		List<QnA> qcList = null;
+//		List<QnA> sList = new ArrayList<QnA>();
+//		for(QnA qna : qList) {
+//			sList.add(qna);
+//			qcList = qService.commentShow(qna.getQnaNo());
+//			if(QnA qnaComment : qcList) {
+//				sList.add(qnaComment);
+//			}
+//		}
+//		
+//		return "/shopping/detail?productNo="+productNo;
+//	}
 
 	// 댓글 삭제
 	@ResponseBody

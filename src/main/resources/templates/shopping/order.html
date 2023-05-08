@@ -34,7 +34,7 @@
 </head>
 <body>
 	<!-- Header -->
-	<header th:replace="header :: header"></header>
+	<header th:replace="header :: #header"></header>
 	
 	<section class="shopping-cart dark" style="margin-top: 110px;">
 		 	<!-- 상단 이미지 -->
@@ -84,9 +84,6 @@
 							</form>
 							주문상품<br>
 							상품수량 및 옵션변경은 상품상세 또는 장바구니에서 가능합니다.
-							<!-- 상품 목록 -->
-
-				 				
 			 			</div>
 		 			</div>
 		 			
@@ -125,7 +122,7 @@
 		 					<div class="summary-item"><span class="text">총 할인</span><span id="total-discount" class="price">할인</span></div>
 		 					<div class="summary-item"><span class="text">배송비</span><span id="total-delivery-charge" class="price">총 배송비</span></div>
 		 					<div class="summary-item"><span class="text">결제 금액</span><span id="total-payment-price" class="price">결제 금액</span></div>
-		 					<button type="button" class="btn btn-primary btn-lg btn-block">결제하기</button>
+		 					<button type="button" class="btn btn-primary btn-lg btn-block" onclick="submitForm()">결제하기</button>
 			 			</div>
 		 			</div>
 		 			
@@ -172,18 +169,23 @@
 			params.append("addressPhone", aList[0].addressPhone);
 			
 			// 새 창 열기
-			const url = "새 창에 열 URL"; // 수정 필요
+			const url = ""; // 수정 필요
 			const newWindow = window.open(url + "?" + params.toString(), "_blank");
 		}
 		
+		/* ------------------------------------------- */
+		function submitForm() {
+ 			document.getElementById("orderForm").submit();
+		}
+		/* ------------------------------------------- */
+		
 		// 버튼 요소 가져오기
 		const button = document.querySelector("button");
-		
-		// 버튼에 이벤트 핸들러 등록
 		button.addEventListener("click", handleButtonClick);
 		
 		// 각 상품 결제 가격
 		const prices = document.querySelectorAll('#price');
+		const quantities = document.querySelectorAll('#quantity');
 		const deliveryCharges = document.querySelectorAll('#delivery-charge');
 		let totalPrice = 0;
 		let totalDiscount = 0;
@@ -199,54 +201,6 @@
 		document.querySelector('#total-price').innerText = totalPrice.toLocaleString() + ' 원';
 		document.querySelector('#total-delivery-charge').innerText = totalDeliveryCharge.toLocaleString() + ' 원';
 		document.querySelector('#total-payment-price').innerText = totalPaymentPrice.toLocaleString() + ' 원';
-
-		
-		function removeAddress(addressNo){
-		    console.log(addressNo);
-		    $.ajax({
-		        url:'/ajaxRemoveAddress',
-		        type:'post',
-		        data:{
-		            'addressNo' : addressNo
-		        },
-		        success:function(){
-		            alert("삭제했어요!");
-		            location.replace(location.href);
-		        },
-		        error:function(data){
-		            console.log(data);
-		        }
-		    })
-		}
-		function stringJoin(){
-		    var phone = $('#phone1-address').val() + '-' + $('#phone2-address').val() + '-' + $('#phone3-address').val();
-		    $('#address-phone').val(phone);
-		}
-		function findAddress(){
-		    new daum.Postcode({
-		        oncomplete: function(data) {
-		            console.log(data);
-		            $('.address-zip').val(data.zonecode);
-		            if(data.jibunAddress == ""){
-		                $('.address-jibun').val(data.autoJibunAddress + " " + data.buildingName);
-		            }else {
-		                $('.address-jibun').val(data.jibunAddress + " " + data.buildingName);
-		            }
-		        }
-		    }).open();
-		}
-
-		function modalActive(){
-		    $('.address-add-modal').addClass('modal-active');
-		    $('.modal-back').addClass('modal-back-active');
-		    $('.modal-close-btn').addClass('modal-close-btn-active');
-		}
-
-		function modalRemove(){
-		    $('.address-add-modal').removeClass('modal-active');
-		    $('.modal-back').removeClass('modal-back-active')
-		    $('.modal-close-btn').removeClass('modal-close-btn-active');
-		}
 	</script>
 
 </body>

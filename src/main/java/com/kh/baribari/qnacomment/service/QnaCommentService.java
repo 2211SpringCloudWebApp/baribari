@@ -1,6 +1,8 @@
 package com.kh.baribari.qnacomment.service;
 
-import com.kh.baribari.qnacomment.domain.QnaComment;
+import java.util.List;
+
+import com.kh.baribari.qna.domain.QnA;
 
 public interface QnaCommentService {
 
@@ -9,7 +11,7 @@ public interface QnaCommentService {
 	 * @param qcomment
 	 * @return
 	 */
-	public int qcommentRegister(QnaComment qcomment);
+	public int qcommentRegister(QnA qcomment);
 
 	/**
 	 * qna 댓글 삭제
@@ -17,5 +19,7 @@ public interface QnaCommentService {
 	 * @return
 	 */
 	public int deleteQComment(Integer commentNo);
+
+	public List<QnA> getQnAList(Integer productNo);
 
 }

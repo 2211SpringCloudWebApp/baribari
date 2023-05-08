@@ -36,9 +36,11 @@ public class OrderController {
 	private ProductService pService;
 	
 	@PostMapping("/save")
-	public void setOrder(Order order) {
+	public void setOrder(Authentication authentication, Order order) {
+		User user = returnUser.returnUser(authentication);
+		List<Cart> cList = cService.getCartList(user.getUserNo());
+		System.out.println(cList);
 		// 주문 정보 DB에 저장
-		oService.setOrder(order);
 	}
 	
 	@GetMapping("/")

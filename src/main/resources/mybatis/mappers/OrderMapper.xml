@@ -32,8 +32,11 @@
 	<insert id="setOrderInfo" parameterType="Order">
 		INSERT INTO ORDER_TBL VALUES(SEQ_ORDER_NO.NEXTVAL, #{userNo}, SYSDATE)
 	</insert>
-	<insert id="setOrderDetailInfo" parameterType="Order">
-		INSERT INTO ORDER_DETAIL_TBL VALUES(SEQ_ORDER_DETAIL_NO.NEXTVAL, #{productNo}, SEQ_ORDER_NO.CURRVAL, #{orderDetailCount}, #{orderLogis}, #{orderTrackingNo}, #{orderStatus}, #{orderPrice}, #{sellerUserNo})
+	<insert id="setOrderDetailInfo">
+		INSERT INTO ORDER_DETAIL_TBL VALUES
+		<foreach collection="list" item="orderDetail" separator=".">
+		(SEQ_ORDER_DETAIL_NO.NEXTVAL, #{orderDetail.productNo}, SEQ_ORDER_NO.CURRVAL, #{orderDetail.productQuantity}, DEFAULT, DEFAULT, DEFAULT, #{orderPrice}, #{sellerUserNo})
+		</foreach>
 	</insert>
 	<select id="getOrderList" parameterType="_int" resultMap="orderResultMap">
 		SELECT * FROM ORDER_TBL
@@ -43,4 +46,5 @@
 		    LEFT JOIN ADDRESS_TBL USING (USER_NO)
 	    WHERE ORDER_DETAIL_TBL.SELLER_USER_NO = ${userNo}
 	</select>
+	
 </mapper>

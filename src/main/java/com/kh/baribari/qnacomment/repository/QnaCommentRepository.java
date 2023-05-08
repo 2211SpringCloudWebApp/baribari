@@ -1,8 +1,10 @@
 package com.kh.baribari.qnacomment.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 
-import com.kh.baribari.qnacomment.domain.QnaComment;
+import com.kh.baribari.qna.domain.QnA;
 
 public interface QnaCommentRepository {
 
@@ -12,7 +14,7 @@ public interface QnaCommentRepository {
 	 * @param qcomment
 	 * @return
 	 */
-	public int qcommentRegister(SqlSession session, QnaComment qcomment);
+	public int qcommentRegister(SqlSession session, QnA qcomment);
 
 	/**
 	 * qna 댓글 삭제
@@ -21,5 +23,7 @@ public interface QnaCommentRepository {
 	 * @return
 	 */
 	public int qcommentDelete(SqlSession session, Integer commentNo);
+
+	public List<QnA> getOnAList(SqlSession session, Integer productNo);
 
 }

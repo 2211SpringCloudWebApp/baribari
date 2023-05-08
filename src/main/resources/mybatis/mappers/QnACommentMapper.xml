@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="qCommentMapper">
-	<resultMap type="QnaComment" id="qCommentMapper">
-		<id property="commentNo" column="COMMENT_NO"/>
-		<result property="productNo" column="PRODUCT_NO"/>
-		<result property="userNo" column="USER_NO"/>
-		<result property="userId" column="USER_ID"/>
-		<result property="commentContent" column="COMMENT_CONTENT"/>
+<mapper namespace="QnACommentMapper">
+	<resultMap type="QnA" id="qnaResultMap">
+		<id		property="qnaNo" column="QNA_NO"/>
+		<result	property="qnaContent" column="QNA_CONTENT"/>
+		<result	property="qnaCategory" column="QNA_CATEGORY"/>
+		<result	property="userNo" column="USER_NO"/>
+		<result	property="productNo" column="PRODUCT_NO"/>
+		<result	property="categoryNo" column="CATEGORY_NO"/>
+		<result	property="qnaDate" column="QNA_DATE"/>
 	</resultMap>
 	<insert id="qcommentRegister">
-		INSERT INTO SP_COMMENT_TBL VALUES(
-			COMMENT_SEQ.NEXTVAL, #{commentNo}, #{userNo}, #{userId}, #{commentContent})
+		INSERT INTO QNA_COMMENT_TBL VALUES(SEQ_QNA_COMMENT.NEXTVAL, #{commentNo}, #{userNo}, #{userId}, #{commentContent})
 	</insert>
 	
 	<delete id="qcommentDelete">
-		DELETE FROM SP_COMMENT_TBL WHERE COMMENT_NO = #{commentNo}
+		DELETE FROM QNA_COMMENT_TBL WHERE COMMENT_NO = #{commentNo}
 	</delete>
+	
+	<select id="qcommentSelect" resultMap="qnaResultMap">
+		SELECT * FROM QNA_COMMENT_TBL JOIN USER_TBL USING (USER_NO) WHERE PRODUCT_NO = #{productNo}
+	</select>
 
 </mapper>

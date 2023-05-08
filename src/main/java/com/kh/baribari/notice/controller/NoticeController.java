@@ -220,7 +220,7 @@ public class NoticeController {
 			if (!searchList.isEmpty()) {
 				mv.addObject("searchList", searchList);
 				mv.addObject("pi", pi);
-				mv.setViewName("notice/noticelist");
+				mv.setViewName("notice/noticesearchlist");
 				return mv;
 			}
 		} catch (Exception e) {

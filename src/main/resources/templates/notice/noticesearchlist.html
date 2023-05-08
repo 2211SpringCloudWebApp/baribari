@@ -76,7 +76,7 @@
                     <th>HITS</th>
                 </tr>
             </thead>
-            <tbody id="noticeList" th:each="notice : ${nList}">
+            <tbody id="noticeList" th:each="notice : ${searchList}">
                 <tr>
                     <td th:text="${notice.noticeNo }"></td>
                     <td th:text="${notice.noticeCategory }"></td>
@@ -87,10 +87,6 @@
                 </tr>
             </tbody>
         </table>
-        <!-- 글 쓰기 -->
-        <div class="write-button-container">
-        	<a button class="write-button" href="/notice/write" th:text="글쓰기"></a>
-        </div>
 
         <!-- 페이징 네비게이션 -->
         <div class="container px-4 px-lg-5 mt-5">

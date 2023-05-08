@@ -58,17 +58,14 @@
 	<select id="selectListByKeyword" resultMap="NoticeResultMap">
 		SELECT * FROM NOTICE_TBL
 		<where>
-			<if test="searchCondition == 'all'">
-				NOTICE_TITLE LIKE '%' || #{searchValue } || '%' OR NOTICE_CONTENT LIKE '%' || #{searchValue } || '%'
+			<if test="condition == 'titleContent'">
+				NOTICE_TITLE LIKE '%' || #{keyword } || '%' OR NOTICE_CONTENT LIKE '%' || #{keyword } || '%'
 			</if>
-			<if test="searchCondition == 'title'">
-				NOTICE_TITLE LIKE '%' || #{searchValue } || '%'
+			<if test="condition == 'title'">
+				NOTICE_TITLE LIKE '%' || #{keyword } || '%'
 			</if>
-			<if test="searchCondition == 'content'">
-				NOTICE_CONTENT LIKE '%' || #{searchValue } || '%'
-			</if>
-			<if test="searchCondition == 'categoty'">
-				NOTICE_CATEGORY LIKE '%' || #{searchValue } || '%'
+			<if test="condition == 'category'">
+				NOTICE_CATEGORY LIKE '%' || #{keyword } || '%'
 			</if>
 		</where>
 	</select>
@@ -77,17 +74,14 @@
 	<select id="noticeSearch" resultType="_int">
 		SELECT COUNT(*) FROM NOTICE_TBL
 		<where>
-			<if test="searchCondition == 'all'">
-				NOTICE_TITLE LIKE '%' || #{searchValue } || '%' OR NOTICE_CONTENT LIKE '%' || #{searchValue } || '%'
+			<if test="condition == 'titleContent'">
+				NOTICE_TITLE LIKE '%' || #{keyword } || '%' OR NOTICE_CONTENT LIKE '%' || #{keyword } || '%'
 			</if>
-			<if test="searchCondition == 'title'">
-				NOTICE_TITLE LIKE '%' || #{searchValue } || '%'
+			<if test="condition == 'title'">
+				NOTICE_TITLE LIKE '%' || #{keyword } || '%'
 			</if>
-			<if test="searchCondition == 'content'">
-				NOTICE_CONTENT LIKE '%' || #{searchValue } || '%'
-			</if>
-			<if test="searchCondition == 'categoty'">
-				NOTICE_CATEGORY LIKE '%' || #{searchValue } || '%'
+			<if test="condition == 'category'">
+				NOTICE_CATEGORY LIKE '%' || #{keyword } || '%'
 			</if>
 		</where>
 	</select>

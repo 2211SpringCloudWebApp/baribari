@@ -114,5 +114,12 @@ public interface BoardService {
 
 	public int boardModify(Community commu);
 
+	/**
+	 * 메인페이지 게시글 조회
+	 * @param i
+	 * @return
+	 */
+	public List<Community> getBoardMainList(int sort);
+
 
 }

@@ -97,4 +97,9 @@ public class BoardRepositoryLogic implements BoardRepository {
 		return session.update("CommunityMapper.boardModify", commu);
 	}
 
+	@Override
+	public List<Community> getBoardMainList(SqlSession session, int sort) {
+		return session.selectList("CommunityMapper.getBoardMainList", sort);
+	}
+
 }

@@ -64,6 +64,7 @@ public class CommentController {
 		List<Comment> slist = new ArrayList<Comment>(); // 댓글 + 대댓글을 위한 리스트
 		List<Comment> rlist = null; // 대댓글을 저장할 리스트
 		List<Comment> clist = cService.commentShow(communityNo);
+		
 		System.out.println(clist);
 		for(Comment comment : clist) {
 			slist.add(comment);

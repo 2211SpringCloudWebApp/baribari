@@ -135,6 +135,13 @@ public interface BoardRepository {
 	 */
 	public int boardModify(SqlSession session, Community commu);
 
+	/**
+	 * 메인페이지 게시글 조회
+	 * @param sort
+	 * @return
+	 */
+	public List<Community> getBoardMainList(SqlSession session, int sort);
+
 	
 
 

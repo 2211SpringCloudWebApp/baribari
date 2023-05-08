@@ -102,6 +102,11 @@ public class BoardServiceLogic implements BoardService {
 		return brepository.boardModify(session, commu);
 	}
 
+	@Override
+	public List<Community> getBoardMainList(int sort) {
+		return brepository.getBoardMainList(session, sort);
+	}
+
 	
 
 }

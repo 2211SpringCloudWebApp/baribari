@@ -71,6 +71,23 @@
 		</if>
 	</select>
 	
+	<select id="getBoardMainList" resultType="community">
+		SELECT C.*, U.USER_NICKNAME, COUNT(L.USER_NO) AS LIKE_COUNT
+		FROM COMMUNITY_TBL C
+		LEFT OUTER JOIN USER_TBL U ON C.USER_NO = U.USER_NO
+		LEFT OUTER JOIN LIKE_TBL L ON C.COMMUNITY_NO = L.COMMUNITY_NO
+		GROUP BY C.COMMUNITY_NO, C.USER_NO, C.COMMUNITY_SUBJECT, C.COMMUNITY_CONTENT, C.COMMUNITY_CATEGORY, C.COMMUNITY_DATE, C.MAP_X, C.MAP_Y, C.COMMUNITY_YN, C.VIEW_COUNT, U.USER_NICKNAME
+		<if test="sort == 0">
+			ORDER BY LIKE_COUNT DESC
+		</if>
+		<if test="sort == 1">
+			ORDER BY C.COMMUNITY_DATE DESC
+		</if>
+		<if test="sort == 2">
+			ORDER BY C.VIEW_COUNT DESC
+		</if>
+	</select>
+	
 	<select id="getBoardOne" resultType="community">
 		SELECT * FROM COMMUNITY_TBL WHERE COMMUNITY_NO = #{boardNo}
 	</select>

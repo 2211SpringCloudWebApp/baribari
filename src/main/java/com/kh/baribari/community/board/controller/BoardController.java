@@ -37,7 +37,6 @@ public class BoardController {
 	@Autowired
 	@Qualifier("fileUpload")
 	private FileInfo fileUpload;
-
 	
 	//자유게시판 목록 출력
 	@GetMapping("boardList")

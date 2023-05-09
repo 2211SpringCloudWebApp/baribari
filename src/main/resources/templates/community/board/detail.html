@@ -69,18 +69,19 @@
                 <div id="registerdiv3">
                 
                 </div>
-                <div th:if="${pic.communityPic1} != null" id="registerdiv7">
-	                <div th:if="${pic.communityPic1} != null" class="div_style"><img id="img1" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic1}" alt="첨부사진1" /></div>
-	                <div th:if="${pic.communityPic2} != null" class="div_style"><img id="img2" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic2}" alt="첨부사진2" /></div>
-	                <div th:if="${pic.communityPic3} != null" class="div_style"><img id="img3" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic3}" alt="첨부사진3" /></div>
-	                <div th:if="${pic.communityPic4} != null" class="div_style"><img id="img4" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic4}" alt="첨부사진4" /></div>
-	                <div th:if="${pic.communityPic5} != null" class="div_style"><img id="img5" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic5}" alt="첨부사진5" /></div>
-	                <div th:if="${pic.communityPic6} != null" class="div_style"><img id="img6" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic6}" alt="첨부사진6" /></div>
-	                <div th:if="${pic.communityPic7} != null" class="div_style"><img id="img7" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic7}" alt="첨부사진7" /></div>
-	                <div th:if="${pic.communityPic8} != null" class="div_style"><img id="img8" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic8}" alt="첨부사진8" /></div>
-	                <div th:if="${pic.communityPic9} != null" class="div_style"><img id="img9" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic9}" alt="첨부사진9" /></div>
-	                <div th:if="${pic.communityPic10} != null" class="div_style"><img id="img10" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic10}" alt="첨부사진10" /></div>
-                </div>
+                	<div id="registerdiv7"></div>
+<!--                 <div th:if="${pic.communityPic1} != null" id="registerdiv7"> -->
+<!-- 	                <div th:if="${pic.communityPic1} != null" class="div_style"><img id="img1" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic1}" alt="첨부사진1" /></div> -->
+<!-- 	                <div th:if="${pic.communityPic2} != null" class="div_style"><img id="img2" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic2}" alt="첨부사진2" /></div> -->
+<!-- 	                <div th:if="${pic.communityPic3} != null" class="div_style"><img id="img3" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic3}" alt="첨부사진3" /></div> -->
+<!-- 	                <div th:if="${pic.communityPic4} != null" class="div_style"><img id="img4" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic4}" alt="첨부사진4" /></div> -->
+<!-- 	                <div th:if="${pic.communityPic5} != null" class="div_style"><img id="img5" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic5}" alt="첨부사진5" /></div> -->
+<!-- 	                <div th:if="${pic.communityPic6} != null" class="div_style"><img id="img6" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic6}" alt="첨부사진6" /></div> -->
+<!-- 	                <div th:if="${pic.communityPic7} != null" class="div_style"><img id="img7" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic7}" alt="첨부사진7" /></div> -->
+<!-- 	                <div th:if="${pic.communityPic8} != null" class="div_style"><img id="img8" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic8}" alt="첨부사진8" /></div> -->
+<!-- 	                <div th:if="${pic.communityPic9} != null" class="div_style"><img id="img9" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic9}" alt="첨부사진9" /></div> -->
+<!-- 	                <div th:if="${pic.communityPic10} != null" class="div_style"><img id="img10" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic10}" alt="첨부사진10" /></div> -->
+<!--                 </div> -->
                 <div id="registerdiv4">
                     <textarea name="content" id="inputContent" readonly th:text=${commu.communityContent} ></textarea>
                 </div>
@@ -388,6 +389,80 @@
 				showImdiv.style.height = "400px";
 				showImdiv.innerHTML = imgTag;
 	        }
+	        
+	      //이미지 보여주는 함수
+			function printImg(){
+				const formData = new FormData(); // 사진을 담을 form 데이터
+				var communityNo = $("#seq").val();
+				formData.append('communityNo',communityNo);
+				
+			    var attZone = document.getElementById(registerdiv7); // 이미지를 보여줄 영역
+			    var sel_files = [];
+			     
+			    // 이미지와 체크 박스를 감싸고 있는 div 속성
+			    var div_style = 'display:inline-block;position:relative;'
+			                 + 'width:90px;height:90px;'
+			                 + 'position: relative; display: inline-block;';
+			    // 겹쳐지는 div 스타일 속성
+			    var over_style = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 0, 0, 0.5); display:none'
+			                 + 'align-items: center; justify-content: center; font-size:30px; color:rgb(255, 255, 255)';
+			    // 미리보기 이미지 속성
+			    var img_style = 'width:90px;height:90px;z-index:none';
+			    // 이미지안에 표시되는 체크박스의 속성
+			    var chk_style = 'width:30px;height:30px;position:absolute;font-size:24px;'
+			                 + 'right:0px;bottom:0px;z-index:999;background-color:rgba(255,255,255,0.1);color:#f00';
+				
+				
+				$.ajax({
+				    url: '/showImg',
+				    type: 'POST',
+				    data: formData,
+				    processData: false,
+				    contentType: false,
+				    success: function(response) {
+				        console.log(response);
+			
+				        // 이미지를 보여줄 div 요소
+				        const attZone = document.getElementById('registerdiv7');
+				     	// div 요소 내부를 비움
+				        attZone.innerHTML = '';
+					
+				        // 이미지 정보를 담을 배열
+				        const images = [];
+			
+				        // communityPic1부터 communityPic10까지 가져와서 배열에 추가
+				        for (let i = 1; i <= 10; i++) {
+				          const pic = response[`communityPic${i}`];
+				          if (pic) {
+				            images.push(pic);
+				          }
+				        }
+			
+				     	// 이미지 요소를 생성하고 보여줌
+				        images.forEach(function(imageUrl, index) {
+				          const div = document.createElement('div');
+				          div.style = 'display:inline-block;position:relative;width:90px;height:90px;position:relative;display:inline-block;';
+
+				          const img = document.createElement('img');
+				          img.style = 'width:90px;height:90px;z-index:none';
+				          img.src = imageUrl;
+				          img.id = 'img' + (index + 1); // 이미지에 id 지정
+
+				          // 클릭 이벤트 추가
+				          img.addEventListener('click', function() {
+				            showImg(this.id);
+				          });
+
+				          div.appendChild(img);
+				          attZone.appendChild(div);
+				        });
+				      },
+				    error: function(xhr) {
+				      console.log(xhr);
+				    }
+				  });
+			}
+			printImg();
         
 	        // 지도를 출력하는 함수
 	        function createMap(x, y) {

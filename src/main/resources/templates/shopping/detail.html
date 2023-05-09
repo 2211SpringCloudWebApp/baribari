@@ -529,7 +529,7 @@
 		            + "<span class='num'>" + (qcList.length - i) + "</span>" // 문의 번호 (역순)
 		            + "<span class='title'>" + qcList[i].qnaContent.replace(/\n/g, "<br>") + "</span>" // 문의 내용
 		            + "<span class='author' style='width: 15%;'>" + qcList[i].userId + "</span>" // 문의 작성자
-		            + (qcList[i].userNo == userNo ? "<span class='btns'>" + "<button onclick='showReplyForm(" + qcList[i].qnaNo + ")'>답장</button>" + "<button onclick='deleteQnA(" + qcList[i].qnaNo + ", " + userNo + ")'>삭제</button>" + "</span>" : "") // 문의 작성자와 로그인한 사용자가 같은 경우 수정/삭제 버튼 출력
+		            + (qcList[i].userNo == userNo ? "<span class='btns'>" + "<button onclick='showReplyForm(" + qcList[i].qnaNo + ")'>댓글</button>" + "<button onclick='deleteQnA(" + qcList[i].qnaNo + ", " + userNo + ")'>삭제</button>" + "</span>" : "") // 문의 작성자와 로그인한 사용자가 같은 경우 수정/삭제 버튼 출력
 		            + "</li>";
 		          qnaList += "<li id='replyForm_" + qcList[i].qnaNo + "' class='reply-form'></li>"; // 답글 작성 폼
 		        } else {
@@ -591,6 +591,7 @@
 	                }
 	            });
 	    }
+
 		
 		/* 문의 삭제 */
 		function deleteQnA(qnaNo, userNo) {

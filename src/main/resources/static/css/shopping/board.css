@@ -329,7 +329,6 @@
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 1px solid #ccc;
 }
 
 #qnaBoard li:last-child {
@@ -492,3 +491,41 @@
     color: #081333;
   }
   
+/*QNA 댓글*/
+
+#commentSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ccc;
+}
+
+#commentContent {
+    border: 1px solid #ccc;
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    width: 700px;
+	text-align: center;
+	resize: none;
+  }
+
+#submitComment{
+    background-color: #081333;
+    color: white;
+    border: 1px solid #081333;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+
+#commentContent:focus {
+	border: 0;
+    outline:none;
+    box-shadow: none;
+}
+
+
+ 
+
+

@@ -63,7 +63,7 @@
 		 						</div>
 		 						<!-- 상품 사진 -->
 			 					<div class="col-md-3">
-			 						<img th:src="@{'../../../img/logo.png'}" class="card-img-top" alt="제품사진" />
+			 						<img th:src="@{${product.productPic1} != null} ? @{${product.productPic1}} : @{'../../img/logo.png'}" class="card-img-top" alt="제품사진" style="width: 100%; height: auto; aspect-ratio: 1/1; object-fit: contain;" />
 			 					</div>
 			 					<div class="col-md-8">
 			 						<div class="info">

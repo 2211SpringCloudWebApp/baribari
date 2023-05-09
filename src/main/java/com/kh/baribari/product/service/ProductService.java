@@ -84,27 +84,6 @@ public interface ProductService {
 	 * @return int
 	 */
 	int deleteProduct(int productNo);
-
-	/**
-	 * 찜하기 추가/제거하기
-	 * @param Favorite
-	 * @return int
-	 */
-	int addScrap(Favorite favorite);
-	
-	/**
-	 * 찜하기 추가/제거하기
-	 * @param Favorite
-	 * @return int
-	 */
-	int removeScrap(Favorite favorite);
-
-	/**
-	 * 찜하기 목록
-	 * @param userNo 
-	 * @return List<Favorite>
-	 */
-	List<Favorite> getFavoriteList(int userNo);
 	
 	/**
 	 * 판매자가 판매하고 있는 상품 목록
@@ -119,4 +98,10 @@ public interface ProductService {
 	 * @return int
 	 */
 	int modifyProduct(Product product);
+
+	int getFavorite(Favorite favorite);
+
+	int addFavorite(Favorite favorite);
+
+	int removeFavorite(Favorite favorite);
 }

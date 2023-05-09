@@ -114,4 +114,20 @@ public class ProductRepositoryLogic implements ProductRepository {
 	    // 성공 시 1 또는 2 반환
 	    return result1 + result2;
 	}
+
+	@Override
+	public int getFavorite(SqlSession session, Favorite favorite) {
+		return session.selectOne("ProductMapper.getFavorite", favorite);
+	}
+
+	@Override
+	public int addFavorite(SqlSession session, Favorite favorite) {
+		return session.insert("ProductMapper.addFavorite", favorite);
+	}
+
+	@Override
+	public int removeFavorite(SqlSession session, Favorite favorite) {
+		System.out.println(favorite);
+		return session.delete("ProductMapper.removeFavorite", favorite);
+	}
 }

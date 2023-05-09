@@ -40,4 +40,10 @@ public class Cart {
     public void setProductDeliveryCharge(int productDeliveryCharge) {
         this.product.setProductDeliveryCharge(productDeliveryCharge);
     }
+    public String getProductPic1() {
+    	return product.getProductPic1();
+    }
+    public void setProductPic1(String ProductPic1) {
+    	this.product.setProductPic1(ProductPic1);
+    }
 }

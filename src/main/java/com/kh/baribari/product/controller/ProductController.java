@@ -50,30 +50,17 @@ public class ProductController {
 	public ModelAndView getProductList(ModelAndView mv,
 			@RequestParam(value = "category", required = false, defaultValue = "All") String productCategory,
 			@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage
-			, Authentication authentication) {
-		// 사용자 정보
-		User user = null;
-		if(authentication != null) {
-			user = returnUser.returnUser(authentication);
-			System.out.println(user.getUserNo());
-		}
+			) {
 		// 상품 총 갯수
 		int pCount = pService.getProductCount(productCategory);
 		// PageInfo 매개변수: 현재페이지 (RequestParam), 전체 게시글 수 (mapper), 페이지 당 게시글 수
 		PageInfo pi = new PageInfo(currentPage, pCount, 20);
 		// 상품 목록
 		List<Product> pList = pService.getProductList(productCategory, pi);
-		// 찜하기 목록
-		List<Favorite> fList = null;
-		if(user != null) {
-			fList = pService.getFavoriteList(user.getUserNo());
-		}
-		System.out.println(fList);
 		if (pList != null) {
 			mv.addObject("pList", pList);
 			mv.addObject("pCount", pCount);
 			mv.addObject("pi", pi);
-			mv.addObject("fList", fList);
 			mv.setViewName("shopping/list");
 			return mv;
 		} else {
@@ -107,7 +94,17 @@ public class ProductController {
 
 	// 상품 상세 페이지 (상품 정보, 추천 상품 목록)
 	@GetMapping("/detail")
-	public ModelAndView getProductDetail(ModelAndView mv, int productNo) {
+	public ModelAndView getProductDetail(ModelAndView mv, int productNo, Authentication authentication) {
+		// 사용자 정보
+		User user = null;
+		Favorite favorite = new Favorite();
+		int fResult = 0;
+		if(authentication != null) {
+			user = returnUser.returnUser(authentication);
+			favorite.setUserNo(user.getUserNo());
+			favorite.setProductNo(productNo);
+			fResult = pService.getFavorite(favorite);
+		}
 		// 상품 정보
 		Product product = pService.getProductDetail(productNo);
 		// 상품 분류에 따른 추천 상품 목록
@@ -116,19 +113,22 @@ public class ProductController {
 		int reviewCount = rService.getReviewCount(productNo);
 		// 상품을 구매한 회원인지 확인 여부
 		int customer = uService.checkCustomer(productNo);
+		
 
 		mv.addObject("product", product);
 		mv.addObject("pList", pList);
 		mv.addObject("customer", customer);
 		mv.addObject("reviewCount", reviewCount);
+		mv.addObject("favorite", fResult);
 		mv.setViewName("shopping/detail");
 		return mv;
 	}
 	
 	// 찜하기 추가
-	@PostMapping("/scrap/add")
-	public String addScrap(Favorite favorite) {
-		int result = pService.addScrap(favorite);
+	@PostMapping("/favorite/add")
+	@ResponseBody
+	public String addFavorite(Favorite favorite) {
+		int result = pService.addFavorite(favorite);
 		if (result > 0) {
 			return "1";
 		} else {
@@ -137,9 +137,10 @@ public class ProductController {
 	}
 	
 	// 찜하기 제거
-	@PostMapping("/scrap/remove")
-	public String removeScrap(Favorite favorite) {
-		int result = pService.removeScrap(favorite);
+	@PostMapping("/favorite/remove")
+	@ResponseBody
+	public String removeFavorite(Favorite favorite) {
+		int result = pService.removeFavorite(favorite);
 		if (result > 0) {
 			return "1";
 		} else {

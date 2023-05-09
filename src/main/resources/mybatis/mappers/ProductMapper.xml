@@ -149,4 +149,14 @@
 		    PRODUCT_PIC_4 = CASE WHEN #{productPic4} IS NULL OR #{productPic4} = '' THEN PRODUCT_PIC_4 ELSE #{productPic4} END
 		WHERE PRODUCT_NO = #{productNo}
     </update>
+    
+    <select id="getFavorite" resultType="_int">
+    	SELECT COUNT(*) FROM FAVORITE_TBL WHERE PRODUCT_NO = #{productNo} AND USER_NO = #{userNo}
+    </select>
+    <insert id="addFavorite">
+    	INSERT INTO FAVORITE_TBL VALUES (#{productNo}, #{userNo})
+    </insert>
+    <delete id="removeFavorite">
+    	DELETE FROM FAVORITE_TBL WHERE PRODUCT_NO = #{productNo} AND USER_NO = #{userNo}
+    </delete>
 </mapper>

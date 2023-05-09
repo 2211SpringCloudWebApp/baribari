@@ -76,21 +76,6 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public int addScrap(Favorite favorite) {
-		return pRepository.addScrap(session, favorite);
-	}
-	
-	@Override
-	public int removeScrap(Favorite favorite) {
-		return pRepository.removeScrap(session, favorite);
-	}
-
-	@Override
-	public List<Favorite> getFavoriteList(int userNo) {
-		return pRepository.getFavoriteList(session, userNo);
-	}
-
-	@Override
 	public List<Product> getProductListBySeller(int userNo) {
 		return pRepository.getProductListBySeller(session, userNo);
 	}
@@ -98,5 +83,20 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public int modifyProduct(Product product) {
 		return pRepository.modifyProduct(session, product);
+	}
+
+	@Override
+	public int getFavorite(Favorite favorite) {
+		return pRepository.getFavorite(session, favorite);
+	}
+
+	@Override
+	public int addFavorite(Favorite favorite) {
+		return pRepository.addFavorite(session, favorite);
+	}
+
+	@Override
+	public int removeFavorite(Favorite favorite) {
+		return pRepository.removeFavorite(session, favorite);
 	}
 }

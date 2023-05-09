@@ -103,22 +103,10 @@
 							</div>
 						</a>
 
-						</th:block>
 						<!-- 찜하기/장바구니 버튼 -->
 						<div sec:authorize="hasRole('ROLE_USER')" class="card-footer p-4 pt-0 border-top-0 bg-transparent">
 							<!-- fList에서 해당 Product의 productNo와 일치하는 값 찾기 -->
 							<div class="text-center">
-								<th:block th:variable="isFavorite">
-									<th:block th:each="favorite : ${fList}">
-										<th:block th:if="${favorite.productNo == product.productNo AND favorite.userNo == #authentication.principal.user.userNo}">
-											<a class="btn btn-outline-dark mt-auto" href="#"><i class="fas fa-heart" style="color: red;"></i>
-										</a>
-								    	</th:block>
-										<th:block th:if="${favorite.productNo == NULL OR favorite.userNo != #authentication.principal.user.userNo}">
-											<a class="btn btn-outline-dark mt-auto" href="#"><i class="fas fa-heart" style="color: blue;"></i></a>
-										</th:block>
-									</th:block>
-								</th:block>
 								<a class="btn btn-outline-dark mt-auto" href="#">
 									<i class="fas fa-shopping-cart"></i>
 								</a>

@@ -137,5 +137,11 @@ public interface ProductRepository {
 	 * @return int
 	 */
 	int modifyProduct(SqlSession session, Product product);
+
+	int getFavorite(SqlSession session, Favorite favorite);
+
+	int addFavorite(SqlSession session, Favorite favorite);
+
+	int removeFavorite(SqlSession session, Favorite favorite);
 }
 	

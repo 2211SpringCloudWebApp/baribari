@@ -103,7 +103,8 @@
 					</div>
 					<!-- 구매/장바구니/찜하기 버튼 -->
 					<div sec:authorize="hasRole('ROLE_USER')" class="d-flex" style="justify-content: end;">
-						<button class="btn btn-outline-dark" type="button"><i class="fas fa-heart"></i>찜하기</button>
+						<button th:if="${favorite == 0}" class="btn btn-outline-dark" type="button" onclick="addFavorite()"><i class="fas fa-heart"></i>찜하기</button>
+						<button th:if="${favorite == 1}" class="btn btn-outline-dark" type="button" onclick="removeFavorite()" style="background-color: #FFBF1F;"><i class="fas fa-heart"></i>찜하기</button>
 						<button class="btn btn-outline-dark" type="button" onclick="addToCart()" style="margin: 0 10px;"><i class="fas fa-shopping-cart"></i>장바구니</button>
 						<button class="btn btn-outline-dark" type="button">바로 구매</button>
 					</div>
@@ -132,12 +133,9 @@
 		<!-- 상품 정보 -->
 		<div id="productContainer">
 			<div id="productInfo">
-				<img th:if="${product.productPic2 != null}" th:src="@{${product.productPic2}}" alt="상품정보"
-					class="img-detail" style="width: 100%;">
-				<img th:if="${product.productPic3 != null}" th:src="@{${product.productPic3}}" alt="상품정보"
-					class="img-detail" style="width: 100%;">
-				<img th:if="${product.productPic4 != null}" th:src="@{${product.productPic4}}" alt="상품정보"
-					class="img-detail" style="width: 100%;">
+				<img th:if="${product.productPic2 != null}" th:src="@{${product.productPic2}}" alt="상품정보" class="img-detail" style="width: 100%;">
+				<img th:if="${product.productPic3 != null}" th:src="@{${product.productPic3}}" alt="상품정보" class="img-detail" style="width: 100%;">
+				<img th:if="${product.productPic4 != null}" th:src="@{${product.productPic4}}" alt="상품정보" class="img-detail" style="width: 100%;">
 			</div>
 
 			<!-- 상품후기 -->
@@ -351,6 +349,43 @@
 			});
 		}
 
+		function addFavorite() {
+			$.ajax({
+				url: "/shopping/favorite/add",
+				data: { "productNo": productNo, "userNo": userNo },
+				type: "post",
+				success: function (result) {
+					if (result == "1") {
+						window.location.reload();
+					} else {
+						alert("찜하기 실패");
+						console.log(result);
+					}
+				},
+				error: function () {
+					alert("처리 실패");
+				}
+			});
+		}
+		function removeFavorite() {
+			$.ajax({
+				url: "/shopping/favorite/remove",
+				data: { "productNo": productNo, "userNo": userNo },
+				dataType: "json",
+				type: "post",
+				success: function (result) {
+					if (result == "1") {
+						window.location.reload();
+					} else {
+						alert("찜하기 취소 실패");
+						console.log(result);
+					}
+				},
+				error: function () {
+					alert("처리 실패");
+				}
+			});
+		}
 		/* Fancybox: 사진 확대를 위한 라이브러리 (jQuery Plugin) */
 		$(document).ready(function () {
 			$(".fancybox").fancybox({
@@ -529,7 +564,7 @@
 		            + "<span class='num'>" + (qcList.length - i) + "</span>" // 문의 번호 (역순)
 		            + "<span class='title'>" + qcList[i].qnaContent.replace(/\n/g, "<br>") + "</span>" // 문의 내용
 		            + "<span class='author' style='width: 15%;'>" + qcList[i].userId + "</span>" // 문의 작성자
-		            + (qcList[i].userNo == userNo ? "<span class='btns'>" + "<button onclick='showReplyForm(" + qcList[i].qnaNo + ")'>댓글</button>" + "<button onclick='deleteQnA(" + qcList[i].qnaNo + ", " + userNo + ")'>삭제</button>" + "</span>" : "") // 문의 작성자와 로그인한 사용자가 같은 경우 수정/삭제 버튼 출력
+		            + (qcList[i].userNo == userNo ? "<span class='btns'>" + "<button onclick='showReplyForm(" + qcList[i].qnaNo + ")'>답장</button>" + "<button onclick='deleteQnA(" + qcList[i].qnaNo + ", " + userNo + ")'>삭제</button>" + "</span>" : "") // 문의 작성자와 로그인한 사용자가 같은 경우 수정/삭제 버튼 출력
 		            + "</li>";
 		          qnaList += "<li id='replyForm_" + qcList[i].qnaNo + "' class='reply-form'></li>"; // 답글 작성 폼
 		        } else {
@@ -591,7 +626,6 @@
 	                }
 	            });
 	    }
-
 		
 		/* 문의 삭제 */
 		function deleteQnA(qnaNo, userNo) {

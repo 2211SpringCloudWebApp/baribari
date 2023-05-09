@@ -26,4 +26,6 @@ public interface QnaCommentRepository {
 
 	public List<QnA> getOnAList(SqlSession session, Integer productNo);
 
+	public List<QnA> commentShow(SqlSession session, Integer qnaNo);
+
 }

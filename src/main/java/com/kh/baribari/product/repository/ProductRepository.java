@@ -116,10 +116,11 @@ public interface ProductRepository {
 
 	/**
 	 * 찜하기 목록 가져오기
+	 * @param userNo 
 	 * @param SqlSession
 	 * @return int
 	 */
-	List<Favorite> getFavoriteList(SqlSession session);
+	List<Favorite> getFavoriteList(SqlSession session, int userNo);
 	
 	/**
 	 * 판매자가 판매하고 있는 상품 목록

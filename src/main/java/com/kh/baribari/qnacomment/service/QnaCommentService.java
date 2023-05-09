@@ -22,4 +22,6 @@ public interface QnaCommentService {
 
 	public List<QnA> getQnAList(Integer productNo);
 
+	public List<QnA> commentShow(Integer qnaNo);
+
 }

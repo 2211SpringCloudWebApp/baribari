@@ -102,11 +102,10 @@
 						</div>
 					</div>
 					<!-- 구매/장바구니/찜하기 버튼 -->
-					<div sec:authorize="hasRole('ROLE_USER')" class="d-flex">
-						<button class="btn btn-outline-dark" type="button">바로 구매</button>
-						<button class="btn btn-outline-dark" type="button" onclick="addToCart()"><i
-								class="fas fa-shopping-cart"></i>장바구니</button>
+					<div sec:authorize="hasRole('ROLE_USER')" class="d-flex" style="justify-content: end;">
 						<button class="btn btn-outline-dark" type="button"><i class="fas fa-heart"></i>찜하기</button>
+						<button class="btn btn-outline-dark" type="button" onclick="addToCart()" style="margin: 0 10px;"><i class="fas fa-shopping-cart"></i>장바구니</button>
+						<button class="btn btn-outline-dark" type="button">바로 구매</button>
 					</div>
 				</div>
 			</div>
@@ -376,7 +375,7 @@
 							+ "<span class='num'>" + (rList.length - i) + "</span>" // 후기 번호 (역순)
 							+ "<span class='title'>" + rList[i].reviewContent.replace(/\n/g, "<br>") + "</span>" // 후기 내용
 							+ "<span class='author'>" + rList[i].userName + "</span>" // 후기 작성자 = 로그인된 사용자
-							+ (rList[i].userNo == userNo ? "<span class='btns'>" + "<button>수정</button>" + "<button onclick='deleteReview(" + rList[i].reviewNo + ", " + userNo + ")'>삭제</button>" + "</span>" : "") // 후기 작성자와 로그인한 사용자가 같은 경우 수정/삭제 버튼 출력
+							+ (rList[i].userNo == userNo ? "<span class='btns'><button onclick='deleteReview(" + rList[i].reviewNo + ", " + userNo + ")'>삭제</button>" + "</span>" : "") // 후기 작성자와 로그인한 사용자가 같은 경우 수정/삭제 버튼 출력
 							+ "</li>";
 						for (var j = 1; j <= 5; j++) { // 후기 사진 (최대 5장)
 							if (rList[i]['reviewPic' + j]) {
@@ -480,42 +479,6 @@
 		}
 
 		/* ============================================== QNA ============================================== */
-		/* 문의 출력 */
-		function getQnaList() {
-			$.ajax({
-				url: "/qna/list",
-				data: { "productNo": productNo },
-				type: "get",
-				dataType: "json",
-				success: function (qList) {
-					var qnaList = "";
-					for (var i = 0; i < qList.length; i++) {
-						qnaList += "<li>"
-							+ "<span class='num'>" + (qList.length - i) + "</span>" // 문의 번호 (역순)
-							+ "<span class='title'>" + qList[i].qnaContent.replace(/\n/g, "<br>") + "</span>" // 문의 내용
-							+ "<span class='author'>" + qList[i].userNo + "</span>" // 문의 작성자 = 로그인된 사용자
-							+ (qList[i].userNo == userNo ? "<span class='btns'>" + "<button>수정</button>" + "<button onclick='deleteReview(" + qList[i].qnaNo + ", " + userNo + ")'>삭제</button>" + "</span>" : "") // 문의 작성자와 로그인한 사용자가 같은 경우 수정/삭제 버튼 출력
-							+ "</li>";
-					}
-					$("#qnaBoard").empty();
-					$("#qnaBoard").append(qnaList);
-				},
-				error: function () {
-					alert("처리 실패");
-				}
-			});
-		}
-		// qna 댓글 출력
-		function submitComment() {
-							// 댓글 작성 폼 제출
-							document.getElementById("commentForm").action = "/qcomment/register";
-							document.getElementById("commentForm").submit();
-							// 댓글 작성 완료 메시지 띄우기
-							alert("댓글이 작성되었습니다.");
-							// 페이지 새로고침
-							location.reload();
-						}
-
 		/* 문의 등록 */
 		$("#submitQna").on("click", function () {
 			var qnaContent = document.querySelector('#qnaContent');
@@ -550,11 +513,90 @@
 				}
 			});
 		});
+		
+		/* 문의 출력 */
+		function getQnaList() {
+		  $.ajax({
+		    url: "/qComment/view",
+		    data: { "productNo": productNo },
+		    type: "get",
+		    dataType: "json",
+		    success: function (qcList) {
+		      var qnaList = "";
+		      for (var i = 0; i < qcList.length; i++) {
+		        if(qcList[i].commentNo == 0) {
+		          qnaList += "<li>"
+		            + "<span class='num'>" + (qcList.length - i) + "</span>" // 문의 번호 (역순)
+		            + "<span class='title'>" + qcList[i].qnaContent.replace(/\n/g, "<br>") + "</span>" // 문의 내용
+		            + "<span class='author' style='width: 15%;'>" + qcList[i].userId + "</span>" // 문의 작성자
+		            + (qcList[i].userNo == userNo ? "<span class='btns'>" + "<button onclick='showReplyForm(" + qcList[i].qnaNo + ")'>답장</button>" + "<button onclick='deleteQnA(" + qcList[i].qnaNo + ", " + userNo + ")'>삭제</button>" + "</span>" : "") // 문의 작성자와 로그인한 사용자가 같은 경우 수정/삭제 버튼 출력
+		            + "</li>";
+		          qnaList += "<li id='replyForm_" + qcList[i].qnaNo + "' class='reply-form'></li>"; // 답글 작성 폼
+		        } else {
+		          qnaList += "<li>"
+		            + "<span class='title'>ㄴ" + qcList[i].commentContent.replace(/\n/g, "<br>") + "</span>"
+		            + "<span class='author'>" + qcList[i].userId + "</span>"
+		            + (qcList[i].userNo == userNo ? "<span class='btns'>" + "<button onclick='deleteComment(" + qcList[i].commentNo + ", " + userNo + ")'>삭제</button>" + "</span>" : "")
+		            + "</li>";
+		        }
+		      }
+		      $("#qnaBoard").empty();
+		      $("#qnaBoard").append(qnaList);
+		    },
+		    error: function () {
+		      alert("처리 실패");
+		    }
+		  });
+		}
+		
+		function showReplyForm(qnaNo) {
+			var replyForm = $("#replyForm_" + qnaNo);
+			var formHtml = "<form id='commentForm' action='/qcomment/register' method='post'>"
+			    + "<textarea id='commentContent' class='form-control' name='commentContent' placeholder='답글을 입력해주세요.'></textarea>"
+			    + "<input type='hidden' id='userNo' th:value='${#authentication.principal.user.userNo}'>"
+				+ "<input type='hidden' id='qnaNo' th:value='${qcList[i].qnaNo}'>"
+			    + "<button type='button' id='submitComment' class='btn btn-primary' onclick='submitQnAComment(" + qnaNo + ")'>등록</button>"
+			    + "</form>";
+			replyForm.html(formHtml);
+		}
+		
+		// QNA 댓글 등록
+		function submitQnAComment(qnaNo) {
+			 var commentContent = document.querySelector('#commentContent');
+		        if (commentContent.value.length == 0) {
+		            alert("내용을 입력해주세요.");
+		            return;
+		        }
+		        const formData = new FormData();
+		        formData.append("commentContent", commentContent.value);
+		        formData.append("qnaNo", qnaNo);
+		        formData.append("userNo", userNo);
+	            $.ajax({
+	                url: "/qComment/register",
+	                data: formData,
+	                type: "post",
+	                processData: false,
+	                contentType: false,
+	                success: function (result) {
+	                    if (result == "1") {
+	                        alert("댓글 등록 완료");
+	                        getQnaList();
+	                    } else {
+	                        alert("댓글 등록 실패");
+	                        console.log(result);
+	                    }
+	                },
+	                error: function () {
+	                    alert("처리 실패");
+	                }
+	            });
+	    }
+		
 		/* 문의 삭제 */
-		function deleteReview(reviewNo, userNo) {
+		function deleteQnA(qnaNo, userNo) {
 			confirm("삭제하시겠습니까");
 			$.ajax({
-				url: "/qna/remove",
+				url: "/qComment/delete",
 				data: {
 					"qnaNo": qnaNo,
 					"userNo": userNo
@@ -563,9 +605,32 @@
 				success: function (result) {
 					if (result == "1") {
 						alert("후기 삭제 완료");
-						getReviewList();
+						getQnaList();
 					} else {
 						alert("후기 삭제 실패");
+						console.log(result);
+					}
+				},
+				error: function () {
+					alert("처리 실패");
+				}
+			});
+		}
+		function deleteComment(commentNo, userNo) {
+			confirm("삭제하시겠습니까");
+			$.ajax({
+				url: "/qComment/delete",
+				data: {
+					"commentNo": commentNo,
+					"userNo": userNo
+				},
+				type: "post",
+				success: function (result) {
+					if (result == "1") {
+						alert("답글 삭제 완료");
+						getQnaList();
+					} else {
+						alert("답글 삭제 실패");
 						console.log(result);
 					}
 				},

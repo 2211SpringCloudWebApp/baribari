@@ -11,6 +11,10 @@ public class QnA {
 	private int productNo;
 	private int categoryNo;
 	private String qnaDate;
+	private String qnaAnswerYn;
+	private int qnaAnswerNo;
+	private String qnaPic1;
+	private String qnaPic2;
 	// QnA Comment부분
 	private int commentNo;
 	private String userId;

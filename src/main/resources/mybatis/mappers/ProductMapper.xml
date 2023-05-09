@@ -125,7 +125,7 @@
     
    	<!-- 찜하기 목록 -->
    	<select id="getFavoriteList" resultType="Favorite">
-   		SELECT * FROM FAVORITE_TBL
+   		SELECT * FROM FAVORITE_TBL WHERE USER_NO = #{userNo}
    	</select>
    	
    	<!-- 판매자가 판매하고 있는 상품 목록 -->

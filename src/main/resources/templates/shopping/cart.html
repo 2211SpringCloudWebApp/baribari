@@ -59,7 +59,7 @@
 		 				<div class="product" th:each="product, i : ${pList}">
 		 					<div class="row">
 		 						<div class="col-md-1">
-		 							<input type="checkbox" id="product-${i.index}" onclick="calculateTotalPrice()">
+		 							<input type="checkbox" id="product-${i.index}">
 		 						</div>
 		 						<!-- 상품 사진 -->
 			 					<div class="col-md-3">
@@ -109,16 +109,81 @@
 		 			</div>
 	 			</div>
 	 			
+	 			
 	 			<!-- 가격/결제 -->
-	 			<div class="col-md-12 col-lg-4 payment-info" id="payment-info">
+	 			<div class="col-md-12 col-lg-4 payment-info" id="payment-info" style="border-left: 1px solid #ccc; padding-left: 1em;">
+	 			<form action="/order/" method="post">
+					<div class="summary">
+						<h3>배송정보</h3>
+						<div id="address">
+							<label>
+								<input type="radio" name="deliveryOption" value="default" id="defaultInput" checked> 기본배송지
+							</label>
+							<label>
+								<input type="radio" name="deliveryOption" value="direct" id="directInput"> 직접입력
+							</label>
+							<label><button style="display: contents;">배송지목록</button></label>
+						</div>
+						<br>
+						<div id="deliveryInfoDiv">
+							<div>
+								<label>받는 사람</label>
+								<input name="userName" th:value="${user.userName}" disabled readonly>
+							</div>
+							<div>
+								<label>우편번호</label>
+								<input name="addressZipCode" th:value="${aList[0].addressZipCode}" disabled readonly>
+							</div>
+							<div>
+								<label>주소</label>
+								<input name="addressJibun" th:value="${aList[0].addressJibun}" disabled readonly>
+							</div>
+							<div>
+								<label>상세 주소</label>
+								<input name="addressJibunDetail" th:value="${aList[0].addressJibunDetail}" disabled readonly>
+							</div>
+							<div>
+								<label>전화번호</label>
+								<input name="addressPhone" th:value="${aList[0].addressPhone}" disabled readonly>
+							</div>
+						</div>
+						<div id="inputField">
+							<div>
+								<label>받는 사람</label>
+								<input name="userName" type="text" placeholder="받는 사람">
+							</div>
+							<div>
+								<label>우편번호</label>
+								<input name="addressZipCode"  type="text" placeholder="우편번호">
+							</div>
+							<div>
+								<label> </label>
+								<button type="button" class="address-post-btn" style="margin-bottom: 10px;" onclick="findAddress();">우편번호 찾기</button>
+							</div>
+							<div>
+								<label>주소</label>
+								<input name="addressJibun" type="text" class="address-input" placeholder="주소" readonly>
+							</div>
+							<div>
+								<label>상세 주소</label>
+								<input name="addressJibunDetail" type="text" class="address-input" placeholder="상세 주소">
+							</div>
+							<div>
+								<label>전화번호</label>
+								<input name="addressPhone" type="text" placeholder="전화번호">
+							</div>
+						</div>
+		 			</div>
 	 				<div class="summary">
 	 					<h3>가격</h3>
 	 					<div class="summary-item"><span class="text">상품 가격</span><span id="total-price" class="price"></span></div>
 	 					<div class="summary-item"><span class="text">총 할인</span><span id="total-discount" class="price"></span></div>
 	 					<div class="summary-item"><span class="text">배송비</span><span id="total-delivery-charge" class="price"></span></div>
 	 					<div class="summary-item"><span class="text">총 가격</span><span id="payment-price" class="price"></span></div>
-	 					<button type="button" class="btn btn-primary btn-lg btn-block" onclick="payment()">결제하기</button>
+	 					
+	 					<button type="submit" class="btn btn-primary btn-lg btn-block" onclick="payment()">결제하기</button>
 		 			</div>
+	 			</form>
 	 			</div>
 	 			
 			</div>	 			
@@ -130,19 +195,31 @@
 <footer th:replace="footer :: footer"></footer>
 <script>
 
-	var userNo = [[${user.userNo}]];
+	const userNo = [[${user.userNo}]];
+
+	/* 배송지 선택 */
+	document.getElementById("inputField").style.display = "none";
+	document.getElementById("defaultInput").addEventListener("click", function() {
+	  document.getElementById("deliveryInfoDiv").style.display = "block";
+	  document.getElementById("inputField").style.display = "none";
+	});
+	document.getElementById("directInput").addEventListener("click", function() {
+	  document.getElementById("deliveryInfoDiv").style.display = "none";
+	  document.getElementById("inputField").style.display = "block";
+	});
+
 	
-	// 페이지가 로드될 때 실행되는 함수
-	window.onload = function() {
-	  // 모든 수량 입력 필드의 값을 1로 초기화
-	  const quantity = document.querySelectorAll('#quantity-input-');
-	  for (let i = 0; i < quantityInputs.length; i++) {
-	    quantityInputs[i].value = 1;
-	    // 초기화된 수량으로 총 결제금액 등을 계산
-	    updateTotalPrice(parseInt(document.querySelector('#price-' + i).textContent.replace(/[^0-9]/g,'')), i);
-	  }
-	};
-	
+	document.addEventListener("DOMContentLoaded", function() {
+	    const productElements = document.querySelectorAll(".product");
+	    productElements.forEach(function(productElement, index) {
+	        const productPrice = parseInt(productElement.querySelector('#price-' + index).textContent.replace(/[^0-9]/g,''));
+	        const productQuantity = parseInt(productElement.querySelector('#quantity-' + index).value);
+	        const totalPrice = productPrice * productQuantity;
+	        productElement.querySelector('#total-price-by-product-' + index).textContent = numberWithCommas(totalPrice);
+	    });
+	});
+
+	updateTotalPrice();
 	// 해당 상품 가격 정보
 	function updateTotalPrice(price, index) { // 해당 상품의 원래 가격, index
 		const quantity = parseInt(document.querySelector('#quantity-' + index).value); // 해당 상품의 선택 수량
@@ -187,23 +264,43 @@
 		});
 	}
 	
-	function calculateTotalPrice() {
-		  let totalPrice = 0;
-		  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-		  checkboxes.forEach(function (checkbox) {
-		    const index = checkbox.id.split('-')[1];
-		    const productPrice = parseInt(document.getElementById(`product-price-${index}`).textContent.replace(/,/g, ''));
-		    totalPrice += productPrice;
-		  });
-		  console.log(totalPrice);
-		}
-
-		const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-		checkboxes.forEach(function (checkbox) {
-		  checkbox.addEventListener('click', calculateTotalPrice);
+	$('input[type="checkbox"]').on('change', function() {
+		  updateSummary();
 		});
 
-		
+
+	function updateSummary() {
+		  let totalPrice = 0;
+		  let totalDiscount = 0;
+		  let totalDeliveryCharge = 0;
+
+		  // 체크박스가 선택된 상품들의 정보를 수집합니다.
+		  const checkedProducts = $('input[type="checkbox"]:checked').map(function() {
+		    const index = $(this).attr('id').replace('product-', '');
+		    const product = pList[index];
+		    return product;
+		  }).get();
+
+		  // 수집한 정보를 바탕으로 각 가격 정보를 합산합니다.
+		  for (const product of checkedProducts) {
+		    const quantity = parseInt($(`#quantity-${product.index}`).val());
+		    const price = product.productPrice;
+		    const discount = product.productDiscount;
+		    const deliveryCharge = product.productDeliveryCharge;
+		    const totalProductPrice = price * quantity;
+		    const totalProductDiscount = (price * discount / 100) * quantity;
+
+		    totalPrice += totalProductPrice;
+		    totalDiscount += totalProductDiscount;
+		    totalDeliveryCharge += deliveryCharge;
+		  }
+
+		  // 합산된 정보를 HTML의 각 요소에 출력합니다.
+		  $('#total-price').text(numberWithCommas(totalPrice));
+		  $('#total-discount').text(numberWithCommas(totalDiscount));
+		  $('#total-delivery-charge').text(numberWithCommas(totalDeliveryCharge));
+		}
+
 	/* 상품을 장바구니에서 제거 */
 	function removeFromCart(productNo) {
 		var confirmed = confirm("정말로 삭제하시겠습니까?");
@@ -231,7 +328,61 @@
 		      }
 		});
 	}
-		  
+	
+
+	function paymet() {
+		var productDivs = document.querySelectorAll('.product');
+		var orderDetails = [];
+
+		for (var i = 0; i < productDivs.length; i++) {
+		  var productDiv = productDivs[i];
+		  var isChecked = productDiv.querySelector('input[type="checkbox"]').checked;
+
+		  if (isChecked) {
+		    var noInput = productDiv.querySelector('input[id^="no-"]');
+		    var quantityInput = productDiv.querySelector('input[id^="quantity-"]');
+		    var priceSpan = productDiv.querySelector('span[id^="price-"]');
+
+		    // 입력된 값이 모두 있는 경우에만 OrderDetail 객체를 생성합니다.
+		    if (noInput && quantityInput && priceSpan) {
+		      var orderDetail = {
+		        orderDetailNo: i,
+		        orderDetailCount: parseInt(quantityInput.value),
+		        orderPrice: parseInt(priceSpan.textContent.replace(/[^0-9]/g, '')),
+		        sellerUserNo: parseInt(productDiv.dataset.sellerUserNo),
+		        productNo: parseInt(noInput.value)
+		      };
+		      orderDetails.push(orderDetail);
+		    }
+		  }
+		}
+
+
+		  // POST 요청 보내기
+		  fetch('/order/', {
+		    method: 'POST',
+		    headers: {
+		      'Content-Type': 'application/json',
+		    },
+		    body: JSON.stringify(data),
+		  })
+		    .then(function (response) {
+		      if (!response.ok) {
+		        throw new Error('HTTP error, status = ' + response.status);
+		      }
+		      return response.text();
+		    })
+		    .then(function (text) {
+		      console.log('Response from server:', text);
+		      alert('결제가 완료되었습니다.');
+		    })
+		    .catch(function (error) {
+		      console.error('Error:', error);
+		      alert('결제에 실패했습니다.');
+		    });
+		}
+
+	
 </script>
 	
 </body>

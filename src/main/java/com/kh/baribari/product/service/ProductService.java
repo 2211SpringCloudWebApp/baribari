@@ -101,9 +101,10 @@ public interface ProductService {
 
 	/**
 	 * 찜하기 목록
+	 * @param userNo 
 	 * @return List<Favorite>
 	 */
-	List<Favorite> getFavoriteList();
+	List<Favorite> getFavoriteList(int userNo);
 	
 	/**
 	 * 판매자가 판매하고 있는 상품 목록

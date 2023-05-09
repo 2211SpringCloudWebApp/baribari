@@ -86,8 +86,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Favorite> getFavoriteList() {
-		return pRepository.getFavoriteList(session);
+	public List<Favorite> getFavoriteList(int userNo) {
+		return pRepository.getFavoriteList(session, userNo);
 	}
 
 	@Override

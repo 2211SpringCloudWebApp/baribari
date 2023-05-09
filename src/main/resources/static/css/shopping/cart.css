@@ -151,3 +151,28 @@ input[type=number]::-webkit-inner-spin-button {
 .delivery-info, .payment-info {
     background-color: #fff;
 }
+
+#inputField > div > label, #deliveryInfoDiv > div > label {
+	width: 7em;
+}
+
+#inputField > div > input {
+    width: 15em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 1px 5px;
+}
+#deliveryInfoDiv > div > input {
+	width: 15em;
+	border: none;
+	padding: 1px 5px;
+}
+
+#address {
+	display:flex;
+	justify-content: space-evenly;
+}
+
+.summary:first-child {
+    border: none;
+}

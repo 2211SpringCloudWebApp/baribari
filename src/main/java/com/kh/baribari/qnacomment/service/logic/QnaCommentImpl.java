@@ -34,4 +34,9 @@ public class QnaCommentImpl implements QnaCommentService{
 		return qcList;
 	}
 
+	@Override
+	public List<QnA> commentShow(Integer qnaNo) {
+		return qcRespository.commentShow(session, qnaNo);
+	}
+
 }

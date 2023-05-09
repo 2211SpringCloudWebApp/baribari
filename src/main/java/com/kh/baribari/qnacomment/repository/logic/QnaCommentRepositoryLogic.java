@@ -13,17 +13,22 @@ public class QnaCommentRepositoryLogic implements QnaCommentRepository{
 
 	@Override
 	public int qcommentRegister(SqlSession session, QnA qcomment) {
-		return session.insert("qCommentMapper.qcommentRegister", qcomment);
+		return session.insert("QnACommentMapper.register", qcomment);
 	}
 
 	@Override
 	public int qcommentDelete(SqlSession session, Integer commentNo) {
-		return session.delete("qCommentMapper.qcommentDelete", commentNo);
+		return session.delete("QnACommentMapper.qelete", commentNo);
 	}
 
 	@Override
 	public List<QnA> getOnAList(SqlSession session, Integer productNo) {
-		return session.selectList("qCommentMapper.qcommentSelect", productNo);
+		return session.selectList("QnACommentMapper.qcommentSelect", productNo);
+	}
+
+	@Override
+	public List<QnA> commentShow(SqlSession session, Integer qnaNo) {
+		return session.selectList("QnACommentMapper.commentShow", qnaNo);
 	}
 
 }

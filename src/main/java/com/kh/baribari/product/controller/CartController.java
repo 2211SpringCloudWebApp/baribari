@@ -17,7 +17,9 @@ import com.kh.baribari.product.domain.Cart;
 import com.kh.baribari.product.domain.Product;
 import com.kh.baribari.product.service.CartService;
 import com.kh.baribari.product.service.ProductService;
+import com.kh.baribari.user.domain.Address;
 import com.kh.baribari.user.domain.User;
+import com.kh.baribari.user.service.UserService;
 
 @Controller
 @RequestMapping("cart")
@@ -26,6 +28,8 @@ public class CartController {
 	private CartService cService;
 	@Autowired
 	private ProductService pService;
+	@Autowired
+	private UserService uService;
 	@Autowired
 	private ReturnUser returnUser;
 
@@ -46,6 +50,7 @@ public class CartController {
 	public ModelAndView getCartList(Authentication authentication, ModelAndView mv) throws IOException {
 		// 사용자 정보
 		User user = returnUser.returnUser(authentication);
+		List<Address> aList = uService.selectAddressList(user);
 		// 장바구니 목록
 		List<Cart> cList = cService.getCartList(user.getUserNo());
 		// 장바구니의 각 상품에 대한 정보
@@ -56,6 +61,7 @@ public class CartController {
 		}
 
 		mv.addObject("user", user);
+		mv.addObject("aList", aList);
 		mv.addObject("pList", cList);
 		mv.setViewName("shopping/cart");
 		return mv;

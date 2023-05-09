@@ -92,8 +92,8 @@ public class ProductRepositoryLogic implements ProductRepository {
 	}
 
 	@Override
-	public List<Favorite> getFavoriteList(SqlSession session) {
-		return session.selectList("ProductMapper.getFavoriteList");
+	public List<Favorite> getFavoriteList(SqlSession session, int userNo) {
+		return session.selectList("ProductMapper.getFavoriteList", userNo);
 	}
 
 	@Override

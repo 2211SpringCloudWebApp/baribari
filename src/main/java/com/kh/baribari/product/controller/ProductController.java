@@ -49,7 +49,14 @@ public class ProductController {
 	@GetMapping("/list")
 	public ModelAndView getProductList(ModelAndView mv,
 			@RequestParam(value = "category", required = false, defaultValue = "All") String productCategory,
-			@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage) {
+			@RequestParam(value = "page", required = false, defaultValue = "1") Integer currentPage
+			, Authentication authentication) {
+		// 사용자 정보
+		User user = null;
+		if(authentication != null) {
+			user = returnUser.returnUser(authentication);
+			System.out.println(user.getUserNo());
+		}
 		// 상품 총 갯수
 		int pCount = pService.getProductCount(productCategory);
 		// PageInfo 매개변수: 현재페이지 (RequestParam), 전체 게시글 수 (mapper), 페이지 당 게시글 수
@@ -57,8 +64,11 @@ public class ProductController {
 		// 상품 목록
 		List<Product> pList = pService.getProductList(productCategory, pi);
 		// 찜하기 목록
-		List<Favorite> fList = pService.getFavoriteList();
-		
+		List<Favorite> fList = null;
+		if(user != null) {
+			fList = pService.getFavoriteList(user.getUserNo());
+		}
+		System.out.println(fList);
 		if (pList != null) {
 			mv.addObject("pList", pList);
 			mv.addObject("pCount", pCount);

@@ -49,7 +49,6 @@ public class CommentController {
 		rcomment.setParentsCommentNo(commentNo);
 		rcomment.setCommentContent(replyContent);
 		rcomment.setUserNo(loginUserNo);
-		
 		int result = cService.registerReComment(rcomment);
 		return result;
 	}
@@ -65,8 +64,9 @@ public class CommentController {
 		List<Comment> rlist = null; // 대댓글을 저장할 리스트
 		List<Comment> clist = cService.commentShow(communityNo);
 		
-		System.out.println(clist);
-		for(Comment comment : clist) {
+		//System.out.println(clist);
+		
+		for(Comment comment : clist) { // 리스트만큼 반복함.
 			slist.add(comment);
 			rlist =  cService.reCommentShow(comment.getCommentNo());
 			if(rlist != null) {
@@ -75,7 +75,6 @@ public class CommentController {
 				}
 			}
 		}
-		
 		return slist;
 	}
 	

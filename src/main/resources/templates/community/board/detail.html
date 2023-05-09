@@ -70,18 +70,6 @@
                 
                 </div>
                 	<div id="registerdiv7"></div>
-<!--                 <div th:if="${pic.communityPic1} != null" id="registerdiv7"> -->
-<!-- 	                <div th:if="${pic.communityPic1} != null" class="div_style"><img id="img1" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic1}" alt="첨부사진1" /></div> -->
-<!-- 	                <div th:if="${pic.communityPic2} != null" class="div_style"><img id="img2" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic2}" alt="첨부사진2" /></div> -->
-<!-- 	                <div th:if="${pic.communityPic3} != null" class="div_style"><img id="img3" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic3}" alt="첨부사진3" /></div> -->
-<!-- 	                <div th:if="${pic.communityPic4} != null" class="div_style"><img id="img4" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic4}" alt="첨부사진4" /></div> -->
-<!-- 	                <div th:if="${pic.communityPic5} != null" class="div_style"><img id="img5" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic5}" alt="첨부사진5" /></div> -->
-<!-- 	                <div th:if="${pic.communityPic6} != null" class="div_style"><img id="img6" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic6}" alt="첨부사진6" /></div> -->
-<!-- 	                <div th:if="${pic.communityPic7} != null" class="div_style"><img id="img7" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic7}" alt="첨부사진7" /></div> -->
-<!-- 	                <div th:if="${pic.communityPic8} != null" class="div_style"><img id="img8" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic8}" alt="첨부사진8" /></div> -->
-<!-- 	                <div th:if="${pic.communityPic9} != null" class="div_style"><img id="img9" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic9}" alt="첨부사진9" /></div> -->
-<!-- 	                <div th:if="${pic.communityPic10} != null" class="div_style"><img id="img10" onclick="showImg(this.id)" class = "img_style" th:src="${pic.communityPic10}" alt="첨부사진10" /></div> -->
-<!--                 </div> -->
                 <div id="registerdiv4">
                     <textarea name="content" id="inputContent" readonly th:text=${commu.communityContent} ></textarea>
                 </div>
@@ -207,16 +195,15 @@
 	        	                var commentName = $("<input>").addClass("comment-name").attr("type", "text").attr("readonly", true).val(data[i].userNickname);
 	        	                
 	        	                var commentNo = $("<input>").attr("type", "hidden").val(data[i].commentNo);
-	        	                
 	        	                // 대댓글 달기 버튼
 	        	                var commentReplyBtn = $("<input>").addClass("comment-allbtn").attr("type", "button").val("댓글달기").click(function(){
-	        	                    var replyDiv = $("<div>").addClass("reComment-div all-commentdiv displayFlex hCenter");
+	        	                    var commentNo = $(this).parent().find("input[type='hidden']").val();
+	        	                	var replyDiv = $("<div>").addClass("reComment-div all-commentdiv displayFlex hCenter");
 	        	                    var replyContent = $("<input>").addClass("reComment-input").attr("type", "text");
 	        	                    var replyRegisterBtn = $("<input>").addClass("comment-allbtn").attr("type", "button").val("댓글등록").click(function(){
 	        	                    	if(replyContent.val()==""){
 	        	                    		alert("내용을 입력하세요.")
 	        	                    	}else{
-	        	                    		var commentNo = $(this).parent().parent().find("input[type='hidden']").val();
 	        	                    		registerReComment(commentNo, replyContent.val());
 	        	                    	}
 	        	                    });
@@ -246,7 +233,6 @@
 
 	        	                // Append the comment div to the showComment div
 	        	                showComment.append(commentDiv);
-// 	        	                ReCommentShow(data[i].commentNo);
 	        	            }
 	        	            $(window).scrollTop(scrollTop); // Restore the scroll position
 	        	        },

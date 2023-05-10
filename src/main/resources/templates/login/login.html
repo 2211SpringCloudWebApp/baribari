@@ -57,6 +57,16 @@
     }
     /*]]>*/
 </script>
+<script th:inline="javascript" th:if="${errorMsg != null}">
+    /*<![CDATA[*/
+    window.onload = function () {
+        var error = [[${errorMsg}]];
+        if (error != null) {
+            alert(error);
+        }
+    }
+    /*]]>*/
+</script>
 <script th:inline="javascript"  sec:authorize-expr="isAuthenticated()">
     /*<![CDATA[*/
     window.onload = function () {

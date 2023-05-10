@@ -98,7 +98,6 @@ public class UserController {
     }
 
 
-
     // 아이디 및 비밀번호 찾기 뷰
     @GetMapping("/find")
     public String findIdPwView() {
@@ -137,6 +136,14 @@ public class UserController {
         }
     }
 
+    @GetMapping("/loginError")
+    public String loginError(
+            @RequestParam(value = "errorMsg", required = false) String errorMsg,
+                        Model model) {
+        model.addAttribute("errorMsg", errorMsg);
+        return "login/login";
+    }
+
     @PostMapping("/changePw")
     public String pwChange(
             @ModelAttribute User user,
@@ -148,8 +155,8 @@ public class UserController {
         if (result > 0) {
             model.addAttribute("error", "변경완료! 로그인 해주세요.");
             return "login/login";
-        }else {
-            model.addAttribute("user",user);
+        } else {
+            model.addAttribute("user", user);
             model.addAttribute("error", "변경실패 다시 시도해주세요.");
             return "login/pwChange";
         }
@@ -440,7 +447,7 @@ public class UserController {
     public ModelAndView pegDownView(
             ModelAndView mv,
             Authentication authentication
-    ){
+    ) {
         User user = returnUser(authentication);
         List<MPCommunityList> CommunityList = uService.selectPegDownList(user);
         mv.addObject("communityList", CommunityList);
@@ -453,7 +460,7 @@ public class UserController {
     public ModelAndView myWriteView(
             ModelAndView mv,
             Authentication authentication
-    ){
+    ) {
         User user = returnUser(authentication);
         List<MPCommunityList> CommunityList = uService.selectMyWrite(user);
         mv.addObject("communityList", CommunityList);
@@ -466,7 +473,7 @@ public class UserController {
     public ModelAndView myCommentView(
             ModelAndView mv,
             Authentication authentication
-    ){
+    ) {
         User user = returnUser(authentication);
         List<CommentList> CommentList = uService.selectCommentList(user);
         mv.addObject("CommentList", CommentList);
@@ -474,12 +481,12 @@ public class UserController {
         return mv;
     }
 
-//    신고내역 뷰
+    //    신고내역 뷰
     @GetMapping("myPageUser/report")
     public ModelAndView reportView(
             ModelAndView mv,
             Authentication authentication
-    ){
+    ) {
         User user = returnUser(authentication);
         List<MyPageReportList> myPageReportList = uService.selectReportList(user);
         mv.addObject("reportList", myPageReportList);

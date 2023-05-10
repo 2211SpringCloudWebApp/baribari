@@ -17,7 +17,7 @@ import com.kh.baribari.community.domain.HashTag;
 public class BoardServiceLogic implements BoardService {
 	
 	@Autowired
-	private  BoardRepository brepository;
+	private BoardRepository brepository;
 	
 	@Autowired
 	private SqlSession session;

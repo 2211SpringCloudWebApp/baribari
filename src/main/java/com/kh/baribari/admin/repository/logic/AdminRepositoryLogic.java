@@ -88,11 +88,13 @@ public class AdminRepositoryLogic implements AdminRepository {
 
     @Override
     public int updateReportInno(ReportList reportList) {
+        session.update("AdminMapper.updateReportProcessing",reportList);
         return session.update("AdminMapper.updateReportInno",reportList);
     }
 
     @Override
     public int updateReportComplete(ReportList reportList) {
+        session.update("AdminMapper.updateReportProcessing",reportList);
         return session.update("AdminMapper.updateReportComplete",reportList);
     }
 

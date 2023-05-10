@@ -74,7 +74,7 @@
                     <th class="sorting_disabled col">처리여부</th>
                 </tr>
                 </thead>
-                <tr class="table-tr" th:each="myPageReportList : ${myPageReportList }" th:onclick="'reportDetail('+${myPageReportList.reportNo}+');'">
+                <tr class="table-tr" th:each="myPageReportList : ${reportList }" th:onclick="'reportDetail('+${myPageReportList.reportNo}+');'">
                     <td class="table-td" th:text="${myPageReportList.reportNo}"></td>
                     <td class="table-td" th:text="${myPageReportList.reportCategoryName}"></td>
                     <td class=" td-center" th:text="${myPageReportList.userNickName}"></td>

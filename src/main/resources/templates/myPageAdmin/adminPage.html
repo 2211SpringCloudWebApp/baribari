@@ -85,7 +85,7 @@
                         <th>처리여부</th>
                     </tr>
                     <tr class="content-tr" th:onclick="'reportModal('+${myPageReportList.reportNo}+')'"
-                        th:each="myPageReportList : ${myPageReportList}">
+                        th:each="myPageReportList : ${reportList}">
                         <td th:text="${myPageReportList.reportCategoryName}"></td>
                         <td th:text="${myPageReportList.reportTargetName}"></td>
                         <td th:text="${myPageReportList.reportContent}"></td>

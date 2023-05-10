@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="OrderMapper">
-<!-- 	<resultMap type="Order" id="orderDetailResultMap">
+	<resultMap type="Order" id="orderResultMap">
 		<id		property="orderNo" column="ORDER_NO"/>
 		<result	property="orderDate" column="ORDER_DATE"/>
 		<result	property="orderDetailNo" column="ORDER_DETAIL_NO"/>
@@ -43,5 +43,4 @@
 		    INNER JOIN USER_TBL USING (USER_NO)
 	    WHERE ORDER_DETAIL_TBL.SELLER_USER_NO = ${userNo}
 	</select>
-	 -->
 </mapper>

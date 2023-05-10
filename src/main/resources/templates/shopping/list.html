@@ -42,12 +42,7 @@
 
 	<section style="margin-top: 110px;">
 		<!-- 상단 이미지 -->
-		<div class="bg-dark py-5">
-			<div class="container px-4 px-lg-5 my-5">
-				<div class="text-center text-white">
-					쇼핑몰 메인사진이 들어가는 위치
-				</div>
-			</div>
+		<div class="bg-dark py-5" style="background-image: url('../../img/shopping1.png'); background-size: cover; width:1920px; height:320px;">
 		</div>
 
 		<input sec:authorize="!isAuthenticated()" value="0" type="hidden" name="userNo">
@@ -115,8 +110,8 @@
 
 						<!-- MD추천 -->
 						<div sec:authorize="hasRole('ROLE_ADMIN')" class="card-footer p-4 pt-0 border-top-0 bg-transparent" style="margin: 0 auto;">
-							<a th:if="${product.productMdYn == 'Y'}" class="btn btn-outline-dark mt-auto" href="#" th:style="background-color: #FFBF1F;">
-								<i class="fas md-recommend">MD추천</i>
+							<a th:if="${product.productMdYn == 'Y'}" class="btn btn-outline-dark mt-auto" href="#">
+								<i class="fas md-recommend" style="color: #FFBF1F;">MD추천</i>
 							</a>
 							<a th:if="${product.productMdYn == 'N'}" class="btn btn-outline-dark mt-auto" href="#">
 								<i class="fas md-recommend">MD추천</i>

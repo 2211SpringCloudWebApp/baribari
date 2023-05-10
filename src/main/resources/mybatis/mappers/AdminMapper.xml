@@ -103,6 +103,9 @@
             UPDATE REVIEW_TBL SET REVIEW_YN = 1 WHERE REVIEW_NO = #{reportTargetNo}
         </if>
     </update>
+    <update id="updateReportProcessing">
+        UPDATE REPORT_TBL SET REPORT_PROCESSING = 'Y' WHERE REPORT_NO = #{reportNo}
+    </update>
     <update id="updateUserBlockByReport">
         UPDATE USER_TBL SET USER_ABLE = 'N', REPORT_COUNT = REPORT_COUNT + 1 WHERE USER_NO = #{reportTargetNo}
     </update>

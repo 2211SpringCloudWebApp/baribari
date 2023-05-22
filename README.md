@@ -1,5 +1,17 @@
-# baribari 
-상태 : 작성중 ( 최근작성일 : 5.16 )   *<div dir="rtl">코드나잇 - 파이널프로젝트</div>*
+# baribari    
+*<div dir="rtl">코드나잇 - 파이널프로젝트</div>*
+
+---
+> 메인화면
+<img width="1091" alt="스크린샷 2023-05-22 오후 3 48 59" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/6298a319-0565-4c3e-b169-0fa8f7704954">
+
+---
+> 쇼핑몰
+<img width="1066" alt="스크린샷 2023-05-22 오후 3 53 58" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/2bfc7bb3-e5fc-4ebc-9554-46e7e24f21d8">
+<img width="1054" alt="스크린샷 2023-05-22 오후 3 55 48" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/74619677-a518-4851-b87c-77dd09e80e60">
+<img width="961" alt="스크린샷 2023-05-22 오후 3 57 09" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/c58ca58a-e136-4a57-ba61-13d890480d87">
+
+
 ## 로그인
 ### 로그인 기능
 ID와 비밀번호를 입력하여 로그인할 수 있습니다.

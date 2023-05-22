@@ -21,6 +21,16 @@
 <img width="1058" alt="스크린샷 2023-05-22 오후 4 07 11" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/75203727-468c-4417-ab09-40e03827dee7">
 <img width="1022" alt="스크린샷 2023-05-22 오후 4 08 58" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/6044b02e-3ef5-47a8-9117-789f57f52bdb">
 
+---
+> 회원관리
+
+<img width="995" alt="스크린샷 2023-05-22 오후 4 14 59" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/9cff198d-8442-4112-893d-82d93e8d7fd6">
+<img width="981" alt="스크린샷 2023-05-22 오후 4 14 10" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/2511b948-955f-4bfe-9b24-3d29f75015ef">
+<img width="1004" alt="스크린샷 2023-05-22 오후 4 16 33" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/c4877ff9-1dee-4af0-a175-8dee5106d238">
+<img width="1012" alt="스크린샷 2023-05-22 오후 4 17 31" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/c550bff6-e5ea-4282-96fb-3d1e535d3ef7">
+<img width="996" alt="스크린샷 2023-05-22 오후 4 19 19" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/2efb4424-a19e-4fa1-93d3-784a01db03d2">
+
+
 ## 로그인
 ### 로그인 기능
 ID와 비밀번호를 입력하여 로그인할 수 있습니다.

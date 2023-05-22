@@ -10,7 +10,16 @@
 <img width="1066" alt="스크린샷 2023-05-22 오후 3 53 58" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/2bfc7bb3-e5fc-4ebc-9554-46e7e24f21d8">
 <img width="1054" alt="스크린샷 2023-05-22 오후 3 55 48" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/74619677-a518-4851-b87c-77dd09e80e60">
 <img width="961" alt="스크린샷 2023-05-22 오후 3 57 09" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/c58ca58a-e136-4a57-ba61-13d890480d87">
+<img width="890" alt="스크린샷 2023-05-22 오후 3 58 51" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/cecb4981-c924-4e19-bc22-1dc75fb20716">
+<img width="861" alt="스크린샷 2023-05-22 오후 4 01 29" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/3c012a6f-985f-453e-a6dd-faf47af3217e">
 
+---
+> 자유게시판
+
+<img width="906" alt="스크린샷 2023-05-22 오후 4 02 49" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/96284644-2d4a-45b2-b13c-dce2860e7646">
+<img width="989" alt="스크린샷 2023-05-22 오후 4 05 49" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/a64ddb96-09e4-4b56-88de-6a4f3a756492">
+<img width="1058" alt="스크린샷 2023-05-22 오후 4 07 11" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/75203727-468c-4417-ab09-40e03827dee7">
+<img width="1022" alt="스크린샷 2023-05-22 오후 4 08 58" src="https://github.com/2211SpringCloudWebApp/baribari/assets/116950337/6044b02e-3ef5-47a8-9117-789f57f52bdb">
 
 ## 로그인
 ### 로그인 기능
